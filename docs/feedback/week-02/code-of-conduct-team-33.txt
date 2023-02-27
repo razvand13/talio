@@ -1,0 +1,97 @@
+# Code of conduct
+
+
+### Submission
+
+Mark: Pass
+
+Feedback: The code of conduct was placed properly in the repository.
+
+
+### General
+
+Mark: Good
+
+Feedback: Overall, it can be seen that you put effort into the code of conduct. You put together a well thought out document with agreements on the various discussion points. Below I provided some feedback to the individual aspects of the code of conduct to encourage further discussion within the team.
+
+
+### Assignment Description
+
+Mark: Excellent
+
+Feedback: The assignment description is clear and specific enough, mentioning both technical aspects and team working components of the project. 
+
+### Products
+
+Mark: Good
+
+Feedback: You mentioned the products that will be delivered. However, you can expand on how you will assess the standard of the work - you say that it should be readable, well-tested and commented, but what are the specific expectations you have for this? Do you expect a minimum percentage of code coverage for example?
+
+### Planning
+
+Mark: Good
+
+Feedback: The agreements are formulated clearly. I would recommend that you implement these agreements in Git, for example by setting issues with the internal deadlines and assigning team members to issues with their tasks for an assignment.
+
+### Communication
+
+Mark: Sufficient
+
+Feedback: You state which communication channels are used for what. You should now elaborate on which documents should be shared when and where. Also don't forget that the Gitlab repository is also a communication channel, on which the agenda, meeting notes and TA feedback will be uploaded.
+
+
+### Commitment
+
+Mark: Good
+
+Feedback: You mention that you will assess quality of work by looking at the code and the feedback a person provides. This is a holistic approach to evaluate team members, since it goes beyond simply the code quality. However, be sure to also have such clear expectations for the chair and minute taker. You discuss the effects that low work quality will have in these roles, rather than what you expect from the chair and minute taker.
+
+
+### Division of Tasks and Roles
+  
+Mark: Sufficient
+
+Feedback: You have clearly defined how you will decide on the chair and minute taker schedule. As a next step, I would recommend making an actual schedule of the chairs and minute takers for the next few weeks.
+
+### Meetings
+  
+Mark: Sufficient
+
+Feedback: It seems that you have discussed and aggreed on how often to meet and what the expectations and preparations for these meetings are. However, you have not clearly defined when these meetings will happen, and how the chairperson for these meetings is determined.
+
+### Decision Making
+  
+Mark: Sufficient
+
+Feedback: The code of conduct explains how you will approach various decisions. Make sure to also have clear procedures for situations in which neither voting nor consensus reaches a decision.
+
+### Dealing with Conflicts
+  
+Mark: Good
+
+Feedback: You nicely mention both the first steps and the extreme measures in which you would involve me in a situation. However, be sure to specify both what constitutes an extreme situation, and which aid you expect from me as the TA in such situations.
+
+### Guidance
+  
+Mark: Sufficient
+
+Feedback: You have realistic expectations on my role in the position of the TA. Additionally, you could elaborate on the types of clarifications about the project you expect from the TA.
+
+### Consequences
+  
+Mark: Sufficient
+
+Feedback: You have a well-defined approach to dealing with problems in the team, but you could explain further what type of missteps these consequences refer to, e.g. will a meeting be held if someone comes late to a meeting once?
+
+### Success Factors
+  
+Mark: Sufficient
+
+Feedback: A nice roundup of criteria that lead to good teamwork. Nonetheless, try to reflect on your skills as a group more specifically. Who has which characteristics and skills that will make you a good team?
+
+### Norms or Evaluation Criteria
+  
+Mark: Good
+
+Feedback: You have chosen five distinct criteria that will be appropriate measures for evaluation. However, make sure to explain how you can measure these criteria, and why these criteria specifically are important to your team.
+
