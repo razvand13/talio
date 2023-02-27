@@ -1,0 +1,37 @@
+# Backlog
+
+
+### Submission
+
+Mark: Pass
+
+Feedback: The draft was submitted on time and in the proper location on Gitlab.
+
+
+### Backlog Structure
+
+Mark: Fail
+
+Feedback: The structure of the backlog is nicely done, with clear definitions of stakeholders and terminology at the beginning. The backlog is also clear content-wise, and the user stories do a good job at covering the requirements of the application. I can see that you strongly followed the provided example from last year, but unfortunately the structure has changed for this year's assignment. The main two differences between last year and this year that you need to change are that the backlog needs to be sorted by epics rather than MoSCoW priorities, and that you need to add acceptance criteria. Have another look at the Requirement Engineering lecture to understand how these changes can be made.
+
+
+### Epics
+
+Mark: Insufficient
+
+Feedback: At the moment you are following the MoSCoW structure. This is an understandable mistake, since this was the format followed in the example from last year. However, this year you have to formulate epics, as explained in the Requirement Engineering lecture. There should be one epic for the main features of the application and the other epics should cover other features of the application. Provide a short introduction to every epic and then collect all the user stories that belong to that specific epic. If you want to use the MoSCoW model within these epics to prioritise tasks that is okay, but this is not a requirement.
+
+
+### User Stories
+
+Mark: Good
+
+Feedback: You follow the format described in the lecture, which makes it easy to follow and understand your user stories. The user stories are also very concise and overall extensively cover the requirements for the application. However, when reorganising the epics, you might also have to edit some of the user stories. When doing that, be careful that all user stories within an epic fit into that epic and that all aspects of the epic are covered by the user stories.
+
+
+### Acceptance Criteria
+
+Mark: Insufficient
+
+Feedback: At the moment you only use acceptance criteria once to specify the specific keyboard shortcuts. Instead, try to include acceptance criteria for any user story that needs further specification. Have another look at the Requirement Engineering lecture where you will see when to include acceptance criteria. Also remember that they should be measurable, so that you can use them to decide when a user story has been completely implemented.
+
