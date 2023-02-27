@@ -9,10 +9,10 @@ Add your own name (do not add the names for others!) to the section below.
 ## Group members
 
 | Profile Picture | Name | Email |
-| ? | Stephanie | s.e.gilbert@student.tudelft.nl |
 |---|---|---|
+| ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Stephanie | s.e.gilbert@student.tudelft.nl |
 | ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Petra Gulyas | P.Gulyas@student.tudelft.nl |
-| ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Jan de Munck | Y.NameHere@student.tudelft.nl |
+| ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Jan de Munck | j.c.demunck@student.tudelft.nl |
 | ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Andrei Chiru | A.Chiru@student.tudelft.nl |
 | ![](https://secure.gravatar.com/avatar/63033fd5555e82dfc1b87e8a3c7e381d?s=192&d=identicon) | Razvan Dinu | R.D.Dinu-1@student.tudelft.nl |
 | ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Stephan Popov | S.K.Popov@student.tudelft.nl |
