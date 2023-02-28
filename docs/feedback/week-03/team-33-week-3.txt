@@ -1,0 +1,42 @@
+# Meeting
+
+#### Meeting Organization
+
+Chair: Andrei Chiru
+Minute taker: Petra Gulyás
+
+Mark: Pass
+
+Feedback: There was a chair and a minute taker and they came to the meeting prepared.
+
+
+#### Agenda 
+
+Mark: Very Good
+
+Feedback: The agenda was submitted on time and clearly outlined the points that were to be discussed. It covered both the meeting with the and then the rest of the meeting with only the group and no TA. The points were clear and the team was aware of the agenda and came prepared.
+
+
+#### Chair performance
+
+Mark: Very Good
+
+Feedback: The chair ensured that the agenda was adhered to. He also made sure that everyone had the chance to ask any questions they had. The agenda was finished a bit ahead of time, and once this happened the chair constructively suggested further topics that arose througout the meeting that could be discussed next.
+
+
+#### Attitude & Relation
+
+Mark: Very Good
+
+Feedback: The group started and led the meeting very independently. I was only involved in the meeting as an entity that was asked questions, rather than someone who had to contribute to the organisation of the meeting. The atmosphere was constructive and everyone contributed with questions. The entire team was open to hearing suggestions from other team members and every comment was taken up and discussed by the entire group.
+
+
+#### Potentially Shippable Product
+
+Mark: Insufficient
+
+Feedback: Some members have been able to run the sample code in the repository, others are still having problems. The team has not started coding anything yet, and is focusing on finishing the backlog and the Git assignment. Don't worry, it is normal not to have started working on the application yet, but start thinking about task distribution
+
+
+
+
