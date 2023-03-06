@@ -1,0 +1,39 @@
+# Code Contributions and Code Reviews
+
+
+#### Focused Commits
+
+Grade: Sufficient
+
+Feedback: No commits with functional code have been made yet, so this criterion cannot entirely be judged. The commits that have been made so far, mainly for adding documents like the agenda and notes, the goal of the commit was quite clear from the description. For the future, remember to have meaningful commits that cover a reasonable number of files and lines of code. 
+
+
+#### Isolation
+
+Grade: Insufficient
+
+Feedback: No meaningful merge requests were made yet, so this is hard to judge. For upcoming merge requests, remember to have a clear focus for every individual branch and to cover a reasonable scope. 
+
+
+#### Reviewability
+
+Grade: Insufficient
+
+Feedback: Again, no merge requests for meaningful code contributions have been made yet, which makes it hard to judge their reviewability. Remember that the merge requests need clear titles and descriptions, and that they should not contain too many commits. 
+
+
+#### Code Reviews
+
+Grade: Insufficient
+
+Feedback: Because no meaningful code contributions have been made yet, there are no code reviews yet. Once you start coding, make sure that you give constructive feedback in the code reviews, and that these suggested changes are implemented in a timely manner.
+
+
+#### Build Server
+
+Grade: Sufficient
+
+Feedback: The build has not failed so far. However, this is due to the fact that no code has been merged yet. For next week, select ten or more checkstyle rules and include these in your checkstyle file. 
+
+Overall, it is hard to judge the code contribution for this week, since no contributions have been made so far. Start coding next week and remember to make the goal of merge requests and commits very clear with their titles and descriptions. 
+
