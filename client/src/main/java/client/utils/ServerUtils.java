@@ -21,7 +21,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Scanner;
 
 import org.glassfish.jersey.client.ClientConfig;
 
@@ -43,8 +45,34 @@ public class ServerUtils {
             System.out.println(line);
         }
     }
-    public static void setSERVER(String address){
-        SERVER =address;
+
+    /**
+     * simple setter
+     * @param address the address that we need to connect to
+     */
+    public static void setSERVER(){
+        SERVER =getAddress();
+    }
+
+    /**
+     * ask the user which port they want to connect to,
+     * iff their response isn't a number ask again,
+     * iff it is a number return the associated address
+     *
+     * @return a String of the form "http://localhost:[PORT NUMBER]/"
+     */
+    public static String getAddress(){
+        Scanner input = new Scanner(System.in);
+        System.out.println("On which port is the server?");
+        int port =0;
+        try{
+            port = input.nextInt();
+        }
+        catch (InputMismatchException e){
+            System.out.println("please provide a number");
+            return getAddress();
+        }
+        return "http://localhost:" + port +"/";
     }
 
     public List<Quote> getQuotes() {
