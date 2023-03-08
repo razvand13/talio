@@ -38,23 +38,11 @@ public class Main extends Application {
 
     public static void main(String[] args) throws URISyntaxException, IOException {
 
-        ServerUtils.setSERVER(getAddress());
+        ServerUtils.setSERVER();
         launch();
     }
 
-    public static String getAddress(){
-        Scanner input = new Scanner(System.in);
-        System.out.println("On which port is the server?");
-        int port =0;
-        try{
-            port = input.nextInt();
-        }
-        catch (InputMismatchException e){
-            System.out.println("please provide a number");
-            return getAddress();
-        }
-        return "http://localhost:" + port +"/";
-    }
+
 
 
     @Override
