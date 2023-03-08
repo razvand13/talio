@@ -32,16 +32,19 @@ import jakarta.ws.rs.core.GenericType;
 
 public class ServerUtils {
 
-    private static final String SERVER = "http://localhost:8080/";
+    private static String SERVER = "http://localhost:";
 
     public void getQuotesTheHardWay() throws IOException {
-        var url = new URL("http://localhost:8080/api/quotes");
+        var url = new URL(SERVER+"api/quotes");
         var is = url.openConnection().getInputStream();
         var br = new BufferedReader(new InputStreamReader(is));
         String line;
         while ((line = br.readLine()) != null) {
             System.out.println(line);
         }
+    }
+    public static void setSERVER(String address){
+        SERVER =address;
     }
 
     public List<Quote> getQuotes() {

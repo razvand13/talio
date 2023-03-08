@@ -19,7 +19,10 @@ import static com.google.inject.Guice.createInjector;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
+import client.utils.ServerUtils;
 import com.google.inject.Injector;
 
 import client.scenes.AddQuoteCtrl;
@@ -34,8 +37,25 @@ public class Main extends Application {
     private static final MyFXML FXML = new MyFXML(INJECTOR);
 
     public static void main(String[] args) throws URISyntaxException, IOException {
+
+        ServerUtils.setSERVER(getAddress());
         launch();
     }
+
+    public static String getAddress(){
+        Scanner input = new Scanner(System.in);
+        System.out.println("On which port is the server?");
+        int port =0;
+        try{
+            port = input.nextInt();
+        }
+        catch (InputMismatchException e){
+            System.out.println("please provide a number");
+            return getAddress();
+        }
+        return "http://localhost:" + port +"/";
+    }
+
 
     @Override
     public void start(Stage primaryStage) throws IOException {
