@@ -47,11 +47,11 @@ public class ServerUtils {
     }
 
     /**
-     * simple setter
-     * @param address the address that we need to connect to
+     * Set the SERVER variable to the input value
      */
-    public static void setSERVER(){
-        SERVER =getAddress();
+    public static void setSERVER(String address){
+        SERVER =address;
+        //SERVER = "http://localhost:61221/";
     }
 
     /**
@@ -60,18 +60,22 @@ public class ServerUtils {
      * iff it is a number return the associated address
      *
      * @return a String of the form "http://localhost:[PORT NUMBER]/"
-     */
+     * where [PORT NUMBER] is a user-specified int
+     * */
     public static String getAddress(){
-        Scanner input = new Scanner(System.in);
+        //Scanner input = new Scanner(System.in);
         System.out.println("On which port is the server?");
         int port =0;
         try{
+            Scanner input = new Scanner(System.in);
             port = input.nextInt();
         }
+
         catch (InputMismatchException e){
             System.out.println("please provide a number");
             return getAddress();
         }
+
         return "http://localhost:" + port +"/";
     }
 
