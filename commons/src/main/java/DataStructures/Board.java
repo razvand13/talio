@@ -6,7 +6,7 @@ public class Board {
     public String ID;
     public String Title;
     public List<List> Lists;
-    public String BgColor; //Background color
+    public String BgColor; //Background colour of board
 
     @Override
     public boolean equals(Object o) {
