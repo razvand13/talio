@@ -2,17 +2,18 @@ package DataStructures;
 
 import DataStructures.Tag;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
 public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public long id;
 
+
+    @OneToOne(cascade = CascadeType.PERSIST)
     public String title;
     public String description;
     public List<String> subtasks;
@@ -31,6 +32,7 @@ public class Card {
         this.tags = tags;
         this.color = color;
     }
+
 
     @Override
     public boolean equals(Object o) {
