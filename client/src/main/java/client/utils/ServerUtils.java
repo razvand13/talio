@@ -51,7 +51,6 @@ public class ServerUtils {
      */
     public static void setSERVER(String address){
         SERVER =address;
-        //SERVER = "http://localhost:61221/";
     }
 
     /**
