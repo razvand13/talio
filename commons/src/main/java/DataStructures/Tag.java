@@ -1,9 +1,25 @@
 package DataStructures;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 public class Tag {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public String id;
     public String nameOfTag;
     public String color;
+
+    @SuppressWarnings("unused")
+    private Tag() {
+        // for object mapper
+    }
+
+    public Tag(String nameOfTag, String color) {
+        this.nameOfTag = nameOfTag;
+        this.color = color;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -1,11 +1,26 @@
 package DataStructures;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.List;
 
 public class ListOfCards {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public String id;
     public String name;
     public List<Card> cards;
+
+    @SuppressWarnings("unused")
+    private ListOfCards() {
+        // for object mapper
+    }
+
+    public ListOfCards(String name, List<Card> cards) {
+        this.name = name;
+        this.cards = cards;
+    }
 
     @Override
     public boolean equals(Object o) {
