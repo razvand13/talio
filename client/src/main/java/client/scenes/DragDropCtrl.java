@@ -22,6 +22,8 @@ public class DragDropCtrl {
     private ListView<String> list1;
     @FXML
     private ListView<String> list2;
+    @FXML
+    private ListView<String> list3;
 
 
     @Inject
@@ -32,15 +34,21 @@ public class DragDropCtrl {
 
     public void refresh(){
         // TODO list items are hard-coded
-        var items1 = FXCollections.observableList(Arrays.asList("List 1 Item 1", "List 1 Item 2", "List 1 Item 3", "List 1 Item 4", "List 1 Item 5", "List 1 Item 6", "List 1 Item 7", "List 1 Item 8", "List 1 Item 9", "List 1 Item 10"));
-        var items2 = FXCollections.observableList(Arrays.asList("List 2 Item 1", "List 2 Item 2", "List 2 Item 3", "List 2 Item 4", "List 2 Item 5", "List 2 Item 6", "List 2 Item 7", "List 2 Item 8", "List 2 Item 9", "List 2 Item 10"));
+        var items1 = FXCollections.observableList(Arrays.asList("List 1 Item 1", "List 1 Item 2", "List 1 Item 3", "List 1 Item 4", "List 1 Item 5",
+                                                                                    "List 1 Item 6", "List 1 Item 7", "List 1 Item 8", "List 1 Item 9", "List 1 Item 10"));
+        var items2 = FXCollections.observableList(Arrays.asList("List 2 Item 1", "List 2 Item 2", "List 2 Item 3", "List 2 Item 4", "List 2 Item 5",
+                                                                                    "List 2 Item 6", "List 2 Item 7", "List 2 Item 8", "List 2 Item 9", "List 2 Item 10"));
+        var items3 = FXCollections.observableList(Arrays.asList("List 3 Item 1", "List 3 Item 2", "List 3 Item 3", "List 3 Item 4", "List 3 Item 5",
+                                                                                    "List 3 Item 6", "List 3 Item 7", "List 3 Item 8", "List 3 Item 9", "List 3 Item 10"));
 
         // DO NOT use .setItems() here, contents will remain the same even after drag
         list1.getItems().addAll(items1);
         list2.getItems().addAll(items2);
+        list3.getItems().addAll(items3);
 
         setHandlers(list1);
         setHandlers(list2);
+        setHandlers(list3);
     }
     /**
      * Sets drag and drop event handlers on a ListView
