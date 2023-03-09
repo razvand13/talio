@@ -15,11 +15,9 @@
  */
 package server;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.Scanner;
 
@@ -36,10 +34,7 @@ public class Main {
         System.out.println("What port do you want this server to run on:");
         String port = new Scanner(System.in).next();
         System.setProperty("server.port", port);
-        //String defaultDataBase = System.getProperty("spring.datasource.url");
         System.setProperty("spring.datasource.url", "jdbc:h2:file:./quizzzz"+port);
-
-        //setPort(port);
     }
 
 }

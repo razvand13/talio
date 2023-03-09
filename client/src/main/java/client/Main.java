@@ -19,8 +19,6 @@ import static com.google.inject.Guice.createInjector;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
 import client.utils.ServerUtils;
 import com.google.inject.Injector;
