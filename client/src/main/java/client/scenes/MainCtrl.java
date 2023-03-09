@@ -30,6 +30,10 @@ public class MainCtrl {
     private AddQuoteCtrl addCtrl;
     private Scene add;
 
+    // Newly added code here:
+    private DragDropCtrl dragDropCtrl;
+    private Scene dragDrop;
+
     public void initialize(Stage primaryStage, Pair<QuoteOverviewCtrl, Parent> overview,
             Pair<AddQuoteCtrl, Parent> add) {
         this.primaryStage = primaryStage;
@@ -41,6 +45,22 @@ public class MainCtrl {
 
         showOverview();
         primaryStage.show();
+    }
+
+    /**
+     * New initialize method used to test the drag and drop functionality
+     * Used the method above as a template
+     */
+    public void initialize(Stage primaryStage, Pair<DragDropCtrl, Parent> dragDrop){
+        this.primaryStage = primaryStage;
+        this.dragDropCtrl = dragDrop.getKey();
+        this.dragDrop = new Scene(dragDrop.getValue());
+
+        this.primaryStage.setTitle("Drag & Drop");
+        this.primaryStage.setScene(this.dragDrop);
+        dragDropCtrl.refresh(); // Only displays hard-coded data at the moment
+
+        this.primaryStage.show();
     }
 
     public void showOverview() {
