@@ -38,7 +38,7 @@ public class Main extends Application {
 
     public static void main(String[] args) throws URISyntaxException, IOException {
 
-        ServerUtils.setSERVER();
+        ServerUtils.setSERVER(ServerUtils.getAddress());
         launch();
     }
 
