@@ -3,10 +3,10 @@ package DataStructures;
 import java.util.List;
 
 public class Board {
-    public String ID;
-    public String Title;
-    public List<List> Lists;
-    public String BgColor; //Background color
+    public String id;
+    public String title;
+    public List<List> listOfLists;
+    public String backgroundColor; //Background color
 
     @Override
     public boolean equals(Object o) {
@@ -15,28 +15,28 @@ public class Board {
 
         Board board = (Board) o;
 
-        if (!ID.equals(board.ID)) return false;
-        if (!Title.equals(board.Title)) return false;
-        if (!Lists.equals(board.Lists)) return false;
-        return BgColor.equals(board.BgColor);
+        if (!id.equals(board.id)) return false;
+        if (!title.equals(board.title)) return false;
+        if (!listOfLists.equals(board.listOfLists)) return false;
+        return backgroundColor.equals(board.backgroundColor);
     }
 
     @Override
     public int hashCode() {
-        int result = ID.hashCode();
-        result = 31 * result + Title.hashCode();
-        result = 31 * result + Lists.hashCode();
-        result = 31 * result + BgColor.hashCode();
+        int result = id.hashCode();
+        result = 31 * result + title.hashCode();
+        result = 31 * result + listOfLists.hashCode();
+        result = 31 * result + backgroundColor.hashCode();
         return result;
     }
 
     @Override
     public String toString() {
         return "Board{" +
-                "ID='" + ID + '\'' +
-                ", Title='" + Title + '\'' +
-                ", Lists=" + Lists +
-                ", BgColor='" + BgColor + '\'' +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", listOfLists=" + listOfLists +
+                ", backgroundColor='" + backgroundColor + '\'' +
                 '}';
     }
 }

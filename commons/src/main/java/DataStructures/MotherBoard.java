@@ -3,7 +3,7 @@ package DataStructures;
 import java.util.List;
 
 public class MotherBoard {
-    public List<Board> Boards;
+    public List<Board> boards;
 
     @Override
     public boolean equals(Object o) {
@@ -12,18 +12,18 @@ public class MotherBoard {
 
         MotherBoard that = (MotherBoard) o;
 
-        return Boards.equals(that.Boards);
+        return boards.equals(that.boards);
     }
 
     @Override
     public int hashCode() {
-        return Boards.hashCode();
+        return boards.hashCode();
     }
 
     @Override
     public String toString() {
         return "MotherBoard{" +
-                "Boards=" + Boards +
+                "boards=" + boards +
                 '}';
     }
 }

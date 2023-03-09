@@ -1,9 +1,9 @@
 package DataStructures;
 
 public class Tag {
-    public String ID;
-    public String NameOfTag;
-    public String Color;
+    public String id;
+    public String nameOfTag;
+    public String color;
 
     @Override
     public boolean equals(Object o) {
@@ -12,25 +12,25 @@ public class Tag {
 
         Tag tag = (Tag) o;
 
-        if (!ID.equals(tag.ID)) return false;
-        if (!NameOfTag.equals(tag.NameOfTag)) return false;
-        return Color.equals(tag.Color);
+        if (!id.equals(tag.id)) return false;
+        if (!nameOfTag.equals(tag.nameOfTag)) return false;
+        return color.equals(tag.color);
     }
 
     @Override
     public int hashCode() {
-        int result = ID.hashCode();
-        result = 31 * result + NameOfTag.hashCode();
-        result = 31 * result + Color.hashCode();
+        int result = id.hashCode();
+        result = 31 * result + nameOfTag.hashCode();
+        result = 31 * result + color.hashCode();
         return result;
     }
 
     @Override
     public String toString() {
         return "Tag{" +
-                "ID='" + ID + '\'' +
-                ", NameOfTag='" + NameOfTag + '\'' +
-                ", Color='" + Color + '\'' +
+                "id='" + id + '\'' +
+                ", nameOfTag='" + nameOfTag + '\'' +
+                ", color='" + color + '\'' +
                 '}';
     }
 }

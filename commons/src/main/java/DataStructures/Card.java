@@ -5,12 +5,12 @@ import DataStructures.Tag;
 import java.util.List;
 
 public class Card {
-    public String ID;
-    public String Title;
-    public String Description;
-    public List<String> Subtasks;
-    public List<Tag> Tags;
-    public String Color;
+    public String id;
+    public String title;
+    public String description;
+    public List<String> subtasks;
+    public List<Tag> tags;
+    public String color;
 
     @Override
     public boolean equals(Object o) {
@@ -19,34 +19,34 @@ public class Card {
 
         Card card = (Card) o;
 
-        if (!ID.equals(card.ID)) return false;
-        if (!Title.equals(card.Title)) return false;
-        if (!Description.equals(card.Description)) return false;
-        if (!Subtasks.equals(card.Subtasks)) return false;
-        if (!Tags.equals(card.Tags)) return false;
-        return Color.equals(card.Color);
+        if (!id.equals(card.id)) return false;
+        if (!title.equals(card.title)) return false;
+        if (!description.equals(card.description)) return false;
+        if (!subtasks.equals(card.subtasks)) return false;
+        if (!tags.equals(card.tags)) return false;
+        return color.equals(card.color);
     }
 
     @Override
     public int hashCode() {
-        int result = ID.hashCode();
-        result = 31 * result + Title.hashCode();
-        result = 31 * result + Description.hashCode();
-        result = 31 * result + Subtasks.hashCode();
-        result = 31 * result + Tags.hashCode();
-        result = 31 * result + Color.hashCode();
+        int result = id.hashCode();
+        result = 31 * result + title.hashCode();
+        result = 31 * result + description.hashCode();
+        result = 31 * result + subtasks.hashCode();
+        result = 31 * result + tags.hashCode();
+        result = 31 * result + color.hashCode();
         return result;
     }
 
     @Override
     public String toString() {
         return "Card{" +
-                "ID='" + ID + '\'' +
-                ", Title='" + Title + '\'' +
-                ", Description='" + Description + '\'' +
-                ", Subtasks=" + Subtasks +
-                ", Tags=" + Tags +
-                ", Color='" + Color + '\'' +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", subtasks=" + subtasks +
+                ", tags=" + tags +
+                ", color='" + color + '\'' +
                 '}';
     }
 }
