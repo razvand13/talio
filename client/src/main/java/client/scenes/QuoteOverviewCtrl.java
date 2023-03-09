@@ -57,11 +57,6 @@ public class QuoteOverviewCtrl implements Initializable {
         colFirstName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().person.firstName));
         colLastName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().person.lastName));
         colQuote.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().quote));
-
-
-        server.registerForUpdates(q -> {
-            data.add(q); //data is the list that holds our quotes
-        });
     }
 
     public void addQuote() {
@@ -72,10 +67,5 @@ public class QuoteOverviewCtrl implements Initializable {
         var quotes = server.getQuotes();
         data = FXCollections.observableList(quotes);
         table.setItems(data);
-    }
-
-    //propagates stop from server
-    public void stop() {
-        server.stop();
     }
 }

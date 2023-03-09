@@ -22,11 +22,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.function.Consumer;
 
-import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientConfig;
 
 import commons.Quote;
@@ -62,35 +58,5 @@ public class ServerUtils {
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
-    }
-
-    private static final ExecutorService EXEC = Executors.newSingleThreadExecutor();
-
-    //dealing with return from client and giving us a quote
-    //for long polling
-    public void registerForUpdates(Consumer<Quote> consumer) {
-        //need to execute in a new thread so application is not constantly blocked
-
-        //no error handling -> to be implemented
-        EXEC.submit(() -> {
-            while(!Thread.interrupted()) {
-                var res = ClientBuilder.newClient(new ClientConfig()) //
-                        .target(SERVER).path("api/quotes/updates") //
-                        .request(APPLICATION_JSON) //
-                        .accept(APPLICATION_JSON) //
-                        .get(Response.class);  //we use response so not everything is automatically a quote
-
-                if(res.getStatus() == 204) { //no content, skip iteration
-                    continue;
-                }
-                var q = res.readEntity(Quote.class);
-                consumer.accept(q);
-            }
-        });
-
-    }
-
-    public void stop() {
-        EXEC.shutdown();
     }
 }
