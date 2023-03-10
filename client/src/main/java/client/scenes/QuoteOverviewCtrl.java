@@ -27,11 +27,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 
 public class QuoteOverviewCtrl implements Initializable {
 
@@ -60,11 +57,6 @@ public class QuoteOverviewCtrl implements Initializable {
         colFirstName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().person.firstName));
         colLastName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().person.lastName));
         colQuote.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().quote));
-
-
-        server.registerForUpdates(q -> {
-            data.add(q); //data is the list that holds our quotes
-        });
     }
 
     public void addQuote() {
@@ -75,29 +67,5 @@ public class QuoteOverviewCtrl implements Initializable {
         var quotes = server.getQuotes();
         data = FXCollections.observableList(quotes);
         table.setItems(data);
-    }
-
-    public static class List {
-
-        @FXML
-        private ListView<?> listOfTasks;
-
-        @FXML
-        private TextField task;
-
-        @FXML
-        void removeTask(MouseEvent event) {
-            int id = listOfTasks.getSelectionModel().getSelectedIndex();
-            listOfTasks.getItems().remove(id);
-        }
-
-        @FXML
-        void renameTask(MouseEvent event) {
-
-        }
-
-    //propagates stop from server
-    public void stop() {
-        server.stop();
     }
 }
