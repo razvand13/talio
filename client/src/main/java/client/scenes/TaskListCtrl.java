@@ -96,6 +96,19 @@ public class TaskListCtrl implements Initializable{
         refresh();
     }
 
+    /**Method for removing a card from the list
+     *
+     */
+    public void removeCard(){
+        String input = textInput.getText();
+        if(input != null){
+            cardList.remove(input);
+            list.remove(input);
+        }
+        textInput.clear();
+        refresh();
+    }
+
     /**Method called when context menu requested on the view list
      * If an existing item is selected, the editing option becomes visible
      */
