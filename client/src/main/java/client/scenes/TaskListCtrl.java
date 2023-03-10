@@ -11,7 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -30,6 +30,10 @@ public class TaskListCtrl implements Initializable{
 
         @FXML
         private ListView<String> myListView;
+
+        // Will add a temporary hard-coded list just for the sake of testing drag and drop functionality
+        @FXML
+        private ListView<String> tempListView;
 
         @FXML
         private Button editButton;
@@ -67,6 +71,10 @@ public class TaskListCtrl implements Initializable{
         //editing should only be available when right-clicked on a task
         editButton.setVisible(false);
         editTextInput.setVisible(false);
+
+        // Add drag and drop event handlers to lists
+        setDragAndDrop(myListView);
+        setDragAndDrop(tempListView);
     }
 
     /**Method for presenting data in the listview
@@ -130,5 +138,129 @@ public class TaskListCtrl implements Initializable{
         }
     }
 
+    /**
+     * Sets drag and drop event handlers on a ListView
+     * Lists are both sources and targets of this operation, so all handlers will be applied on them directly
+     * These handlers only work with Strings as the content of lists
+     *
+     * @param list list to apply handlers to
+     */
+    public void setDragAndDrop(ListView<String> list){
+        // Functionality
+        list.setOnDragDetected(event -> dragDetected(list, event));
+        list.setOnDragOver(event -> dragOver(list, event));
+        list.setOnDragDropped(event -> dragDropped(list, event));
+        list.setOnDragDone(event -> dragDone(list, event));
+
+        // Styling
+        list.setOnDragEntered(event -> dragEntered(list, event));
+        list.setOnDragExited(event -> dragExited(list, event));
+    }
+
+    /**
+     * Adds a dragDetected event handler on a list
+     * When a drag is detected, add the contents of the item dragged into the dragboard
+     *
+     * @param list source list
+     * @param event clicking on a list item
+     */
+    private void dragDetected(ListView<String> list, MouseEvent event){
+        String selectedItem = list.getSelectionModel().getSelectedItem();
+
+        Dragboard db = list.startDragAndDrop(TransferMode.MOVE);
+
+        ClipboardContent content = new ClipboardContent();
+        content.putString(selectedItem);
+        db.setContent(content);
+
+        event.consume();
+    }
+
+    /**
+     * Adds a dragOver event handler on a list
+     * When a drag is in progress and the users drags content over another list,
+     * be ready to accept that data
+     *
+     * @param list target list
+     * @param event dragging data over another list
+     */
+    private void dragOver(ListView<String> list, DragEvent event){
+        // Only execute if there is data that is being dragged
+        if(event.getDragboard().hasString()){
+            event.acceptTransferModes(TransferMode.MOVE);
+        }
+
+        event.consume();
+    }
+
+    /**
+     * Adds a dragDropped event handler on a list
+     * The success variable is needed if the user drops the data somewhere other than another list.
+     * This way the data isn't lost and the drop is not considered completed,
+     * preserving the ACID-ity of the operation.
+     *
+     * @param list target list
+     * @param event dropping dragged data
+     */
+    private void dragDropped(ListView<String> list, DragEvent event){
+        Dragboard db = event.getDragboard();
+        boolean success = false;
+
+        if(db.hasString()){
+            String dbContent = db.getString();
+            list.getItems().add(dbContent);
+            success = true;
+        }
+
+        event.setDropCompleted(success);
+        event.consume();
+    }
+
+    /**
+     * Adds a dragDone event handler on a list
+     * Once the drag is over, since the dragDropped(ListView<String>, DragEvent) method offers the new data to that list,
+     * the same data from the old list must be removed
+     *
+     * @param list the list the data was dragged from
+     * @param event the drag operation has finished
+     */
+    private void dragDone(ListView<String> list, DragEvent event){
+        String selectedItem = list.getSelectionModel().getSelectedItem();
+
+        if(event.getTransferMode() == TransferMode.MOVE){
+            list.getItems().remove(selectedItem);
+        }
+
+        event.consume();
+    }
+
+    /**
+     * Adds a dragEntered event handler on a list
+     * When the user is in the process of dragging an item and hovers over a list,
+     * that list gets a border shadow
+     *
+     * @param list target list
+     * @param event entering the premise of a list while dragging an item
+     */
+    private void dragEntered(ListView<String> list, DragEvent event){
+        if(event.getDragboard().hasString()){
+            list.setStyle("-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 10, 0, 0, 0)");
+        }
+
+        event.consume();
+    }
+
+    /**
+     * Adds a dragEntered event handler on a list
+     * When the user is in the process of dragging an item and is no longer
+     * hovering of a list, that list's border shadow is removed
+     *
+     * @param list target list
+     * @param event exiting the premise of a list while dragging an item
+     */
+    private void dragExited(ListView<String> list, DragEvent event){
+        list.setStyle("");
+        event.consume();
+    }
 
 }
