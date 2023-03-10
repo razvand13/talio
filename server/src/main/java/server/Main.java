@@ -19,11 +19,22 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
+import java.util.Scanner;
+
 @SpringBootApplication
-@EntityScan(basePackages = { "commons", "server" }) //commons may need to be changed to DataStructures
+@EntityScan(basePackages = { "commons", "server" })
 public class Main {
 
+
     public static void main(String[] args) {
+        setup();
         SpringApplication.run(Main.class, args);
     }
+    public static void setup(){
+        System.out.println("What port do you want this server to run on:");
+        String port = new Scanner(System.in).next();
+        System.setProperty("server.port", port);
+        System.setProperty("spring.datasource.url", "jdbc:h2:file:./quizzzz"+port);
+    }
+
 }

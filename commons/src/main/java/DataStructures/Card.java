@@ -1,36 +1,49 @@
 package DataStructures;
 
+import DataStructures.ListOfCards;
 import DataStructures.Tag;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.*;
-import java.util.List;
-import java.util.Objects;
+import java.io.Serializable;
+import java.util.Set;
+import javax.persistence.Entity;
 
 @Entity
-public class Card {
+@Table(name = "cards")
+public class Card implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(unique = true)
     public long id;
 
 
     @OneToOne(cascade = CascadeType.PERSIST)
     public String title;
     public String description;
-    public List<String> subtasks;
-    public List<Tag> tags;
-    public String color;
 
+
+    @OneToMany(mappedBy = "card", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+
+    public Set<Tag> tags;
+    public String color;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "list_id", nullable = false)
+    public ListOfCards list;
     @SuppressWarnings("unused")
     private Card() {
         // for object mapper
     }
 
-    public Card(String title, String description, List<String> subtasks, List<Tag> tags, String color) {
+    public Card(String title, String description, String color, ListOfCards list) {
         this.title = title;
         this.description = description;
-        this.subtasks = subtasks;
-        this.tags = tags;
         this.color = color;
+        this.list = list;
     }
 
 
@@ -41,28 +54,34 @@ public class Card {
 
         Card card = (Card) o;
 
-        if (id!=card.id) return false;
+        if (id != card.id) return false;
         if (!title.equals(card.title)) return false;
         if (!description.equals(card.description)) return false;
-        if (!subtasks.equals(card.subtasks)) return false;
         if (!tags.equals(card.tags)) return false;
-        return color.equals(card.color);
+        if (!color.equals(card.color)) return false;
+        return list.equals(card.list);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, subtasks, tags, color);
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + title.hashCode();
+        result = 31 * result + description.hashCode();
+        result = 31 * result + tags.hashCode();
+        result = 31 * result + color.hashCode();
+        result = 31 * result + list.hashCode();
+        return result;
     }
 
     @Override
     public String toString() {
         return "Card{" +
-                "id='" + id + '\'' +
+                "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", subtasks=" + subtasks +
                 ", tags=" + tags +
                 ", color='" + color + '\'' +
+                ", list=" + list +
                 '}';
     }
 }

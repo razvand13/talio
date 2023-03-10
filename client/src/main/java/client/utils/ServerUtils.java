@@ -21,12 +21,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.InputMismatchException;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.function.Consumer;
+import java.util.Scanner;
 
-import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientConfig;
 
 import commons.Quote;
@@ -36,16 +34,49 @@ import jakarta.ws.rs.core.GenericType;
 
 public class ServerUtils {
 
-    private static final String SERVER = "http://localhost:8080/";
+    private static String SERVER = "http://localhost:8080";
 
     public void getQuotesTheHardWay() throws IOException {
-        var url = new URL("http://localhost:8080/api/quotes");
+        var url = new URL(SERVER+"api/quotes");
         var is = url.openConnection().getInputStream();
         var br = new BufferedReader(new InputStreamReader(is));
         String line;
         while ((line = br.readLine()) != null) {
             System.out.println(line);
         }
+    }
+
+    /**
+     * @param address address to connect to
+     * Set the SERVER variable to the input value
+     */
+    public static void setSERVER(String address){
+        SERVER =address;
+    }
+
+    /**
+     * ask the user which port they want to connect to,
+     * iff their response isn't a number ask again,
+     * iff it is a number return the associated address
+     *
+     * @return a String of the form "http://localhost:[PORT NUMBER]/"
+     * where [PORT NUMBER] is a user-specified int
+     * */
+    public static String getAddress(){
+        //Scanner input = new Scanner(System.in);
+        System.out.println("On which port is the server?");
+        int port =0;
+        try{
+            Scanner input = new Scanner(System.in);
+            port = input.nextInt();
+        }
+
+        catch (InputMismatchException e){
+            System.out.println("please provide a number");
+            return getAddress();
+        }
+
+        return "http://localhost:" + port +"/";
     }
 
     public List<Quote> getQuotes() {
@@ -62,35 +93,5 @@ public class ServerUtils {
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
-    }
-
-    private static final ExecutorService EXEC = Executors.newSingleThreadExecutor();
-
-    //dealing with return from client and giving us a quote
-    //for long polling
-    public void registerForUpdates(Consumer<Quote> consumer) {
-        //need to execute in a new thread so application is not constantly blocked
-
-        //no error handling -> to be implemented
-        EXEC.submit(() -> {
-            while(!Thread.interrupted()) {
-                var res = ClientBuilder.newClient(new ClientConfig()) //
-                        .target(SERVER).path("api/quotes/updates") //
-                        .request(APPLICATION_JSON) //
-                        .accept(APPLICATION_JSON) //
-                        .get(Response.class);  //we use response so not everything is automatically a quote
-
-                if(res.getStatus() == 204) { //no content, skip iteration
-                    continue;
-                }
-                var q = res.readEntity(Quote.class);
-                consumer.accept(q);
-            }
-        });
-
-    }
-
-    public void stop() {
-        EXEC.shutdown();
     }
 }
