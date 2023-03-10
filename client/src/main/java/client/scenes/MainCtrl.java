@@ -30,16 +30,25 @@ public class MainCtrl {
     private AddQuoteCtrl addCtrl;
     private Scene add;
 
+    private ServerConnectCtrl serverConnectCtrl;
+    private Scene serverConnect;
+
     public void initialize(Stage primaryStage, Pair<QuoteOverviewCtrl, Parent> overview,
-            Pair<AddQuoteCtrl, Parent> add) {
+            Pair<AddQuoteCtrl, Parent> add,
+            Pair<ServerConnectCtrl, Parent> serverConnect) {
+
         this.primaryStage = primaryStage;
+
         this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
 
         this.addCtrl = add.getKey();
         this.add = new Scene(add.getValue());
 
-        showOverview();
+        this.serverConnectCtrl = serverConnect.getKey();
+        this.serverConnect = new Scene(serverConnect.getValue());
+
+        showServerConnect();
         primaryStage.show();
     }
 
@@ -53,5 +62,10 @@ public class MainCtrl {
         primaryStage.setTitle("Quotes: Adding Quote");
         primaryStage.setScene(add);
         add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
+    }
+
+    public void showServerConnect() {
+        primaryStage.setTitle("Choose a port");
+        primaryStage.setScene(serverConnect);
     }
 }
