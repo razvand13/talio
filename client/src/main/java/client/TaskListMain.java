@@ -23,7 +23,6 @@ import java.net.URISyntaxException;
 import client.scenes.MainTaskListCtrl;
 import client.scenes.TaskListCtrl;
 import com.google.inject.Injector;
-import client.scenes.MainTaskListCtrl;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -32,10 +31,24 @@ public class TaskListMain extends Application {
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
 
+    /**Main method for initialization
+     *
+     * @param args command line arguments
+     * @throws URISyntaxException exception if string can't be parsed
+     * @throws IOException exception caused by i/o
+     */
     public static void main(String[] args) throws URISyntaxException, IOException {
         launch();
     }
 
+    /**
+     *
+     * @param primaryStage the primary stage for this application, onto which
+     * the application scene can be set.
+     * Applications may create other stages, if needed, but they will not be
+     * primary stages.
+     * @throws IOException exception cause by i/o
+     */
     @Override
     public void start(Stage primaryStage) throws IOException {
 

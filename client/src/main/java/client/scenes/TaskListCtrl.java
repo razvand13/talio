@@ -29,9 +29,6 @@ public class TaskListCtrl implements Initializable{
         private TextField textInput;
 
         @FXML
-        private Button addNewButton;
-
-        @FXML
         private ListView<String> myListView;
 
         @FXML
@@ -49,10 +46,10 @@ public class TaskListCtrl implements Initializable{
      * @param mainCtrl main controller
      */
     @Inject
-        public TaskListCtrl(ServerUtils server, MainCtrl mainCtrl) {
-            this.server = server;
-            this.mainCtrl = mainCtrl;
-        }
+    public TaskListCtrl(ServerUtils server, MainCtrl mainCtrl) {
+        this.server = server;
+        this.mainCtrl = mainCtrl;
+    }
 
 
     /**Method for initialization
@@ -66,31 +63,30 @@ public class TaskListCtrl implements Initializable{
      * the root object was not localized.
      */
     @Override
-        public void initialize(URL location, ResourceBundle resources) {
-            //editing should only be available when right-clicked on a task
-            editButton.setVisible(false);
-            editTextInput.setVisible(false);
-        }
+    public void initialize(URL location, ResourceBundle resources) {
+        //editing should only be available when right-clicked on a task
+        editButton.setVisible(false);
+        editTextInput.setVisible(false);
+    }
 
     /**Method for presenting data in the listview
      */
     public void refresh() {
-            myListView.setItems(list);
-        }
+        myListView.setItems(list);
+    }
 
 
     /**Method for adding new card to the list, with title from text field input
      */
     public void addNew(){
-            String input = textInput.getText();
-            if(input != null) {
-                System.out.println(list.size());
-                cardList.add(new Card(textInput.getText(), null, null, null, null));
-                list.add(input);
-            }
-            textInput.clear();
-            refresh();
+        String input = textInput.getText();
+        if(input != null) {
+            cardList.add(new Card(textInput.getText(), null, null, null, null));
+            list.add(input);
         }
+        textInput.clear();
+        refresh();
+    }
 
     /**Method called when context menu requested on the view list
      * If an existing item is selected, the editing option becomes visible
@@ -126,14 +122,13 @@ public class TaskListCtrl implements Initializable{
         String edit = editTextInput.getText();
         if(edit.length() >= 1) {
             list.set(myListView.getSelectionModel().getSelectedIndex(), edit);
-            cardList.get(Math.max((myListView.getSelectionModel().getSelectedIndex()), 0)).title = editTextInput.getText();
+            cardList.get(Math.max((myListView.getSelectionModel().getSelectedIndex()),
+                    0)).title = editTextInput.getText();
             editButton.setVisible(false);
             editTextInput.setVisible(false);
             refresh();
         }
-        }
-
-
+    }
 
 
 }
