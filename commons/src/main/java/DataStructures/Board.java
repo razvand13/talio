@@ -11,7 +11,7 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public String id;
     public String title;
-    public List<List> listOfLists;
+    public List<ListOfCards> listOfLists;
     public String backgroundColor; //Background color
 
     @SuppressWarnings("unused")
@@ -19,7 +19,7 @@ public class Board {
         // for object mapper
     }
 
-    public Board(String title, List<List> listOfLists, String backgroundColor) {
+    public Board(String title, List<ListOfCards> listOfLists, String backgroundColor) {
         this.title = title;
         this.listOfLists = listOfLists;
         this.backgroundColor = backgroundColor;
