@@ -6,13 +6,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.List;
-import java.util.Objects;
 
 public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public long id;
-
+    public String id;
     public String title;
     public String description;
     public List<String> subtasks;
@@ -39,7 +37,7 @@ public class Card {
 
         Card card = (Card) o;
 
-        if (id!=card.id) return false;
+        if (!id.equals(card.id)) return false;
         if (!title.equals(card.title)) return false;
         if (!description.equals(card.description)) return false;
         if (!subtasks.equals(card.subtasks)) return false;
@@ -49,7 +47,13 @@ public class Card {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, subtasks, tags, color);
+        int result = id.hashCode();
+        result = 31 * result + title.hashCode();
+        result = 31 * result + description.hashCode();
+        result = 31 * result + subtasks.hashCode();
+        result = 31 * result + tags.hashCode();
+        result = 31 * result + color.hashCode();
+        return result;
     }
 
     @Override
