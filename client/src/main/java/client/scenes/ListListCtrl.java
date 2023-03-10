@@ -1,6 +1,5 @@
 package client.scenes;
 
-import DataStructures.Card;
 import DataStructures.ListOfCards;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
@@ -12,8 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.ResourceBundle;
 
 public class ListListCtrl implements Initializable{
@@ -56,7 +54,6 @@ public class ListListCtrl implements Initializable{
     public void addNew(){
         String input = textInput.getText();
         if(input != null || input.length() < 1) {
-            List<Card> listOfTasks = new ArrayList<>();
             listList.add(new ListOfCards(textInput.getText(), null));
             list.add(input);
         }
