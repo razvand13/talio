@@ -81,7 +81,7 @@ public class TaskListCtrl implements Initializable{
     public void addNew(){
         String input = textInput.getText();
         if(input != null) {
-            cardList.add(new Card(textInput.getText(), null, null, null, null));
+            cardList.add(new Card(textInput.getText(), null, null, null));
             list.add(input);
         }
         textInput.clear();
