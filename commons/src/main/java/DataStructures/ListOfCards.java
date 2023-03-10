@@ -4,22 +4,38 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.List;
-
-public class ListOfCards {
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Set;
+import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
+import javax.persistence.Entity;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+@Entity
+@Table(name="lists")
+public class ListOfCards implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(unique = true)
     public String id;
     public String name;
-    public List<Card> cards;
+    @OneToMany(mappedBy = "list", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private Set<Card> cards;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "board_id", nullable = false)
+    public Board board;
 
     @SuppressWarnings("unused")
     private ListOfCards() {
         // for object mapper
     }
 
-    public ListOfCards(String name, List<Card> cards) {
+    public ListOfCards(String name, Board board) {
         this.name = name;
-        this.cards = cards;
+        this.board = board;
     }
 
     @Override
@@ -31,7 +47,8 @@ public class ListOfCards {
 
         if (!id.equals(that.id)) return false;
         if (!name.equals(that.name)) return false;
-        return cards.equals(that.cards);
+        if (!cards.equals(that.cards)) return false;
+        return board.equals(that.board);
     }
 
     @Override
@@ -39,6 +56,7 @@ public class ListOfCards {
         int result = id.hashCode();
         result = 31 * result + name.hashCode();
         result = 31 * result + cards.hashCode();
+        result = 31 * result + board.hashCode();
         return result;
     }
 
@@ -48,6 +66,7 @@ public class ListOfCards {
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", cards=" + cards +
+                ", board=" + board +
                 '}';
     }
 }

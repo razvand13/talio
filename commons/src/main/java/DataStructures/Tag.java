@@ -3,22 +3,34 @@ package DataStructures;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-public class Tag {
+import javax.persistence.*;
+import java.io.Serializable;
+import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
+import javax.persistence.Entity;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+@Entity
+@Table(name="tags")
+public class Tag implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public String id;
     public String nameOfTag;
     public String color;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "card_id", nullable = false)
+    public Card card;
     @SuppressWarnings("unused")
     private Tag() {
         // for object mapper
     }
 
-    public Tag(String nameOfTag, String color) {
+    public Tag(String nameOfTag, String color, Card card) {
         this.nameOfTag = nameOfTag;
         this.color = color;
+        this.card = card;
     }
 
     @Override
@@ -30,7 +42,8 @@ public class Tag {
 
         if (!id.equals(tag.id)) return false;
         if (!nameOfTag.equals(tag.nameOfTag)) return false;
-        return color.equals(tag.color);
+        if (!color.equals(tag.color)) return false;
+        return card.equals(tag.card);
     }
 
     @Override
@@ -38,6 +51,7 @@ public class Tag {
         int result = id.hashCode();
         result = 31 * result + nameOfTag.hashCode();
         result = 31 * result + color.hashCode();
+        result = 31 * result + card.hashCode();
         return result;
     }
 
@@ -47,6 +61,7 @@ public class Tag {
                 "id='" + id + '\'' +
                 ", nameOfTag='" + nameOfTag + '\'' +
                 ", color='" + color + '\'' +
+                ", card=" + card +
                 '}';
     }
 }
