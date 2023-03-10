@@ -57,7 +57,7 @@ public class ListListCtrl implements Initializable{
         String input = textInput.getText();
         if(input != null || input.length() < 1) {
             List<Card> listOfTasks = new ArrayList<>();
-            listList.add(new ListOfCards(textInput.getText(), listOfTasks));
+            listList.add(new ListOfCards(textInput.getText(), null));
             list.add(input);
         }
         textInput.clear();
