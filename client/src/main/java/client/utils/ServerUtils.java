@@ -47,6 +47,7 @@ public class ServerUtils {
     }
 
     /**
+     * @param address address to connect to
      * Set the SERVER variable to the input value
      */
     public static void setSERVER(String address){
