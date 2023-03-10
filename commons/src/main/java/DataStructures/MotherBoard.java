@@ -5,6 +5,15 @@ import java.util.List;
 public class MotherBoard {
     public List<Board> boards;
 
+    @SuppressWarnings("unused")
+    private MotherBoard() {
+        // for object mapper
+    }
+
+    public MotherBoard(List<Board> boards) {
+        this.boards = boards;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

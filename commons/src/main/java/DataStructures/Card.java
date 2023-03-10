@@ -2,15 +2,33 @@ package DataStructures;
 
 import DataStructures.Tag;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.List;
 
 public class Card {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public String id;
     public String title;
     public String description;
     public List<String> subtasks;
     public List<Tag> tags;
     public String color;
+
+    @SuppressWarnings("unused")
+    private Card() {
+        // for object mapper
+    }
+
+    public Card(String title, String description, List<String> subtasks, List<Tag> tags, String color) {
+        this.title = title;
+        this.description = description;
+        this.subtasks = subtasks;
+        this.tags = tags;
+        this.color = color;
+    }
 
     @Override
     public boolean equals(Object o) {
