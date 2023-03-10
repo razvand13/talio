@@ -20,8 +20,9 @@ import static com.google.inject.Guice.createInjector;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import client.scenes.DragDropCtrl;
+import client.scenes.AddQuoteCtrl;
 import client.scenes.MainCtrl;
+import client.scenes.QuoteOverviewCtrl;
 import com.google.inject.Injector;
 import javafx.application.Application;
 
@@ -36,20 +37,13 @@ public class Main extends Application {
         launch();
     }
 
-//    @Override
-//    public void start(Stage primaryStage) throws IOException {
-//
-//        var overview = FXML.load(QuoteOverviewCtrl.class, "client", "scenes", "QuoteOverview.fxml");
-//        var add = FXML.load(AddQuoteCtrl.class, "client", "scenes", "AddQuote.fxml");
-//
-//        var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-//        mainCtrl.initialize(primaryStage, overview, add);
-//    }
-
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        var dragDrop = FXML.load(DragDropCtrl.class, "client", "scenes", "DragDrop.fxml");
+    public void start(Stage primaryStage) throws IOException {
+
+        var overview = FXML.load(QuoteOverviewCtrl.class, "client", "scenes", "QuoteOverview.fxml");
+        var add = FXML.load(AddQuoteCtrl.class, "client", "scenes", "AddQuote.fxml");
+
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-        mainCtrl.initialize(primaryStage, dragDrop);
+        mainCtrl.initialize(primaryStage, overview, add);
     }
 }
