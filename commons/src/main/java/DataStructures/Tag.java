@@ -5,11 +5,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.*;
 import java.io.Serializable;
-import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
+//import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 import javax.persistence.Entity;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+//import org.apache.commons.lang3.builder.EqualsBuilder;
+//import org.apache.commons.lang3.builder.HashCodeBuilder;
+//import org.apache.commons.lang3.builder.ToStringBuilder;
 @Entity
 @Table(name="tags")
 public class Tag implements Serializable{
