@@ -1,5 +1,6 @@
 package DataStructures;
 
+import DataStructures.ListOfCards;
 import DataStructures.Tag;
 
 import javax.persistence.GeneratedValue;
@@ -8,20 +9,19 @@ import javax.persistence.Id;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
-//import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 import javax.persistence.Entity;
-//import org.apache.commons.lang3.builder.EqualsBuilder;
-//import org.apache.commons.lang3.builder.HashCodeBuilder;
-//import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Entity
 @Table(name = "cards")
 public class Card implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(unique = true)
     public long id;
 
+
+    @OneToOne(cascade = CascadeType.PERSIST)
     public String title;
     public String description;
 
@@ -45,6 +45,7 @@ public class Card implements Serializable {
         this.color = color;
         this.list = list;
     }
+
 
     @Override
     public boolean equals(Object o) {
