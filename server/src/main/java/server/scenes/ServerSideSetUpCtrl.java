@@ -2,11 +2,8 @@ package server.scenes;
 
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
-import org.springframework.boot.SpringApplication;
 import server.Main;
 import javafx.scene.control.TextField;
-
-import java.awt.*;
 
 
 public class ServerSideSetUpCtrl {
