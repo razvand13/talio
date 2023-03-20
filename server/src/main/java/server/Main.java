@@ -15,26 +15,49 @@
  */
 package server;
 
+//import MyFXML;
+import com.google.inject.Injector;
+//import MyModule;
+//import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import server.scenes.ServerSideSetUpCtrl;
+import javafx.application.Application;
 
-import java.util.Scanner;
+//import java.util.Scanner;
+
+import java.io.IOException;
+
+import static com.google.inject.Guice.createInjector;
 
 @SpringBootApplication
 @EntityScan(basePackages = { "commons", "server" })
-public class Main {
+public class Main extends Application{
 
+    private static final Injector INJECTOR = createInjector(new MyModule());
+    private static final MyFXML FXML = new MyFXML(INJECTOR);
 
     public static void main(String[] args) {
-        setup();
-        SpringApplication.run(Main.class, args);
+        launch();
+        //SpringApplication.run(Main.class, args);
     }
-    public static void setup(){
-        System.out.println("What port do you want this server to run on:");
-        String port = new Scanner(System.in).next();
+    @Override
+    public void start(Stage primaryStage) throws IOException {
+        var setup = FXML.load(ServerSideSetUpCtrl.class, "server", "scenes", "ServerSideSetUp.fxml");
+        Stage stage = new Stage();
+        stage.setScene(new Scene(setup.getValue()));
+        stage.show();
+    }
+
+    public static void launchServer(String port){
+        System.out.println("here on port: " + port);
         System.setProperty("server.port", port);
         System.setProperty("spring.datasource.url", "jdbc:h2:file:./quizzzz"+port);
+        SpringApplication.run(Main.class);
+
     }
 
 }
