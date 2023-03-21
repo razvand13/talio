@@ -92,4 +92,9 @@ public class AddQuoteCtrl {
             break;
         }
     }
+
+    public void firstTimeSetUp(){
+        server.setSession();
+    }
+
 }
