@@ -27,7 +27,7 @@ public class BoardController {
      * @return a list of all boards
      */
     @GetMapping(path = {"", "/"})
-    public List<Board> getAll(){
+    public List<Board> getAllBoards(){
         return repo.findAll();
     }
 
@@ -37,7 +37,7 @@ public class BoardController {
      * @return the board with that id
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Board> getById(@PathVariable("id") long id) {
+    public ResponseEntity<Board> getBoardById(@PathVariable("id") long id) {
         if(id < 0 || !repo.existsById(id)) {
             return  ResponseEntity.badRequest().build();
         }
@@ -99,7 +99,7 @@ public class BoardController {
 
 
     /**
-     *
+     * adds a board to the repo
      * @param board the board that needs to be added
      * @return badRequest iff the board is null. ok with the provided board iff it was added successfully.
      */
