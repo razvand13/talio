@@ -1,4 +1,4 @@
-package DataStructures;
+package commons;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,7 +19,7 @@ public class Board implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(unique = true)
-    public String id;
+    public long id;
     public String title;
     @OneToMany(mappedBy = "board", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
@@ -43,7 +43,7 @@ public class Board implements Serializable {
 
         Board board = (Board) o;
 
-        if (!id.equals(board.id)) return false;
+        if (id != board.id) return false;
         if (!title.equals(board.title)) return false;
         if (!lists.equals(board.lists)) return false;
         return backgroundColor.equals(board.backgroundColor);
@@ -51,7 +51,7 @@ public class Board implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
+        int result = (int) (id ^ (id >>> 32));
         result = 31 * result + title.hashCode();
         result = 31 * result + lists.hashCode();
         result = 31 * result + backgroundColor.hashCode();
@@ -66,5 +66,25 @@ public class Board implements Serializable {
                 ", lists=" + lists +
                 ", backgroundColor='" + backgroundColor + '\'' +
                 '}';
+    }
+
+    /**
+     *
+     * @return the id of the board
+     */
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * adds a ListOfCards to lists
+     * @param list the list to add to this board
+     */
+    public void addList(ListOfCards list){
+        lists.add((list));
+    }
+
+    public Set<ListOfCards> getLists() {
+        return lists;
     }
 }

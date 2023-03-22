@@ -1,7 +1,4 @@
-package DataStructures;
-
-import DataStructures.ListOfCards;
-import DataStructures.Tag;
+package commons;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -83,5 +80,13 @@ public class Card implements Serializable {
                 ", color='" + color + '\'' +
                 ", list=" + list +
                 '}';
+    }
+
+    /**
+     * simple getter
+     * @return id
+     */
+    public long getId() {
+        return id;
     }
 }

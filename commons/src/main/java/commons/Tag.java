@@ -1,40 +1,36 @@
-package DataStructures;
+package commons;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
 //import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 import javax.persistence.Entity;
 //import org.apache.commons.lang3.builder.EqualsBuilder;
 //import org.apache.commons.lang3.builder.HashCodeBuilder;
 //import org.apache.commons.lang3.builder.ToStringBuilder;
 @Entity
-@Table(name="lists")
-public class ListOfCards implements Serializable {
+@Table(name="tags")
+public class Tag implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(unique = true)
     public String id;
-    public String name;
-    @OneToMany(mappedBy = "list", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    private Set<Card> cards;
+    public String nameOfTag;
+    public String color;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "board_id", nullable = false)
-    public Board board;
-
+    @JoinColumn(name = "card_id", nullable = false)
+    public Card card;
     @SuppressWarnings("unused")
-    private ListOfCards() {
+    private Tag() {
         // for object mapper
     }
 
-    public ListOfCards(String name, Board board) {
-        this.name = name;
-        this.board = board;
+    public Tag(String nameOfTag, String color, Card card) {
+        this.nameOfTag = nameOfTag;
+        this.color = color;
+        this.card = card;
     }
 
     @Override
@@ -42,30 +38,30 @@ public class ListOfCards implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ListOfCards that = (ListOfCards) o;
+        Tag tag = (Tag) o;
 
-        if (!id.equals(that.id)) return false;
-        if (!name.equals(that.name)) return false;
-        if (!cards.equals(that.cards)) return false;
-        return board.equals(that.board);
+        if (!id.equals(tag.id)) return false;
+        if (!nameOfTag.equals(tag.nameOfTag)) return false;
+        if (!color.equals(tag.color)) return false;
+        return card.equals(tag.card);
     }
 
     @Override
     public int hashCode() {
         int result = id.hashCode();
-        result = 31 * result + name.hashCode();
-        result = 31 * result + cards.hashCode();
-        result = 31 * result + board.hashCode();
+        result = 31 * result + nameOfTag.hashCode();
+        result = 31 * result + color.hashCode();
+        result = 31 * result + card.hashCode();
         return result;
     }
 
     @Override
     public String toString() {
-        return "ListOfCards{" +
+        return "Tag{" +
                 "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", cards=" + cards +
-                ", board=" + board +
+                ", nameOfTag='" + nameOfTag + '\'' +
+                ", color='" + color + '\'' +
+                ", card=" + card +
                 '}';
     }
 }
