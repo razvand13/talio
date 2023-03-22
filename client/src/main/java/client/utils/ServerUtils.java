@@ -124,8 +124,11 @@ public class ServerUtils {
 //    }
 
 
-    //for now, hard-code the "8080" part of the port you want
     private StompSession session;
+
+    /**
+     * sets session to connect("ws://localhost:[port]/websocket")
+     */
     public void setSession(){
          session = connect("ws"+ SERVER.substring(4) + "websocket");
     }
