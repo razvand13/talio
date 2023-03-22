@@ -93,6 +93,9 @@ public class AddQuoteCtrl {
         }
     }
 
+    /**
+     * sets session variable in server
+     */
     public void firstTimeSetUp(){
         server.setSession();
     }
