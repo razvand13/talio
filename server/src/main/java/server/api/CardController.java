@@ -1,6 +1,5 @@
 package server.api;
 
-import commons.Board;
 import commons.Card;
 import commons.ListOfCards;
 import org.springframework.http.ResponseEntity;
