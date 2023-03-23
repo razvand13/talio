@@ -1,6 +1,6 @@
 package client.scenes;
 
-import commons.Card;
+import DataStructures.Card;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.collections.FXCollections;
@@ -17,30 +17,32 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class TaskListCtrl implements Initializable{
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
 
-    @FXML
-    private TextField editTextInput;
 
-    @FXML
-    private TextField textInput;
+        private final ServerUtils server;
+        private final MainCtrl mainCtrl;
 
-    @FXML
-    private ListView<String> myListView;
+        @FXML
+        private TextField editTextInput;
 
-    // Will add a temporary hard-coded list just for the sake of testing drag and drop functionality
-    @FXML
-    private ListView<String> tempListView;
+        @FXML
+        private TextField textInput;
 
-    @FXML
-    private Button editButton;
+        @FXML
+        private ListView<String> myListView;
 
-    //list containing String presented in the list view
-    ObservableList<String> list = FXCollections.observableArrayList();
+        // Will add a temporary hard-coded list just for the sake of testing drag and drop functionality
+        @FXML
+        private ListView<String> tempListView;
 
-    //list of cards created by given title
-    ObservableList<Card> cardList = FXCollections.observableArrayList();
+        @FXML
+        private Button editButton;
+
+        //list containing String presented in the list view
+        ObservableList<String> list = FXCollections.observableArrayList();
+
+        //list of cards created by given title
+        ObservableList<Card> cardList = FXCollections.observableArrayList();
 
     /**Constructor method
      *
@@ -111,26 +113,26 @@ public class TaskListCtrl implements Initializable{
      * If an existing item is selected, the editing option becomes visible
      */
     public void editItem(){
-        String item = myListView.getSelectionModel().getSelectedItem();
-        if(item != null){
-            editButton.setVisible(true);
-            editTextInput.setVisible(true);
-            editTextInput.setText(item);
+            String item = myListView.getSelectionModel().getSelectedItem();
+            if(item != null){
+                editButton.setVisible(true);
+                editTextInput.setVisible(true);
+                editTextInput.setText(item);
+            }
+            else{
+                editButton.setVisible(false);
+                editTextInput.setVisible(false);
+            }
         }
-        else{
-            editButton.setVisible(false);
-            editTextInput.setVisible(false);
-        }
-    }
 
     /**Method called when clicking off of selected item while in the editing process
      * It makes the editing option invisible again
      * @param mouseEvent mouse click on view list
      */
     public void finishEditing(MouseEvent mouseEvent) {
-        editButton.setVisible(false);
-        editTextInput.setVisible(false);
-    }
+            editButton.setVisible(false);
+            editTextInput.setVisible(false);
+        }
 
     /**Method that modifies the content of the list to the input of the text field.
      * After saving the changes, the edition option becomes invisible again
@@ -151,8 +153,7 @@ public class TaskListCtrl implements Initializable{
 
     /**
      * Sets drag and drop event handlers on a ListView
-     * Lists are both sources and targets of this operation,
-     *  so all handlers will be applied on them directly
+     * Lists are both sources and targets of this operation, so all handlers will be applied on them directly
      * These handlers only work with Strings as the content of lists
      *
      * @param list list to apply handlers to
@@ -230,8 +231,7 @@ public class TaskListCtrl implements Initializable{
 
     /**
      * Adds a dragDone event handler on a list
-     * Once the drag is over, since the dragDropped(ListView<String>, DragEvent)
-     *  method offers the new data to that list,
+     * Once the drag is over, since the dragDropped(ListView<String>, DragEvent) method offers the new data to that list,
      * the same data from the old list must be removed
      *
      * @param list the list the data was dragged from

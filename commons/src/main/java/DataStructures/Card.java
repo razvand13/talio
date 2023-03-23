@@ -1,4 +1,7 @@
-package commons;
+package DataStructures;
+
+import DataStructures.ListOfCards;
+import DataStructures.Tag;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -36,13 +39,6 @@ public class Card implements Serializable {
         // for object mapper
     }
 
-    /**Constructor for Card
-     *
-     * @param title - the title of the card
-     * @param description - the description of the card
-     * @param color - the color of the card
-     * @param list - the list that contains the card
-     */
     public Card(String title, String description, String color, ListOfCards list) {
         this.title = title;
         this.description = description;
@@ -51,11 +47,6 @@ public class Card implements Serializable {
     }
 
 
-    /**Equals method for Card
-     *
-     * @param o - the object to compare to
-     * @return true iff this and o have the same contents
-     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -71,10 +62,6 @@ public class Card implements Serializable {
         return list.equals(card.list);
     }
 
-    /**Hashcode for card
-     *
-     * @return an integer representing the hashcode of a card
-     */
     @Override
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
@@ -86,10 +73,6 @@ public class Card implements Serializable {
         return result;
     }
 
-    /**Tostring method for Card
-     *
-     * @return - a string representation of Card
-     */
     @Override
     public String toString() {
         return "Card{" +

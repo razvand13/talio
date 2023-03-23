@@ -1,11 +1,11 @@
-package commons;
+package DataStructures;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 //import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 import javax.persistence.Entity;
 //import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -21,7 +21,7 @@ public class ListOfCards implements Serializable {
     public String name;
     @OneToMany(mappedBy = "list", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    private List<Card> cards;
+    private Set<Card> cards;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "board_id", nullable = false)
@@ -32,21 +32,11 @@ public class ListOfCards implements Serializable {
         // for object mapper
     }
 
-    /**Constructor for ListOfCards
-     *
-     * @param name - the anme of the list
-     * @param board - the board it is in
-     */
     public ListOfCards(String name, Board board) {
         this.name = name;
         this.board = board;
     }
 
-    /**Equals method for ListOfCards
-     *
-     * @param o - the object to co
-     * @return
-     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -60,10 +50,6 @@ public class ListOfCards implements Serializable {
         return board.equals(that.board);
     }
 
-    /**Hashcode for ListOfCards
-     *
-     * @return - an integer representation of a ListOfCards
-     */
     @Override
     public int hashCode() {
         int result = id.hashCode();
@@ -73,10 +59,6 @@ public class ListOfCards implements Serializable {
         return result;
     }
 
-    /**Tostring method for ListOfCards
-     *
-     * @return - a string representation of ListOfCards
-     */
     @Override
     public String toString() {
         return "ListOfCards{" +

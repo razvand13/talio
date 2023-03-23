@@ -1,4 +1,4 @@
-package commons;
+package DataStructures;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,23 +27,12 @@ public class Tag implements Serializable{
         // for object mapper
     }
 
-    /**Constructor for Tag
-     *
-     * @param nameOfTag - name
-     * @param color - color
-     * @param card - the respective card
-     */
     public Tag(String nameOfTag, String color, Card card) {
         this.nameOfTag = nameOfTag;
         this.color = color;
         this.card = card;
     }
 
-    /**Equals method for Tag
-     *
-     * @param o the object to compare it to
-     * @return true iff they contain the same thing
-     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -57,10 +46,6 @@ public class Tag implements Serializable{
         return card.equals(tag.card);
     }
 
-    /**Hashcode method for Tag
-     *
-     * @return  an int
-     */
     @Override
     public int hashCode() {
         int result = id.hashCode();
@@ -70,10 +55,6 @@ public class Tag implements Serializable{
         return result;
     }
 
-    /**Tostring method for Tag
-     *
-     * @return a string representation of Tag
-     */
     @Override
     public String toString() {
         return "Tag{" +
