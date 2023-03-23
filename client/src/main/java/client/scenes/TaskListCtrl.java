@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.ListContainer;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.collections.FXCollections;
@@ -61,62 +62,66 @@ public class TaskListCtrl implements Initializable {
     public void addNewList() {
 
         //setting up the new vertical box
-        VBox vBox = new VBox();
-        vBox.setMinWidth(200);
+        ListContainer container = new ListContainer();
+        container.setParent(hBox);
+        hBox.getChildren().add(container);
 
-        Label listNameLabel = new Label();
-        listNameLabel.setText("TO DO");
-
-        ObservableList<String> newObList = FXCollections.observableArrayList();
-        ListView<String> newList = new ListView<>();
-
-        Button addButton = new Button();
-        addButton.setText("Add new task");
-        TextField taskInputField = new TextField();
-
-        Button taskEditButton = new Button();
-        taskEditButton.setText("Edit");
-        taskEditButton.setVisible(false);
-
-        TextField taskEditField = new TextField();
-        taskEditField.setVisible(false);
-
-        Button listOptionsButton = new Button();
-        listOptionsButton.setText("List options");
-
-        Button listDeleteButton = new Button();
-        listDeleteButton.setText("Delete list");
-        listDeleteButton.setVisible(false);
-
-        Button listEditButton = new Button();
-        listEditButton.setText("Edit list name");
-        listEditButton.setVisible(false);
-
-        TextField listRenameField = new TextField();
-        listRenameField.setVisible(false);
-
-        vBox.getChildren().add(listNameLabel);
-        vBox.getChildren().add(newList);
-        vBox.getChildren().add(addButton);
-        vBox.getChildren().add(taskInputField);
-        vBox.getChildren().add(taskEditButton);
-        vBox.getChildren().add(taskEditField);
-        vBox.getChildren().add(listOptionsButton);
-        vBox.getChildren().add(listDeleteButton);
-        vBox.getChildren().add(listEditButton);
-        vBox.getChildren().add(listRenameField);
-
-        hBox.getChildren().add(vBox);
-
-        //assigning action events to objects
-        setAddTaskAction(addButton, taskInputField, newObList, newList);
-        setShowTaskEditAction(taskEditButton, newList, taskEditField);
-        setSaveEditAction(taskEditButton, taskEditField, newObList, newList);
-        setListOptions(listNameLabel, listOptionsButton, listDeleteButton,
-                listEditButton, listRenameField);
-        setRenameList(listNameLabel, listEditButton, listRenameField, listDeleteButton);
-        setDeleteList(vBox, listDeleteButton, listRenameField, listEditButton);
-        setDragAndDrop(newList);
+//        VBox vBox = new VBox();
+//        vBox.setMinWidth(200);
+//
+//        Label listNameLabel = new Label();
+//        listNameLabel.setText("TO DO");
+//
+//        ObservableList<String> newObList = FXCollections.observableArrayList();
+//        ListView<String> newList = new ListView<>();
+//
+//        Button addButton = new Button();
+//        addButton.setText("Add new task");
+//        TextField taskInputField = new TextField();
+//
+//        Button taskEditButton = new Button();
+//        taskEditButton.setText("Edit");
+//        taskEditButton.setVisible(false);
+//
+//        TextField taskEditField = new TextField();
+//        taskEditField.setVisible(false);
+//
+//        Button listOptionsButton = new Button();
+//        listOptionsButton.setText("List options");
+//
+//        Button listDeleteButton = new Button();
+//        listDeleteButton.setText("Delete list");
+//        listDeleteButton.setVisible(false);
+//
+//        Button listEditButton = new Button();
+//        listEditButton.setText("Edit list name");
+//        listEditButton.setVisible(false);
+//
+//        TextField listRenameField = new TextField();
+//        listRenameField.setVisible(false);
+//
+//        vBox.getChildren().add(listNameLabel);
+//        vBox.getChildren().add(newList);
+//        vBox.getChildren().add(addButton);
+//        vBox.getChildren().add(taskInputField);
+//        vBox.getChildren().add(taskEditButton);
+//        vBox.getChildren().add(taskEditField);
+//        vBox.getChildren().add(listOptionsButton);
+//        vBox.getChildren().add(listDeleteButton);
+//        vBox.getChildren().add(listEditButton);
+//        vBox.getChildren().add(listRenameField);
+//
+//        hBox.getChildren().add(vBox);
+//
+//        //assigning action events to objects
+//        setAddTaskAction(addButton, taskInputField, newObList, newList);
+//        setShowTaskEditAction(taskEditButton, newList, taskEditField);
+//        setSaveEditAction(taskEditButton, taskEditField, newObList, newList);
+//        setListOptions(listNameLabel, listOptionsButton, listDeleteButton,
+//                listEditButton, listRenameField);
+//        setRenameList(listNameLabel, listEditButton, listRenameField, listDeleteButton);
+//        setDeleteList(vBox, listDeleteButton, listRenameField, listEditButton);
+//        setDragAndDrop(newList);
     }
 
     /**
