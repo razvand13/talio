@@ -1,4 +1,4 @@
-package DataStructures;
+package commons;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,11 +31,21 @@ public class Board implements Serializable {
         // for object mapper
     }
 
+    /**Construcor for Board
+     *
+     * @param title - the title of the board
+     * @param backgroundColor - the background color of the board
+     */
     public Board(String title, String backgroundColor) {
         this.title = title;
         this.backgroundColor = backgroundColor;
     }
 
+    /**Equals method for board
+     *
+     * @param o - the object to compare to
+     * @return true iff they are the have the same contents
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -49,6 +59,10 @@ public class Board implements Serializable {
         return backgroundColor.equals(board.backgroundColor);
     }
 
+    /**Hashcode method for Board
+     *
+     * @return - an integer resembling the hashcode
+     */
     @Override
     public int hashCode() {
         int result = id.hashCode();
@@ -58,6 +72,10 @@ public class Board implements Serializable {
         return result;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "Board{" +
