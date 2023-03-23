@@ -69,18 +69,20 @@ public class ListContainerCtrl extends VBox {
         listNameLabel.setText("List " + listNo); // TODO Test this functionality
         listNo++;
         obList = FXCollections.observableArrayList();
-        addTaskBtn.setText("Add new task");
 
-        taskEditBtn.setText("Edit");
-        taskEditBtn.setVisible(false);
-        taskEditField.setVisible(false);
+        // Code below has been refactored using SceneBuilder
+//        addTaskBtn.setText("Add new task");
 
-        listOptionsBtn.setText("List options");
-        listDeleteBtn.setText("Delete list");
-        listDeleteBtn.setVisible(false);
-        listEditBtn.setText("Edit list name");
-        listEditBtn.setVisible(false);
-        listRenameField.setVisible(false);
+//        taskEditBtn.setText("Edit");
+//        taskEditBtn.setVisible(false);
+//        taskEditField.setVisible(false);
+
+//        listOptionsBtn.setText("List options");
+//        listDeleteBtn.setText("Delete list");
+//        listDeleteBtn.setVisible(false);
+//        listEditBtn.setText("Edit list name");
+//        listEditBtn.setVisible(false);
+//        listRenameField.setVisible(false);
     }
 
 
