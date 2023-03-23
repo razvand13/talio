@@ -21,6 +21,7 @@ public class ListOfCards implements Serializable {
     public String name;
     @OneToMany(mappedBy = "list", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
+    @OrderColumn
     private List<Card> cards;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
