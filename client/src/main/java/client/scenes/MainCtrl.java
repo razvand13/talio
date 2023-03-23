@@ -33,6 +33,14 @@ public class MainCtrl {
     private ServerConnectCtrl serverConnectCtrl;
     private Scene serverConnect;
 
+    /**Method to initialise the primaryStage,
+     * overview, addQuoteCtrl and serverConnect
+     *
+     * @param primaryStage
+     * @param overview
+     * @param add
+     * @param serverConnect
+     */
     public void initialize(Stage primaryStage, Pair<QuoteOverviewCtrl, Parent> overview,
             Pair<AddQuoteCtrl, Parent> add,
             Pair<ServerConnectCtrl, Parent> serverConnect) {
@@ -52,18 +60,27 @@ public class MainCtrl {
         primaryStage.show();
     }
 
+    /**Method that initialises the Overview of the Quotes
+     *
+     */
     public void showOverview() {
         primaryStage.setTitle("Quotes: Overview");
         primaryStage.setScene(overview);
         overviewCtrl.refresh();
     }
 
+    /**Method that initialises the add button
+     *
+     */
     public void showAdd() {
         primaryStage.setTitle("Quotes: Adding Quote");
         primaryStage.setScene(add);
         add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
     }
 
+    /**Method to choose a port
+     *
+     */
     public void showServerConnect() {
         primaryStage.setTitle("Choose a port");
         primaryStage.setScene(serverConnect);
