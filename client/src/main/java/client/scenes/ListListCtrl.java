@@ -31,12 +31,22 @@ public class ListListCtrl implements Initializable{
 
     ObservableList<ListOfCards> listList = FXCollections.observableArrayList();
 
+    /** Constructor for the ListOfList
+     * @param server of type ServerUtils
+     * @param mainCtrl of type MainCtrl
+     */
     @Inject
     public ListListCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
 
+    /** Method to initialize
+     * @param location  The location used to resolve relative paths for the root object, or
+     *                  {@code null} if the location is not known.
+     * @param resources The resources used to localize the root object, or {@code null} if
+     *                  the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //editing should only be available when right-clicked on a task
@@ -61,6 +71,9 @@ public class ListListCtrl implements Initializable{
         refresh();
     }
 
+    /** Removing a List from the ListOfLists
+     *
+     */
     public void removeList(){
         String input = textInput.getText();
         if(input != null){

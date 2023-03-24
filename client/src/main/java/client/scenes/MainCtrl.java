@@ -33,9 +33,14 @@ public class MainCtrl {
     private ServerConnectCtrl serverConnectCtrl;
     private Scene serverConnect;
 
-    public void initialize(Stage primaryStage, Pair<QuoteOverviewCtrl, Parent> overview,
+    private TaskListCtrl taskListCtrl;
+    private Scene taskList;
+
+    public void initialize(Stage primaryStage,
+            Pair<QuoteOverviewCtrl, Parent> overview,
             Pair<AddQuoteCtrl, Parent> add,
-            Pair<ServerConnectCtrl, Parent> serverConnect) {
+            Pair<ServerConnectCtrl, Parent> serverConnect,
+            Pair<TaskListCtrl, Parent> taskList) {
 
         this.primaryStage = primaryStage;
 
@@ -47,6 +52,9 @@ public class MainCtrl {
 
         this.serverConnectCtrl = serverConnect.getKey();
         this.serverConnect = new Scene(serverConnect.getValue());
+
+        this.taskListCtrl = taskList.getKey();
+        this.taskList = new Scene(taskList.getValue());
 
         showServerConnect();
         primaryStage.show();
@@ -67,5 +75,10 @@ public class MainCtrl {
     public void showServerConnect() {
         primaryStage.setTitle("Choose a port");
         primaryStage.setScene(serverConnect);
+    }
+
+    public void showTaskList() {
+        primaryStage.setTitle("Task List");
+        primaryStage.setScene(taskList);
     }
 }

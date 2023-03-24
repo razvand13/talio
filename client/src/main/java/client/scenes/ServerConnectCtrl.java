@@ -21,7 +21,7 @@ public class ServerConnectCtrl {
         String input = port.getText();
         client.utils.ServerUtils.setSERVER("http://localhost:"+input+"/");
         client.utils.ServerUtils.setPort(input);
-        mainCtrl.showOverview();
+        mainCtrl.showTaskList();
     }
 
 }
