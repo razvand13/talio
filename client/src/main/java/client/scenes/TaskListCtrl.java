@@ -1,5 +1,6 @@
 package client.scenes;
 
+import commons.Card;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.collections.FXCollections;
@@ -18,19 +19,33 @@ import javafx.scene.layout.VBox;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class TaskListCtrl implements Initializable {
-
+public class TaskListCtrl implements Initializable{
     private final ServerUtils server;
-    private final MainTaskListCtrl mainCtrl;
+    private final MainCtrl mainCtrl;
 
     @FXML
-    private HBox hBox;
+    private TextField editTextInput;
 
     @FXML
-    private TextField listTitle;
+    private TextField textInput;
 
-    /**
-     * Constructor method
+    @FXML
+    private ListView<String> myListView;
+
+    // Will add a temporary hard-coded list just for the sake of testing drag and drop functionality
+    @FXML
+    private ListView<String> tempListView;
+
+    @FXML
+    private Button editButton;
+
+    //list containing String presented in the list view
+    ObservableList<String> list = FXCollections.observableArrayList();
+
+    //list of cards created by given title
+    ObservableList<Card> cardList = FXCollections.observableArrayList();
+
+    /**Constructor method
      *
      * @param server   server, which the application uses
      * @param mainCtrl main controller
@@ -293,7 +308,7 @@ public class TaskListCtrl implements Initializable {
     /**
      * Sets drag and drop event handlers on a ListView
      * Lists are both sources and targets of this operation,
-     * so all handlers will be applied on them directly
+     *  so all handlers will be applied on them directly
      * These handlers only work with Strings as the content of lists
      *
      * @param list list to apply handlers to
@@ -372,7 +387,7 @@ public class TaskListCtrl implements Initializable {
     /**
      * Adds a dragDone event handler on a list
      * Once the drag is over, since the dragDropped(ListView<String>, DragEvent)
-     * method offers the new data to that list,
+     *  method offers the new data to that list,
      * the same data from the old list must be removed
      *
      * @param list  the list the data was dragged from

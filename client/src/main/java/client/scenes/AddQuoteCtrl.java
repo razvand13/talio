@@ -38,6 +38,12 @@ public class AddQuoteCtrl {
     @FXML
     private TextField quote;
 
+
+    /**
+     * Constructor for AddQuoteCTRL
+     *     @param server - the server for which we add the quote controller
+     *     @param mainCtrl - the main controller of the application
+     */
     @Inject
     public AddQuoteCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.mainCtrl = mainCtrl;
@@ -45,11 +51,17 @@ public class AddQuoteCtrl {
 
     }
 
+    /**Method that cancels the addition of quotes
+     *
+     */
     public void cancel() {
         clearFields();
         mainCtrl.showOverview();
     }
 
+    /**Method that is called when ok is pressed
+     *
+     */
     public void ok() {
 //        try {
 //            server.addQuote(getQuote());
@@ -74,22 +86,29 @@ public class AddQuoteCtrl {
         return new Quote(p, q);
     }
 
+    /**Method to clear fields in adding quote
+     *
+     */
     private void clearFields() {
         firstName.clear();
         lastName.clear();
         quote.clear();
     }
 
+    /**Method for seeing if enter is presses to speed up the creation process
+     *
+     * @param e - the key pressed
+     */
     public void keyPressed(KeyEvent e) {
         switch (e.getCode()) {
-        case ENTER:
-            ok();
-            break;
-        case ESCAPE:
-            cancel();
-            break;
-        default:
-            break;
+            case ENTER:
+                ok();
+                break;
+            case ESCAPE:
+                cancel();
+                break;
+            default:
+                break;
         }
     }
 }

@@ -52,8 +52,12 @@ public class Main extends Application{
         stage.show();
     }
 
-    public static void launchServer(String port){
-        System.out.println("here on port: " + port);
+    /**Method for setting up the database and the port for the server
+     *
+     */
+    public static void setup(){
+        System.out.println("What port do you want this server to run on:");
+        String port = new Scanner(System.in).next();
         System.setProperty("server.port", port);
         System.setProperty("spring.datasource.url", "jdbc:h2:file:./quizzzz"+port);
         SpringApplication.run(Main.class);

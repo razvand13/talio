@@ -1,6 +1,6 @@
 package client.scenes;
 
-import DataStructures.ListOfCards;
+import commons.ListOfCards;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.collections.FXCollections;
@@ -31,9 +31,10 @@ public class ListListCtrl implements Initializable{
 
     ObservableList<ListOfCards> listList = FXCollections.observableArrayList();
 
-    /** Constructor for the ListOfList
-     * @param server of type ServerUtils
-     * @param mainCtrl of type MainCtrl
+    /**Constructor for ListListCtrl class
+     *
+     * @param server - the server to put it on
+     * @param mainCtrl - the main controller
      */
     @Inject
     public ListListCtrl(ServerUtils server, MainCtrl mainCtrl) {
@@ -41,11 +42,17 @@ public class ListListCtrl implements Initializable{
         this.mainCtrl = mainCtrl;
     }
 
-    /** Method to initialize
-     * @param location  The location used to resolve relative paths for the root object, or
-     *                  {@code null} if the location is not known.
-     * @param resources The resources used to localize the root object, or {@code null} if
-     *                  the root object was not localized.
+    /**Method for making editButton and editTextInput hidden
+     *
+     * NOT USED ANYWHERE
+     *
+     * @param location
+     * The location used to resolve relative paths for the root object, or
+     * {@code null} if the location is not known.
+     *
+     * @param resources
+     * The resources used to localize the root object, or {@code null} if
+     * the root object was not localized.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -54,11 +61,14 @@ public class ListListCtrl implements Initializable{
         editTextInput.setVisible(false);
     }
 
+    /**Refresh method for ListListCtrl
+     *
+     */
     public void refresh() {
         myListView.setItems(list);
     }
 
-    /** Adding a new List to the List of Lists
+    /** Adding a new List to the Board
      *
      */
     public void addNew(){
@@ -71,7 +81,7 @@ public class ListListCtrl implements Initializable{
         refresh();
     }
 
-    /** Removing a List from the ListOfLists
+    /**Remove a List from the Board
      *
      */
     public void removeList(){

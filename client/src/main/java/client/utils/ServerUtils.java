@@ -46,6 +46,10 @@ public class ServerUtils {
     private static String port = "8080";
 
 
+    /**Method by Sebastian
+     *
+     * @throws IOException
+     */
     public void getQuotesTheHardWay() throws IOException {
         var url = new URL(SERVER+"api/quotes");
         var is = url.openConnection().getInputStream();
@@ -96,6 +100,10 @@ public class ServerUtils {
         return "http://localhost:" + port +"/";
     }
 
+    /**Get method for the quotes
+     *
+     * @return a list of quotes
+     */
     public List<Quote> getQuotes() {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/quotes") //
@@ -104,6 +112,11 @@ public class ServerUtils {
                 .get(new GenericType<List<Quote>>() {});
     }
 
+    /**Add quote
+     *
+     * @param quote
+     * @return a Quote
+     */
     public Quote addQuote(Quote quote) {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/quotes") //
