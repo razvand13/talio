@@ -1,0 +1,48 @@
+\documentclass[sigconf]{acmart}
+
+\usepackage[section]{placeins}
+
+% meta-data
+\title{OOP Project Report -- Group 33}
+\author{Andrei Chiru, Jan de Munck, Petra Guly\'as}
+\author{Razvan Dinu, Stephan Popov, Stephanie Gilbert}
+
+% remove overhead that is used in regular ACM papers
+\settopmatter{printacmref=false} % box after abstract
+\renewcommand\footnotetextcopyrightpermission[1]{} % copyright on first page
+\pagestyle{plain} % running headers
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\begin{document}
+
+%\begin{abstract}
+%\input{content/abstract}
+%\end{abstract}
+
+\maketitle
+
+\input{content/introduction}
+
+\input{content/methods}
+
+
+\input{content/results}
+
+
+\input{content/conclusion}
+
+
+%\input{content/citations}
+
+%somehow "SCENES" is above the images with the newpage but below the images without the newpage ¯\_(ツ)_/¯
+\newpage
+\input{content/scenes}
+
+\input{content/references}
+
+%\bibliographystyle{ACM-Reference-Format}
+%\bibliography{references}
+
+\end{document}
