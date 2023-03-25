@@ -3,18 +3,10 @@ package client.scenes;
 import client.components.ListContainer;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import commons.Card;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
-import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -50,10 +42,8 @@ public class TaskListCtrl implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//        ListContainer c = new ListContainer();
         hBox.setSpacing(10);
         hBox.setPadding(new Insets(10, 10, 10, 10));
-//        hBox.getChildren().add(c);
     }
 
     /**
@@ -62,8 +52,6 @@ public class TaskListCtrl implements Initializable {
      * for the functionality of a task list. Event related methods get assigned.
      */
     public void addNewList() {
-
-        //setting up the new vertical box
         ListContainer container = new ListContainer();
         container.setParent(hBox);
         hBox.getChildren().add(container);

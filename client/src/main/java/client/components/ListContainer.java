@@ -4,7 +4,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -17,9 +16,6 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class ListContainer extends VBox {
-
-//    private final ServerUtils server;
-//    private final MainTaskListCtrl mainCtrl;
     @FXML
     private Label listNameLabel;
     @FXML
