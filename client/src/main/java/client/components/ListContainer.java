@@ -41,9 +41,18 @@ public class ListContainer extends VBox {
     private Button listEditBtn;
     @FXML
     private TextField listRenameField;
+
+    // Since deletion references the list's parent, we need a reference to it inside the container object
     private HBox parent;
 
 
+    /**
+     * Constructor for the custom FXML component
+     * An FXMLLoader is needed since we load an external component, from a file,
+     * not an already existing one from SceneBuilder
+     *
+     * @throws RuntimeException if the FXMLLoader cannot load the component
+     */
     public ListContainer(){
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/client/components/ListContainer.fxml"));
         fxmlLoader.setRoot(this);
@@ -61,6 +70,7 @@ public class ListContainer extends VBox {
         setHandlers();
 
         // Had a few issues with initialization, this is how I finally got it to work
+        // Maybe it would be enough to use obList, not sure
         var children = FXCollections.observableArrayList();
         var childNodes = Arrays.asList(listNameLabel, list, addTaskBtn, taskInputField, taskEditBtn,
                         taskEditField, listOptionsBtn, listDeleteBtn, listEditBtn, listRenameField);
@@ -68,6 +78,9 @@ public class ListContainer extends VBox {
 
     }
 
+    /**
+     * Method that sets all event handlers of a list and its children
+     */
     private void setHandlers(){
         setAddTaskAction(addTaskBtn, taskInputField, obList, list);
         setShowTaskEditAction(taskEditBtn, list, taskEditField);
