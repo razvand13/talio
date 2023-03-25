@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -41,7 +42,6 @@ public class ListContainer extends VBox {
     @FXML
     private TextField listRenameField;
     private HBox parent;
-//    private static int listNo = 1;
 
 
     public ListContainer(){
@@ -56,38 +56,16 @@ public class ListContainer extends VBox {
         }
 
         this.setMinWidth(200);
-        // This will be changed
-//        listNameLabel.setText("List " + listNo); // TODO Test this functionality
-//        listNo++;
+
         obList = FXCollections.observableArrayList();
         setHandlers();
-//        initFXML();
 
-        this.getChildren()
-                .addAll(Arrays.asList(listNameLabel, list, addTaskBtn, taskInputField, taskEditBtn,
-                        taskEditField, listOptionsBtn, listDeleteBtn, listEditBtn, listRenameField));
+        // Had a few issues with initialization, this is how I finally got it to work
+        var children = FXCollections.observableArrayList();
+        var childNodes = Arrays.asList(listNameLabel, list, addTaskBtn, taskInputField, taskEditBtn,
+                        taskEditField, listOptionsBtn, listDeleteBtn, listEditBtn, listRenameField);
+        children.addAll(childNodes);
 
-    }
-
-    private void initFXML(){
-//        this.setMinWidth(200);
-//        listNameLabel.setText("List " + listNo);
-//        listNo++;
-//        obList = FXCollections.observableArrayList();
-
-        // Code below has been refactored using SceneBuilder
-//        addTaskBtn.setText("Add new task");
-//
-//        taskEditBtn.setText("Edit");
-//        taskEditBtn.setVisible(false);
-//        taskEditField.setVisible(false);
-//
-//        listOptionsBtn.setText("List options");
-//        listDeleteBtn.setText("Delete list");
-//        listDeleteBtn.setVisible(false);
-//        listEditBtn.setText("Edit list name");
-//        listEditBtn.setVisible(false);
-//        listRenameField.setVisible(false);
     }
 
     private void setHandlers(){
@@ -163,7 +141,7 @@ public class ListContainer extends VBox {
                                   ObservableList<String> obList, ListView<String> list) {
         button.setOnAction(event -> {
             String edit = textField.getText();
-            if (edit.length() >= 1) {
+            if (edit != null && edit.length() >= 1) {
                 obList.set(list.getSelectionModel().getSelectedIndex(), edit);
                 button.setVisible(false);
                 textField.setVisible(false);
@@ -365,10 +343,6 @@ public class ListContainer extends VBox {
         list.setStyle("");
         event.consume();
     }
-
-
-    // TODO Add JavaDoc
-
 
     /**
      * Setter method for parent
