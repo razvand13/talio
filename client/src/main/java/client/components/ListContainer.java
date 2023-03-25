@@ -38,7 +38,8 @@ public class ListContainer extends VBox {
     @FXML
     private TextField listRenameField;
 
-    // Since deletion references the list's parent, we need a reference to it inside the container object
+    // Since deletion references the list's parent, we need
+    // a reference to it inside the container object
     private HBox parent;
 
 
@@ -50,7 +51,8 @@ public class ListContainer extends VBox {
      * @throws RuntimeException if the FXMLLoader cannot load the component
      */
     public ListContainer(){
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/client/components/ListContainer.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+                .getResource("/client/components/ListContainer.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
 
