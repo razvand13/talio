@@ -141,7 +141,8 @@ public class ListContainer extends VBox {
                                   ObservableList<String> obList, ListView<String> list) {
         button.setOnAction(event -> {
             String edit = textField.getText();
-            if (edit != null && edit.length() >= 1) {
+            // Check if there is something selected AND if the field is not empty
+            if (list.getSelectionModel().getSelectedIndex() != -1 && edit.length() >= 1) {
                 obList.set(list.getSelectionModel().getSelectedIndex(), edit);
                 button.setVisible(false);
                 textField.setVisible(false);
