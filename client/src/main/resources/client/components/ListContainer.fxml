@@ -4,10 +4,10 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
 
-<AnchorPane prefHeight="440.0" prefWidth="201.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ListContainer">
+<fx:root type="VBox" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label fx:id="listNameLabel" layoutX="1.0" layoutY="14.0" prefHeight="17.0" prefWidth="200.0" text="List Name" />
       <ListView fx:id="list" layoutY="31.0" prefHeight="200.0" prefWidth="200.0" />
@@ -20,4 +20,4 @@
       <TextField fx:id="taskEditField" layoutY="292.0" prefHeight="25.0" prefWidth="137.0" />
       <Button fx:id="taskEditBtn" layoutX="138.0" layoutY="292.0" mnemonicParsing="false" text="Edit task" />
    </children>
-</AnchorPane>
+</fx:root>

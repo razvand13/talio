@@ -1,9 +1,8 @@
 package client.scenes;
 
-import client.ListContainer;
+import client.components.ListContainer;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -50,8 +49,10 @@ public class TaskListCtrl implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+//        ListContainer c = new ListContainer();
         hBox.setSpacing(10);
         hBox.setPadding(new Insets(10, 10, 10, 10));
+//        hBox.getChildren().add(c);
     }
 
     /**
