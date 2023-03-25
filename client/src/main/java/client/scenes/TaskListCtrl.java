@@ -26,9 +26,6 @@ public class TaskListCtrl implements Initializable {
     private final OurServerUtils server;
     private final MainTaskListCtrl mainCtrl;
 
-    private ListOfCards listOfCards;
-    private String taskInput;
-
     @FXML
     private HBox hBox;
 
@@ -39,7 +36,7 @@ public class TaskListCtrl implements Initializable {
      * @param mainCtrl main controller
      */
     @Inject
-    public TaskListCtrl(ServerUtils server, MainTaskListCtrl mainCtrl) {
+    public TaskListCtrl(OurServerUtils server, MainTaskListCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }

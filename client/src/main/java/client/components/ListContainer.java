@@ -1,4 +1,4 @@
-package client;
+package client.components;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,6 +12,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 public class ListContainer extends VBox {
@@ -40,26 +41,24 @@ public class ListContainer extends VBox {
     @FXML
     private TextField listRenameField;
     private HBox parent;
-    private static int listNo = 1;
+//    private static int listNo = 1;
 
 
     public ListContainer(){
-//        super();
-        // TODO Connect to FXML file properly
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../client.scenes/ListContainer.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/client/components/ListContainer.fxml"));
         fxmlLoader.setRoot(this);
-        fxmlLoader.setController(ListContainer.this);
+        fxmlLoader.setController(this);
 
-        try{
+        try {
             fxmlLoader.load();
-        } catch (Exception e){
-            e.printStackTrace();
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
         }
 
         this.setMinWidth(200);
         // This will be changed
-        listNameLabel.setText("List " + listNo); // TODO Test this functionality
-        listNo++;
+//        listNameLabel.setText("List " + listNo); // TODO Test this functionality
+//        listNo++;
         obList = FXCollections.observableArrayList();
         setHandlers();
 //        initFXML();
