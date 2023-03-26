@@ -20,7 +20,6 @@ public class ListContainer extends VBox {
     private Label listNameLabel;
     @FXML
     private ListView<String> list;
-    private ObservableList<String> obList;
     @FXML
     private Button addTaskBtn;
     @FXML
@@ -64,25 +63,16 @@ public class ListContainer extends VBox {
 
         this.setMinWidth(200);
 
-        obList = FXCollections.observableArrayList();
         setHandlers();
-
-        // Had a few issues with initialization, this is how I finally got it to work
-        // Maybe it would be enough to use obList, not sure
-        var children = FXCollections.observableArrayList();
-        var childNodes = Arrays.asList(listNameLabel, list, addTaskBtn, taskInputField, taskEditBtn,
-                        taskEditField, listOptionsBtn, listDeleteBtn, listEditBtn, listRenameField);
-        children.addAll(childNodes);
-
     }
 
     /**
      * Method that sets all event handlers of a list and its children
      */
     private void setHandlers(){
-        setAddTaskAction(addTaskBtn, taskInputField, obList, list);
+        setAddTaskAction(addTaskBtn, taskInputField, list);
         setShowTaskEditAction(taskEditBtn, list, taskEditField);
-        setSaveEditAction(taskEditBtn, taskEditField, obList, list);
+        setSaveEditAction(taskEditBtn, taskEditField, list);
         setListOptions(listNameLabel, listOptionsBtn, listDeleteBtn,
                 listEditBtn, listRenameField);
         setRenameList(listNameLabel, listEditBtn, listRenameField, listDeleteBtn);
@@ -95,20 +85,15 @@ public class ListContainer extends VBox {
      *
      * @param button    'add task' button that's clicked
      * @param textField text field to fetch task title from
-     * @param obList    observable list storing tasks
      * @param list      list view presenting stored tasks
      */
-    public void setAddTaskAction(Button button, TextField textField,
-                                 ObservableList<String> obList, ListView<String> list) {
+    public void setAddTaskAction(Button button, TextField textField, ListView<String> list) {
         button.setOnAction(event -> {
             String taskInput = textField.getText();
             if (!taskInput.equals("")) {
-                obList.add(textField.getText());
-                list.setItems(obList);
+                list.getItems().add(taskInput);
                 textField.clear();
             }
-
-            list.setItems(obList);
 
             event.consume();
         });
@@ -145,20 +130,18 @@ public class ListContainer extends VBox {
      *
      * @param button    'edit button' that's clicked
      * @param textField text field to fetch new task title from
-     * @param obList    observable list where the change gets saved
      * @param list      list view where the change will be presented
      */
-    public void setSaveEditAction(Button button, TextField textField,
-                                  ObservableList<String> obList, ListView<String> list) {
+    public void setSaveEditAction(Button button, TextField textField, ListView<String> list) {
         button.setOnAction(event -> {
             String edit = textField.getText();
             // Check if there is something selected AND if the field is not empty
-            if (list.getSelectionModel().getSelectedIndex() != -1 && edit.length() >= 1) {
-                obList.set(list.getSelectionModel().getSelectedIndex(), edit);
+            int idx = list.getSelectionModel().getSelectedIndex();
+            if (idx != -1 && edit.length() >= 1) {
+                list.getItems().set(idx, edit);
                 button.setVisible(false);
                 textField.setVisible(false);
             }
-            list.setItems(obList);
         });
     }
 
@@ -378,14 +361,6 @@ public class ListContainer extends VBox {
      */
     public ListView<String> getList() {
         return list;
-    }
-
-    /**
-     * Getter method for obList
-     * @return obList
-     */
-    public ObservableList<String> getObList() {
-        return obList;
     }
 
     /**
