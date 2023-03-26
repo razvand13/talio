@@ -48,8 +48,7 @@ public class TaskListCtrl implements Initializable {
 
     /**
      * Method called when 'add list' button is clicked
-     * Creates a new vertical box and fills it with objects necessary
-     * for the functionality of a task list. Event related methods get assigned.
+     * Creates a custom ListContainer FXML component with proper functionality
      */
     public void addNewList() {
         ListContainer container = new ListContainer();
