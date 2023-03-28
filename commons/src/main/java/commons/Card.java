@@ -1,7 +1,4 @@
-package DataStructures;
-
-import DataStructures.ListOfCards;
-import DataStructures.Tag;
+package commons;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

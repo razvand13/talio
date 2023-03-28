@@ -1,4 +1,4 @@
-package DataStructures;
+package commons;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -6,11 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
-//import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 import javax.persistence.Entity;
-//import org.apache.commons.lang3.builder.EqualsBuilder;
-//import org.apache.commons.lang3.builder.HashCodeBuilder;
-//import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Entity
 @Table(name="boards")
@@ -32,6 +28,12 @@ public class Board implements Serializable {
     }
 
     public Board(String title, String backgroundColor) {
+        this.title = title;
+        this.backgroundColor = backgroundColor;
+    }
+
+    public Board(String id, String title, String backgroundColor){
+        this.id = id;
         this.title = title;
         this.backgroundColor = backgroundColor;
     }
