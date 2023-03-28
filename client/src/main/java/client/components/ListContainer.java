@@ -22,6 +22,8 @@ public class ListContainer extends VBox {
     @FXML
     private TextField taskInputField;
     @FXML
+    private Button taskDeleteBtn;
+    @FXML
     private Button taskEditBtn;
     @FXML
     private TextField taskEditField;
@@ -44,9 +46,11 @@ public class ListContainer extends VBox {
      * An FXMLLoader is needed since we load an external component, from a file,
      * not an already existing one from SceneBuilder
      *
+     * @param listName the name of the new List
+     *
      * @throws RuntimeException if the FXMLLoader cannot load the component
      */
-    public ListContainer(){
+    public ListContainer(String listName){
         FXMLLoader fxmlLoader = new FXMLLoader(getClass()
                 .getResource("/client/components/ListContainer.fxml"));
         fxmlLoader.setRoot(this);
@@ -59,6 +63,7 @@ public class ListContainer extends VBox {
         }
 
         this.setMinWidth(200);
+        listNameLabel.setText(listName);
 
         setHandlers();
     }
@@ -68,8 +73,9 @@ public class ListContainer extends VBox {
      */
     private void setHandlers(){
         setAddTaskAction(addTaskBtn, taskInputField, list);
-        setShowTaskEditAction(taskEditBtn, list, taskEditField);
-        setSaveEditAction(taskEditBtn, taskEditField, list);
+        setShowTaskEditAction(taskEditBtn, taskDeleteBtn, list, taskEditField);
+        setSaveEditAction(taskEditBtn, taskDeleteBtn, taskEditField, list);
+        setDeleteAction(taskDeleteBtn, taskEditBtn, taskEditField, list);
         setListOptions(listNameLabel, listOptionsBtn, listDeleteBtn,
                 listEditBtn, listRenameField);
         setRenameList(listNameLabel, listEditBtn, listRenameField, listDeleteBtn);
@@ -99,46 +105,69 @@ public class ListContainer extends VBox {
     /**
      * Method for making task editing option visible
      *
-     * @param button    'edit' button that becomes visible
+     * @param editBtn   'edit' button that becomes visible
+     * @param delBtn    'delete' button
      * @param list      list view from which an element can be selected
      * @param textField text field to fetch task title from
      */
-    public void setShowTaskEditAction(Button button, ListView<String> list, TextField textField) {
-
+    public void setShowTaskEditAction(Button editBtn, Button delBtn, ListView<String> list,
+                                      TextField textField) {
         list.setOnContextMenuRequested(event -> {
-
             String item = list.getSelectionModel().getSelectedItem();
             if (item != null) {
-                button.setVisible(true);
+                editBtn.setVisible(true);
+                delBtn.setVisible(true);
                 textField.setVisible(true);
                 textField.setText(item);
             } else {
-                button.setVisible(false);
+                editBtn.setVisible(false);
+                delBtn.setVisible(true);
                 textField.setVisible(false);
             }
 
             event.consume();
-
         });
     }
 
     /**
      * Method for saving changes to task title
      *
-     * @param button    'edit button' that's clicked
+     * @param editBtn    'edit button' that's clicked
+     * @param delBtn    'delete button
      * @param textField text field to fetch new task title from
      * @param list      list view where the change will be presented
      */
-    public void setSaveEditAction(Button button, TextField textField, ListView<String> list) {
-        button.setOnAction(event -> {
+    public void setSaveEditAction(Button editBtn, Button delBtn, TextField textField,
+                                  ListView<String> list) {
+        editBtn.setOnAction(event -> {
             String edit = textField.getText();
             // Check if there is something selected AND if the field is not empty
             int idx = list.getSelectionModel().getSelectedIndex();
             if (idx != -1 && edit.length() >= 1) {
                 list.getItems().set(idx, edit);
-                button.setVisible(false);
+                editBtn.setVisible(false);
+                delBtn.setVisible(false);
                 textField.setVisible(false);
             }
+        });
+    }
+
+    /**
+     * Method for saving changes to task title
+     *
+     * @param deleteButton    'delete button' that's clicked
+     * @param editButton    'delete button' that's clicked
+     * @param textField text field to fetch new task title from
+     * @param list      list view where the change will be presented
+     */
+    public void setDeleteAction(Button deleteButton, Button editButton, TextField textField,
+                                ListView<String> list){
+        deleteButton.setOnAction(event -> {
+            int idx = list.getSelectionModel().getSelectedIndex();
+            list.getItems().remove(idx);
+            deleteButton.setVisible(false);
+            editButton.setVisible(false);
+            textField.setVisible(false);
         });
     }
 
@@ -179,6 +208,7 @@ public class ListContainer extends VBox {
             deleteButton.setVisible(false);
             textField.setVisible(false);
             deleteButton.setVisible(false);
+            editButton.setVisible(false);
 
             event.consume();
         });

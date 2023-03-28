@@ -10,13 +10,14 @@
    <children>
       <Label fx:id="listNameLabel" layoutX="1.0" layoutY="14.0" prefHeight="17.0" prefWidth="200.0" text="List Name" />
       <ListView fx:id="list" layoutY="31.0" prefHeight="373.0" prefWidth="200.0" />
-      <Button fx:id="addTaskBtn" layoutX="137.0" layoutY="256.0" mnemonicParsing="false" text="Add task" />
+      <Button fx:id="addTaskBtn" layoutX="137.0" layoutY="256.0" mnemonicParsing="false" text="Add Task" />
       <TextField fx:id="taskInputField" layoutY="256.0" prefHeight="25.0" prefWidth="137.0" />
-      <Button fx:id="taskEditBtn" layoutX="138.0" layoutY="292.0" mnemonicParsing="false" text="Edit task" visible="false" />
+      <Button fx:id="taskDeleteBtn" mnemonicParsing="false" text="Delete Task" visible="false" />
+      <Button fx:id="taskEditBtn" layoutX="138.0" layoutY="292.0" mnemonicParsing="false" text="Edit Task" visible="false" />
       <TextField fx:id="taskEditField" layoutY="292.0" prefHeight="25.0" prefWidth="137.0" visible="false" />
       <Button fx:id="listOptionsBtn" layoutY="335.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="87.0" text="List Options" />
-      <Button fx:id="listDeleteBtn" layoutY="360.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="87.0" text="Delete list" visible="false" />
-      <Button fx:id="listEditBtn" layoutY="385.0" mnemonicParsing="false" text="Edit list name" visible="false" />
+      <Button fx:id="listDeleteBtn" layoutY="360.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="87.0" text="Delete List" visible="false" />
+      <Button fx:id="listEditBtn" layoutY="385.0" mnemonicParsing="false" text="Edit List Name" visible="false" />
       <TextField fx:id="listRenameField" layoutY="410.0" visible="false" />
    </children>
 </fx:root>
