@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
 import java.net.URL;
@@ -18,6 +19,9 @@ public class TaskListCtrl implements Initializable {
 
     @FXML
     private HBox hBox;
+
+    @FXML
+    private TextField listTitle;
 
     /**
      * Constructor method
@@ -51,7 +55,7 @@ public class TaskListCtrl implements Initializable {
      * Creates a custom ListContainer FXML component with proper functionality
      */
     public void addNewList() {
-        ListContainer container = new ListContainer();
+        ListContainer container = new ListContainer(listTitle.getText());
         container.setParent(hBox);
         hBox.getChildren().add(container);
     }
