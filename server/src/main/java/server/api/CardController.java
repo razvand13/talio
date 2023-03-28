@@ -3,6 +3,7 @@ package server.api;
 import commons.Card;
 import commons.ListOfCards;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import server.database.CardRepository;
 import server.database.ListRepository;
@@ -77,4 +78,19 @@ public class CardController {
         return ResponseEntity.ok(card);
     }
 
+    /**
+     *
+     * @param id id of the card to be deleted
+     */
+    //@Transactional not sure if this is necessary
+    public void deleteById(long id){
+        cardRepo.deleteById(id);
+    }
+
+    /**
+     * deletes all cards form the repo
+     */
+    public void deleteAll(){
+        cardRepo.deleteAll();
+    }
 }

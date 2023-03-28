@@ -2,6 +2,7 @@ package server.api;
 
 import commons.Board;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import server.database.BoardRepository;
 
@@ -60,6 +61,21 @@ public class BoardController {
         }
         repo.save(board);
         return ResponseEntity.ok(board);
+    }
+    /**
+     *
+     * @param id id of the Board to be deleted
+     */
+    //@Transactional not sure if this is necessary
+    public void deleteById(long id){
+        repo.deleteById(id);
+    }
+
+    /**
+     * deletes all boards form the repo
+     */
+    public void deleteAll(){
+        repo.deleteAll();
     }
 
 }

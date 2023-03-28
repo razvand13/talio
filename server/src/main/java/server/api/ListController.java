@@ -1,8 +1,10 @@
 package server.api;
 
 import commons.Board;
+import commons.Card;
 import commons.ListOfCards;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import server.database.BoardRepository;
 import server.database.ListRepository;
@@ -75,5 +77,19 @@ public class ListController {
         boardWithID.addList(listOfCards);
         listRepo.save(listOfCards);
         return ResponseEntity.ok(listOfCards);
+    }
+    /**
+     *
+     * @param id id of the list to be deleted
+     */
+    //@Transactional not sure if this is necessary
+    public void deleteById(long id){
+        listRepo.deleteById(id);
+    }
+    /**
+     * deletes all lists form the repo
+     */
+    public void deleteAll(){
+        listRepo.deleteAll();
     }
 }
