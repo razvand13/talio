@@ -26,6 +26,9 @@ public class TaskListCtrl implements Initializable {
     @FXML
     private HBox hBox;
 
+    @FXML
+    private TextField listTitle;
+
     /**
      * Constructor method
      *
@@ -65,7 +68,7 @@ public class TaskListCtrl implements Initializable {
         vBox.setMinWidth(200);
 
         Label listNameLabel = new Label();
-        listNameLabel.setText("TO DO");
+        listNameLabel.setText(listTitle.getText());
 
         ObservableList<String> newObList = FXCollections.observableArrayList();
         ListView<String> newList = new ListView<>();
@@ -88,6 +91,10 @@ public class TaskListCtrl implements Initializable {
         listDeleteButton.setText("Delete list");
         listDeleteButton.setVisible(false);
 
+        Button taskDeleteButton = new Button();
+        taskDeleteButton.setText("Delete");
+        taskDeleteButton.setVisible(false);
+
         Button listEditButton = new Button();
         listEditButton.setText("Edit list name");
         listEditButton.setVisible(false);
@@ -99,6 +106,7 @@ public class TaskListCtrl implements Initializable {
         vBox.getChildren().add(newList);
         vBox.getChildren().add(addButton);
         vBox.getChildren().add(taskInputField);
+        vBox.getChildren().add(taskDeleteButton);
         vBox.getChildren().add(taskEditButton);
         vBox.getChildren().add(taskEditField);
         vBox.getChildren().add(listOptionsButton);
@@ -110,8 +118,9 @@ public class TaskListCtrl implements Initializable {
 
         //assigning action events to objects
         setAddTaskAction(addButton, taskInputField, newObList, newList);
-        setShowTaskEditAction(taskEditButton, newList, taskEditField);
-        setSaveEditAction(taskEditButton, taskEditField, newObList, newList);
+        setShowTaskEditAction(taskEditButton, taskDeleteButton, newList, taskEditField);
+        setSaveEditAction(taskEditButton, taskDeleteButton, taskEditField, newObList, newList);
+        setDeleteAction(taskDeleteButton, taskEditButton, taskEditField, newObList, newList);
         setListOptions(listNameLabel, listOptionsButton, listDeleteButton,
                 listEditButton, listRenameField);
         setRenameList(listNameLabel, listEditButton, listRenameField, listDeleteButton);
@@ -143,24 +152,26 @@ public class TaskListCtrl implements Initializable {
         });
     }
 
+
     /**
-     * Method for making task editing option visible
-     *
-     * @param button    'edit' button that becomes visible
+     * @param editButton    'edit' button that becomes visible
+     * @param deleteButton    'delete' button
      * @param list      list view from which an element can be selected
      * @param textField text field to fetch task title from
      */
-    public void setShowTaskEditAction(Button button, ListView<String> list, TextField textField) {
+    public void setShowTaskEditAction(Button editButton, Button deleteButton, ListView<String> list, TextField textField) {
 
         list.setOnContextMenuRequested(event -> {
 
             String item = list.getSelectionModel().getSelectedItem();
             if (item != null) {
-                button.setVisible(true);
+                editButton.setVisible(true);
+                deleteButton.setVisible(true);
                 textField.setVisible(true);
                 textField.setText(item);
             } else {
-                button.setVisible(false);
+                editButton.setVisible(false);
+                deleteButton.setVisible(false);
                 textField.setVisible(false);
             }
 
@@ -172,20 +183,40 @@ public class TaskListCtrl implements Initializable {
     /**
      * Method for saving changes to task title
      *
-     * @param button    'edit button' that's clicked
+     * @param editButton    'edit button' that's clicked
+     * @param deleteButton    'delete button'
      * @param textField text field to fetch new task title from
      * @param obList    observable list where the change gets saved
      * @param list      list view where the change will be presented
      */
-    public void setSaveEditAction(Button button, TextField textField,
+    public void setSaveEditAction(Button editButton, Button deleteButton, TextField textField,
                                   ObservableList<String> obList, ListView<String> list) {
-        button.setOnAction(event -> {
+        editButton.setOnAction(event -> {
             String edit = textField.getText();
             if (edit.length() >= 1) {
                 obList.set(list.getSelectionModel().getSelectedIndex(), edit);
-                button.setVisible(false);
+                editButton.setVisible(false);
+                deleteButton.setVisible(false);
                 textField.setVisible(false);
             }
+            list.setItems(obList);
+        });
+    }
+
+    /** function for saving changes to task title
+     * @param deleteButton    'delete button' that's clicked
+     * @param editButton    'delete button' that's clicked
+     * @param textField text field to fetch new task title from
+     * @param obList    observable list where the change gets saved
+     * @param list      list view where the change will be presented
+     */
+    public void setDeleteAction(Button deleteButton, Button editButton, TextField textField,
+                                ObservableList<String> obList, ListView<String> list){
+        deleteButton.setOnAction(event -> {
+            obList.remove(list.getSelectionModel().getSelectedIndex());
+            deleteButton.setVisible(false);
+            editButton.setVisible(false);
+            textField.setVisible(false);
             list.setItems(obList);
         });
     }
