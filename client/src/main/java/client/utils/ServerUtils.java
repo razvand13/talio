@@ -21,7 +21,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Scanner;
 
 import org.glassfish.jersey.client.ClientConfig;
 
@@ -32,10 +34,14 @@ import jakarta.ws.rs.core.GenericType;
 
 public class ServerUtils {
 
-    private static final String SERVER = "http://localhost:8080/";
+    private static String SERVER = "http://localhost:8080";
 
+    /**Method by Sebastian
+     *
+     * @throws IOException
+     */
     public void getQuotesTheHardWay() throws IOException {
-        var url = new URL("http://localhost:8080/api/quotes");
+        var url = new URL(SERVER+"api/quotes");
         var is = url.openConnection().getInputStream();
         var br = new BufferedReader(new InputStreamReader(is));
         String line;
@@ -44,6 +50,43 @@ public class ServerUtils {
         }
     }
 
+    /**
+     * @param address address to connect to
+     * Set the SERVER variable to the input value
+     */
+    public static void setSERVER(String address){
+        SERVER =address;
+    }
+
+    /**
+     * ask the user which port they want to connect to,
+     * iff their response isn't a number ask again,
+     * iff it is a number return the associated address
+     *
+     * @return a String of the form "http://localhost:[PORT NUMBER]/"
+     * where [PORT NUMBER] is a user-specified int
+     * */
+    public static String getAddress(){
+        //Scanner input = new Scanner(System.in);
+        System.out.println("On which port is the server?");
+        int port =0;
+        try{
+            Scanner input = new Scanner(System.in);
+            port = input.nextInt();
+        }
+
+        catch (InputMismatchException e){
+            System.out.println("please provide a number");
+            return getAddress();
+        }
+
+        return "http://localhost:" + port +"/";
+    }
+
+    /**Get method for the quotes
+     *
+     * @return a list of quotes
+     */
     public List<Quote> getQuotes() {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/quotes") //
@@ -52,6 +95,11 @@ public class ServerUtils {
                 .get(new GenericType<List<Quote>>() {});
     }
 
+    /**Add quote
+     *
+     * @param quote
+     * @return a Quote
+     */
     public Quote addQuote(Quote quote) {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/quotes") //
