@@ -130,16 +130,17 @@ public class TaskListCtrl implements Initializable {
     public void setAddTaskAction(Button button, TextField textField,
                                  ObservableList<String> obList, ListView<String> list) {
         button.setOnAction(event -> {
-            String taskInput = textField.getText();
-            if (!taskInput.equals("")) {
-                obList.add(textField.getText());
-                list.setItems(obList);
-                textField.clear();
-            }
-
-            list.setItems(obList);
-
-            event.consume();
+            mainCtrl.showAdd();
+//            String taskInput = textField.getText();
+//            if (!taskInput.equals("")) {
+//                obList.add(textField.getText());
+//                list.setItems(obList);
+//                textField.clear();
+//            }
+//
+//            list.setItems(obList);
+//
+//            event.consume();
         });
     }
 
@@ -382,6 +383,13 @@ public class TaskListCtrl implements Initializable {
     private void dragExited(ListView<String> list, DragEvent event) {
         list.setStyle("");
         event.consume();
+    }
+
+    /**
+     * method for getting data from database
+     */
+    public void refresh() {
+
     }
 
 }
