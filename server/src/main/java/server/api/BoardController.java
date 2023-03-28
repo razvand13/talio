@@ -156,26 +156,26 @@ public class BoardController {
         }
         return ResponseEntity.badRequest().build();
     }
-
-    @MessageMapping("/boards") //app/quotes -> path for basically any client (consumer)
-    @SendTo("/topic/boards")// (producer)
-    public Card addMessage(Card c, ListOfCards loc, Board board) {
-        addCard(c, loc.getId(), board.getId());
-        return c;
-    }
-
-    @MessageMapping("/boards") //app/quotes -> path for basically any client (consumer)
-    @SendTo("/topic/boards")// (producer)
-    public ListOfCards addMessage(ListOfCards loc, Board board) {
-        addList(loc, board.getId());
-        return loc;
-    }
-
-    @MessageMapping("/boards") //app/quotes -> path for basically any client (consumer)
-    @SendTo("/topic/boards")// (producer)
-    public Board addMessage(Board board) {
-        addBoard(board);
-        return board;
-    }
+//
+//    @MessageMapping("/boards") //app/quotes -> path for basically any client (consumer)
+//    @SendTo("/topic/boards")// (producer)
+//    public Card addMessage(Card c, ListOfCards loc, Board board) {
+//        addCard(c, loc.getId(), board.getId());
+//        return c;
+//    }
+//
+//    @MessageMapping("/boards") //app/quotes -> path for basically any client (consumer)
+//    @SendTo("/topic/boards")// (producer)
+//    public ListOfCards addMessage(ListOfCards loc, Board board) {
+//        addList(loc, board.getId());
+//        return loc;
+//    }
+//
+//    @MessageMapping("/boards") //app/quotes -> path for basically any client (consumer)
+//    @SendTo("/topic/boards")// (producer)
+//    public Board addMessage(Board board) {
+//        addBoard(board);
+//        return board;
+//    }
 
 }

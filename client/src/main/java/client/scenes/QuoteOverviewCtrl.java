@@ -74,7 +74,7 @@ public class QuoteOverviewCtrl implements Initializable {
         mainCtrl.showServerConnect();
     }
 
-    public void firstTimeSetUp(){
+    public void firstTimeSetUp0(){
         server.setSession();
         server.registerForMessages("/topic/quotes", Quote.class, q -> {
             data.add(q);

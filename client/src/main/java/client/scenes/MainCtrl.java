@@ -53,7 +53,7 @@ public class MainCtrl {
     }
 
     public void showOverview() {
-        overviewCtrl.firstTimeSetUp();
+        overviewCtrl.firstTimeSetUp0();
         primaryStage.setTitle("Quotes: Overview");
         primaryStage.setScene(overview);
         overviewCtrl.refresh();

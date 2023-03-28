@@ -30,15 +30,13 @@ public class ListOfCards implements Serializable {
     private Board board;
 
     @SuppressWarnings("unused")
-    private ListOfCards() {
+    public ListOfCards() {
         // for object mapper
     }
 
     public ListOfCards(String name, Board board) {
         this.name = name;
         this.board = board;
-
-
     }
 
     @Override
@@ -61,6 +59,7 @@ public class ListOfCards implements Serializable {
     public long getId() {
         return id;
     }
+
 
     /**
      * simple getter

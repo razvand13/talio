@@ -59,10 +59,6 @@ public class ListController {
     @PostMapping
     public ResponseEntity<ListOfCards> add(@RequestBody ListOfCards listOfCards, long boardId){
 
-        if(listOfCards == null){
-            return ResponseEntity.badRequest().build();
-        }
-
         //there already exists a list with this id
         if(listRepo.existsById(listOfCards.getId())){
             return ResponseEntity.badRequest().build();
@@ -82,8 +78,8 @@ public class ListController {
 
     @MessageMapping("/list") //app/quotes -> path for basically any client (consumer)
     @SendTo("/topic/list")// (producer)
-    public Card addMessage(Card c, long listId) {
-        add(c, listId);
-        return c;
+    public ListOfCards addMessage(ListOfCards loc, long boardId) {
+        add(loc, boardId);
+        return loc;
     }
 }

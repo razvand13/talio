@@ -141,16 +141,25 @@ public class TaskListCtrl implements Initializable {
         button.setOnAction(event -> {
             setTaskInput(textField.getText());
             if (!taskInput.equals("")) {
-                server.send("/app/boards/{boardID}/{listId}", getCard());
+                server.send("/app/cards", getCard());
                 textField.clear();
             }
             event.consume();
         });
     }
 
-    private Card getCard() {
-        return new Card(taskInput, "", "", listOfCards);
+    public Card getCard() {
+        return new Card(taskInput, "", "", null);
     }
+
+    public void firstTimeSetUp(){
+        server.setSession();
+        server.registerForMessages("/topic/cards", Card.class, c -> {
+            list.getItems.add(c);
+        });
+    }
+
+
 
     /**
      * Method for making task editing option visible

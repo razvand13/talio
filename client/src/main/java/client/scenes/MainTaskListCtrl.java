@@ -30,6 +30,7 @@ public class MainTaskListCtrl {
     /**Method for displaying TaskListView.fxml
      */
     public void showTaskListView() {
+        taskListCtrl.firstTimeSetUp();
         primaryStage.setTitle("Task List");
         primaryStage.setScene(taskList);
     }

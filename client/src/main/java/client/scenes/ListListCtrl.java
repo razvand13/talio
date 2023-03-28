@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.utils.OurServerUtils;
+import commons.Board;
 import commons.ListOfCards;
 import com.google.inject.Inject;
 import javafx.collections.FXCollections;
@@ -27,17 +28,17 @@ public class ListListCtrl implements Initializable{
     @FXML
     private Button editButton;
 
-    private long boardId;
+    private Board board;
 
     ObservableList<String> list = FXCollections.observableArrayList();
 
     ObservableList<ListOfCards> listList = FXCollections.observableArrayList();
 
     @Inject
-    public ListListCtrl(OurServerUtils server, MainCtrl mainCtrl, long boardId) {
+    public ListListCtrl(OurServerUtils server, MainCtrl mainCtrl, Board board) {
         this.server = server;
         this.mainCtrl = mainCtrl;
-        this.boardId = boardId;
+        this.board = board;
     }
 
     @Override
@@ -61,8 +62,7 @@ public class ListListCtrl implements Initializable{
 
     private ListOfCards getList() {
         String name = "null";
-        long b = boardId;
-        return new ListOfCards(name, b);
+        return new ListOfCards(name, board);
     }
 
     public void removeList(){

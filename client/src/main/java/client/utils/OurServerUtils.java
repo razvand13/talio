@@ -136,6 +136,7 @@ public class OurServerUtils {
      */
     private StompSession session;
     public void setSession(){
+        System.out.println("This works");
         session = connect("ws"+ SERVER.substring(4) + "websocket");
     }
 
