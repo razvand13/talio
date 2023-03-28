@@ -1,7 +1,7 @@
 package client.scenes;
 
+import client.utils.OurServerUtils;
 import commons.ListOfCards;
-import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 
 public class ListListCtrl implements Initializable{
 
-    private final ServerUtils server;
+    private final OurServerUtils server;
     private final MainCtrl mainCtrl;
     @FXML
     private TextField editTextInput;
@@ -27,14 +27,17 @@ public class ListListCtrl implements Initializable{
     @FXML
     private Button editButton;
 
+    private long boardId;
+
     ObservableList<String> list = FXCollections.observableArrayList();
 
     ObservableList<ListOfCards> listList = FXCollections.observableArrayList();
 
     @Inject
-    public ListListCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public ListListCtrl(OurServerUtils server, MainCtrl mainCtrl, long boardId) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+        this.boardId = boardId;
     }
 
     @Override
@@ -51,14 +54,15 @@ public class ListListCtrl implements Initializable{
     /** Adding a new List to the List of Lists
      *
      */
-    public void addNew(){
-        String input = textInput.getText();
-        if(input != null || input.length() < 1) {
-            listList.add(new ListOfCards(textInput.getText(), null));
-            list.add(input);
-        }
-        textInput.clear();
-        refresh();
+    public void addNewList(){
+        server.send("/app/boards", getList());
+        mainCtrl.showOverview();
+    }
+
+    private ListOfCards getList() {
+        String name = "null";
+        long b = boardId;
+        return new ListOfCards(name, b);
     }
 
     public void removeList(){
@@ -71,7 +75,12 @@ public class ListListCtrl implements Initializable{
         refresh();
     }
 
-
+    public void firstTimeSetUp(){
+        server.setSession();
+        server.registerForMessages("/topic/boards", ListOfCards.class, loc -> {
+            listList.add(loc);
+        });
+    }
 
 
 }

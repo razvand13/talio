@@ -3,6 +3,8 @@ package server.api;
 import commons.Card;
 import commons.ListOfCards;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 import server.database.CardRepository;
 import server.database.ListRepository;
@@ -75,6 +77,13 @@ public class CardController {
         listWithId.addCard(card);
         cardRepo.save(card);
         return ResponseEntity.ok(card);
+    }
+
+    @MessageMapping("/cards") //app/quotes -> path for basically any client (consumer)
+    @SendTo("/topic/cards")// (producer)
+    public Card addMessage(Card c, long listId) {
+        add(c, listId);
+        return c;
     }
 
 }

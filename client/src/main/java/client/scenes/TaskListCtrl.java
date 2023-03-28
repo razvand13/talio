@@ -1,7 +1,9 @@
 package client.scenes;
 
-import client.utils.ServerUtils;
+import client.utils.OurServerUtils;
 import com.google.inject.Inject;
+import commons.Card;
+import commons.ListOfCards;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,8 +22,11 @@ import java.util.ResourceBundle;
 
 public class TaskListCtrl implements Initializable {
 
-    private final ServerUtils server;
+    private final OurServerUtils server;
     private final MainTaskListCtrl mainCtrl;
+
+    private ListOfCards listOfCards;
+    private String taskInput;
 
     @FXML
     private HBox hBox;
@@ -33,7 +38,7 @@ public class TaskListCtrl implements Initializable {
      * @param mainCtrl main controller
      */
     @Inject
-    public TaskListCtrl(ServerUtils server, MainTaskListCtrl mainCtrl) {
+    public TaskListCtrl(OurServerUtils server, MainTaskListCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
@@ -119,6 +124,10 @@ public class TaskListCtrl implements Initializable {
         setDragAndDrop(newList);
     }
 
+    public void setTaskInput(String textField) {
+        this.taskInput = textField;
+    }
+
     /**
      * Method for adding a new task to a list
      *
@@ -130,17 +139,17 @@ public class TaskListCtrl implements Initializable {
     public void setAddTaskAction(Button button, TextField textField,
                                  ObservableList<String> obList, ListView<String> list) {
         button.setOnAction(event -> {
-            String taskInput = textField.getText();
+            setTaskInput(textField.getText());
             if (!taskInput.equals("")) {
-                obList.add(textField.getText());
-                list.setItems(obList);
+                server.send("/app/boards/{boardID}/{listId}", getCard());
                 textField.clear();
             }
-
-            list.setItems(obList);
-
             event.consume();
         });
+    }
+
+    private Card getCard() {
+        return new Card(taskInput, "", "", listOfCards);
     }
 
     /**

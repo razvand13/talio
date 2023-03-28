@@ -17,20 +17,18 @@ package client.utils;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.net.URL;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
+import commons.Board;
+import commons.Card;
+import commons.ListOfCards;
 import org.glassfish.jersey.client.ClientConfig;
 
-import commons.Quote;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
@@ -39,22 +37,11 @@ import org.springframework.messaging.simp.stomp.*;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
-public class ServerUtils {
+public class OurServerUtils {
 
 
     private static String SERVER = "http://localhost:8080";
-    private static String port = "8080";
 
-
-    public void getQuotesTheHardWay() throws IOException {
-        var url = new URL(SERVER+"api/quotes");
-        var is = url.openConnection().getInputStream();
-        var br = new BufferedReader(new InputStreamReader(is));
-        String line;
-        while ((line = br.readLine()) != null) {
-            System.out.println(line);
-        }
-    }
 
     /**
      * @param address address to connect to
@@ -68,7 +55,6 @@ public class ServerUtils {
      * trying to connect websocket without hardcoding
      */
     public static void setPort(String address) {
-        port = address;
     }
 
     /**
@@ -96,36 +82,57 @@ public class ServerUtils {
         return "http://localhost:" + port +"/";
     }
 
-    public List<Quote> getQuotes() {
+    public List<Board> getBoards() {
         return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/quotes") //
+                .target(SERVER).path("api/boards") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .get(new GenericType<List<Quote>>() {});
+                .get(new GenericType<List<Board>>() {});
     }
 
-    public Quote addQuote(Quote quote) {
+    public Board addBoard(Board board) {
         return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/quotes") //
+                .target(SERVER).path("api/boards") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
+                .post(Entity.entity(board, APPLICATION_JSON), Board.class);
     }
 
-    /**
-     * trying to connect to the user input port
-     * @return
-     */
-//    private String getPort() {
-//        String port = getSERVER();
-//        port = port.substring(16);
-//        System.out.println(port);
-//        return port;
-//    }
+    public ListOfCards addList(ListOfCards myList) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/boards/{id}") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(myList, APPLICATION_JSON), ListOfCards.class);
+    }
+
+    public List<ListOfCards> getLists() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/boards") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<List<ListOfCards>>() {});
+    }
+
+    public Card addCard(Card card) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/boards/{boardID}/{listId}") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(card, APPLICATION_JSON), Card.class);
+    }
+
+    public List<Card> getCards() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/boards") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<List<Card>>() {});
+    }
 
 
     /**
-     * setup for stomp session port, occurs after server is set-up
+     * setup for stomp session port, occurs after server is set up
      */
     private StompSession session;
     public void setSession(){
@@ -160,6 +167,7 @@ public class ServerUtils {
             }
         });
     }
+
 
     public void send(String dest, Object o) {
         session.send(dest, o);

@@ -5,6 +5,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 //import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 import javax.persistence.Entity;
@@ -14,6 +15,7 @@ import javax.persistence.Entity;
 @Entity
 @Table(name="lists")
 public class ListOfCards implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(unique = true)
@@ -25,7 +27,7 @@ public class ListOfCards implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "board_id", nullable = false)
-    public Board board;
+    private Board board;
 
     @SuppressWarnings("unused")
     private ListOfCards() {
@@ -35,38 +37,21 @@ public class ListOfCards implements Serializable {
     public ListOfCards(String name, Board board) {
         this.name = name;
         this.board = board;
+
+
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         ListOfCards that = (ListOfCards) o;
-
-        if (id != that.id) return false;
-        if (!name.equals(that.name)) return false;
-        if (!cards.equals(that.cards)) return false;
-        return board.equals(that.board);
+        return getId() == that.getId() && Objects.equals(name, that.name) && Objects.equals(getCards(), that.getCards()) && Objects.equals(board, that.board);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + name.hashCode();
-        result = 31 * result + cards.hashCode();
-        result = 31 * result + board.hashCode();
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "ListOfCards{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", cards=" + cards +
-                ", board=" + board +
-                '}';
+        return Objects.hash(getId(), name, getCards(), board);
     }
 
     /**

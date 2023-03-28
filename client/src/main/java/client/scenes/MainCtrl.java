@@ -67,7 +67,7 @@ public class MainCtrl {
     }
 
     public void showServerConnect() {
-        primaryStage.setTitle("Choose a port");
-        primaryStage.setScene(serverConnect);
+            primaryStage.setTitle("Choose a port");
+            primaryStage.setScene(serverConnect);
     }
 }
