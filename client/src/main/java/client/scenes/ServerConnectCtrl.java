@@ -10,6 +10,8 @@ public class ServerConnectCtrl {
 
     @FXML
     private TextField port;
+    @FXML
+    private TextField address;
 
     @Inject
     public ServerConnectCtrl(MainCtrl mainCtrl) {
@@ -18,9 +20,10 @@ public class ServerConnectCtrl {
 
 
     public void connect(){
-        String input = port.getText();
-        client.utils.ServerUtils.setSERVER("http://localhost:"+input+"/");
-        client.utils.ServerUtils.setPort(input);
+        String portInput = port.getText();
+        String addressInput = address.getText();
+        client.utils.ServerUtils.setSERVER("http://"+ addressInput+ ":" +portInput+"/");
+        client.utils.ServerUtils.setPort(portInput);
         mainCtrl.showOverview();
     }
 
