@@ -56,28 +56,23 @@ public class TaskListCtrl implements Initializable {
      * Creates a custom ListContainer FXML component with proper functionality
      */
     public void addNewList() {
+
         // Don't allow empty names, use default
         String listName = listTitle.getText();
         if (listName.equals("")) listName = "ToDo";
 
-        ListContainer container = new ListContainer(listName, server);
+        ListContainer container = new ListContainer(listName, server, mainCtrl);
 
         // Reset text
         listTitle.setText("ToDo");
 
         container.setParent(hBox);
         hBox.getChildren().add(container);
-    }
 
-    public Card getCard() {
-      //  return new Card(taskInput, "", "", null);
-        return null;
-    }
-
-    public void firstTimeSetUp(){
         server.setSession();
+        System.out.println("NEW LSIT WEBSOCKET");
         server.registerForMessages("/topic/cards", Card.class, c -> {
-           // list.getItems.add(c);
+            container.getList().getItems().add(c.title);
         });
     }
 

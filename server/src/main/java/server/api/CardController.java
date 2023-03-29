@@ -58,6 +58,8 @@ public class CardController {
      */
     @PostMapping(path ={"","/"})
     public ResponseEntity<Card> add(@RequestBody Card card, long listId) {
+        System.out.println("CARDDD iwth id");
+
 
         if(card == null){
             return ResponseEntity.badRequest().build();
@@ -79,11 +81,36 @@ public class CardController {
         return ResponseEntity.ok(card);
     }
 
-    @MessageMapping("/cards") //app/quotes -> path for basically any client (consumer)
+    @MessageMapping("/cards") //app/cards -> path for basically any client (consumer)
     @SendTo("/topic/cards")// (producer)
     public Card addMessage(Card c, long listId) {
         add(c, listId);
         return c;
     }
+
+    @MessageMapping("/cards") //app/cards -> path for basically any client (consumer)
+    @SendTo("/topic/cards")// (producer)
+    public Card addMessage(Card c) {
+        add(c);
+        return c;
+    }
+
+    @PostMapping(path ={"","/"})
+    public ResponseEntity<Card> add(@RequestBody Card card) {
+        System.out.println("CARDDD");
+
+        if(card == null){
+            return ResponseEntity.badRequest().build();
+        }
+
+        //there already exists a card with this id
+        if(cardRepo.existsById(card.getId())){
+            return ResponseEntity.badRequest().build();
+        }
+
+        cardRepo.save(card);
+        return ResponseEntity.ok(card);
+    }
+
 
 }

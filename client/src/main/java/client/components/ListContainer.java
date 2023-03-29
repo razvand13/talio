@@ -1,8 +1,8 @@
 package client.components;
 
+import client.scenes.MainTaskListCtrl;
 import client.utils.OurServerUtils;
 import commons.Card;
-import commons.ListOfCards;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -14,6 +14,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+
+
 
 public class ListContainer extends VBox {
     @FXML
@@ -40,6 +42,8 @@ public class ListContainer extends VBox {
     private TextField listRenameField;
     private final OurServerUtils server;
 
+    private final MainTaskListCtrl mainCtrl;
+
 
 
     // Since deletion references the list's parent, we need
@@ -54,10 +58,12 @@ public class ListContainer extends VBox {
      *
      * @param listName the name of the new List
      * @param server
+     * @param mainCtrl
      * @throws RuntimeException if the FXMLLoader cannot load the component
      */
-    public ListContainer(String listName, OurServerUtils server){
+    public ListContainer(String listName, OurServerUtils server, MainTaskListCtrl mainCtrl){
         this.server = server;
+        this.mainCtrl = mainCtrl;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass()
                 .getResource("/client/components/ListContainer.fxml"));
         fxmlLoader.setRoot(this);
@@ -102,12 +108,25 @@ public class ListContainer extends VBox {
             String taskInput = textField.getText();
             if (!taskInput.equals("")) {
                 list.getItems().add(taskInput);
+                server.setSession();
+                server.send("/app/cards", new Card(taskInput, null, null, null));
+                server.registerForMessages("/topic/cards", Card.class, c -> {
+                    list.getItems().add(c.title);
+                });
                 textField.clear();
+                mainCtrl.showTaskListView();
             }
 
             event.consume();
         });
     }
+
+//    public void firstTimeSetUp(){
+//        server.setSession();
+//        server.registerForMessages("/topic/cards", Card.class, c -> {
+//            list.getItems().add(c.title);
+//        });
+//    }
 
 
     /**
