@@ -1,20 +1,20 @@
 package server.api;
 
-import commons.ListOfCards;
+import commons.Card;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
-import server.database.ListRepository;
+import server.database.CardRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class TestListRepository implements ListRepository {
-    public final List<ListOfCards> lists = new ArrayList<>();
+public class TestCardRepository implements CardRepository {
+    public final List<Card> cards = new ArrayList<>();
     public final List<String> calledMethods = new ArrayList<>();
 
     private void call(String name){
@@ -22,32 +22,32 @@ public class TestListRepository implements ListRepository {
     }
 
     @Override
-    public List<ListOfCards> findAll() {
+    public List<Card> findAll() {
         calledMethods.add("findAll");
-        return lists;
+        return cards;
     }
 
     @Override
-    public List<ListOfCards> findAll(Sort sort) {
+    public List<Card> findAll(Sort sort) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Page<ListOfCards> findAll(Pageable pageable) {
+    public Page<Card> findAll(Pageable pageable) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<ListOfCards> findAllById(Iterable<Long> longs) {
+    public List<Card> findAllById(Iterable<Long> longs) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public long count() {
-        return lists.size();
+        return cards.size();
     }
 
     @Override
@@ -56,7 +56,7 @@ public class TestListRepository implements ListRepository {
     }
 
     @Override
-    public void delete(ListOfCards entity) {
+    public void delete(Card entity) {
         // TODO Auto-generated method stub
     }
 
@@ -66,7 +66,7 @@ public class TestListRepository implements ListRepository {
     }
 
     @Override
-    public void deleteAll(Iterable<? extends ListOfCards> entities) {
+    public void deleteAll(Iterable<? extends Card> entities) {
         // TODO Auto-generated method stub
     }
 
@@ -76,21 +76,21 @@ public class TestListRepository implements ListRepository {
     }
 
     @Override
-    public <S extends ListOfCards> S save(S entity) {
+    public <S extends Card> S save(S entity) {
         call("save");
-        entity.id = (long) lists.size();
-        lists.add(entity);
+        entity.id = (long) cards.size();
+        cards.add(entity);
         return entity;
     }
 
     @Override
-    public <S extends ListOfCards> List<S> saveAll(Iterable<S> entities) {
+    public <S extends Card> List<S> saveAll(Iterable<S> entities) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Optional<ListOfCards> findById(Long aLong) {
+    public Optional<Card> findById(Long aLong) {
         // TODO Auto-generated method stub
         return Optional.empty();
     }
@@ -101,8 +101,8 @@ public class TestListRepository implements ListRepository {
         return find(id).isPresent();
     }
 
-    private Optional<ListOfCards> find(long id){
-        return lists.stream().filter(l -> l.id ==id).findFirst();
+    private Optional<Card> find(long id){
+        return cards.stream().filter(c -> c.id ==id).findFirst();
     }
 
     @Override
@@ -111,19 +111,19 @@ public class TestListRepository implements ListRepository {
     }
 
     @Override
-    public <S extends ListOfCards> S saveAndFlush(S entity) {
+    public <S extends Card> S saveAndFlush(S entity) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public <S extends ListOfCards> List<S> saveAllAndFlush(Iterable<S> entities) {
+    public <S extends Card> List<S> saveAllAndFlush(Iterable<S> entities) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public void deleteAllInBatch(Iterable<ListOfCards> entities) {
+    public void deleteAllInBatch(Iterable<Card> entities) {
         // TODO Auto-generated method stub
     }
 
@@ -138,55 +138,55 @@ public class TestListRepository implements ListRepository {
     }
 
     @Override
-    public ListOfCards getOne(Long aLong) {
+    public Card getOne(Long aLong) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public ListOfCards getById(Long id) {
+    public Card getById(Long id) {
         call("getById");
         return find(id).get();
     }
 
     @Override
-    public <S extends ListOfCards> Optional<S> findOne(Example<S> example) {
+    public <S extends Card> Optional<S> findOne(Example<S> example) {
         // TODO Auto-generated method stub
         return Optional.empty();
     }
 
     @Override
-    public <S extends ListOfCards> List<S> findAll(Example<S> example) {
+    public <S extends Card> List<S> findAll(Example<S> example) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public <S extends ListOfCards> List<S> findAll(Example<S> example, Sort sort) {
+    public <S extends Card> List<S> findAll(Example<S> example, Sort sort) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public <S extends ListOfCards> Page<S> findAll(Example<S> example, Pageable pageable) {
+    public <S extends Card> Page<S> findAll(Example<S> example, Pageable pageable) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public <S extends ListOfCards> long count(Example<S> example) {
+    public <S extends Card> long count(Example<S> example) {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public <S extends ListOfCards> boolean exists(Example<S> example) {
+    public <S extends Card> boolean exists(Example<S> example) {
         // TODO Auto-generated method stub
         return false;
     }
 
     @Override
-    public <S extends ListOfCards, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
+    public <S extends Card, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
         // TODO Auto-generated method stub
         return null;
     }

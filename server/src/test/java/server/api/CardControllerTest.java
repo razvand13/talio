@@ -13,14 +13,14 @@ import static org.springframework.http.HttpStatus.OK;
 
 public class CardControllerTest {
     TestListRepository listRepo;
-    TestCardRepositrory cardRepo;
+    TestCardRepository cardRepo;
     CardController controller;
     ListOfCards thisList;
 
     @BeforeEach
     public void setup() {
         listRepo = new TestListRepository();
-        cardRepo = new TestCardRepositrory();
+        cardRepo = new TestCardRepository();
         controller = new CardController(cardRepo, listRepo);
         thisList = new ListOfCards("name", new Board("name", "colour"));
         thisList.id = 0;
