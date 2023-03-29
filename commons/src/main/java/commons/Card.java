@@ -54,7 +54,7 @@ public class Card implements Serializable {
         if (id != card.id) return false;
         if (!title.equals(card.title)) return false;
         if (!description.equals(card.description)) return false;
-        if (!tags.equals(card.tags)) return false;
+//        if (!tags.equals(card.tags)) return false;
         if (!color.equals(card.color)) return false;
         return list.equals(card.list);
     }
@@ -64,7 +64,7 @@ public class Card implements Serializable {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + title.hashCode();
         result = 31 * result + description.hashCode();
-        result = 31 * result + tags.hashCode();
+//        result = 31 * result + tags.hashCode();
         result = 31 * result + color.hashCode();
         result = 31 * result + list.hashCode();
         return result;

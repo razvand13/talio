@@ -32,18 +32,42 @@ class CardTest {
         equalCard = new Card("title", "desc", "color",list1);
         diffCard = new Card("diffTitle", "diffDesc", "diffColor", list2);
         card.id = myId;
+        equalCard.id = myId;
+        diffCard.id = myId;
+    }
 
+    @Test
+    void testNotNull(){
+        assertNotNull(card);
+    }
+
+    @Test
+    void testEqualsSame(){
+        assertEquals(card, sameCard);
     }
 
     @Test
     void testEquals() {
+        assertEquals(card, equalCard);
+    }
+
+    @Test
+    void testNotEqual(){
+        assertNotEquals(card, diffCard);
     }
 
     @Test
     void testHashCode() {
+        assertEquals(card.hashCode(), equalCard.hashCode());
+    }
+
+    @Test
+    void testHashCodeSame(){
+        assertEquals(card.hashCode(), sameCard.hashCode());
     }
 
     @Test
     void testToString() {
+        // todo
     }
 }

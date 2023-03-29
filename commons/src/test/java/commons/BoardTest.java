@@ -22,7 +22,6 @@ class BoardTest {
         equalBoard = new Board("title", "color");
         diffBoard = new Board("another title", "another color");
         board.id = myId;
-        sameBoard.id = myId;
         equalBoard.id = myId;
         diffBoard.id = myId;
     }

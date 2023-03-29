@@ -5,6 +5,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 //import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 import javax.persistence.Entity;
 //import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -15,7 +16,7 @@ import javax.persistence.Entity;
 public class Tag implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public String id;
+    public long id;
     public String nameOfTag;
     public String color;
 
@@ -40,19 +41,20 @@ public class Tag implements Serializable{
 
         Tag tag = (Tag) o;
 
-        if (!id.equals(tag.id)) return false;
+        if (id != tag.id) return false;
         if (!nameOfTag.equals(tag.nameOfTag)) return false;
         if (!color.equals(tag.color)) return false;
         return card.equals(tag.card);
     }
 
+    /**
+     * Hashcode method for the object
+     *
+     * @return the hash value
+     */
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + nameOfTag.hashCode();
-        result = 31 * result + color.hashCode();
-        result = 31 * result + card.hashCode();
-        return result;
+        return Objects.hash(id, nameOfTag, color, card);
     }
 
     @Override
