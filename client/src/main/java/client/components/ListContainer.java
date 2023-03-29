@@ -1,5 +1,6 @@
 package client.components;
 
+import client.scenes.MainTaskListCtrl;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -40,6 +41,8 @@ public class ListContainer extends VBox {
     // a reference to it inside the container object
     private HBox parent;
 
+    private final MainTaskListCtrl mainCtrl;
+
 
     /**
      * Constructor for the custom FXML component
@@ -47,14 +50,16 @@ public class ListContainer extends VBox {
      * not an already existing one from SceneBuilder
      *
      * @param listName the name of the new List
+     * @param mainCtrl MainTaskListCtrl that is referenced when switching scenes
      *
      * @throws RuntimeException if the FXMLLoader cannot load the component
      */
-    public ListContainer(String listName){
+    public ListContainer(String listName, MainTaskListCtrl mainCtrl){
         FXMLLoader fxmlLoader = new FXMLLoader(getClass()
                 .getResource("/client/components/ListContainer.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
+        this.mainCtrl = mainCtrl;
 
         try {
             fxmlLoader.load();
@@ -92,11 +97,13 @@ public class ListContainer extends VBox {
      */
     public void setAddTaskAction(Button button, TextField textField, ListView<String> list) {
         button.setOnAction(event -> {
-            String taskInput = textField.getText();
-            if (!taskInput.equals("")) {
-                list.getItems().add(taskInput);
-                textField.clear();
-            }
+            mainCtrl.showAdd();
+            //once the database connection works properly, this can be deleted
+//            String taskInput = textField.getText();
+//            if (!taskInput.equals("")) {
+//                list.getItems().add(taskInput);
+//                textField.clear();
+//            }
 
             event.consume();
         });

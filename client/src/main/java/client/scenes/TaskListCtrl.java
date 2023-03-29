@@ -59,7 +59,7 @@ public class TaskListCtrl implements Initializable {
         String listName = listTitle.getText();
         if(listName.equals("")) listName = "ToDo";
 
-        ListContainer container = new ListContainer(listName);
+        ListContainer container = new ListContainer(listName, mainCtrl);
 
         // Reset text
         listTitle.setText("ToDo");
@@ -67,5 +67,13 @@ public class TaskListCtrl implements Initializable {
         container.setParent(hBox);
         hBox.getChildren().add(container);
     }
+
+    /**
+     * Method for retrieving data from database
+     */
+    public void refresh() {
+        //needs to be implemented
+    }
+
 
 }

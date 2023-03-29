@@ -5,6 +5,7 @@ import static com.google.inject.Guice.createInjector;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import client.scenes.AddCardCtrl;
 import client.scenes.MainTaskListCtrl;
 import client.scenes.TaskListCtrl;
 import com.google.inject.Injector;
@@ -16,7 +17,8 @@ public class TaskListMain extends Application {
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
 
-    /**Main method for initialization
+    /**
+     * Main method for initialization
      *
      * @param args command line arguments
      * @throws URISyntaxException exception if string can't be parsed
@@ -27,6 +29,7 @@ public class TaskListMain extends Application {
     }
 
     /**
+     * Method for setting scenes and the main controller
      *
      * @param primaryStage the primary stage for this application, onto which
      * the application scene can be set.
@@ -39,9 +42,10 @@ public class TaskListMain extends Application {
 
         var taskList = FXML.load(TaskListCtrl.class, "client", "scenes", "TaskListView.fxml");
 
+        var addCard = FXML.load(AddCardCtrl.class, "client", "scenes", "AddCard.fxml");
+
         var mainTaskCtrl = INJECTOR.getInstance(MainTaskListCtrl.class);
 
-
-        mainTaskCtrl.initialize(primaryStage, taskList);
+        mainTaskCtrl.initialize(primaryStage, taskList, addCard);
     }
 }
