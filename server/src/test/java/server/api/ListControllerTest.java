@@ -4,7 +4,6 @@ import commons.Board;
 import commons.ListOfCards;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.context.annotation.EnableLoadTimeWeaving;
 
 import java.util.ArrayList;
 import java.util.Arrays;
