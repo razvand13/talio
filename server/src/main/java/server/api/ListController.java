@@ -1,7 +1,6 @@
 package server.api;
 
 import commons.Board;
-import commons.Card;
 import commons.ListOfCards;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -76,8 +75,8 @@ public class ListController {
         return ResponseEntity.ok(listOfCards);
     }
 
-    @MessageMapping("/list") //app/quotes -> path for basically any client (consumer)
-    @SendTo("/topic/list")// (producer)
+    @MessageMapping("/lists") //app/quotes -> path for basically any client (consumer)
+    @SendTo("/topic/lists")// (producer)
     public ListOfCards addMessage(ListOfCards loc, long boardId) {
         add(loc, boardId);
         return loc;

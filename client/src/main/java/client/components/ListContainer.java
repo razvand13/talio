@@ -1,5 +1,8 @@
 package client.components;
 
+import client.utils.OurServerUtils;
+import commons.Card;
+import commons.ListOfCards;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -35,6 +38,9 @@ public class ListContainer extends VBox {
     private Button listEditBtn;
     @FXML
     private TextField listRenameField;
+    private final OurServerUtils server;
+
+
 
     // Since deletion references the list's parent, we need
     // a reference to it inside the container object
@@ -47,10 +53,11 @@ public class ListContainer extends VBox {
      * not an already existing one from SceneBuilder
      *
      * @param listName the name of the new List
-     *
+     * @param server
      * @throws RuntimeException if the FXMLLoader cannot load the component
      */
-    public ListContainer(String listName){
+    public ListContainer(String listName, OurServerUtils server){
+        this.server = server;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass()
                 .getResource("/client/components/ListContainer.fxml"));
         fxmlLoader.setRoot(this);
@@ -101,6 +108,7 @@ public class ListContainer extends VBox {
             event.consume();
         });
     }
+
 
     /**
      * Method for making task editing option visible

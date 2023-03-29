@@ -1,8 +1,9 @@
 package client.scenes;
 
 import client.components.ListContainer;
-import client.utils.ServerUtils;
+import client.utils.OurServerUtils;
 import com.google.inject.Inject;
+import commons.Card;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -14,7 +15,7 @@ import java.util.ResourceBundle;
 
 public class TaskListCtrl implements Initializable {
 
-    private final ServerUtils server;
+    private final OurServerUtils server;
     private final MainTaskListCtrl mainCtrl;
 
     @FXML
@@ -30,7 +31,7 @@ public class TaskListCtrl implements Initializable {
      * @param mainCtrl main controller
      */
     @Inject
-    public TaskListCtrl(ServerUtils server, MainTaskListCtrl mainCtrl) {
+    public TaskListCtrl(OurServerUtils server, MainTaskListCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
@@ -55,19 +56,28 @@ public class TaskListCtrl implements Initializable {
      * Creates a custom ListContainer FXML component with proper functionality
      */
     public void addNewList() {
-        ListContainer container = new ListContainer(listTitle.getText());
+        // Don't allow empty names, use default
+        String listName = listTitle.getText();
+        if (listName.equals("")) listName = "ToDo";
+
+        ListContainer container = new ListContainer(listName, server);
+
+        // Reset text
+        listTitle.setText("ToDo");
+
         container.setParent(hBox);
         hBox.getChildren().add(container);
     }
 
     public Card getCard() {
-        return new Card(taskInput, "", "", null);
+      //  return new Card(taskInput, "", "", null);
+        return null;
     }
 
     public void firstTimeSetUp(){
         server.setSession();
         server.registerForMessages("/topic/cards", Card.class, c -> {
-            list.getItems.add(c);
+           // list.getItems.add(c);
         });
     }
 

@@ -47,7 +47,7 @@ public class AddQuoteCtrl {
 
     public void cancel() {
         clearFields();
-        mainCtrl.showOverview();
+        mainCtrl.showOverview0();
     }
 
     public void ok() {
@@ -65,7 +65,7 @@ public class AddQuoteCtrl {
         server.send("/app/quotes", getQuote());
 
         clearFields();
-        mainCtrl.showOverview();
+        mainCtrl.showOverview0();
     }
 
     private Quote getQuote() {
@@ -93,8 +93,8 @@ public class AddQuoteCtrl {
         }
     }
 
-    public void firstTimeSetUp(){
-        server.setSession();
-    }
+//    public void firstTimeSetUp(){
+//        server.setSession();
+//    }
 
 }

@@ -52,15 +52,15 @@ public class MainCtrl {
         primaryStage.show();
     }
 
-    public void showOverview() {
-        overviewCtrl.firstTimeSetUp0();
+    public void showOverview0() {
+       // overviewCtrl.firstTimeSetUp0();
         primaryStage.setTitle("Quotes: Overview");
         primaryStage.setScene(overview);
         overviewCtrl.refresh();
     }
 
     public void showAdd() {
-        addCtrl.firstTimeSetUp();
+       // addCtrl.firstTimeSetUp();
         primaryStage.setTitle("Quotes: Adding Quote");
         primaryStage.setScene(add);
         add.setOnKeyPressed(e -> addCtrl.keyPressed(e));

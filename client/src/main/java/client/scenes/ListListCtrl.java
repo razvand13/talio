@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.Main;
 import client.utils.OurServerUtils;
 import commons.Board;
 import commons.ListOfCards;
@@ -57,7 +58,7 @@ public class ListListCtrl implements Initializable{
      */
     public void addNewList(){
         server.send("/app/boards", getList());
-        mainCtrl.showOverview();
+        mainCtrl.showOverview0();
     }
 
     private ListOfCards getList() {

@@ -82,6 +82,53 @@ public class OurServerUtils {
         return "http://localhost:" + port +"/";
     }
 
+
+
+    /**
+     * setup for stomp session port, occurs after server is set up
+     */
+    private StompSession session;
+    public void setSession(){
+        System.out.println("This works");
+        session = connect("ws"+ SERVER.substring(4) + "/websocket");
+    }
+
+    private StompSession connect(String url) {
+        var client = new StandardWebSocketClient();
+        var stomp = new WebSocketStompClient(client);
+        stomp.setMessageConverter(new MappingJackson2MessageConverter());
+
+        try {
+            return stomp.connect(url, new StompSessionHandlerAdapter() {}).get();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+        throw new IllegalStateException();
+    }
+
+    public <T> void registerForMessages(String dest, Class<T> type, Consumer<T> consumer) {
+        session.subscribe(dest, new StompFrameHandler() {
+            @Override
+            public Type getPayloadType(StompHeaders headers) {
+                return type;
+            }
+
+            @Override
+            public void handleFrame(StompHeaders headers, Object payload) {
+                consumer.accept((T) payload);
+            }
+        });
+    }
+
+
+    public void send(String dest, Object o) {
+        session.send(dest, o);
+    }
+
+
+
     public List<Board> getBoards() {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/boards") //
@@ -129,49 +176,4 @@ public class OurServerUtils {
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<List<Card>>() {});
     }
-
-
-    /**
-     * setup for stomp session port, occurs after server is set up
-     */
-    private StompSession session;
-    public void setSession(){
-        System.out.println("This works");
-        session = connect("ws"+ SERVER.substring(4) + "websocket");
-    }
-
-    private StompSession connect(String url) {
-        var client = new StandardWebSocketClient();
-        var stomp = new WebSocketStompClient(client);
-        stomp.setMessageConverter(new MappingJackson2MessageConverter());
-
-        try {
-            return stomp.connect(url, new StompSessionHandlerAdapter() {}).get();
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
-        }
-        throw new IllegalStateException();
-    }
-
-    public <T> void registerForMessages(String dest, Class<T> type, Consumer<T> consumer) {
-        session.subscribe(dest, new StompFrameHandler() {
-            @Override
-            public Type getPayloadType(StompHeaders headers) {
-                return type;
-            }
-
-            @Override
-            public void handleFrame(StompHeaders headers, Object payload) {
-                consumer.accept((T) payload);
-            }
-        });
-    }
-
-
-    public void send(String dest, Object o) {
-        session.send(dest, o);
-    }
-
 }

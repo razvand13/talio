@@ -15,8 +15,8 @@
  */
 package client.scenes;
 
-import DataStructures.Card;
-import client.utils.ServerUtils;
+import client.utils.OurServerUtils;
+import commons.Card;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -24,7 +24,7 @@ import javafx.scene.input.KeyEvent;
 
 public class AddCardCtrl {
 
-    private final ServerUtils server;
+    private final OurServerUtils server;
     private final MainTaskListCtrl mainCtrl;
 
 
@@ -32,7 +32,7 @@ public class AddCardCtrl {
     private TextField cardTitle;
 
     @Inject
-    public AddCardCtrl(ServerUtils server, MainTaskListCtrl mainCtrl) {
+    public AddCardCtrl(OurServerUtils server, MainTaskListCtrl mainCtrl) {
         this.mainCtrl = mainCtrl;
         this.server = server;
 
@@ -46,6 +46,7 @@ public class AddCardCtrl {
     public void ok() {
 
         server.send("/app/cards", getCard());
+        System.out.println("sent to database");
         clearFields();
         mainCtrl.showTaskListView();
     }
@@ -70,5 +71,9 @@ public class AddCardCtrl {
             default:
                 break;
         }
+    }
+
+    public void firstTimeSetUp(){
+        server.setSession();
     }
 }
