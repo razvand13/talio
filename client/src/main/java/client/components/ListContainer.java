@@ -133,9 +133,9 @@ public class ListContainer extends VBox {
      * Method for saving changes to task title
      *
      * @param editBtn    'edit button' that's clicked
-     * @param delBtn    'delete button
-     * @param textField text field to fetch new task title from
-     * @param list      list view where the change will be presented
+     * @param delBtn     'delete' button to set invisible
+     * @param textField  text field to fetch new task title from
+     * @param list       list view where the change will be presented
      */
     public void setSaveEditAction(Button editBtn, Button delBtn, TextField textField,
                                   ListView<String> list) {
@@ -153,12 +153,12 @@ public class ListContainer extends VBox {
     }
 
     /**
-     * Method for saving changes to task title
+     * Method for deleting a task
      *
-     * @param deleteButton    'delete button' that's clicked
-     * @param editButton    'delete button' that's clicked
-     * @param textField text field to fetch new task title from
-     * @param list      list view where the change will be presented
+     * @param deleteButton  'delete button' that's clicked
+     * @param editButton    'edit button' to set invisible
+     * @param textField     text field to set invisible
+     * @param list          list view where the change will be presented
      */
     public void setDeleteAction(Button deleteButton, Button editButton, TextField textField,
                                 ListView<String> list){
@@ -172,7 +172,7 @@ public class ListContainer extends VBox {
     }
 
     /**
-     * Method for showing additional (delete, rename) list options
+     * Method for showing / hiding additional (delete, rename) list options
      *
      * @param listNameLabel label to fetch list name from
      * @param clickedButton 'list options' button that's clicked
@@ -183,10 +183,13 @@ public class ListContainer extends VBox {
     public void setListOptions(Label listNameLabel, Button clickedButton, Button deleteButton,
                                Button editButton, TextField textField) {
         clickedButton.setOnAction(event -> {
-            textField.setVisible(true);
-            textField.setText(listNameLabel.getText());
-            editButton.setVisible(true);
-            deleteButton.setVisible(true);
+            boolean visibility = textField.isVisible();
+            String listName = listNameLabel.getText();
+
+            textField.setVisible(!visibility);
+            textField.setText(listName);
+            editButton.setVisible(!visibility);
+            deleteButton.setVisible(!visibility);
 
             event.consume();
         });
