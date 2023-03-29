@@ -5,6 +5,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 //import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 import javax.persistence.Entity;
@@ -17,7 +18,7 @@ public class ListOfCards implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(unique = true)
-    public String id;
+    public long id;
     public String name;
     @OneToMany(mappedBy = "list", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
@@ -44,19 +45,20 @@ public class ListOfCards implements Serializable {
 
         ListOfCards that = (ListOfCards) o;
 
-        if (!id.equals(that.id)) return false;
+        if (id != that.id) return false;
         if (!name.equals(that.name)) return false;
         if (!cards.equals(that.cards)) return false;
         return board.equals(that.board);
     }
 
+    /**
+     * Hashcode method for the object
+     *
+     * @return the hash value
+     */
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + name.hashCode();
-        result = 31 * result + cards.hashCode();
-        result = 31 * result + board.hashCode();
-        return result;
+        return Objects.hash(id, name, cards, board);
     }
 
     @Override
@@ -64,7 +66,6 @@ public class ListOfCards implements Serializable {
         return "ListOfCards{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", cards=" + cards +
                 ", board=" + board +
                 '}';
     }

@@ -11,13 +11,20 @@ class BoardTest {
     private Board sameBoard;
     private Board equalBoard;
     private Board diffBoard;
+    // For testing simplicity we will use the same indices
+    private long myId;
 
     @BeforeEach
     void setup(){
+        myId = Integer.MAX_VALUE;
         board = new Board("title", "color");
         sameBoard = board;
         equalBoard = new Board("title", "color");
         diffBoard = new Board("another title", "another color");
+        board.id = myId;
+        sameBoard.id = myId;
+        equalBoard.id = myId;
+        diffBoard.id = myId;
     }
 
     @Test
@@ -52,11 +59,6 @@ class BoardTest {
 
     @Test
     void testToString() {
-//        String expected = "Board{" +
-//                "id='" + id + '\'' +
-//                ", title='" + title + '\'' +
-//                ", lists=" + lists +
-//                ", backgroundColor='" + backgroundColor + '\'' +
-//                '}';
+        // todo
     }
 }

@@ -5,6 +5,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Entity;
 
@@ -15,7 +16,7 @@ public class Board implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(unique = true)
-    public String id;
+    public long id;
     public String title;
     @OneToMany(mappedBy = "board", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
@@ -32,12 +33,6 @@ public class Board implements Serializable {
         this.backgroundColor = backgroundColor;
     }
 
-    public Board(String id, String title, String backgroundColor){
-        this.id = id;
-        this.title = title;
-        this.backgroundColor = backgroundColor;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -45,19 +40,20 @@ public class Board implements Serializable {
 
         Board board = (Board) o;
 
-        if (!id.equals(board.id)) return false;
+        if (id != board.id) return false;
         if (!title.equals(board.title)) return false;
         if (!lists.equals(board.lists)) return false;
         return backgroundColor.equals(board.backgroundColor);
     }
 
+    /**
+     * Hashcode method for the object
+     *
+     * @return the hash value
+     */
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + title.hashCode();
-        result = 31 * result + lists.hashCode();
-        result = 31 * result + backgroundColor.hashCode();
-        return result;
+        return Objects.hash(id, title, lists, backgroundColor);
     }
 
     @Override
@@ -65,7 +61,6 @@ public class Board implements Serializable {
         return "Board{" +
                 "id='" + id + '\'' +
                 ", title='" + title + '\'' +
-                ", lists=" + lists +
                 ", backgroundColor='" + backgroundColor + '\'' +
                 '}';
     }

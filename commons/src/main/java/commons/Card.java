@@ -78,7 +78,7 @@ public class Card implements Serializable {
                 ", description='" + description + '\'' +
                 ", tags=" + tags +
                 ", color='" + color + '\'' +
-                ", list=" + list +
                 '}';
+        //List toString also calls Card toString, so one must be removed.
     }
 }
