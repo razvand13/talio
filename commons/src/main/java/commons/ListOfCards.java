@@ -5,7 +5,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.*;
 //import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 import javax.persistence.Entity;
 //import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -21,7 +21,7 @@ public class ListOfCards implements Serializable {
     public String name;
     @OneToMany(mappedBy = "list", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    private Set<Card> cards;
+    private List<Card> cards;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "board_id", nullable = false)
@@ -81,7 +81,7 @@ public class ListOfCards implements Serializable {
      * simple getter
      * @return cards
      */
-    public Set<Card> getCards() {
+    public List<Card> getCards() {
         return cards;
     }
 
@@ -90,6 +90,9 @@ public class ListOfCards implements Serializable {
      * @param card card to be added
      */
     public void addCard(Card card){
+        if(cards == null){
+            cards = new ArrayList<>();
+        }
         cards.add(card);
     }
 }

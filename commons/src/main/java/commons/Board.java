@@ -5,7 +5,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.*;
 //import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 import javax.persistence.Entity;
 //import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -23,7 +23,7 @@ public class Board implements Serializable {
     public String title;
     @OneToMany(mappedBy = "board", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    public Set<ListOfCards> lists;
+    public List<ListOfCards> lists;
     public String backgroundColor; //Background color
 
     @SuppressWarnings("unused")
@@ -81,10 +81,13 @@ public class Board implements Serializable {
      * @param list the list to add to this board
      */
     public void addList(ListOfCards list){
+        if(lists == null){
+            lists = new ArrayList<>();
+        }
         lists.add((list));
     }
 
-    public Set<ListOfCards> getLists() {
+    public List<ListOfCards> getLists() {
         return lists;
     }
 }
