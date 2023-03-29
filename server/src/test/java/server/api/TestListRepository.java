@@ -51,8 +51,9 @@ public class TestListRepository implements ListRepository {
     }
 
     @Override
-    public void deleteById(Long aLong) {
-        // TODO Auto-generated method stub
+    public void deleteById(Long id) {
+        lists.removeIf(l->l.id==id);
+        call("deleteById");
     }
 
     @Override
@@ -72,7 +73,8 @@ public class TestListRepository implements ListRepository {
 
     @Override
     public void deleteAll() {
-        // TODO Auto-generated method stub
+        lists.removeAll(lists);
+        call("deleteAll");
     }
 
     @Override
@@ -90,9 +92,8 @@ public class TestListRepository implements ListRepository {
     }
 
     @Override
-    public Optional<ListOfCards> findById(Long aLong) {
-        // TODO Auto-generated method stub
-        return Optional.empty();
+    public Optional<ListOfCards> findById(Long id) {
+        return find(id);
     }
 
     @Override

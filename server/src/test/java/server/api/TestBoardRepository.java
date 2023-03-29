@@ -23,7 +23,7 @@ public class TestBoardRepository implements BoardRepository {
 
     @Override
     public List<Board> findAll() {
-        calledMethods.add("findAll");
+        call("findAll");
         return boards;
     }
 
@@ -51,8 +51,9 @@ public class TestBoardRepository implements BoardRepository {
     }
 
     @Override
-    public void deleteById(Long aLong) {
-        // TODO Auto-generated method stub
+    public void deleteById(Long id) {
+        boards.removeIf(b -> b.id == id);
+        call("deleteById");
     }
 
     @Override
@@ -72,7 +73,8 @@ public class TestBoardRepository implements BoardRepository {
 
     @Override
     public void deleteAll() {
-        // TODO Auto-generated method stub
+        boards.removeAll(boards);
+        call("deleteAll");
     }
 
     @Override
@@ -90,9 +92,8 @@ public class TestBoardRepository implements BoardRepository {
     }
 
     @Override
-    public Optional<Board> findById(Long aLong) {
-        // TODO Auto-generated method stub
-        return Optional.empty();
+    public Optional<Board> findById(Long id) {
+        return find(id);
     }
 
     @Override

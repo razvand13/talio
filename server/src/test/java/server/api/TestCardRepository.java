@@ -23,7 +23,7 @@ public class TestCardRepository implements CardRepository {
 
     @Override
     public List<Card> findAll() {
-        calledMethods.add("findAll");
+        call("findAll");
         return cards;
     }
 
@@ -51,8 +51,9 @@ public class TestCardRepository implements CardRepository {
     }
 
     @Override
-    public void deleteById(Long aLong) {
-        // TODO Auto-generated method stub
+    public void deleteById(Long id) {
+        cards.removeIf(c -> c.id==id);
+        call("deleteById");
     }
 
     @Override
@@ -72,7 +73,8 @@ public class TestCardRepository implements CardRepository {
 
     @Override
     public void deleteAll() {
-        // TODO Auto-generated method stub
+        cards.removeAll(cards);
+        call("deleteAll");
     }
 
     @Override
@@ -90,9 +92,8 @@ public class TestCardRepository implements CardRepository {
     }
 
     @Override
-    public Optional<Card> findById(Long aLong) {
-        // TODO Auto-generated method stub
-        return Optional.empty();
+    public Optional<Card> findById(Long id) {
+        return find(id);
     }
 
     @Override
