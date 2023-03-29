@@ -36,6 +36,15 @@ public class ListContainer extends VBox {
     @FXML
     private TextField listRenameField;
 
+    @FXML
+    private Label taskTitleLabel;
+
+    @FXML
+    private Label taskEditLabel;
+
+    @FXML
+    private Label listEditLabel;
+
     // Since deletion references the list's parent, we need
     // a reference to it inside the container object
     private HBox parent;
@@ -73,13 +82,13 @@ public class ListContainer extends VBox {
      */
     private void setHandlers(){
         setAddTaskAction(addTaskBtn, taskInputField, list);
-        setShowTaskEditAction(taskEditBtn, taskDeleteBtn, list, taskEditField);
-        setSaveEditAction(taskEditBtn, taskDeleteBtn, taskEditField, list);
-        setDeleteAction(taskDeleteBtn, taskEditBtn, taskEditField, list);
+        setShowTaskEditAction(taskEditBtn, taskDeleteBtn, list, taskEditField, taskEditLabel);
+        setSaveEditAction(taskEditBtn, taskDeleteBtn, taskEditField, taskEditLabel, list);
+        setDeleteAction(taskDeleteBtn, taskEditBtn, taskEditField, taskEditLabel, list);
         setListOptions(listNameLabel, listOptionsBtn, listDeleteBtn,
-                listEditBtn, listRenameField);
-        setRenameList(listNameLabel, listEditBtn, listRenameField, listDeleteBtn);
-        setDeleteList(this, listDeleteBtn, listRenameField, listEditBtn);
+                listEditBtn, listRenameField, listEditLabel);
+        setRenameList(listNameLabel, listEditBtn, listRenameField, listEditLabel, listDeleteBtn);
+        setDeleteList(this, listDeleteBtn, listRenameField, listEditLabel, listEditBtn);
         setDragAndDrop(list);
     }
 
@@ -109,9 +118,10 @@ public class ListContainer extends VBox {
      * @param delBtn    'delete' button
      * @param list      list view from which an element can be selected
      * @param textField text field to fetch task title from
+     * @param taskEditLabel Label for the textField
      */
     public void setShowTaskEditAction(Button editBtn, Button delBtn, ListView<String> list,
-                                      TextField textField) {
+                                      TextField textField, Label taskEditLabel) {
         list.setOnContextMenuRequested(event -> {
             String item = list.getSelectionModel().getSelectedItem();
             if (item != null) {
@@ -119,10 +129,12 @@ public class ListContainer extends VBox {
                 delBtn.setVisible(true);
                 textField.setVisible(true);
                 textField.setText(item);
+                taskEditLabel.setVisible(true);
             } else {
                 editBtn.setVisible(false);
                 delBtn.setVisible(true);
                 textField.setVisible(false);
+                taskEditLabel.setVisible(false);
             }
 
             event.consume();
@@ -135,9 +147,10 @@ public class ListContainer extends VBox {
      * @param editBtn    'edit button' that's clicked
      * @param delBtn     'delete' button to set invisible
      * @param textField  text field to fetch new task title from
+     * @param taskEditLabel Label for the textField
      * @param list       list view where the change will be presented
      */
-    public void setSaveEditAction(Button editBtn, Button delBtn, TextField textField,
+    public void setSaveEditAction(Button editBtn, Button delBtn, TextField textField, Label taskEditLabel,
                                   ListView<String> list) {
         editBtn.setOnAction(event -> {
             String edit = textField.getText();
@@ -148,6 +161,7 @@ public class ListContainer extends VBox {
                 editBtn.setVisible(false);
                 delBtn.setVisible(false);
                 textField.setVisible(false);
+                taskEditLabel.setVisible(false);
             }
         });
     }
@@ -158,9 +172,10 @@ public class ListContainer extends VBox {
      * @param deleteButton  'delete button' that's clicked
      * @param editButton    'edit button' to set invisible
      * @param textField     text field to set invisible
+     * @param taskEditLabel Label for the textField
      * @param list          list view where the change will be presented
      */
-    public void setDeleteAction(Button deleteButton, Button editButton, TextField textField,
+    public void setDeleteAction(Button deleteButton, Button editButton, TextField textField, Label taskEditLabel,
                                 ListView<String> list){
         deleteButton.setOnAction(event -> {
             int idx = list.getSelectionModel().getSelectedIndex();
@@ -168,6 +183,7 @@ public class ListContainer extends VBox {
             deleteButton.setVisible(false);
             editButton.setVisible(false);
             textField.setVisible(false);
+            taskEditLabel.setVisible(false);
         });
     }
 
@@ -179,9 +195,10 @@ public class ListContainer extends VBox {
      * @param deleteButton  delete button that becomes visible
      * @param editButton    edit button that becomes visible
      * @param textField     text field for editing that becomes visible
+     * @param listEditLabel Label for the textField
      */
     public void setListOptions(Label listNameLabel, Button clickedButton, Button deleteButton,
-                               Button editButton, TextField textField) {
+                               Button editButton, TextField textField, Label listEditLabel) {
         clickedButton.setOnAction(event -> {
             boolean visibility = textField.isVisible();
             String listName = listNameLabel.getText();
@@ -190,6 +207,7 @@ public class ListContainer extends VBox {
             textField.setText(listName);
             editButton.setVisible(!visibility);
             deleteButton.setVisible(!visibility);
+            listEditLabel.setVisible(!visibility);
 
             event.consume();
         });
@@ -201,10 +219,11 @@ public class ListContainer extends VBox {
      * @param vBox         vertical box getting deleted
      * @param deleteButton delete button that's clicked
      * @param textField    editing field that needs to be set invisible
+     * @param listEditLabel Label for the textField
      * @param editButton   editing button that needs to be set invisible
      */
     public void setDeleteList(VBox vBox, Button deleteButton,
-                              TextField textField, Button editButton) {
+                              TextField textField, Label listEditLabel, Button editButton) {
         deleteButton.setOnAction(event -> {
 
             parent.getChildren().remove(vBox);
@@ -212,6 +231,7 @@ public class ListContainer extends VBox {
             textField.setVisible(false);
             deleteButton.setVisible(false);
             editButton.setVisible(false);
+            listEditLabel.setVisible(false);
 
             event.consume();
         });
@@ -224,10 +244,11 @@ public class ListContainer extends VBox {
      * @param listNameLabel label presenting the name of the list
      * @param editButton    edit button that is clicked
      * @param textField     text field to fetch input from
+     * @param listEditLabel Label for the textField
      * @param deleteButton  delete button that needs to be set invisible
      */
     public void setRenameList(Label listNameLabel, Button editButton,
-                              TextField textField, Button deleteButton) {
+                              TextField textField, Label listEditLabel, Button deleteButton) {
         editButton.setOnAction(event -> {
             String newName = textField.getText();
             if (!newName.equals("")) {
@@ -235,6 +256,7 @@ public class ListContainer extends VBox {
                 editButton.setVisible(false);
                 textField.setVisible(false);
                 deleteButton.setVisible(false);
+                listEditLabel.setVisible(false);
             }
             event.consume();
         });
