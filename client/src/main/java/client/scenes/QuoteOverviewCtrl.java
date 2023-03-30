@@ -69,12 +69,17 @@ public class QuoteOverviewCtrl implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         colFirstName.setCellValueFactory(q ->
                 new SimpleStringProperty(q.getValue().person.firstName));
         colLastName.setCellValueFactory(q ->
                 new SimpleStringProperty(q.getValue().person.lastName));
         colQuote.setCellValueFactory(q ->
                 new SimpleStringProperty(q.getValue().quote));
+
+        server.registerForMessages("/topic/quotes", Quote.class, q -> {
+            data.add(q);
+        });
     }
 
     /**
@@ -84,12 +89,19 @@ public class QuoteOverviewCtrl implements Initializable {
         mainCtrl.showAdd();
     }
 
-    /**
+    /**refresh method for
      *
      */
     public void refresh() {
         var quotes = server.getQuotes();
         data = FXCollections.observableList(quotes);
         table.setItems(data);
+    }
+
+    /**back method for quoteovewviewcontroller
+     *
+     */
+    public void back(){
+        mainCtrl.showServerConnect();
     }
 }

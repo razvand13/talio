@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Random;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -69,7 +71,18 @@ public class QuoteController {
         return ResponseEntity.ok(repo.findById(id).get());
     }
 
-    /**Add quote
+    /**TODO
+     *
+     * @param q
+     * @return a quote
+     */
+    @MessageMapping("/quotes") //app/quotes -> path for basically any client (consumer)
+    @SendTo("/topic/quotes")// (producer)
+    public Quote addMessage(Quote q) {
+        add(q);
+        return q;
+    }
+    /**TODO
      *
      * @param quote
      * @return responseEntity<Quote>
@@ -87,11 +100,16 @@ public class QuoteController {
         return ResponseEntity.ok(saved);
     }
 
+    /**TODO
+     *
+     * @param s
+     * @return boolean
+     */
     private static boolean isNullOrEmpty(String s) {
         return s == null || s.isEmpty();
     }
 
-    /**
+    /**TODO
      *
      * @return a response entity
      */
