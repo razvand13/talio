@@ -32,7 +32,6 @@ public class MainTaskListCtrl {
     public void showTaskListView() {
         primaryStage.setTitle("Task List");
         primaryStage.setScene(taskList);
-        taskListCtrl.refresh();
     }
 
 }

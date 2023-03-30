@@ -18,7 +18,6 @@ public class Card implements Serializable {
     public long id;
 
 
-    @OneToOne(cascade = CascadeType.PERSIST)
     public String title;
     public String description;
 
