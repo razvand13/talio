@@ -77,9 +77,6 @@ public class QuoteOverviewCtrl implements Initializable {
         colQuote.setCellValueFactory(q ->
                 new SimpleStringProperty(q.getValue().quote));
 
-        server.registerForMessages("/topic/quotes", Quote.class, q -> {
-            data.add(q);
-        });
     }
 
     /**
@@ -103,5 +100,16 @@ public class QuoteOverviewCtrl implements Initializable {
      */
     public void back(){
         mainCtrl.showServerConnect();
+    }
+
+    /**
+     * sets session variable in server
+     * registers for messages in server
+     */
+    public void firstTimeSetUp(){
+        server.setSession();
+        server.registerForMessages("/topic/quotes", Quote.class, q -> {
+            data.add(q);
+        });
     }
 }
