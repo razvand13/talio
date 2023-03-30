@@ -153,9 +153,8 @@ public class ServerUtils {
      * @param dest destination the session needs to subscribe to
      * @param type class that need will be sent
      * @param consumer where the messages will be sent to
-     * @param <T> 
+     * @param <T> so register for messages can use a generic type
      */
-
     public <T> void registerForMessages(String dest, Class<T> type, Consumer<T> consumer) {
         session.subscribe(dest, new StompFrameHandler() {
             @Override
