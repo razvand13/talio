@@ -46,7 +46,7 @@ public class AddCardCtrl {
     public void ok() {
 
         server.send("/app/cards", getCard());
-        System.out.println("sent to database");
+        System.out.println("card send to database");
         clearFields();
         mainCtrl.showTaskListView();
     }

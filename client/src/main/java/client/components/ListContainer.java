@@ -3,6 +3,8 @@ package client.components;
 import client.scenes.MainTaskListCtrl;
 import client.utils.OurServerUtils;
 import commons.Card;
+import commons.Quote;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -44,6 +46,9 @@ public class ListContainer extends VBox {
 
     private final MainTaskListCtrl mainCtrl;
 
+    private ObservableList<Card> data;
+
+
 
 
     // Since deletion references the list's parent, we need
@@ -81,6 +86,13 @@ public class ListContainer extends VBox {
         setHandlers();
     }
 
+    public void firstTimeSetup1() {
+        server.setSession();
+        server.registerForMessages("/topic/cards", Card.class, c -> {
+            list.getItems().add(c.title);
+        });
+    }
+
     /**
      * Method that sets all event handlers of a list and its children
      */
@@ -108,11 +120,10 @@ public class ListContainer extends VBox {
             String taskInput = textField.getText();
             if (!taskInput.equals("")) {
                 list.getItems().add(taskInput);
+
                 server.setSession();
+                System.out.println("CARD SAVED IN SESSION");
                 server.send("/app/cards", new Card(taskInput, null, null, null));
-                server.registerForMessages("/topic/cards", Card.class, c -> {
-                    list.getItems().add(c.title);
-                });
                 textField.clear();
                 mainCtrl.showTaskListView();
             }
@@ -121,12 +132,9 @@ public class ListContainer extends VBox {
         });
     }
 
-//    public void firstTimeSetUp(){
-//        server.setSession();
-//        server.registerForMessages("/topic/cards", Card.class, c -> {
-//            list.getItems().add(c.title);
-//        });
-//    }
+    public void firstTimeSetUp(){
+
+    }
 
 
     /**

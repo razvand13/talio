@@ -31,16 +31,18 @@ public class Card implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "list_id", nullable = false)
     public ListOfCards list;
-    @SuppressWarnings("unused")
-    private Card() {
-        // for object mapper
-    }
+
 
     public Card(String title, String description, String color, ListOfCards list) {
         this.title = title;
         this.description = description;
         this.color = color;
         this.list = list;
+    }
+
+    @SuppressWarnings("unused")
+    private Card() {
+
     }
 
 

@@ -19,14 +19,10 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.lang.reflect.Type;
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
-import commons.Board;
-import commons.Card;
-import commons.ListOfCards;
 import org.glassfish.jersey.client.ClientConfig;
 
 import jakarta.ws.rs.client.ClientBuilder;
@@ -89,7 +85,7 @@ public class OurServerUtils {
      */
     private StompSession session;
     public void setSession(){
-        System.out.println("This works");
+        System.out.println("session is set up");
         session = connect("ws"+ SERVER.substring(4) + "/websocket");
     }
 
@@ -129,51 +125,20 @@ public class OurServerUtils {
 
 
 
-    public List<Board> getBoards() {
+    public <T> T get(String path, GenericType<T> responseType) {
         return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/boards") //
+                .target(SERVER).path(path) //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .get(new GenericType<List<Board>>() {});
+                .get(responseType);
     }
 
-    public Board addBoard(Board board) {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/boards") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .post(Entity.entity(board, APPLICATION_JSON), Board.class);
+    public <T> T add(String path, Object body, GenericType<T> responseType) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path(path)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(body, APPLICATION_JSON), responseType);
     }
 
-    public ListOfCards addList(ListOfCards myList) {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/boards/{id}") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .post(Entity.entity(myList, APPLICATION_JSON), ListOfCards.class);
-    }
-
-    public List<ListOfCards> getLists() {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/boards") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .get(new GenericType<List<ListOfCards>>() {});
-    }
-
-    public Card addCard(Card card) {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/boards/{boardID}/{listId}") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .post(Entity.entity(card, APPLICATION_JSON), Card.class);
-    }
-
-    public List<Card> getCards() {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/boards") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .get(new GenericType<List<Card>>() {});
-    }
 }

@@ -3,7 +3,9 @@ package client.scenes;
 import client.components.ListContainer;
 import client.utils.OurServerUtils;
 import com.google.inject.Inject;
+//import commons.Card;
 import commons.Card;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -17,6 +19,8 @@ public class TaskListCtrl implements Initializable {
 
     private final OurServerUtils server;
     private final MainTaskListCtrl mainCtrl;
+
+    private ObservableList<Card> data;
 
     @FXML
     private HBox hBox;
@@ -69,12 +73,17 @@ public class TaskListCtrl implements Initializable {
         container.setParent(hBox);
         hBox.getChildren().add(container);
 
+    }
+
+    public void firstTimeSetUp(){
         server.setSession();
-        System.out.println("NEW LSIT WEBSOCKET");
+        System.out.println("NEW TASK LIST");
         server.registerForMessages("/topic/cards", Card.class, c -> {
-            container.getList().getItems().add(c.title);
+            data.add(c);
+            System.out.println("NEW TASK LIST");
         });
     }
+
 
 
 }
