@@ -1,51 +1,92 @@
 package commons;
 
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-//import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 import javax.persistence.Entity;
-//import org.apache.commons.lang3.builder.EqualsBuilder;
-//import org.apache.commons.lang3.builder.HashCodeBuilder;
-//import org.apache.commons.lang3.builder.ToStringBuilder;
 @Entity
-@Table(name="lists")
 public class ListOfCards implements Serializable {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(unique = true)
-    public String id;
-    public String name;
-    @OneToMany(mappedBy = "list", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+    @GeneratedValue
+    private long id;
+
+    @OneToMany(mappedBy = "listOfCards")
     private List<Card> cards;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "board_id", nullable = false)
-    public Board board;
-
-    @SuppressWarnings("unused")
-    private ListOfCards() {
-        // for object mapper
-    }
+    
+    private String title;
 
     /**Constructor for ListOfCards
      *
-     * @param name - the anme of the list
-     * @param board - the board it is in
+     * @param title
+     * @param cards
      */
-    public ListOfCards(String name, Board board) {
-        this.name = name;
-        this.board = board;
+    public ListOfCards(String title, List<Card> cards) {
+        this.title = title;
+        this.cards = cards;
+    }
+
+    /**Getter for title
+     *
+     * @return String
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**Setter for title
+     *
+     * @param title
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**Empty constructor for ListOfCards
+     *
+     */
+    public ListOfCards() {
+        
+    }
+
+    /**Getter for id
+     *
+     * @return long
+     */
+    public long getId() {
+        return id;
+    }
+
+    /**Getter for cards
+     *
+     * @return List<Card>
+     */
+    public List<Card> getCards() {
+        return cards;
+    }
+
+    /**Setter for id
+     *
+     * @param id
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    /**Setter for List<Card>
+     *
+     * @param cards
+     */
+    public void setCards(List<Card> cards) {
+        this.cards = cards;
     }
 
     /**Equals method for ListOfCards
      *
-     * @param o - the object to co
-     * @return
+     * @param o
+     * @return true iff they are completely the same
      */
     @Override
     public boolean equals(Object o) {
@@ -54,36 +95,31 @@ public class ListOfCards implements Serializable {
 
         ListOfCards that = (ListOfCards) o;
 
-        if (!id.equals(that.id)) return false;
-        if (!name.equals(that.name)) return false;
-        if (!cards.equals(that.cards)) return false;
-        return board.equals(that.board);
+        if (id != that.id) return false;
+        return cards.equals(that.cards);
     }
 
-    /**Hashcode for ListOfCards
+    /**Hashcode method for ListOfCards
      *
-     * @return - an integer representation of a ListOfCards
+     * @return int
      */
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + name.hashCode();
+        int result = (int) (id ^ (id >>> 32));
         result = 31 * result + cards.hashCode();
-        result = 31 * result + board.hashCode();
         return result;
     }
 
-    /**Tostring method for ListOfCards
+    /**ToString method for ListOfCards
      *
-     * @return - a string representation of ListOfCards
+     * @return
      */
     @Override
     public String toString() {
-        return "ListOfCards{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", cards=" + cards +
-                ", board=" + board +
-                '}';
+        String a = "ListOfCards: id =" + id + ", title "+ title + ", cards =";
+        for(Card i:cards){
+            a = a + i.toString() + "\n";
+        }
+        return a;
     }
 }

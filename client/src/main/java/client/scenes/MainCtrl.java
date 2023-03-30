@@ -64,6 +64,7 @@ public class MainCtrl {
      *
      */
     public void showOverview() {
+        overviewCtrl.firstTimeSetUp();
         primaryStage.setTitle("Quotes: Overview");
         primaryStage.setScene(overview);
         overviewCtrl.refresh();
@@ -73,6 +74,7 @@ public class MainCtrl {
      *
      */
     public void showAdd() {
+        addCtrl.firstTimeSetUp();
         primaryStage.setTitle("Quotes: Adding Quote");
         primaryStage.setScene(add);
         add.setOnKeyPressed(e -> addCtrl.keyPressed(e));

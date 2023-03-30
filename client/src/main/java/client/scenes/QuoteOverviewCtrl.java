@@ -75,6 +75,7 @@ public class QuoteOverviewCtrl implements Initializable {
                 new SimpleStringProperty(q.getValue().person.lastName));
         colQuote.setCellValueFactory(q ->
                 new SimpleStringProperty(q.getValue().quote));
+
     }
 
     /**
@@ -91,5 +92,23 @@ public class QuoteOverviewCtrl implements Initializable {
         var quotes = server.getQuotes();
         data = FXCollections.observableList(quotes);
         table.setItems(data);
+    }
+
+    /**TODO
+     *
+     */
+    public void back(){
+        mainCtrl.showServerConnect();
+    }
+
+    /**
+     * sets session variable in server
+     * registers for messages in server
+     */
+    public void firstTimeSetUp(){
+        server.setSession();
+        server.registerForMessages("/topic/quotes", Quote.class, q -> {
+            data.add(q);
+        });
     }
 }

@@ -20,10 +20,13 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
+import java.util.function.Consumer;
 
 import org.glassfish.jersey.client.ClientConfig;
 
@@ -31,10 +34,17 @@ import commons.Quote;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.simp.stomp.*;
+import org.springframework.web.socket.client.standard.StandardWebSocketClient;
+import org.springframework.web.socket.messaging.WebSocketStompClient;
 
 public class ServerUtils {
 
+
     private static String SERVER = "http://localhost:8080";
+    private static String port = "8080";
+
 
     /**Method by Sebastian
      *
@@ -56,6 +66,14 @@ public class ServerUtils {
      */
     public static void setSERVER(String address){
         SERVER =address;
+    }
+
+    /**trying to connect websocket without hardcoding
+     *
+     * @param address
+     */
+    public static void setPort(String address) {
+        port = address;
     }
 
     /**
@@ -107,4 +125,72 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
     }
+
+    /**
+     * trying to connect to the user input port
+     * @return
+     */
+//    private String getPort() {
+//        String port = getSERVER();
+//        port = port.substring(16);
+//        System.out.println(port);
+//        return port;
+//    }
+
+
+    private StompSession session;
+
+    /**
+     * sets session to connect("ws://localhost:[port]/websocket")
+     */
+    public void setSession(){
+        session = connect("ws"+ SERVER.substring(4) + "websocket");
+    }
+
+    private StompSession connect(String url) {
+        var client = new StandardWebSocketClient();
+        var stomp = new WebSocketStompClient(client);
+        stomp.setMessageConverter(new MappingJackson2MessageConverter());
+
+        try {
+            return stomp.connect(url, new StompSessionHandlerAdapter() {}).get();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+        throw new IllegalStateException();
+    }
+
+    /**
+     *
+     * @param dest destination the session needs to subscribe to
+     * @param type class that need will be sent
+     * @param consumer where the messages will be sent to
+     * @param <T> so register for messages can use a generic type
+     */
+    public <T> void registerForMessages(String dest, Class<T> type, Consumer<T> consumer) {
+        session.subscribe(dest, new StompFrameHandler() {
+            @Override
+            public Type getPayloadType(StompHeaders headers) {
+                return type;
+            }
+
+            @Override
+            public void handleFrame(StompHeaders headers, Object payload) {
+                consumer.accept((T) payload);
+            }
+        });
+    }
+
+    /**
+     *
+     * Sends an object by calling the stompSession send method
+     * @param dest destination to send too
+     * @param o object that needs to be sent
+     */
+    public void send(String dest, Object o) {
+        session.send(dest, o);
+    }
+
 }
