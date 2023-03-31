@@ -1,7 +1,6 @@
 package server.api;
 
 import commons.Card;
-import commons.ListOfCards;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -53,11 +52,10 @@ public class CardController {
     /**
      *
      * @param card card that needs to be added
-     * @param listId id of the list it needs to be added to
      * @return badRequest if it couldn't be added, ok with the provided card iff it was added successfully
      */
     @PostMapping(path ={"","/"})
-    public ResponseEntity<Card> add(@RequestBody Card card, long listId) {
+    public ResponseEntity<Card> add(@RequestBody Card card) {
 
         if(card == null){
             return ResponseEntity.badRequest().build();
@@ -68,22 +66,17 @@ public class CardController {
             return ResponseEntity.badRequest().build();
         }
 
-        //check if the provided list exists
-        if(listId<0 || !listRepo.existsById(listId)){
-            return ResponseEntity.badRequest().build();
-        }
-        ListOfCards listWithId = listRepo.getById(listId);
-
-        listWithId.addCard(card);
         cardRepo.save(card);
         return ResponseEntity.ok(card);
     }
 
-    @MessageMapping("/cards") //app/quotes -> path for basically any client (consumer)
+    @MessageMapping("/cards") //app/cards -> path for basically any client (consumer)
     @SendTo("/topic/cards")// (producer)
     public Card addMessage(Card c, long listId) {
-        add(c, listId);
+        System.out.println("ADD MESSAGE");
+        add(c);
         return c;
     }
+
 
 }

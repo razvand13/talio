@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.Set;
+//import java.util.Set;
 //import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 import javax.persistence.Entity;
 //import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -21,22 +21,26 @@ public class ListOfCards implements Serializable {
     @Column(unique = true)
     public long id;
     public String name;
+    /*
     @OneToMany(mappedBy = "list", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private Set<Card> cards;
 
+     */
+
+    /*
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "board_id", nullable = false)
     private Board board;
-
+*/
     @SuppressWarnings("unused")
     public ListOfCards() {
         // for object mapper
     }
 
-    public ListOfCards(String name, Board board) {
+    public ListOfCards(String name/*, Board board*/) {
         this.name = name;
-        this.board = board;
+    //    this.board = board;
     }
 
     @Override
@@ -44,12 +48,12 @@ public class ListOfCards implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ListOfCards that = (ListOfCards) o;
-        return getId() == that.getId() && Objects.equals(name, that.name) && Objects.equals(getCards(), that.getCards()) && Objects.equals(board, that.board);
+        return id == that.id && Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), name, getCards(), board);
+        return Objects.hash(id, name);
     }
 
     /**
@@ -65,15 +69,20 @@ public class ListOfCards implements Serializable {
      * simple getter
      * @return cards
      */
+    /*
     public Set<Card> getCards() {
         return cards;
     }
+
+     */
 
     /**
      * adds a card to cards
      * @param card card to be added
      */
+    /*
     public void addCard(Card card){
         cards.add(card);
     }
+    */
 }

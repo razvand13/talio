@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.components.ListContainer;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -46,6 +47,7 @@ public class MainTaskListCtrl {
      */
     public void showTaskListView() {
         taskListCtrl.firstTimeSetUp();
+        //firstTimeSetup1();
         primaryStage.setTitle("Task List");
         primaryStage.setScene(taskList);
         //taskListCtrl.refresh();
