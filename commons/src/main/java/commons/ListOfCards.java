@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
-//import java.util.Set;
+import java.util.Set;
 //import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 import javax.persistence.Entity;
 //import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -21,12 +21,12 @@ public class ListOfCards implements Serializable {
     @Column(unique = true)
     public long id;
     public String name;
-    /*
+
     @OneToMany(mappedBy = "list", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private Set<Card> cards;
 
-     */
+
 
     /*
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
