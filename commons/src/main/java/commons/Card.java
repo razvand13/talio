@@ -16,7 +16,7 @@ public class Card implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(unique = true)
+//    @Column(unique = true)
     public long id;
 
 
@@ -30,10 +30,17 @@ public class Card implements Serializable {
     public Set<Tag> tags;
     public String color;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "list_id", nullable = false)
+//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+//    @JoinColumn(name = "list_id", nullable = false)
+    @ManyToOne(targetEntity = ListOfCards.class, cascade = CascadeType.MERGE,
+            fetch = FetchType.EAGER)
+    @JoinColumn(name = "list", referencedColumnName = "id")
     public ListOfCards list;
 
+    @SuppressWarnings("unused")
+    private Card() {
+
+    }
 
     public Card(String title, String description, String color, ListOfCards list) {
         this.title = title;
@@ -41,11 +48,6 @@ public class Card implements Serializable {
         this.color = color;
         this.list = list;
         this.tags = new HashSet<>();
-    }
-
-    @SuppressWarnings("unused")
-    private Card() {
-
     }
 
 
@@ -83,7 +85,7 @@ public class Card implements Serializable {
                 ", description='" + description + '\'' +
                 ", tags=" + tags +
                 ", color='" + color + '\'' +
-                //", list=" + list +
+                ", list id=" + list.id +
                 '}';
     }
 

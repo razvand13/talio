@@ -19,13 +19,13 @@ public class ListOfCards implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(unique = true)
+//    @Column(unique = true)
     public long id;
     public String name;
 
-    @OneToMany(mappedBy = "list", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    private Set<Card> cards;
+//    @OneToMany(mappedBy = "list", fetch = FetchType.LAZY,
+//            cascade = CascadeType.ALL)
+//    private Set<Card> cards;
 
 
 
@@ -35,14 +35,14 @@ public class ListOfCards implements Serializable {
     private Board board;
 */
     @SuppressWarnings("unused")
-    public ListOfCards() {
+    private ListOfCards() {
         // for object mapper
     }
 
     public ListOfCards(String name/*, Board board*/) {
         this.name = name;
     //    this.board = board;
-        this.cards = new HashSet<>();
+//        this.cards = new HashSet<>();
     }
 
     @Override
@@ -66,25 +66,25 @@ public class ListOfCards implements Serializable {
         return id;
     }
 
-
-    /**
-     * simple getter
-     * @return cards
-     */
-
-    public Set<Card> getCards() {
-        return cards;
-    }
-
-
-
-    /**
-     * adds a card to cards
-     * @param card card to be added
-     */
-
-    public void addCard(Card card){
-        cards.add(card);
-    }
+//
+//    /**
+//     * simple getter
+//     * @return cards
+//     */
+//
+//    public Set<Card> getCards() {
+//        return cards;
+//    }
+//
+//
+//
+//    /**
+//     * adds a card to cards
+//     * @param card card to be added
+//     */
+//
+//    public void addCard(Card card){
+//        cards.add(card);
+//    }
 
 }

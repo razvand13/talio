@@ -18,6 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.util.List;
 
 
 public class ListContainer extends VBox {
@@ -129,20 +130,24 @@ public class ListContainer extends VBox {
             if (!taskInput.equals("")) {
                 list.getItems().add(taskInput);
 
-                server.setSession();
+                server.setSession(); // todo is this needed?
                 System.out.println("CARD SAVED IN SESSION");
+                System.out.println("ListOfCards id = " + listOfCards.id);
+                System.out.println(listOfCards);
                 Card myCard = new Card(taskInput, "null", "null", listOfCards);
-                System.out.println(myCard.id);
-                listOfCards.addCard(myCard);
+                System.out.println(myCard);
                 server.send("/app/cards", myCard);
+                System.out.println(myCard.id);
+//                listOfCards.addCard(myCard);
 
                 textField.clear();
 
-                server.setSession();
-                System.out.println("CARD SAVED IN SESSION");
-                server.send("/app/cards", new Card(taskInput, null, null, null));
-                textField.clear();
-                mainCtrl.showTaskListView();
+//                server.setSession();
+//                System.out.println("CARD SAVED IN SESSION");
+//                server.send("/app/cards", new Card(taskInput, null, null, null));
+//                textField.clear();
+
+//                mainCtrl.showTaskListView();
             }
 
             event.consume();
@@ -225,11 +230,7 @@ public class ListContainer extends VBox {
     }
 
     /**
-<<<<<<< HEAD
-     * Method for showing additional (delete, rename) list options
-=======
      * Method for showing / hiding additional (delete, rename) list options
->>>>>>> 52d4020af00321c5e9e6f1eb9521a1cd29d76b98
      *
      * @param listNameLabel label to fetch list name from
      * @param clickedButton 'list options' button that's clicked
@@ -303,7 +304,6 @@ public class ListContainer extends VBox {
      * Lists are both sources and targets of this operation,
      * so all handlers will be applied on them directly
      * These handlers only work with Strings as the content of lists
-     *
      * @param list list to apply handlers to
      */
     public void setDragAndDrop(ListView<String> list) {
@@ -425,6 +425,19 @@ public class ListContainer extends VBox {
         event.consume();
     }
 
+    public void refreshList(List<Card> data){
+        var currentCards = list.getItems();
+        for(String card : currentCards){
+            currentCards.remove(card);
+        }
+
+        for(Card card : data){
+            if(card.list.id == listOfCards.id){
+                list.getItems().add(card.title);
+            }
+        }
+    }
+
     /**
      * Setter method for parent
      * @param parent parent
@@ -519,5 +532,15 @@ public class ListContainer extends VBox {
      */
     public ListOfCards getListOfCards() {
         return listOfCards;
+    }
+
+    /**
+     * Adds one card to the ListView and displays it
+     * @param card card to be added
+     */
+    public void addCard(Card card){
+//        var names = cards.stream().map(c -> c.title).toList();
+        String cardTitle = card.title;
+        list.getItems().add(cardTitle);
     }
 }

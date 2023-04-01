@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
@@ -26,7 +27,8 @@ public class TaskListCtrl implements Initializable {
     private final OurServerUtils server;
     private final MainTaskListCtrl mainCtrl;
 
-    private ObservableList<Card> data;
+//    private ObservableList<Card> data;
+    private List<Card> data;
     private List<ListOfCards> list;
 
     @FXML
@@ -87,24 +89,36 @@ public class TaskListCtrl implements Initializable {
 
     public void firstTimeSetUp() {
         server.setSession();
-        /*
         System.out.println("NEW TASK LIST");
         server.registerForMessages("/topic/cards", Card.class, c -> {
             data.add(c);
-            System.out.println("NEW TASK LIST");
+            long listId = c.list.id;
+            // TODO refreshBoard()
+            // TODO go through data and for each card within this list remove and add
+            refreshBoard();
         });
 
-         */
         list = server.getLists();
 
         server.registerForMessages("/topic/lists", ListOfCards.class, l -> {
             list.add(l);
+//            refreshBoard();
         });
 
         for(ListOfCards l: list) {
             ListContainer container = new ListContainer(l.name, server, mainCtrl);
             container.setListOfCards(l);
             hBox.getChildren().add(container);
+        }
+    }
+
+    public void refreshBoard(){
+        var allLists = server.getLists();
+        for(Node child : hBox.getChildren()){
+            if(child.getClass() == ListContainer.class){
+                ListContainer listContainer = (ListContainer) child;
+                listContainer.refreshList(data);
+            }
         }
     }
 }
