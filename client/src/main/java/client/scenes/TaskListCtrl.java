@@ -5,6 +5,7 @@ import client.utils.OurServerUtils;
 import com.google.inject.Inject;
 //import commons.Card;
 import commons.Card;
+import commons.ListOfCards;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -60,7 +61,6 @@ public class TaskListCtrl implements Initializable {
      * Creates a custom ListContainer FXML component with proper functionality
      */
     public void addNewList() {
-
         // Don't allow empty names, use default
         String listName = listTitle.getText();
         if (listName.equals("")) listName = "ToDo";
@@ -72,18 +72,20 @@ public class TaskListCtrl implements Initializable {
 
         container.setParent(hBox);
         hBox.getChildren().add(container);
+    }
+
+        ListOfCards mylist = new ListOfCards(listName);
+        server.send("/app/lists", mylist);
 
     }
 
     public void firstTimeSetUp(){
         server.setSession();
-        System.out.println("NEW TASK LIST");
         server.registerForMessages("/topic/cards", Card.class, c -> {
             data.add(c);
             System.out.println("NEW TASK LIST");
         });
     }
-
 
 
 }
