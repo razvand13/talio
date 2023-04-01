@@ -1,5 +1,10 @@
 package client.components;
 
+import client.scenes.MainTaskListCtrl;
+import client.utils.OurServerUtils;
+import commons.Card;
+import commons.Quote;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -11,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+
 
 public class ListContainer extends VBox {
     @FXML
@@ -35,6 +41,12 @@ public class ListContainer extends VBox {
     private Button listEditBtn;
     @FXML
     private TextField listRenameField;
+    private final OurServerUtils server;
+
+    private final MainTaskListCtrl mainCtrl;
+
+    private ObservableList<Card> data;
+
 
     // Since deletion references the list's parent, we need
     // a reference to it inside the container object
@@ -47,10 +59,16 @@ public class ListContainer extends VBox {
      * not an already existing one from SceneBuilder
      *
      * @param listName the name of the new List
+<<<<<<< HEAD
      *
      * @throws RuntimeException if the FXMLLoader cannot load the component
+     * @param server
+     * @param mainCtrl
+     * @throws RuntimeException if the FXMLLoader cannot load the component
      */
-    public ListContainer(String listName){
+    public ListContainer(String listName, OurServerUtils server, MainTaskListCtrl mainCtrl){
+        this.server = server;
+        this.mainCtrl = mainCtrl;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass()
                 .getResource("/client/components/ListContainer.fxml"));
         fxmlLoader.setRoot(this);
@@ -67,7 +85,12 @@ public class ListContainer extends VBox {
 
         setHandlers();
     }
-
+    public void firstTimeSetup1() {
+        server.setSession();
+        server.registerForMessages("/topic/cards", Card.class, c -> {
+            list.getItems().add(c.title);
+        });
+    }
     /**
      * Method that sets all event handlers of a list and its children
      */
@@ -96,11 +119,22 @@ public class ListContainer extends VBox {
             if (!taskInput.equals("")) {
                 list.getItems().add(taskInput);
                 textField.clear();
+
+                server.setSession();
+                System.out.println("CARD SAVED IN SESSION");
+                server.send("/app/cards", new Card(taskInput, null, null, null));
+                textField.clear();
+                mainCtrl.showTaskListView();
             }
 
             event.consume();
         });
     }
+
+    public void firstTimeSetUp(){
+
+    }
+
 
     /**
      * Method for making task editing option visible
@@ -133,6 +167,7 @@ public class ListContainer extends VBox {
      * Method for saving changes to task title
      *
      * @param editBtn    'edit button' that's clicked
+<<<<<<< HEAD
      * @param delBtn    'delete button
      * @param textField text field to fetch new task title from
      * @param list      list view where the change will be presented
@@ -153,12 +188,12 @@ public class ListContainer extends VBox {
     }
 
     /**
-     * Method for saving changes to task title
+     * Method for deleting a task
      *
-     * @param deleteButton    'delete button' that's clicked
-     * @param editButton    'delete button' that's clicked
-     * @param textField text field to fetch new task title from
-     * @param list      list view where the change will be presented
+     * @param deleteButton  'delete button' that's clicked
+     * @param editButton    'edit button' to set invisible
+     * @param textField     text field to set invisible
+     * @param list          list view where the change will be presented
      */
     public void setDeleteAction(Button deleteButton, Button editButton, TextField textField,
                                 ListView<String> list){
@@ -172,7 +207,11 @@ public class ListContainer extends VBox {
     }
 
     /**
+<<<<<<< HEAD
      * Method for showing additional (delete, rename) list options
+=======
+     * Method for showing / hiding additional (delete, rename) list options
+>>>>>>> 52d4020af00321c5e9e6f1eb9521a1cd29d76b98
      *
      * @param listNameLabel label to fetch list name from
      * @param clickedButton 'list options' button that's clicked
@@ -183,11 +222,13 @@ public class ListContainer extends VBox {
     public void setListOptions(Label listNameLabel, Button clickedButton, Button deleteButton,
                                Button editButton, TextField textField) {
         clickedButton.setOnAction(event -> {
-            textField.setVisible(true);
-            textField.setText(listNameLabel.getText());
-            editButton.setVisible(true);
-            deleteButton.setVisible(true);
+            boolean visibility = textField.isVisible();
+            String listName = listNameLabel.getText();
 
+            textField.setVisible(!visibility);
+            textField.setText(listName);
+            editButton.setVisible(!visibility);
+            deleteButton.setVisible(!visibility);
             event.consume();
         });
     }

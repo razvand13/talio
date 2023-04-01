@@ -3,6 +3,11 @@ package client.scenes;
 import client.components.ListContainer;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import client.utils.OurServerUtils;
+import com.google.inject.Inject;
+//import commons.Card;
+import commons.Card;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -14,8 +19,10 @@ import java.util.ResourceBundle;
 
 public class TaskListCtrl implements Initializable {
 
-    private final ServerUtils server;
+    private final OurServerUtils server;
     private final MainTaskListCtrl mainCtrl;
+
+    private ObservableList<Card> data;
 
     @FXML
     private HBox hBox;
@@ -30,7 +37,7 @@ public class TaskListCtrl implements Initializable {
      * @param mainCtrl main controller
      */
     @Inject
-    public TaskListCtrl(ServerUtils server, MainTaskListCtrl mainCtrl) {
+    public TaskListCtrl(OurServerUtils server, MainTaskListCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
@@ -57,15 +64,24 @@ public class TaskListCtrl implements Initializable {
     public void addNewList() {
         // Don't allow empty names, use default
         String listName = listTitle.getText();
-        if(listName.equals("")) listName = "ToDo";
+        if (listName.equals("")) listName = "ToDo";
 
-        ListContainer container = new ListContainer(listName);
+        ListContainer container = new ListContainer(listName, server, mainCtrl);
 
         // Reset text
         listTitle.setText("ToDo");
 
         container.setParent(hBox);
         hBox.getChildren().add(container);
+
     }
 
+    public void firstTimeSetUp(){
+        server.setSession();
+        System.out.println("NEW TASK LIST");
+        server.registerForMessages("/topic/cards", Card.class, c -> {
+            data.add(c);
+            System.out.println("NEW TASK LIST");
+        });
+    }
 }

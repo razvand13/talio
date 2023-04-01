@@ -1,4 +1,4 @@
-package DataStructures;
+package commons;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

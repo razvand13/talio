@@ -1,7 +1,4 @@
-package DataStructures;
-
-import DataStructures.ListOfCards;
-import DataStructures.Tag;
+package commons;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,7 +18,7 @@ public class Card implements Serializable {
     public long id;
 
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+   // @OneToOne(cascade = CascadeType.PERSIST)
     public String title;
     public String description;
 
@@ -34,16 +31,18 @@ public class Card implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "list_id", nullable = false)
     public ListOfCards list;
-    @SuppressWarnings("unused")
-    private Card() {
-        // for object mapper
-    }
+
 
     public Card(String title, String description, String color, ListOfCards list) {
         this.title = title;
         this.description = description;
         this.color = color;
         this.list = list;
+    }
+
+    @SuppressWarnings("unused")
+    private Card() {
+
     }
 
 
@@ -83,5 +82,13 @@ public class Card implements Serializable {
                 ", color='" + color + '\'' +
                 ", list=" + list +
                 '}';
+    }
+
+    /**
+     * simple getter
+     * @return id
+     */
+    public long getId() {
+        return id;
     }
 }
