@@ -19,10 +19,13 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.lang.reflect.Type;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
+import commons.ListOfCards;
+import commons.Quote;
 import org.glassfish.jersey.client.ClientConfig;
 
 import jakarta.ws.rs.client.ClientBuilder;
@@ -131,6 +134,13 @@ public class OurServerUtils {
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .get(responseType);
+    }
+    public List<ListOfCards> getLists(){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/lists") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<List<ListOfCards>>() {});
     }
 
     public <T> T add(String path, Object body, GenericType<T> responseType) {

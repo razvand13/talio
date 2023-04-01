@@ -5,8 +5,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
+
 
 @Entity
 @Table(name = "cards")
@@ -25,9 +27,9 @@ public class Card implements Serializable {
 
     @OneToMany(mappedBy = "card", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-
     public Set<Tag> tags;
     public String color;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "list_id", nullable = false)
     public ListOfCards list;
@@ -38,6 +40,7 @@ public class Card implements Serializable {
         this.description = description;
         this.color = color;
         this.list = list;
+        this.tags = new HashSet<>();
     }
 
     @SuppressWarnings("unused")
@@ -57,8 +60,8 @@ public class Card implements Serializable {
         if (!title.equals(card.title)) return false;
         if (!description.equals(card.description)) return false;
         if (!tags.equals(card.tags)) return false;
-        if (!color.equals(card.color)) return false;
-        return list.equals(card.list);
+        return color.equals(card.color);
+        //return list.equals(card.list);
     }
 
     @Override
@@ -68,7 +71,7 @@ public class Card implements Serializable {
         result = 31 * result + description.hashCode();
         result = 31 * result + tags.hashCode();
         result = 31 * result + color.hashCode();
-        result = 31 * result + list.hashCode();
+//        result = 31 * result + list.hashCode();
         return result;
     }
 
@@ -80,7 +83,7 @@ public class Card implements Serializable {
                 ", description='" + description + '\'' +
                 ", tags=" + tags +
                 ", color='" + color + '\'' +
-                ", list=" + list +
+                //", list=" + list +
                 '}';
     }
 

@@ -8,6 +8,8 @@ import com.google.inject.Inject;
 //import commons.Card;
 import commons.Card;
 import commons.ListOfCards;
+import jakarta.ws.rs.core.GenericType;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,6 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class TaskListCtrl implements Initializable {
@@ -24,6 +27,7 @@ public class TaskListCtrl implements Initializable {
     private final MainTaskListCtrl mainCtrl;
 
     private ObservableList<Card> data;
+    private List<ListOfCards> list;
 
     @FXML
     private HBox hBox;
@@ -56,6 +60,7 @@ public class TaskListCtrl implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         hBox.setSpacing(10);
         hBox.setPadding(new Insets(10, 10, 10, 10));
+
     }
 
     /**
@@ -77,16 +82,29 @@ public class TaskListCtrl implements Initializable {
         hBox.getChildren().add(container);
 
         ListOfCards mylist = new ListOfCards(listName);
-        server.send("/app/lists", mylist);
+        server.send("/app/lists", container.getListOfCards());
     }
 
-    public void firstTimeSetUp(){
+    public void firstTimeSetUp() {
         server.setSession();
+        /*
         System.out.println("NEW TASK LIST");
         server.registerForMessages("/topic/cards", Card.class, c -> {
             data.add(c);
             System.out.println("NEW TASK LIST");
         });
-    }
 
+         */
+        list = server.getLists();
+
+        server.registerForMessages("/topic/lists", ListOfCards.class, l -> {
+            list.add(l);
+        });
+
+        for(ListOfCards l: list) {
+            ListContainer container = new ListContainer(l.name, server, mainCtrl);
+            container.setListOfCards(l);
+            hBox.getChildren().add(container);
+        }
+    }
 }
