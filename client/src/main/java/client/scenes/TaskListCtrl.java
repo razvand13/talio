@@ -25,7 +25,7 @@ public class TaskListCtrl implements Initializable {
     private final MainTaskListCtrl mainCtrl;
 
     private ObservableList<Card> data;
-    private ObservableList<ListContainer> lists;
+    private List<ListOfCards> list;
 
     @FXML
     private HBox hBox;
@@ -93,20 +93,19 @@ public class TaskListCtrl implements Initializable {
         });
 
          */
-        List<ListOfCards> list = server.getLists();
+        list = server.getLists();
+
+        server.registerForMessages("/topic/lists", ListOfCards.class, l -> {
+            list.add(l);
+        });
+
         for(ListOfCards l: list) {
             ListContainer container = new ListContainer(l.name, server, mainCtrl);
             container.setListOfCards(l);
             hBox.getChildren().add(container);
             }
 
-        server.registerForMessages("/topic/lists", ListOfCards.class, l -> {
-            System.out.println("kasjhd");
-            ListContainer listContainer = new ListContainer(l.name, server, mainCtrl);
-            listContainer.setListOfCards(l);
-            hBox.getChildren().add(listContainer);
-            System.out.println("success");
-        });
+
 
     }
 }

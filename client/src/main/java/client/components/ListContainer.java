@@ -3,7 +3,9 @@ package client.components;
 import client.scenes.MainTaskListCtrl;
 import client.utils.OurServerUtils;
 import commons.Card;
+import commons.ListOfCards;
 import commons.Quote;
+import jakarta.ws.rs.core.GenericType;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,6 +50,7 @@ public class ListContainer extends VBox {
 
     private ObservableList<Card> data;
 
+    private ListOfCards listOfCards;
 
 
 
@@ -82,8 +85,14 @@ public class ListContainer extends VBox {
 
         this.setMinWidth(200);
         listNameLabel.setText(listName);
+        this.listOfCards = new ListOfCards(listName);
 
         setHandlers();
+    }
+
+
+    public void setListOfCards(ListOfCards loc){
+        listOfCards = loc;
     }
 
     public void firstTimeSetup1() {
@@ -123,7 +132,11 @@ public class ListContainer extends VBox {
 
                 server.setSession();
                 System.out.println("CARD SAVED IN SESSION");
-                server.send("/app/cards", new Card(taskInput, null, null, null));
+                Card myCard = new Card(taskInput, "null", "null", listOfCards);
+                System.out.println(myCard.id);
+                listOfCards.addCard(myCard);
+                server.send("/app/cards", myCard);
+
                 textField.clear();
                 mainCtrl.showTaskListView();
             }
@@ -490,5 +503,13 @@ public class ListContainer extends VBox {
      */
     public TextField getListRenameField() {
         return listRenameField;
+    }
+
+    /**
+     * Getter for listOfCards
+     * @return the listOfCards associated with this container
+     */
+    public ListOfCards getListOfCards() {
+        return listOfCards;
     }
 }
