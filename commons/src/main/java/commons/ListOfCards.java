@@ -5,6 +5,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 //import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
@@ -13,7 +14,7 @@ import javax.persistence.Entity;
 //import org.apache.commons.lang3.builder.HashCodeBuilder;
 //import org.apache.commons.lang3.builder.ToStringBuilder;
 @Entity
-@Table(name="lists")
+@Table(name="list")
 public class ListOfCards implements Serializable {
 
     @Id
@@ -41,6 +42,7 @@ public class ListOfCards implements Serializable {
     public ListOfCards(String name/*, Board board*/) {
         this.name = name;
     //    this.board = board;
+        this.cards = new HashSet<>();
     }
 
     @Override
@@ -69,20 +71,20 @@ public class ListOfCards implements Serializable {
      * simple getter
      * @return cards
      */
-    /*
+
     public Set<Card> getCards() {
         return cards;
     }
 
-     */
+
 
     /**
      * adds a card to cards
      * @param card card to be added
      */
-    /*
+
     public void addCard(Card card){
         cards.add(card);
     }
-    */
+
 }

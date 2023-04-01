@@ -47,6 +47,7 @@ public class MainTaskListCtrl {
      */
     public void showTaskListView() {
         taskListCtrl.firstTimeSetUp();
+     //   taskListCtrl.refresh();
         //firstTimeSetup1();
         primaryStage.setTitle("Task List");
         primaryStage.setScene(taskList);
