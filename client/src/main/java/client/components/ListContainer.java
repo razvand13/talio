@@ -118,6 +118,10 @@ public class ListContainer extends VBox {
             String taskInput = textField.getText();
             if (!taskInput.equals("")) {
                 list.getItems().add(taskInput);
+
+                server.setSession();
+                System.out.println("CARD SAVED IN SESSION");
+                server.send("/app/cards", new Card(taskInput, null, null, null));
                 textField.clear();
 
                 server.setSession();
