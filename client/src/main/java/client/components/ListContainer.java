@@ -4,8 +4,6 @@ import client.scenes.MainTaskListCtrl;
 import client.utils.OurServerUtils;
 import commons.Card;
 import commons.ListOfCards;
-import commons.Quote;
-import jakarta.ws.rs.core.GenericType;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

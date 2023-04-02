@@ -1,6 +1,5 @@
 package client.scenes;
 
-import client.components.ListContainer;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

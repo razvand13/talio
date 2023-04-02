@@ -25,7 +25,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
 import commons.ListOfCards;
-import commons.Quote;
 import org.glassfish.jersey.client.ClientConfig;
 
 import jakarta.ws.rs.client.ClientBuilder;
