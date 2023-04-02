@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
 
-
 @Entity
 @Table(name = "cards")
 public class Card implements Serializable {
@@ -27,9 +26,9 @@ public class Card implements Serializable {
 
     @OneToMany(mappedBy = "card", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
+
     public Set<Tag> tags;
     public String color;
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "list_id", nullable = false)
     public ListOfCards list;

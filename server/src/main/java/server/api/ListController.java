@@ -28,7 +28,7 @@ public class ListController {
      */
     public ListController(ListRepository listRepo/*, BoardRepository boardRepo*/) {
         this.listRepo = listRepo;
-    //    this.boardRepo = boardRepo;
+        //    this.boardRepo = boardRepo;
     }
 
     /**
@@ -119,4 +119,5 @@ public class ListController {
     public void deleteAll(){
         listRepo.deleteAll();
     }
+
 }

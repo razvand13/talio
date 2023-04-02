@@ -15,54 +15,44 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.OK;
 
 public class ListControllerTest {
-    TestBoardRepository boardRepo;
     TestListRepository listRepo;
     ListController controller;
     Board thisBoard;
 
     @BeforeEach
     public void setup() {
-        boardRepo = new TestBoardRepository();
         listRepo = new TestListRepository();
-        controller = new ListController(listRepo, boardRepo);
+        controller = new ListController(listRepo);
         thisBoard = new Board("name","colour");
         thisBoard.id = 0;
-        boardRepo.boards.add(thisBoard);
     }
 
     @Test
     public void cannotAddNullList() {
-        var actual = controller.add(null, 0);
-        assertEquals(BAD_REQUEST, actual.getStatusCode());
-    }
-
-    @Test
-    public void cannotAddToNonExistentBoard() {
-        var actual = controller.add(new ListOfCards("name", new Board("name", "colour")), 1);
+        var actual = controller.add(null);
         assertEquals(BAD_REQUEST, actual.getStatusCode());
     }
 
     @Test
     public void canAddGoodList(){
-        var actual = controller.add(new ListOfCards("name", thisBoard), 0);
+        var actual = controller.add(new ListOfCards("name"));
         assertEquals(OK, actual.getStatusCode());
     }
 
     @Test
     public void databaseIsUsed(){
-        controller.add(new ListOfCards("name", thisBoard), 0);
+        controller.add(new ListOfCards("name"));
         assertTrue(listRepo.calledMethods.contains("save"));
     }
 
     @Test
     public void getAllTest() {
-        Board myBoard = new Board("name", "colour");
-        ListOfCards list0 = new ListOfCards("name", myBoard);
-        ListOfCards list1 = new ListOfCards("name", myBoard);
+        ListOfCards list0 = new ListOfCards("name");
+        ListOfCards list1 = new ListOfCards("name");
         list0.id = 0;
         list1.id = 1;
-        controller.add(list0, myBoard.id);
-        controller.add(list1, myBoard.id);
+        controller.add(list0);
+        controller.add(list1);
 
         List expected = new ArrayList<ListOfCards>(Arrays.asList(list0, list1));
 
@@ -71,10 +61,9 @@ public class ListControllerTest {
 
     @Test
     public void getByIdTest() {
-        Board myBoard = new Board("name", "colour");
-        ListOfCards list0 = new ListOfCards("name", myBoard);
+        ListOfCards list0 = new ListOfCards("name");
         list0.id = 0;
-        controller.add(list0, myBoard.id);
+        controller.add(list0);
 
         assertEquals(list0, controller.getById(0).getBody());
     }
@@ -82,12 +71,12 @@ public class ListControllerTest {
     @Test
     public void deleteByIdTest() {
         Board myBoard = new Board("name", "colour");
-        ListOfCards list0 = new ListOfCards("name", myBoard);
-        ListOfCards list1 = new ListOfCards("name", myBoard);
+        ListOfCards list0 = new ListOfCards("name");
+        ListOfCards list1 = new ListOfCards("name");
         list0.id = 0;
         list1.id = 1;
-        controller.add(list0, myBoard.id);
-        controller.add(list1, myBoard.id);
+        controller.add(list0);
+        controller.add(list1);
 
         controller.deleteById(1);
 
@@ -98,12 +87,12 @@ public class ListControllerTest {
     @Test
     public void deleteAllTest() {
         Board myBoard = new Board("name", "colour");
-        ListOfCards list0 = new ListOfCards("name", myBoard);
-        ListOfCards list1 = new ListOfCards("name", myBoard);
+        ListOfCards list0 = new ListOfCards("name");
+        ListOfCards list1 = new ListOfCards("name");
         list0.id = 0;
         list1.id = 1;
-        controller.add(list0, myBoard.id);
-        controller.add(list1, myBoard.id);
+        controller.add(list0);
+        controller.add(list1);
 
         controller.deleteAll();
 
