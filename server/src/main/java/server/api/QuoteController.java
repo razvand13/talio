@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Random;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,31 +38,16 @@ public class QuoteController {
     private final Random random;
     private final QuoteRepository repo;
 
-    /**Constructor
-     *
-     * @param random
-     * @param repo
-     */
     public QuoteController(Random random, QuoteRepository repo) {
         this.random = random;
         this.repo = repo;
     }
 
-    /**Get all quotes
-     *
-     * @return a list of quotes
-     */
     @GetMapping(path = { "", "/" })
     public List<Quote> getAll() {
         return repo.findAll();
     }
 
-    /**
-     * Get quote by id
-     *
-     * @param id
-     * @return  a respone Entity
-     */
     @GetMapping("/{id}")
     public ResponseEntity<Quote> getById(@PathVariable("id") long id) {
         if (id < 0 || !repo.existsById(id)) {
@@ -69,16 +56,18 @@ public class QuoteController {
         return ResponseEntity.ok(repo.findById(id).get());
     }
 
-    /**Add quote
-     *
-     * @param quote
-     * @return responseEntity<Quote>
-     */
+    @MessageMapping("/quotes") //app/quotes -> path for basically any client (consumer)
+    @SendTo("/topic/quotes")// (producer)
+    public Quote addMessage(Quote q) {
+        add(q);
+        return q;
+    }
+
+
     @PostMapping(path = { "", "/" })
     public ResponseEntity<Quote> add(@RequestBody Quote quote) {
 
-        if (quote.person == null || isNullOrEmpty(quote.person.firstName)
-                || isNullOrEmpty(quote.person.lastName)
+        if (quote.person == null || isNullOrEmpty(quote.person.firstName) || isNullOrEmpty(quote.person.lastName)
                 || isNullOrEmpty(quote.quote)) {
             return ResponseEntity.badRequest().build();
         }
@@ -91,10 +80,6 @@ public class QuoteController {
         return s == null || s.isEmpty();
     }
 
-    /**
-     *
-     * @return a response entity
-     */
     @GetMapping("rnd")
     public ResponseEntity<Quote> getRandom() {
         var quotes = repo.findAll();

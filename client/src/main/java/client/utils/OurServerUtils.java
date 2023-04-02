@@ -17,20 +17,16 @@ package client.utils;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.net.URL;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
+import commons.ListOfCards;
 import org.glassfish.jersey.client.ClientConfig;
 
-import commons.Quote;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
@@ -39,26 +35,11 @@ import org.springframework.messaging.simp.stomp.*;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
-public class ServerUtils {
+public class OurServerUtils {
 
 
     private static String SERVER = "http://localhost:8080";
-    private static String port = "8080";
 
-
-    /**Method by Sebastian
-     *
-     * @throws IOException
-     */
-    public void getQuotesTheHardWay() throws IOException {
-        var url = new URL(SERVER+"api/quotes");
-        var is = url.openConnection().getInputStream();
-        var br = new BufferedReader(new InputStreamReader(is));
-        String line;
-        while ((line = br.readLine()) != null) {
-            System.out.println(line);
-        }
-    }
 
     /**
      * @param address address to connect to
@@ -72,7 +53,6 @@ public class ServerUtils {
      * trying to connect websocket without hardcoding
      */
     public static void setPort(String address) {
-        port = address;
     }
 
     /**
@@ -100,50 +80,15 @@ public class ServerUtils {
         return "http://localhost:" + port +"/";
     }
 
-    /**Get method for the quotes
-     *
-     * @return a list of quotes
-     */
-    public List<Quote> getQuotes() {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/quotes") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .get(new GenericType<List<Quote>>() {});
-    }
 
-    /**Add quote
-     *
-     * @param quote
-     * @return a Quote
-     */
-    public Quote addQuote(Quote quote) {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/quotes") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
-    }
 
     /**
-     * trying to connect to the user input port
-     * @return
+     * setup for stomp session port, occurs after server is set up
      */
-//    private String getPort() {
-//        String port = getSERVER();
-//        port = port.substring(16);
-//        System.out.println(port);
-//        return port;
-//    }
-
-
     private StompSession session;
-
-    /**
-     * sets session to connect("ws://localhost:[port]/websocket")
-     */
     public void setSession(){
-        session = connect("ws"+ SERVER.substring(4) + "websocket");
+        System.out.println("session is set up");
+        session = connect("ws"+ SERVER.substring(4) + "/websocket");
     }
 
     private StompSession connect(String url) {
@@ -161,13 +106,6 @@ public class ServerUtils {
         throw new IllegalStateException();
     }
 
-    /**
-     *
-     * @param dest destination the session needs to subscribe to
-     * @param type class that need will be sent
-     * @param consumer where the messages will be sent to
-     * @param <T> so register for messages can use a generic type
-     */
     public <T> void registerForMessages(String dest, Class<T> type, Consumer<T> consumer) {
         session.subscribe(dest, new StompFrameHandler() {
             @Override
@@ -182,14 +120,34 @@ public class ServerUtils {
         });
     }
 
-    /**
-     *
-     * Sends an object by calling the stompSession send method
-     * @param dest destination to send too
-     * @param o object that needs to be sent
-     */
+
     public void send(String dest, Object o) {
         session.send(dest, o);
+    }
+
+
+
+    public <T> T get(String path, GenericType<T> responseType) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path(path) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(responseType);
+    }
+    public List<ListOfCards> getLists(){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/lists") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<List<ListOfCards>>() {});
+    }
+
+    public <T> T add(String path, Object body, GenericType<T> responseType) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path(path)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(body, APPLICATION_JSON), responseType);
     }
 
 }

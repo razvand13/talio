@@ -1,6 +1,7 @@
 package client.scenes;
 
-import commons.ListOfCards;
+
+import commons.*;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.collections.FXCollections;
@@ -31,29 +32,12 @@ public class ListListCtrl implements Initializable{
 
     ObservableList<ListOfCards> listList = FXCollections.observableArrayList();
 
-    /**Constructor for ListListCtrl class
-     *
-     * @param server - the server to put it on
-     * @param mainCtrl - the main controller
-     */
     @Inject
     public ListListCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
 
-    /**Method for making editButton and editTextInput hidden
-     *
-     * NOT USED ANYWHERE
-     *
-     * @param location
-     * The location used to resolve relative paths for the root object, or
-     * {@code null} if the location is not known.
-     *
-     * @param resources
-     * The resources used to localize the root object, or {@code null} if
-     * the root object was not localized.
-     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //editing should only be available when right-clicked on a task
@@ -61,14 +45,11 @@ public class ListListCtrl implements Initializable{
         editTextInput.setVisible(false);
     }
 
-    /**Refresh method for ListListCtrl
-     *
-     */
     public void refresh() {
         myListView.setItems(list);
     }
 
-    /** Adding a new List to the Board
+    /** Adding a new List to the List of Lists
      *
      */
     public void addNew(){
@@ -81,9 +62,6 @@ public class ListListCtrl implements Initializable{
         refresh();
     }
 
-    /**Remove a List from the Board
-     *
-     */
     public void removeList(){
         String input = textInput.getText();
         if(input != null){
