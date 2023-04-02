@@ -24,6 +24,7 @@ import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
+import commons.Card;
 import commons.ListOfCards;
 import commons.Quote;
 import org.glassfish.jersey.client.ClientConfig;
@@ -141,6 +142,14 @@ public class OurServerUtils {
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<List<ListOfCards>>() {});
+    }
+
+    public List<Card> getCards(){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/cards") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<List<Card>>() {});
     }
 
     public <T> T add(String path, Object body, GenericType<T> responseType) {

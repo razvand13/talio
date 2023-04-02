@@ -425,18 +425,18 @@ public class ListContainer extends VBox {
         event.consume();
     }
 
-    public void refreshList(List<Card> data){
-        var currentCards = list.getItems();
-        for(String card : currentCards){
-            currentCards.remove(card);
-        }
-
-        for(Card card : data){
-            if(card.list.id == listOfCards.id){
-                list.getItems().add(card.title);
-            }
-        }
-    }
+//    public void refreshList(List<Card> data){
+//        var currentCards = list.getItems();
+//        for(String card : currentCards){
+//            currentCards.remove(card);
+//        }
+//
+//        for(Card card : data){
+//            if(card.list.id == listOfCards.id){
+//                list.getItems().add(card.title);
+//            }
+//        }
+//    }
 
     /**
      * Setter method for parent
@@ -534,13 +534,13 @@ public class ListContainer extends VBox {
         return listOfCards;
     }
 
-    /**
-     * Adds one card to the ListView and displays it
-     * @param card card to be added
-     */
-    public void addCard(Card card){
-//        var names = cards.stream().map(c -> c.title).toList();
-        String cardTitle = card.title;
-        list.getItems().add(cardTitle);
-    }
+//    /**
+//     * Adds one card to the ListView and displays it
+//     * @param card card to be added
+//     */
+//    public void addCard(Card card){
+////        var names = cards.stream().map(c -> c.title).toList();
+//        String cardTitle = card.title;
+//        list.getItems().add(cardTitle);
+//    }
 }

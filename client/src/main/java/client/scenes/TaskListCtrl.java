@@ -9,6 +9,7 @@ import com.google.inject.Inject;
 import commons.Card;
 import commons.ListOfCards;
 import jakarta.ws.rs.core.GenericType;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,6 +19,7 @@ import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
+import javax.swing.*;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -90,35 +92,88 @@ public class TaskListCtrl implements Initializable {
     public void firstTimeSetUp() {
         server.setSession();
         System.out.println("NEW TASK LIST");
+
+        refreshBoard();
+        list = server.getLists();
+        data = server.getCards();
+
         server.registerForMessages("/topic/cards", Card.class, c -> {
             data.add(c);
-            long listId = c.list.id;
-            // TODO refreshBoard()
-            // TODO go through data and for each card within this list remove and add
-            refreshBoard();
+            Platform.runLater(this::refreshBoard);
         });
-
-        list = server.getLists();
 
         server.registerForMessages("/topic/lists", ListOfCards.class, l -> {
             list.add(l);
-//            refreshBoard();
+            Platform.runLater(this::refreshBoard);
         });
 
-        for(ListOfCards l: list) {
-            ListContainer container = new ListContainer(l.name, server, mainCtrl);
-            container.setListOfCards(l);
-            hBox.getChildren().add(container);
-        }
+//        for(ListOfCards l: list) {
+//            ListContainer container = new ListContainer(l.name, server, mainCtrl);
+//            container.setListOfCards(l);
+//            container.setParent(hBox);
+//            hBox.getChildren().add(container);
+//        }
     }
 
+    /**
+     * Method that refreshes the board
+     * First removes all lists and their contents, and using the data and lists from the server,
+     * redraws them, one by one (not the best approach, but it should work)
+     * todo maybe come up with a better idea
+     */
     public void refreshBoard(){
-        var allLists = server.getLists();
+        Platform.runLater(() ->{
+            clearBoard();
+            makeBoard();
+        });
+    }
+
+    /**
+     * Erase all lists from the board
+     */
+    public void clearBoard(){
         for(Node child : hBox.getChildren()){
             if(child.getClass() == ListContainer.class){
                 ListContainer listContainer = (ListContainer) child;
-                listContainer.refreshList(data);
+                hBox.getChildren().remove(listContainer);
             }
         }
     }
+
+    /**
+     * Make the board using 'data' and 'list'
+     */
+    public void makeBoard(){
+        //Redraw lists
+        for(ListOfCards loc : list){
+            ListContainer listContainer = new ListContainer(loc.name, server, mainCtrl);
+            listContainer.setListOfCards(loc);
+            listContainer.setParent(hBox);
+            hBox.getChildren().add(listContainer);
+        }
+
+        //Redraw list contents
+        for(Node child : hBox.getChildren()){
+            if(child.getClass() == ListContainer.class){ // Error handling
+                ListContainer listContainer = (ListContainer) child;
+                var currentCards = listContainer.getList().getItems();
+
+                // Remove all contents of each list
+                for(String card : currentCards){
+                    currentCards.remove(card);
+                }
+
+                ListOfCards listOfCards = listContainer.getListOfCards();
+
+                // Add back each card to their own list
+                for(Card card : data){
+                    if(card.list.id == listOfCards.id){
+                        var items = listContainer.getList().getItems();
+                        items.add(card.title);
+                    }
+                }
+            }
+        }
+    }
+
 }
