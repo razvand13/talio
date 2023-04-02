@@ -4,8 +4,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import javax.persistence.Entity;
 @Entity
 public class ListOfCards implements Serializable {
@@ -35,7 +34,7 @@ public class ListOfCards implements Serializable {
      */
     public ListOfCards(String title) {
         this.title = title;
-//        this.cards = null;
+        this.cards = new ArrayList<>();
     }
 
     /**Empty constructor for ListOfCards
@@ -58,8 +57,8 @@ public class ListOfCards implements Serializable {
         ListOfCards that = (ListOfCards) o;
 
         if (id != that.id) return false;
-        return title.equals(that.title);
-//        return cards.equals(that.cards);
+        if (!Objects.equals(cards, that.cards)) return false;
+        return Objects.equals(title, that.title);
     }
 
 

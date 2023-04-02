@@ -51,7 +51,7 @@ public class Card implements Serializable {
 
         if (id != card.id) return false;
         if (!title.equals(card.title)) return false;
-        return listOfCards.equals(card.listOfCards);
+        return true;
     }
 
     /**Hashcode function for card
@@ -62,7 +62,6 @@ public class Card implements Serializable {
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + title.hashCode();
-        result = 31 * result + listOfCards.hashCode();
         return result;
     }
 
