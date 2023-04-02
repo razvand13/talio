@@ -5,6 +5,7 @@ import static com.google.inject.Guice.createInjector;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import client.scenes.CardViewCtrl;
 import client.scenes.MainTaskListCtrl;
 import client.scenes.TaskListCtrl;
 import com.google.inject.Injector;
@@ -27,6 +28,7 @@ public class TaskListMain extends Application {
     }
 
     /**
+     * Method for setting scenes and the main controller
      *
      * @param primaryStage the primary stage for this application, onto which
      * the application scene can be set.
@@ -39,9 +41,11 @@ public class TaskListMain extends Application {
 
         var taskList = FXML.load(TaskListCtrl.class, "client", "scenes", "TaskListView.fxml");
 
+        var cardView = FXML.load(CardViewCtrl.class, "client", "scenes", "CardView.fxml");
+
         var mainTaskCtrl = INJECTOR.getInstance(MainTaskListCtrl.class);
 
 
-        mainTaskCtrl.initialize(primaryStage, taskList);
+        mainTaskCtrl.initialize(primaryStage, taskList, cardView);
     }
 }

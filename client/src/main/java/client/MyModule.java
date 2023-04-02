@@ -15,20 +15,26 @@
  */
 package client;
 
+import client.scenes.*;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
 
-import client.scenes.AddQuoteCtrl;
-import client.scenes.MainCtrl;
-import client.scenes.QuoteOverviewCtrl;
-
 public class MyModule implements Module {
 
+    /**
+     * Method for contributing bindings to this module
+     * @param binder collects information for creating an Injector
+     */
     @Override
     public void configure(Binder binder) {
         binder.bind(MainCtrl.class).in(Scopes.SINGLETON);
         binder.bind(AddQuoteCtrl.class).in(Scopes.SINGLETON);
         binder.bind(QuoteOverviewCtrl.class).in(Scopes.SINGLETON);
+
+        //adding our controllers here is necessary for switching scenes
+        binder.bind(MainTaskListCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(TaskListCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(CardViewCtrl.class).in(Scopes.SINGLETON);
     }
 }

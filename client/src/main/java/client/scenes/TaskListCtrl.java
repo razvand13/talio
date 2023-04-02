@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
@@ -64,8 +65,32 @@ public class TaskListCtrl implements Initializable {
         // Reset text
         listTitle.setText("ToDo");
 
+        //method for overview and edition of card gets assigned here
+        //to omit passing MainTaskListCtrl into ListContainer
+        setShowCardView(container.getList());
+
         container.setParent(hBox);
         hBox.getChildren().add(container);
+    }
+
+    /**
+     * Method that gets called if the user double-clicks on of the tasks
+     * on a list. If the user clicked on an existing task, they get
+     * forwarded to the card overview screen
+     * @param list ListView from which the card is selected
+     */
+    public void setShowCardView(ListView<String> list) {
+        list.setOnMouseClicked(event -> {
+            String item = list.getSelectionModel().getSelectedItem();
+
+            if (item != null) {
+                if(event.getClickCount() > 1){
+                    mainCtrl.showCardView();
+                }
+            }
+
+            event.consume();
+        });
     }
 
 }

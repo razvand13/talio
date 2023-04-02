@@ -82,9 +82,10 @@ public class ListContainer extends VBox {
      */
     private void setHandlers(){
         setAddTaskAction(addTaskBtn, taskInputField, list);
-        setShowTaskEditAction(taskEditBtn, taskDeleteBtn, list, taskEditField, taskEditLabel);
-        setSaveEditAction(taskEditBtn, taskDeleteBtn, taskEditField, taskEditLabel, list);
-        setDeleteAction(taskDeleteBtn, taskEditBtn, taskEditField, taskEditLabel, list);
+        //these methods will be taken to the card view controller
+//        setShowTaskEditAction(taskEditBtn, taskDeleteBtn, list, taskEditField, taskEditLabel);
+//        setSaveEditAction(taskEditBtn, taskDeleteBtn, taskEditField, taskEditLabel, list);
+//        setDeleteAction(taskDeleteBtn, taskEditBtn, taskEditField, taskEditLabel, list);
         setListOptions(listNameLabel, listOptionsBtn, listDeleteBtn,
                 listEditBtn, listRenameField, listEditLabel);
         setRenameList(listNameLabel, listEditBtn, listRenameField, listEditLabel, listDeleteBtn);
@@ -111,81 +112,52 @@ public class ListContainer extends VBox {
         });
     }
 
-    /**
-     * Method for making task editing option visible
-     *
-     * @param editBtn   'edit' button that becomes visible
-     * @param delBtn    'delete' button
-     * @param list      list view from which an element can be selected
-     * @param textField text field to fetch task title from
-     * @param taskEditLabel Label for the textField
-     */
-    public void setShowTaskEditAction(Button editBtn, Button delBtn, ListView<String> list,
-                                      TextField textField, Label taskEditLabel) {
-        list.setOnContextMenuRequested(event -> {
-            String item = list.getSelectionModel().getSelectedItem();
-            if (item != null) {
-                editBtn.setVisible(true);
-                delBtn.setVisible(true);
-                textField.setVisible(true);
-                textField.setText(item);
-                taskEditLabel.setVisible(true);
-            } else {
-                editBtn.setVisible(false);
-                delBtn.setVisible(true);
-                textField.setVisible(false);
-                taskEditLabel.setVisible(false);
-            }
-
-            event.consume();
-        });
-    }
-
-    /**
-     * Method for saving changes to task title
-     *
-     * @param editBtn    'edit button' that's clicked
-     * @param delBtn     'delete' button to set invisible
-     * @param textField  text field to fetch new task title from
-     * @param taskEditLabel Label for the textField
-     * @param list       list view where the change will be presented
-     */
-    public void setSaveEditAction(Button editBtn, Button delBtn, TextField textField, Label taskEditLabel,
-                                  ListView<String> list) {
-        editBtn.setOnAction(event -> {
-            String edit = textField.getText();
-            // Check if there is something selected AND if the field is not empty
-            int idx = list.getSelectionModel().getSelectedIndex();
-            if (idx != -1 && edit.length() >= 1) {
-                list.getItems().set(idx, edit);
-                editBtn.setVisible(false);
-                delBtn.setVisible(false);
-                textField.setVisible(false);
-                taskEditLabel.setVisible(false);
-            }
-        });
-    }
-
-    /**
-     * Method for deleting a task
-     *
-     * @param deleteButton  'delete button' that's clicked
-     * @param editButton    'edit button' to set invisible
-     * @param textField     text field to set invisible
-     * @param taskEditLabel Label for the textField
-     * @param list          list view where the change will be presented
-     */
-    public void setDeleteAction(Button deleteButton, Button editButton, TextField textField, Label taskEditLabel,
-                                ListView<String> list){
-        deleteButton.setOnAction(event -> {
-            int idx = list.getSelectionModel().getSelectedIndex();
-            list.getItems().remove(idx);
-            deleteButton.setVisible(false);
-            editButton.setVisible(false);
-            textField.setVisible(false);
-            taskEditLabel.setVisible(false);
-        });
-    }
+    //these methods will be taken to the card view controller
+//    /**
+//     * Method for saving changes to task title
+//     *
+//     * @param editBtn    'edit button' that's clicked
+//     * @param delBtn     'delete' button to set invisible
+//     * @param textField  text field to fetch new task title from
+//     * @param taskEditLabel Label for the textField
+//     * @param list       list view where the change will be presented
+//     */
+//    public void setSaveEditAction(Button editBtn, Button delBtn, TextField textField,
+//    Label taskEditLabel, ListView<String> list) {
+//        editBtn.setOnAction(event -> {
+//            String edit = textField.getText();
+//            // Check if there is something selected AND if the field is not empty
+//            int idx = list.getSelectionModel().getSelectedIndex();
+//            if (idx != -1 && edit.length() >= 1) {
+//                list.getItems().set(idx, edit);
+//                editBtn.setVisible(false);
+//                delBtn.setVisible(false);
+//                textField.setVisible(false);
+//                taskEditLabel.setVisible(false);
+//            }
+//        });
+//    }
+//
+//    /**
+//     * Method for deleting a task
+//     *
+//     * @param deleteButton  'delete button' that's clicked
+//     * @param editButton    'edit button' to set invisible
+//     * @param textField     text field to set invisible
+//     * @param taskEditLabel Label for the textField
+//     * @param list          list view where the change will be presented
+//     */
+//    public void setDeleteAction(Button deleteButton, Button editButton, TextField textField,
+//    Label taskEditLabel, ListView<String> list){
+//        deleteButton.setOnAction(event -> {
+//            int idx = list.getSelectionModel().getSelectedIndex();
+//            list.getItems().remove(idx);
+//            deleteButton.setVisible(false);
+//            editButton.setVisible(false);
+//            textField.setVisible(false);
+//            taskEditLabel.setVisible(false);
+//        });
+//    }
 
     /**
      * Method for showing / hiding additional (delete, rename) list options
@@ -431,21 +403,22 @@ public class ListContainer extends VBox {
         return taskInputField;
     }
 
-    /**
-     * Getter method for taskEditBtn
-     * @return taskEditBtn
-     */
-    public Button getTaskEditBtn() {
-        return taskEditBtn;
-    }
-
-    /**
-     * Getter method for taskEditField
-     * @return taskEditField
-     */
-    public TextField getTaskEditField() {
-        return taskEditField;
-    }
+    //the task edition will be executed in the card view
+//    /**
+//     * Getter method for taskEditBtn
+//     * @return taskEditBtn
+//     */
+//    public Button getTaskEditBtn() {
+//        return taskEditBtn;
+//    }
+//
+//    /**
+//     * Getter method for taskEditField
+//     * @return taskEditField
+//     */
+//    public TextField getTaskEditField() {
+//        return taskEditField;
+//    }
 
     /**
      * Getter method for listOptionsBtn
@@ -478,4 +451,14 @@ public class ListContainer extends VBox {
     public TextField getListRenameField() {
         return listRenameField;
     }
+
+    //the delete button won't be in the list container anymore
+//    /**
+//     * Getter method for taskDeleteBtn
+//     * @return taskDeleteBtn
+//     */
+//    public Button getTaskDeleteBtn(){
+//        return taskDeleteBtn;
+//    }
+
 }
