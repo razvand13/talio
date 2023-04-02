@@ -34,7 +34,7 @@ public class ListOfCards implements Serializable {
      */
     public ListOfCards(String title) {
         this.title = title;
-        this.cards = null;
+        this.cards = new ArrayList<>();
     }
 
     /**Empty constructor for ListOfCards
