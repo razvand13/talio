@@ -45,16 +45,18 @@ public class AddCardCtrl {
 
     public void ok() {
 
-        server.send("/app/cards", getCard());
+       // server.send("/app/cards", getCard());
         System.out.println("card send to database");
         clearFields();
         mainCtrl.showTaskListView();
     }
-
+/*
     private Card getCard() {
         var title = cardTitle.getText();
         return new Card(title, null, null, null);
     }
+
+ */
 
     private void clearFields() {
         cardTitle.clear();

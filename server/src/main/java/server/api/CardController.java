@@ -56,7 +56,7 @@ public class CardController {
      */
     @PostMapping(path ={"","/"})
     public ResponseEntity<Card> add(@RequestBody Card card) {
-
+        System.out.println("got here");
         if(card == null){
             return ResponseEntity.badRequest().build();
         }
@@ -65,6 +65,8 @@ public class CardController {
         if(cardRepo.existsById(card.getId())){
             return ResponseEntity.badRequest().build();
         }
+
+        card.list.addCard(card);
 
         cardRepo.save(card);
         return ResponseEntity.ok(card);
