@@ -125,9 +125,10 @@ public class ServerUtils {
 
 
     //for now, hard-code the "8080" part of the port you want
-    private StompSession session = connect("ws://localhost:" + "8080" + "/websocket");
+    private StompSession session = connect("ws://localhost:" + "7070" + "/websocket");
 
     private StompSession connect(String url) {
+        System.out.println("stomp connection");
         var client = new StandardWebSocketClient();
         var stomp = new WebSocketStompClient(client);
         stomp.setMessageConverter(new MappingJackson2MessageConverter());
@@ -143,6 +144,7 @@ public class ServerUtils {
     }
 
     public <T> void registerForMessages(String dest, Class<T> type, Consumer<T> consumer) {
+        System.out.println("register for messages");
         session.subscribe(dest, new StompFrameHandler() {
             @Override
             public Type getPayloadType(StompHeaders headers) {
@@ -157,7 +159,7 @@ public class ServerUtils {
     }
 
     public void send(String dest, Object o) {
+        System.out.println("send");
         session.send(dest, o);
     }
-
 }

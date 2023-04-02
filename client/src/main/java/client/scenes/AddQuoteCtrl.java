@@ -63,6 +63,7 @@ public class AddQuoteCtrl {
 //        }
 
         server.send("/app/quotes", getQuote());
+        System.out.println("ok new quote");
 
         clearFields();
         mainCtrl.showOverview();

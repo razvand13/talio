@@ -59,6 +59,7 @@ public class QuoteOverviewCtrl implements Initializable {
         colQuote.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().quote));
 
         server.registerForMessages("/topic/quotes", Quote.class, q -> {
+            System.out.println("initialize reg for messages");
             data.add(q);
         });
     }
