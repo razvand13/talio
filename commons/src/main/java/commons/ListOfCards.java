@@ -92,4 +92,12 @@ public class ListOfCards implements Serializable {
         }
         return a.toString();
     }
+
+    /**
+     * adds a card to cards
+     * @param card card to be added
+     */
+    public void addCard(Card card){
+        cards.add(card);
+    }
 }
