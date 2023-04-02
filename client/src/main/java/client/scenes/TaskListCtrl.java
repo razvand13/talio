@@ -21,6 +21,7 @@ import javafx.scene.layout.HBox;
 
 import javax.swing.*;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -81,11 +82,12 @@ public class TaskListCtrl implements Initializable {
 
         // Reset text
         listTitle.setText("ToDo");
-
-        container.setParent(hBox);
-        hBox.getChildren().add(container);
+//
+//        container.setParent(hBox);
+//        hBox.getChildren().add(container);
 
         ListOfCards mylist = new ListOfCards(listName);
+        container.setListOfCards(mylist);
         server.send("/app/lists", container.getListOfCards());
     }
 
@@ -94,8 +96,8 @@ public class TaskListCtrl implements Initializable {
         System.out.println("NEW TASK LIST");
 
         refreshBoard();
-        list = server.getLists();
-        data = server.getCards();
+//        list = server.getLists();
+//        data = server.getCards();
 
         server.registerForMessages("/topic/cards", Card.class, c -> {
             data.add(c);
@@ -122,28 +124,33 @@ public class TaskListCtrl implements Initializable {
      * todo maybe come up with a better idea
      */
     public void refreshBoard(){
-        Platform.runLater(() ->{
-            clearBoard();
-            makeBoard();
-        });
+//        Platform.runLater(() ->{
+//            clearBoard();
+//            makeBoard();
+//        });
+        Platform.runLater(this::clearBoard);
+        Platform.runLater(this::makeBoard);
     }
 
     /**
      * Erase all lists from the board
      */
     public void clearBoard(){
+        List<ListContainer> containers = new ArrayList<>();
         for(Node child : hBox.getChildren()){
             if(child.getClass() == ListContainer.class){
                 ListContainer listContainer = (ListContainer) child;
-                hBox.getChildren().remove(listContainer);
+                containers.add(listContainer);
             }
         }
+        hBox.getChildren().removeAll(containers);
     }
 
     /**
      * Make the board using 'data' and 'list'
      */
     public void makeBoard(){
+        list = server.getLists();
         //Redraw lists
         for(ListOfCards loc : list){
             ListContainer listContainer = new ListContainer(loc.name, server, mainCtrl);
@@ -152,28 +159,29 @@ public class TaskListCtrl implements Initializable {
             hBox.getChildren().add(listContainer);
         }
 
-        //Redraw list contents
-        for(Node child : hBox.getChildren()){
-            if(child.getClass() == ListContainer.class){ // Error handling
-                ListContainer listContainer = (ListContainer) child;
-                var currentCards = listContainer.getList().getItems();
-
-                // Remove all contents of each list
-                for(String card : currentCards){
-                    currentCards.remove(card);
-                }
-
-                ListOfCards listOfCards = listContainer.getListOfCards();
-
-                // Add back each card to their own list
-                for(Card card : data){
-                    if(card.list.id == listOfCards.id){
-                        var items = listContainer.getList().getItems();
-                        items.add(card.title);
-                    }
-                }
-            }
-        }
+//        //Redraw list contents
+//        data = server.getCards();
+//        for(Node child : hBox.getChildren()){
+//            if(child.getClass() == ListContainer.class){ // Error handling
+//                ListContainer listContainer = (ListContainer) child;
+////                var currentCards = listContainer.getList().getItems();
+////
+////                // Remove all contents of each list
+////                for(String card : currentCards){
+////                    currentCards.remove(card);
+////                }
+//
+//                ListOfCards listOfCards = listContainer.getListOfCards();
+//
+//                // Add back each card to their own list
+//                for(Card card : data){
+//                    if(card.list.id == listOfCards.id){
+//                        var items = listContainer.getList().getItems();
+//                        items.add(card.title);
+//                    }
+//                }
+//            }
+//        }
     }
 
 }
