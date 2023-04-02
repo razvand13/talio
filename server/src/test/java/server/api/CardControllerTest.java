@@ -26,7 +26,7 @@ public class CardControllerTest {
         cardRepo = new TestCardRepository();
         controller = new CardController(cardRepo, listRepo);
         thisList = new ListOfCards("name");
-        thisList.id = 0;
+        thisList.id = 1;
         listRepo.lists.add(thisList);
     }
 

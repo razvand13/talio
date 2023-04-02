@@ -67,6 +67,10 @@ public class CardController {
             return ResponseEntity.badRequest().build();
         }
 
+        if(!listRepo.existsById(card.list.id)){
+            return ResponseEntity.badRequest().build();
+        }
+
         card.list.addCard(card);
 
         cardRepo.save(card);

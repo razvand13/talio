@@ -60,9 +60,9 @@ public class ListController {
      */
     @PostMapping
     public ResponseEntity<ListOfCards> add(@RequestBody ListOfCards listOfCards/*, long boardId*/){
-        //System.out.println("hahaah");
-        //there already exists a list with this id
-        if(listRepo.existsById(listOfCards.getId())){
+
+
+        if(listOfCards == null || listRepo.existsById(listOfCards.getId())){
             return ResponseEntity.badRequest().build();
         }
 
