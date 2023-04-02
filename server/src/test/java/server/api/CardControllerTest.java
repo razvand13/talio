@@ -57,9 +57,8 @@ public class CardControllerTest {
 
     @Test
     public void getAllTest() {
-        ListOfCards myList = new ListOfCards("name");
-        Card card0 = new Card("name", "description", "colour", myList);
-        Card card1 = new Card("name", "description", "colour", myList);
+        Card card0 = new Card("name", "description", "colour", thisList);
+            Card card1 = new Card("name", "description", "colour", thisList);
         card0.id = 0;
         card1.id = 1;
         controller.add(card0);
@@ -72,8 +71,7 @@ public class CardControllerTest {
 
     @Test
     public void getByIdTest(){
-        ListOfCards myList = new ListOfCards("name");
-        Card card0 = new Card("name", "description", "colour", myList);
+        Card card0 = new Card("name", "description", "colour", thisList);
         card0.id = 0;
 
         controller.add(card0);
@@ -83,9 +81,8 @@ public class CardControllerTest {
 
     @Test
     public void deleteByIdTest() {
-        ListOfCards myList = new ListOfCards("name");
-        Card card0 = new Card("name", "description", "colour", myList);
-        Card card1 = new Card("name", "description", "colour", myList);
+        Card card0 = new Card("name", "description", "colour", thisList);
+        Card card1 = new Card("name", "description", "colour", thisList);
         card0.id = 0;
         card1.id = 1;
         controller.add(card0);
@@ -99,9 +96,8 @@ public class CardControllerTest {
 
     @Test
     public void deleteAllTest(){
-        ListOfCards myList = new ListOfCards("name");
-        Card card0 = new Card("name", "description", "colour", myList);
-        Card card1 = new Card("name", "description", "colour", myList);
+        Card card0 = new Card("name", "description", "colour", thisList);
+        Card card1 = new Card("name", "description", "colour", thisList);
         card0.id = 0;
         card1.id = 1;
         controller.add(card0);
