@@ -57,7 +57,8 @@ public class ListOfCards implements Serializable {
         ListOfCards that = (ListOfCards) o;
 
         if (id != that.id) return false;
-        return cards.equals(that.cards);
+        if (!Objects.equals(cards, that.cards)) return false;
+        return Objects.equals(title, that.title);
     }
 
     /**Hashcode method for ListOfCards
