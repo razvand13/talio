@@ -1,43 +1,55 @@
 package commons;
 
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
-//import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 import javax.persistence.Entity;
-//import org.apache.commons.lang3.builder.EqualsBuilder;
-//import org.apache.commons.lang3.builder.HashCodeBuilder;
-//import org.apache.commons.lang3.builder.ToStringBuilder;
 @Entity
-@Table(name="lists")
 public class ListOfCards implements Serializable {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(unique = true)
+    @GeneratedValue
     public long id;
-    public String name;
-    @OneToMany(mappedBy = "list", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    private Set<Card> cards;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "board_id", nullable = false)
-    public Board board;
+    @OneToMany(mappedBy = "listOfCards")
+    public List<Card> cards;
 
-    @SuppressWarnings("unused")
-    private ListOfCards() {
-        // for object mapper
+    public String title;
+
+    /**Constructor for ListOfCards
+     *
+     * @param title
+     * @param cards
+     */
+    public ListOfCards(String title, List<Card> cards) {
+        this.title = title;
+        this.cards = cards;
     }
 
-    public ListOfCards(String name, Board board) {
-        this.name = name;
-        this.board = board;
+    /**Constructor only with title for ListOfCards
+     *
+     * @param title
+     */
+    public ListOfCards(String title) {
+        this.title = title;
+//        this.cards = null;
     }
 
+    /**Empty constructor for ListOfCards
+     *
+     */
+    public ListOfCards() {
+
+    }
+
+    /**Equals method for ListOfCards
+     *
+     * @param o
+     * @return true iff they are completely the same
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -46,27 +58,39 @@ public class ListOfCards implements Serializable {
         ListOfCards that = (ListOfCards) o;
 
         if (id != that.id) return false;
-        if (!name.equals(that.name)) return false;
-        if (!cards.equals(that.cards)) return false;
-        return board.equals(that.board);
+        return title.equals(that.title);
+//        return cards.equals(that.cards);
     }
 
+
     /**
-     * Hashcode method for the object
+     * Hashcode method for a ListOfCards
      *
      * @return the hash value
      */
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, cards, board);
+        return Objects.hash(id, title);
     }
 
+    /**ToString method for ListOfCards
+     *
+     * @return human-readable version of the object
+     */
     @Override
     public String toString() {
-        return "ListOfCards{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", board=" + board +
-                '}';
+        StringBuilder a = new StringBuilder("ListOfCards: id =" +
+                id + ", title =" + title + ", cards =");
+        if(cards == null) {
+            a.append("N/A;");
+            return a.toString();
+        }
+
+        for(Card i:cards){
+            a.append("\n")
+                    .append(i.toString())
+                    .append(";");
+        }
+        return a.toString();
     }
 }

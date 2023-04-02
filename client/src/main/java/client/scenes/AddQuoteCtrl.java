@@ -67,6 +67,10 @@ public class AddQuoteCtrl {
         clearFields();
         mainCtrl.showOverview();
     }
+    /**
+     *
+     * @return the Quote that has been inputted by the user
+     */
 
     private Quote getQuote() {
         var p = new Person(firstName.getText(), lastName.getText());
@@ -92,4 +96,12 @@ public class AddQuoteCtrl {
             break;
         }
     }
+
+    /**
+     * sets session variable in server
+     */
+    public void firstTimeSetUp(){
+        server.setSession();
+    }
+
 }

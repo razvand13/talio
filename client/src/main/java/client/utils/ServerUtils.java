@@ -124,8 +124,14 @@ public class ServerUtils {
 //    }
 
 
-    //for now, hard-code the "8080" part of the port you want
-    private StompSession session = connect("ws://localhost:" + "8080" + "/websocket");
+    private StompSession session;
+
+    /**
+     * sets session to connect("ws://localhost:[port]/websocket")
+     */
+    public void setSession(){
+        session = connect("ws"+ SERVER.substring(4) + "websocket");
+    }
 
     private StompSession connect(String url) {
         var client = new StandardWebSocketClient();
@@ -142,6 +148,13 @@ public class ServerUtils {
         throw new IllegalStateException();
     }
 
+    /**
+     *
+     * @param dest destination the session needs to subscribe to
+     * @param type class that need will be sent
+     * @param consumer where the messages will be sent to
+     * @param <T> so register for messages can use a generic type
+     */
     public <T> void registerForMessages(String dest, Class<T> type, Consumer<T> consumer) {
         session.subscribe(dest, new StompFrameHandler() {
             @Override
@@ -156,6 +169,12 @@ public class ServerUtils {
         });
     }
 
+    /**
+     *
+     * Sends an object by calling the stompSession send method
+     * @param dest destination to send too
+     * @param o object that needs to be sent
+     */
     public void send(String dest, Object o) {
         session.send(dest, o);
     }

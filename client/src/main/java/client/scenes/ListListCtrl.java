@@ -1,6 +1,7 @@
 package client.scenes;
 
-import commons.ListOfCards;
+
+import commons.*;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.collections.FXCollections;
