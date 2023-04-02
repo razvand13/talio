@@ -5,6 +5,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
 
@@ -18,7 +19,7 @@ public class Card implements Serializable {
     public long id;
 
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+   // @OneToOne(cascade = CascadeType.PERSIST)
     public String title;
     public String description;
 
@@ -31,16 +32,19 @@ public class Card implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "list_id", nullable = false)
     public ListOfCards list;
-    @SuppressWarnings("unused")
-    private Card() {
-        // for object mapper
-    }
+
 
     public Card(String title, String description, String color, ListOfCards list) {
         this.title = title;
         this.description = description;
         this.color = color;
         this.list = list;
+        this.tags = new HashSet<>();
+    }
+
+    @SuppressWarnings("unused")
+    private Card() {
+
     }
 
 
@@ -55,8 +59,8 @@ public class Card implements Serializable {
         if (!title.equals(card.title)) return false;
         if (!description.equals(card.description)) return false;
         if (!tags.equals(card.tags)) return false;
-        if (!color.equals(card.color)) return false;
-        return list.equals(card.list);
+        return color.equals(card.color);
+        //return list.equals(card.list);
     }
 
     @Override
@@ -66,7 +70,7 @@ public class Card implements Serializable {
         result = 31 * result + description.hashCode();
         result = 31 * result + tags.hashCode();
         result = 31 * result + color.hashCode();
-        result = 31 * result + list.hashCode();
+//        result = 31 * result + list.hashCode();
         return result;
     }
 
@@ -78,7 +82,7 @@ public class Card implements Serializable {
                 ", description='" + description + '\'' +
                 ", tags=" + tags +
                 ", color='" + color + '\'' +
-                ", list=" + list +
+                //", list=" + list +
                 '}';
     }
 
