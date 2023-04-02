@@ -32,13 +32,25 @@ public class MyFXML {
 
     private Injector injector;
 
+    /**
+     *
+     * @param injector
+     */
     public MyFXML(Injector injector) {
         this.injector = injector;
     }
 
+    /**
+     *
+     * @param c
+     * @param parts
+     * @return Pair<>(ctrl, parent)
+     * @param <T>
+     */
     public <T> Pair<T, Parent> load(Class<T> c, String... parts) {
         try {
-            var loader = new FXMLLoader(getLocation(parts), null, null, new MyFactory(), StandardCharsets.UTF_8);
+            var loader = new FXMLLoader(getLocation(parts), null,
+                    null, new MyFactory(), StandardCharsets.UTF_8);
             Parent parent = loader.load();
             T ctrl = loader.getController();
             return new Pair<>(ctrl, parent);
@@ -47,17 +59,31 @@ public class MyFXML {
         }
     }
 
+    /**
+     *
+     * @param parts
+     * @return
+     */
     private URL getLocation(String... parts) {
         var path = Path.of("", parts).toString();
         return MyFXML.class.getClassLoader().getResource(path);
     }
 
     private class MyFactory implements BuilderFactory, Callback<Class<?>, Object> {
-
+        /**
+         *
+         * @param type the given type or null
+         *
+         * @return
+         */
         @Override
         @SuppressWarnings("rawtypes")
         public Builder<?> getBuilder(Class<?> type) {
             return new Builder() {
+                /**
+                 *
+                 * @return
+                 */
                 @Override
                 public Object build() {
                     return injector.getInstance(type);
@@ -65,6 +91,12 @@ public class MyFXML {
             };
         }
 
+        /**
+         *
+         * @param type The single argument upon which the returned value should be
+         *      determined.
+         * @return
+         */
         @Override
         public Object call(Class<?> type) {
             return injector.getInstance(type);

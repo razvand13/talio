@@ -88,10 +88,17 @@ public class ListContainer extends VBox {
         setHandlers();
     }
 
-
+    /**
+     *
+     * @param loc
+     */
     public void setListOfCards(ListOfCards loc){
         listOfCards = loc;
     }
+
+    /**
+     *
+     */
 
     public void firstTimeSetup1() {
         server.setSession();
@@ -143,6 +150,9 @@ public class ListContainer extends VBox {
         });
     }
 
+    /**
+     *
+     */
     public void firstTimeSetUp(){
 
     }

@@ -52,8 +52,8 @@ public class CardController {
     /**
      *
      * @param card card that needs to be added
-     * @param listId id of the list it needs to be added to
-     * @return badRequest if it couldn't be added, ok with the provided card iff it was added successfully
+     * @return badRequest if it couldn't be added,
+     * ok with the provided card iff it was added successfully
      */
     @PostMapping(path ={"","/"})
     public ResponseEntity<Card> add(@RequestBody Card card) {
@@ -92,6 +92,13 @@ public class CardController {
     public void deleteAll(){
         cardRepo.deleteAll();
     }
+
+    /**
+     *
+     * @param c
+     * @param listId
+     * @return c
+     */
     @MessageMapping("/cards") //app/cards -> path for basically any client (consumer)
     @SendTo("/topic/cards")// (producer)
     public Card addMessage(Card c, long listId) {

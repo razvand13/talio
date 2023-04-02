@@ -24,9 +24,12 @@ public class MainTaskListCtrl {
     /**Method for initializing main controller
      * @param primaryStage stage passed in as primary stage
      * @param taskList for setting up task list scene
+     * @param addCard
+     * @param serverConnect
      */
-    public void initialize(Stage primaryStage, Pair<TaskListCtrl, Parent> taskList, Pair<AddCardCtrl,
-            Parent> addCard,Pair<ServerConnectCtrl, Parent> serverConnect) {
+    public void initialize(Stage primaryStage, Pair<TaskListCtrl, Parent> taskList,
+                           Pair<AddCardCtrl, Parent> addCard,
+                           Pair<ServerConnectCtrl, Parent> serverConnect) {
         this.primaryStage = primaryStage;
 
         this.taskListCtrl = taskList.getKey();
@@ -53,12 +56,19 @@ public class MainTaskListCtrl {
         //taskListCtrl.refresh();
     }
 
+    /**
+     *
+     */
+
     public void showAdd() {
         addCardCtrl.firstTimeSetUp();
         primaryStage.setTitle("Add card");
         primaryStage.setScene(addCard);
     }
 
+    /**
+     *
+     */
     public void showServerConnect() {
         primaryStage.setTitle("Choose a port");
         primaryStage.setScene(serverConnect);

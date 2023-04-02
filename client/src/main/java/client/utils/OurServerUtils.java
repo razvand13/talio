@@ -50,6 +50,7 @@ public class OurServerUtils {
     }
 
     /**
+     * @param address
      * trying to connect websocket without hardcoding
      */
     public static void setPort(String address) {
@@ -86,11 +87,20 @@ public class OurServerUtils {
      * setup for stomp session port, occurs after server is set up
      */
     private StompSession session;
+
+    /**
+     *
+     */
     public void setSession(){
         System.out.println("session is set up");
         session = connect("ws"+ SERVER.substring(4) + "/websocket");
     }
 
+    /**
+     *
+     * @param url
+     * @return
+     */
     private StompSession connect(String url) {
         var client = new StandardWebSocketClient();
         var stomp = new WebSocketStompClient(client);
@@ -106,13 +116,30 @@ public class OurServerUtils {
         throw new IllegalStateException();
     }
 
+    /**
+     *
+     * @param dest
+     * @param type
+     * @param consumer
+     * @param <T>
+     */
     public <T> void registerForMessages(String dest, Class<T> type, Consumer<T> consumer) {
         session.subscribe(dest, new StompFrameHandler() {
+            /**
+             *
+             * @param headers the headers of a message
+             * @return
+             */
             @Override
             public Type getPayloadType(StompHeaders headers) {
                 return type;
             }
 
+            /**
+             *
+             * @param headers the headers of the frame
+             * @param payload the payload, or {@code null} if there was no payload
+             */
             @Override
             public void handleFrame(StompHeaders headers, Object payload) {
                 consumer.accept((T) payload);
@@ -120,13 +147,23 @@ public class OurServerUtils {
         });
     }
 
-
+    /**
+     *
+     * @param dest
+     * @param o
+     */
     public void send(String dest, Object o) {
         session.send(dest, o);
     }
 
 
-
+    /**
+     *
+     * @param path
+     * @param responseType
+     * @return invocation response
+     * @param <T>
+     */
     public <T> T get(String path, GenericType<T> responseType) {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path(path) //
@@ -134,6 +171,11 @@ public class OurServerUtils {
                 .accept(APPLICATION_JSON) //
                 .get(responseType);
     }
+
+    /**
+     *
+     * @return a list of all lists
+     */
     public List<ListOfCards> getLists(){
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/lists") //
@@ -142,6 +184,14 @@ public class OurServerUtils {
                 .get(new GenericType<List<ListOfCards>>() {});
     }
 
+    /**
+     *
+     * @param path
+     * @param body
+     * @param responseType
+     * @return invocation response
+     * @param <T>
+     */
     public <T> T add(String path, Object body, GenericType<T> responseType) {
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).path(path)

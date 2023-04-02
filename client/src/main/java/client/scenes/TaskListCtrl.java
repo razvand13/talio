@@ -80,6 +80,9 @@ public class TaskListCtrl implements Initializable {
 
     }
 
+    /**
+     *
+     */
     public void firstTimeSetUp() {
         server.setSession();
         /*
@@ -100,6 +103,6 @@ public class TaskListCtrl implements Initializable {
             ListContainer container = new ListContainer(l.title, server, mainCtrl);
             container.setListOfCards(l);
             hBox.getChildren().add(container);
-            }
+        }
     }
 }

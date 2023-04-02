@@ -6,7 +6,7 @@
 <module name="Checker">
     <property name="fileExtensions" value="java"/>
     <module name="BeforeExecutionExclusionFileFilter">
-        <property name="fileNamePattern" value=".*Test\.java$"/>
+        <property name="fileNamePattern" value=".*test/*"/>
     </module>
     <module name="TreeWalker">
         <module name="UnusedImports" />

@@ -45,7 +45,9 @@
 //    /**
 //     *
 //     * @param board the board to be added
-//     * @return badRequest iff board is null or there already exists a board with the id of the provided board, ok(board) iff ith was added successfully
+//     * @return badRequest iff board is null or there already
+//     exists a board with the id of the provided board,
+//     ok(board) iff ith was added successfully
 //     */
 //    @PostMapping(path ={"","/"})
 //    public ResponseEntity<Board> add(@RequestBody Board board) {

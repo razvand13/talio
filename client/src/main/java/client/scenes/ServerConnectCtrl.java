@@ -28,8 +28,8 @@ public class ServerConnectCtrl {
     public void connect(){
         String portInput = port.getText();
         String addressInput = address.getText();
-        client.utils.ServerUtils.setSERVER("http://"+ addressInput+ ":" +portInput+"/");
-        client.utils.ServerUtils.setPort(portInput);
+        client.utils.OurServerUtils.setSERVER("http://"+ addressInput+ ":" +portInput+"/");
+        client.utils.OurServerUtils.setPort(portInput);
         mainCtrl.showTaskListView();
     }
 

@@ -70,9 +70,10 @@ public class ServerUtils {
 
     /**
      * trying to connect websocket without hardcoding
+     * @param port the desired port
      */
-    public static void setPort(String address) {
-        port = address;
+    public static void setPort(String port) {
+        port = port;
     }
 
     /**
