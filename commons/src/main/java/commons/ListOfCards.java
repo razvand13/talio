@@ -61,27 +61,35 @@ public class ListOfCards implements Serializable {
         return Objects.equals(title, that.title);
     }
 
-    /**Hashcode method for ListOfCards
+
+    /**
+     * Hashcode method for a ListOfCards
      *
-     * @return int
+     * @return the hash value
      */
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + cards.hashCode();
-        return result;
+        return Objects.hash(id, title);
     }
 
     /**ToString method for ListOfCards
      *
-     * @return
+     * @return human-readable version of the object
      */
     @Override
     public String toString() {
-        String a = "ListOfCards: id =" + id + ", title "+ title + ", cards =";
-        for(Card i:cards){
-            a = a + i.toString() + "\n";
+        StringBuilder a = new StringBuilder("ListOfCards: id = " +
+                id + ", title = " + title + ", cards =");
+        if(cards == null) {
+            a.append("N/A;");
+            return a.toString();
         }
-        return a;
+
+        for(Card i:cards){
+            a.append("\n")
+                    .append(i.toString())
+                    .append(";");
+        }
+        return a.toString();
     }
 }
