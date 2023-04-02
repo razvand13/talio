@@ -73,7 +73,6 @@ public class TaskListCtrl implements Initializable {
      * Creates a custom ListContainer FXML component with proper functionality
      */
     public void addNewList() {
-
         // Don't allow empty names, use default
         String listName = listTitle.getText();
         if (listName.equals("")) listName = "ToDo";
@@ -159,29 +158,29 @@ public class TaskListCtrl implements Initializable {
             hBox.getChildren().add(listContainer);
         }
 
-//        //Redraw list contents
-//        data = server.getCards();
-//        for(Node child : hBox.getChildren()){
-//            if(child.getClass() == ListContainer.class){ // Error handling
-//                ListContainer listContainer = (ListContainer) child;
-////                var currentCards = listContainer.getList().getItems();
-////
-////                // Remove all contents of each list
-////                for(String card : currentCards){
-////                    currentCards.remove(card);
-////                }
+        //Redraw list contents
+        data = server.getCards();
+        for(Node child : hBox.getChildren()){
+            if(child.getClass() == ListContainer.class){ // Error handling
+                ListContainer listContainer = (ListContainer) child;
+//                var currentCards = listContainer.getList().getItems();
 //
-//                ListOfCards listOfCards = listContainer.getListOfCards();
-//
-//                // Add back each card to their own list
-//                for(Card card : data){
-//                    if(card.list.id == listOfCards.id){
-//                        var items = listContainer.getList().getItems();
-//                        items.add(card.title);
-//                    }
+//                // Remove all contents of each list
+//                for(String card : currentCards){
+//                    currentCards.remove(card);
 //                }
-//            }
-//        }
+
+                ListOfCards listOfCards = listContainer.getListOfCards();
+
+                // Add back each card to their own list
+                for(Card card : data){
+                    if(card.list.id == listOfCards.id){
+                        var items = listContainer.getList().getItems();
+                        items.add(card.title);
+                    }
+                }
+            }
+        }
     }
 
 }

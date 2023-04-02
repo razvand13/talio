@@ -42,11 +42,11 @@ public class Card implements Serializable {
 
     }
 
-    public Card(String title, String description, String color, ListOfCards list) {
+    public Card(String title, String description, String color/*, ListOfCards list*/) {
         this.title = title;
         this.description = description;
         this.color = color;
-        this.list = list;
+//        this.list = list;
         this.tags = new HashSet<>();
     }
 

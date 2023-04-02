@@ -5,9 +5,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 //import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 import javax.persistence.Entity;
 //import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -23,9 +21,9 @@ public class ListOfCards implements Serializable {
     public long id;
     public String name;
 
-//    @OneToMany(mappedBy = "list", fetch = FetchType.LAZY,
-//            cascade = CascadeType.ALL)
-//    private Set<Card> cards;
+    @OneToMany(mappedBy = "list", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private List<Card> cards = new ArrayList<>();
 
 
 
@@ -42,7 +40,7 @@ public class ListOfCards implements Serializable {
     public ListOfCards(String name/*, Board board*/) {
         this.name = name;
     //    this.board = board;
-//        this.cards = new HashSet<>();
+//        this.cards = new ArrayList<>();
     }
 
     @Override
@@ -77,14 +75,13 @@ public class ListOfCards implements Serializable {
 //    }
 //
 //
-//
-//    /**
-//     * adds a card to cards
-//     * @param card card to be added
-//     */
-//
-//    public void addCard(Card card){
-//        cards.add(card);
-//    }
+
+    /**
+     * adds a card to cards
+     * @param card card to be added
+     */
+    public void addCard(Card card){
+        cards.add(card);
+    }
 
 }

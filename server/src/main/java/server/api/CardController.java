@@ -58,19 +58,20 @@ public class CardController {
     public ResponseEntity<Card> add(/*@RequestBody*/ Card card) {
         System.out.println("got here");
         if(card == null){
+            System.out.println("IS NULL");
             return ResponseEntity.badRequest().build();
         }
 
         //there already exists a card with this id
         if(cardRepo.existsById(card.getId())){
+            System.out.println("exists");
             return ResponseEntity.badRequest().build();
         }
 
         // ?????????????????????
-//        card.list.addCard(card);
-
-//        cardRepo.save(card);
+        card.list.addCard(card);
         card = cardRepo.save(card);
+        System.out.println("Saved card " + card);
         return ResponseEntity.ok(card);
     }
 

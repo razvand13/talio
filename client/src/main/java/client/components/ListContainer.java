@@ -128,16 +128,15 @@ public class ListContainer extends VBox {
         button.setOnAction(event -> {
             String taskInput = textField.getText();
             if (!taskInput.equals("")) {
-//                list.getItems().add(taskInput);
+                list.getItems().add(taskInput);
 
                 server.setSession(); // todo is this needed?
-                System.out.println("CARD SAVED IN SESSION");
-                System.out.println("ListOfCards id = " + listOfCards.id);
-                System.out.println(listOfCards);
-                Card myCard = new Card(taskInput, "null", "null", listOfCards);
-                System.out.println(myCard);
+                System.out.println(listOfCards.id);
+                Card myCard = new Card(taskInput, "null", "null");
+                myCard.list = listOfCards;
+//                System.out.println(myCard);
                 server.send("/app/cards", myCard);
-//                System.out.println(myCard.id);
+                System.out.println(myCard.id);
 //                listOfCards.addCard(myCard);
 
                 textField.clear();
