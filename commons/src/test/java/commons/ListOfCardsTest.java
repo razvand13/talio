@@ -66,8 +66,8 @@ class ListOfCardsTest {
         c.id = myId;
         cards.add(c);
         list.cards = cards;
-        String expected = "ListOfCards: id =9223372036854775807, title =title, cards =\n" +
-                "Card: id =9223372036854775807, title = title;";
+        String expected = "ListOfCards: id = 9223372036854775807, title = title, cards =\n" +
+                "Card: id = 9223372036854775807, title = title;";
         assertEquals(expected, list.toString());
     }
 }

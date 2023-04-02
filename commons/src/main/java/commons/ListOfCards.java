@@ -79,8 +79,8 @@ public class ListOfCards implements Serializable {
      */
     @Override
     public String toString() {
-        StringBuilder a = new StringBuilder("ListOfCards: id =" +
-                id + ", title =" + title + ", cards =");
+        StringBuilder a = new StringBuilder("ListOfCards: id = " +
+                id + ", title = " + title + ", cards =");
         if(cards == null) {
             a.append("N/A;");
             return a.toString();
