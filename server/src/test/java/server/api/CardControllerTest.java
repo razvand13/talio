@@ -38,27 +38,27 @@ public class CardControllerTest {
 
     @Test
     public void cannotAddToNonExistentList() {
-        var actual = controller.add(new Card("name", "description", "colour",
+        var actual = controller.add(new Card("name",
                 new ListOfCards("name")));
         assertEquals(BAD_REQUEST, actual.getStatusCode());
     }
 
     @Test
     public void canAddGoodCard() {
-        var actual = controller.add(new Card("name", "description", "colour", thisList));
+        var actual = controller.add(new Card("name",  thisList));
         assertEquals(OK, actual.getStatusCode());
     }
 
     @Test
     public void databaseIsUsed(){
-        controller.add(new Card("name", "description", "colour", thisList));
+        controller.add(new Card("name",  thisList));
         assertTrue(cardRepo.calledMethods.contains("save"));
     }
 
     @Test
     public void getAllTest() {
-        Card card0 = new Card("name", "description", "colour", thisList);
-            Card card1 = new Card("name", "description", "colour", thisList);
+        Card card0 = new Card("name",  thisList);
+            Card card1 = new Card("name",  thisList);
         card0.id = 0;
         card1.id = 1;
         controller.add(card0);
@@ -71,7 +71,7 @@ public class CardControllerTest {
 
     @Test
     public void getByIdTest(){
-        Card card0 = new Card("name", "description", "colour", thisList);
+        Card card0 = new Card("name",  thisList);
         card0.id = 0;
 
         controller.add(card0);
@@ -81,8 +81,8 @@ public class CardControllerTest {
 
     @Test
     public void deleteByIdTest() {
-        Card card0 = new Card("name", "description", "colour", thisList);
-        Card card1 = new Card("name", "description", "colour", thisList);
+        Card card0 = new Card("name",  thisList);
+        Card card1 = new Card("name",  thisList);
         card0.id = 0;
         card1.id = 1;
         controller.add(card0);
@@ -96,8 +96,8 @@ public class CardControllerTest {
 
     @Test
     public void deleteAllTest(){
-        Card card0 = new Card("name", "description", "colour", thisList);
-        Card card1 = new Card("name", "description", "colour", thisList);
+        Card card0 = new Card("name",  thisList);
+        Card card1 = new Card("name",  thisList);
         card0.id = 0;
         card1.id = 1;
         controller.add(card0);

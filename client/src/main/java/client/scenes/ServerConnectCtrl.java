@@ -6,7 +6,7 @@ import javafx.scene.control.TextField;
 
 public class ServerConnectCtrl {
 
-    private final MainCtrl mainCtrl;
+    private final MainTaskListCtrl mainCtrl;
 
     @FXML
     private TextField port;
@@ -14,7 +14,7 @@ public class ServerConnectCtrl {
     private TextField address;
 
     @Inject
-    public ServerConnectCtrl(MainCtrl mainCtrl) {
+    public ServerConnectCtrl(MainTaskListCtrl mainCtrl) {
         this.mainCtrl = mainCtrl;
     }
 
@@ -24,7 +24,7 @@ public class ServerConnectCtrl {
         String addressInput = address.getText();
         client.utils.ServerUtils.setSERVER("http://"+ addressInput+ ":" +portInput+"/");
         client.utils.ServerUtils.setPort(portInput);
-        mainCtrl.showOverview();
+        mainCtrl.showTaskListView();
     }
 
 }

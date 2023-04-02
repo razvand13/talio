@@ -1,5 +1,10 @@
 package client.components;
 
+import client.scenes.MainTaskListCtrl;
+import client.utils.OurServerUtils;
+import commons.Card;
+import commons.ListOfCards;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -10,8 +15,9 @@ import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import java.awt.*;
 import java.io.IOException;
+
+
 
 public class ListContainer extends VBox {
     @FXML
@@ -36,22 +42,19 @@ public class ListContainer extends VBox {
     private Button listEditBtn;
     @FXML
     private TextField listRenameField;
+    private final OurServerUtils server;
 
-    @FXML
-    private Label taskTitleLabel;
+    private final MainTaskListCtrl mainCtrl;
 
-    @FXML
-    private Label taskEditLabel;
+    private ObservableList<Card> data;
 
-    @FXML
-    private Label listEditLabel;
+    private ListOfCards listOfCards;
 
-    @FXML
+
+
     // Since deletion references the list's parent, we need
     // a reference to it inside the container object
     private HBox parent;
-
-
 
 
     /**
@@ -60,10 +63,13 @@ public class ListContainer extends VBox {
      * not an already existing one from SceneBuilder
      *
      * @param listName the name of the new List
-     *
+     * @param server
+     * @param mainCtrl
      * @throws RuntimeException if the FXMLLoader cannot load the component
      */
-    public ListContainer(String listName){
+    public ListContainer(String listName, OurServerUtils server, MainTaskListCtrl mainCtrl){
+        this.server = server;
+        this.mainCtrl = mainCtrl;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass()
                 .getResource("/client/components/ListContainer.fxml"));
         fxmlLoader.setRoot(this);
@@ -77,8 +83,21 @@ public class ListContainer extends VBox {
 
         this.setMinWidth(200);
         listNameLabel.setText(listName);
+        this.listOfCards = new ListOfCards(listName);
 
         setHandlers();
+    }
+
+
+    public void setListOfCards(ListOfCards loc){
+        listOfCards = loc;
+    }
+
+    public void firstTimeSetup1() {
+        server.setSession();
+        server.registerForMessages("/topic/cards", Card.class, c -> {
+            list.getItems().add(c.title);
+        });
     }
 
     /**
@@ -86,13 +105,13 @@ public class ListContainer extends VBox {
      */
     private void setHandlers(){
         setAddTaskAction(addTaskBtn, taskInputField, list);
-        setShowTaskEditAction(taskEditBtn, taskDeleteBtn, list, taskEditField, taskEditLabel);
-        setSaveEditAction(taskEditBtn, taskDeleteBtn, taskEditField, taskEditLabel, list);
-        setDeleteAction(taskDeleteBtn, taskEditBtn, taskEditField, taskEditLabel, list);
+        setShowTaskEditAction(taskEditBtn, taskDeleteBtn, list, taskEditField);
+        setSaveEditAction(taskEditBtn, taskDeleteBtn, taskEditField, list);
+        setDeleteAction(taskDeleteBtn, taskEditBtn, taskEditField, list);
         setListOptions(listNameLabel, listOptionsBtn, listDeleteBtn,
-                listEditBtn, listRenameField, listEditLabel);
-        setRenameList(listNameLabel, listEditBtn, listRenameField, listEditLabel, listDeleteBtn);
-        setDeleteList(this, listDeleteBtn, listRenameField, listEditLabel, listEditBtn);
+                listEditBtn, listRenameField);
+        setRenameList(listNameLabel, listEditBtn, listRenameField, listDeleteBtn);
+        setDeleteList(this, listDeleteBtn, listRenameField, listEditBtn);
         setDragAndDrop(list);
     }
 
@@ -108,12 +127,26 @@ public class ListContainer extends VBox {
             String taskInput = textField.getText();
             if (!taskInput.equals("")) {
                 list.getItems().add(taskInput);
+
+                server.setSession();
+                System.out.println("CARD SAVED IN SESSION");
+                Card myCard = new Card(taskInput, listOfCards);
+                System.out.println(myCard.id);
+                listOfCards.addCard(myCard);
+                server.send("/app/cards", myCard);
+
                 textField.clear();
+                mainCtrl.showTaskListView();
             }
 
             event.consume();
         });
     }
+
+    public void firstTimeSetUp(){
+
+    }
+
 
     /**
      * Method for making task editing option visible
@@ -122,10 +155,9 @@ public class ListContainer extends VBox {
      * @param delBtn    'delete' button
      * @param list      list view from which an element can be selected
      * @param textField text field to fetch task title from
-     * @param taskEditLabel Label for the textField
      */
     public void setShowTaskEditAction(Button editBtn, Button delBtn, ListView<String> list,
-                                      TextField textField, Label taskEditLabel) {
+                                      TextField textField) {
         list.setOnContextMenuRequested(event -> {
             String item = list.getSelectionModel().getSelectedItem();
             if (item != null) {
@@ -133,12 +165,10 @@ public class ListContainer extends VBox {
                 delBtn.setVisible(true);
                 textField.setVisible(true);
                 textField.setText(item);
-                taskEditLabel.setVisible(true);
             } else {
                 editBtn.setVisible(false);
                 delBtn.setVisible(true);
                 textField.setVisible(false);
-                taskEditLabel.setVisible(false);
             }
 
             event.consume();
@@ -151,10 +181,9 @@ public class ListContainer extends VBox {
      * @param editBtn    'edit button' that's clicked
      * @param delBtn     'delete' button to set invisible
      * @param textField  text field to fetch new task title from
-     * @param taskEditLabel Label for the textField
      * @param list       list view where the change will be presented
      */
-    public void setSaveEditAction(Button editBtn, Button delBtn, TextField textField, Label taskEditLabel,
+    public void setSaveEditAction(Button editBtn, Button delBtn, TextField textField,
                                   ListView<String> list) {
         editBtn.setOnAction(event -> {
             String edit = textField.getText();
@@ -165,7 +194,6 @@ public class ListContainer extends VBox {
                 editBtn.setVisible(false);
                 delBtn.setVisible(false);
                 textField.setVisible(false);
-                taskEditLabel.setVisible(false);
             }
         });
     }
@@ -176,10 +204,9 @@ public class ListContainer extends VBox {
      * @param deleteButton  'delete button' that's clicked
      * @param editButton    'edit button' to set invisible
      * @param textField     text field to set invisible
-     * @param taskEditLabel Label for the textField
      * @param list          list view where the change will be presented
      */
-    public void setDeleteAction(Button deleteButton, Button editButton, TextField textField, Label taskEditLabel,
+    public void setDeleteAction(Button deleteButton, Button editButton, TextField textField,
                                 ListView<String> list){
         deleteButton.setOnAction(event -> {
             int idx = list.getSelectionModel().getSelectedIndex();
@@ -187,7 +214,6 @@ public class ListContainer extends VBox {
             deleteButton.setVisible(false);
             editButton.setVisible(false);
             textField.setVisible(false);
-            taskEditLabel.setVisible(false);
         });
     }
 
@@ -199,10 +225,9 @@ public class ListContainer extends VBox {
      * @param deleteButton  delete button that becomes visible
      * @param editButton    edit button that becomes visible
      * @param textField     text field for editing that becomes visible
-     * @param listEditLabel Label for the textField
      */
     public void setListOptions(Label listNameLabel, Button clickedButton, Button deleteButton,
-                               Button editButton, TextField textField, Label listEditLabel) {
+                               Button editButton, TextField textField) {
         clickedButton.setOnAction(event -> {
             boolean visibility = textField.isVisible();
             String listName = listNameLabel.getText();
@@ -211,7 +236,6 @@ public class ListContainer extends VBox {
             textField.setText(listName);
             editButton.setVisible(!visibility);
             deleteButton.setVisible(!visibility);
-            listEditLabel.setVisible(!visibility);
 
             event.consume();
         });
@@ -223,11 +247,10 @@ public class ListContainer extends VBox {
      * @param vBox         vertical box getting deleted
      * @param deleteButton delete button that's clicked
      * @param textField    editing field that needs to be set invisible
-     * @param listEditLabel Label for the textField
      * @param editButton   editing button that needs to be set invisible
      */
     public void setDeleteList(VBox vBox, Button deleteButton,
-                              TextField textField, Label listEditLabel, Button editButton) {
+                              TextField textField, Button editButton) {
         deleteButton.setOnAction(event -> {
 
             parent.getChildren().remove(vBox);
@@ -235,7 +258,6 @@ public class ListContainer extends VBox {
             textField.setVisible(false);
             deleteButton.setVisible(false);
             editButton.setVisible(false);
-            listEditLabel.setVisible(false);
 
             event.consume();
         });
@@ -248,11 +270,10 @@ public class ListContainer extends VBox {
      * @param listNameLabel label presenting the name of the list
      * @param editButton    edit button that is clicked
      * @param textField     text field to fetch input from
-     * @param listEditLabel Label for the textField
      * @param deleteButton  delete button that needs to be set invisible
      */
     public void setRenameList(Label listNameLabel, Button editButton,
-                              TextField textField, Label listEditLabel, Button deleteButton) {
+                              TextField textField, Button deleteButton) {
         editButton.setOnAction(event -> {
             String newName = textField.getText();
             if (!newName.equals("")) {
@@ -260,7 +281,6 @@ public class ListContainer extends VBox {
                 editButton.setVisible(false);
                 textField.setVisible(false);
                 deleteButton.setVisible(false);
-                listEditLabel.setVisible(false);
             }
             event.consume();
         });
@@ -481,5 +501,13 @@ public class ListContainer extends VBox {
      */
     public TextField getListRenameField() {
         return listRenameField;
+    }
+
+    /**
+     * Getter for listOfCards
+     * @return the listOfCards associated with this container
+     */
+    public ListOfCards getListOfCards() {
+        return listOfCards;
     }
 }

@@ -63,15 +63,15 @@ public class CardController {
         }
 
         //there already exists a card with this id
-        if(cardRepo.existsById(card.getId())){
+        if(cardRepo.existsById(card.id)){
             return ResponseEntity.badRequest().build();
         }
 
-        if(!listRepo.existsById(card.list.id)){
+        if(!listRepo.existsById(card.listOfCards.id)){
             return ResponseEntity.badRequest().build();
         }
 
-        card.list.addCard(card);
+        card.listOfCards.addCard(card);
 
         cardRepo.save(card);
         return ResponseEntity.ok(card);

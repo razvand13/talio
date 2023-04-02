@@ -62,7 +62,7 @@ public class ListController {
     public ResponseEntity<ListOfCards> add(@RequestBody ListOfCards listOfCards/*, long boardId*/){
 
 
-        if(listOfCards == null || listRepo.existsById(listOfCards.getId())){
+        if(listOfCards == null || listRepo.existsById(listOfCards.id)){
             return ResponseEntity.badRequest().build();
         }
 
@@ -95,7 +95,7 @@ public class ListController {
     @MessageMapping("/lists/cards") //app/quotes -> path for basically any client (consumer)
     @SendTo("/topic/lists/cards")// (producer)
     public Card addMessage(Card card) {
-        addCard(card.list.id, card);
+        addCard(card.listOfCards.id, card);
         return card;
     }
     @MessageMapping("/lists") //app/quotes -> path for basically any client (consumer)

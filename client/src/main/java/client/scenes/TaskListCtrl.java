@@ -97,12 +97,9 @@ public class TaskListCtrl implements Initializable {
         });
 
         for(ListOfCards l: list) {
-            ListContainer container = new ListContainer(l.name, server, mainCtrl);
+            ListContainer container = new ListContainer(l.title, server, mainCtrl);
             container.setListOfCards(l);
             hBox.getChildren().add(container);
             }
-
-
-
     }
 }
