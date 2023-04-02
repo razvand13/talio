@@ -1,6 +1,5 @@
 package server.api;
 
-import commons.Board;
 import commons.ListOfCards;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,14 +16,11 @@ import static org.springframework.http.HttpStatus.OK;
 public class ListControllerTest {
     TestListRepository listRepo;
     ListController controller;
-    Board thisBoard;
 
     @BeforeEach
     public void setup() {
         listRepo = new TestListRepository();
         controller = new ListController(listRepo);
-        thisBoard = new Board("name","colour");
-        thisBoard.id = 0;
     }
 
     @Test
@@ -70,7 +66,6 @@ public class ListControllerTest {
 
     @Test
     public void deleteByIdTest() {
-        Board myBoard = new Board("name", "colour");
         ListOfCards list0 = new ListOfCards("name");
         ListOfCards list1 = new ListOfCards("name");
         list0.id = 0;
@@ -86,7 +81,6 @@ public class ListControllerTest {
 
     @Test
     public void deleteAllTest() {
-        Board myBoard = new Board("name", "colour");
         ListOfCards list0 = new ListOfCards("name");
         ListOfCards list1 = new ListOfCards("name");
         list0.id = 0;
