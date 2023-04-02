@@ -60,7 +60,7 @@ public class TaskListCtrl implements Initializable {
         if(listName.equals("")) listName = "ToDo";
 
         ListContainer container = new ListContainer(listName);
-
+        hBox.setStyle("-fx-background-color: #D3D3D3;");
         // Reset text
         listTitle.setText("ToDo");
 

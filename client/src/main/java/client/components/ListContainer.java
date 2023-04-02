@@ -10,6 +10,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.awt.*;
 import java.io.IOException;
 
 public class ListContainer extends VBox {
@@ -45,9 +46,12 @@ public class ListContainer extends VBox {
     @FXML
     private Label listEditLabel;
 
+    @FXML
     // Since deletion references the list's parent, we need
     // a reference to it inside the container object
     private HBox parent;
+
+
 
 
     /**
