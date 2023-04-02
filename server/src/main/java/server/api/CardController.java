@@ -1,6 +1,7 @@
 package server.api;
 
 import commons.Card;
+import commons.ListOfCards;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -52,6 +53,7 @@ public class CardController {
     /**
      *
      * @param card card that needs to be added
+     * @param listId id of the list it needs to be added to
      * @return badRequest if it couldn't be added, ok with the provided card iff it was added successfully
      */
     @PostMapping(path ={"","/"})
@@ -72,6 +74,21 @@ public class CardController {
         return ResponseEntity.ok(card);
     }
 
+    /**
+     *
+     * @param id id of the card to be deleted
+     */
+    //@Transactional not sure if this is necessary
+    public void deleteById(long id){
+        cardRepo.deleteById(id);
+    }
+
+    /**
+     * deletes all cards form the repo
+     */
+    public void deleteAll(){
+        cardRepo.deleteAll();
+    }
     @MessageMapping("/cards") //app/cards -> path for basically any client (consumer)
     @SendTo("/topic/cards")// (producer)
     public Card addMessage(Card c, long listId) {

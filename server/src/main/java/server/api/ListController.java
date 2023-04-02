@@ -53,7 +53,6 @@ public class ListController {
         return ResponseEntity.ok(listRepo.findById(id).get());
     }
 
-
     /**
      *
      * @param listOfCards the list that needs to be added
@@ -105,5 +104,19 @@ public class ListController {
     public ListOfCards addMessage(ListOfCards loc/*, long boardId*/) {
         add(loc/*, boardId*/);
         return loc;
+    }
+    /**
+     *
+     * @param id id of the list to be deleted
+     */
+    //@Transactional not sure if this is necessary
+    public void deleteById(long id){
+        listRepo.deleteById(id);
+    }
+    /**
+     * deletes all lists form the repo
+     */
+    public void deleteAll(){
+        listRepo.deleteAll();
     }
 }

@@ -66,7 +66,6 @@ public class ListOfCards implements Serializable {
         return id;
     }
 
-
     /**
      * simple getter
      * @return cards
@@ -76,15 +75,11 @@ public class ListOfCards implements Serializable {
         return cards;
     }
 
-
-
     /**
      * adds a card to cards
      * @param card card to be added
      */
-
     public void addCard(Card card){
         cards.add(card);
     }
-
 }
