@@ -4,8 +4,6 @@ import client.scenes.MainTaskListCtrl;
 import client.utils.OurServerUtils;
 import commons.Card;
 import commons.ListOfCards;
-import commons.Quote;
-import jakarta.ws.rs.core.GenericType;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,8 +16,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
-import java.util.List;
-
 
 public class ListContainer extends VBox {
     @FXML

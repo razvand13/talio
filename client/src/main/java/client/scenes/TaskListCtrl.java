@@ -1,17 +1,11 @@
 package client.scenes;
 
 import client.components.ListContainer;
-import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import client.utils.OurServerUtils;
-import com.google.inject.Inject;
-//import commons.Card;
 import commons.Card;
 import commons.ListOfCards;
-import jakarta.ws.rs.core.GenericType;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -19,7 +13,6 @@ import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
-import javax.swing.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +22,6 @@ public class TaskListCtrl implements Initializable {
 
     private final OurServerUtils server;
     private final MainTaskListCtrl mainCtrl;
-
-//    private ObservableList<Card> data;
     private List<Card> data;
     private List<ListOfCards> list;
 
@@ -81,9 +72,6 @@ public class TaskListCtrl implements Initializable {
 
         // Reset text
         listTitle.setText("ToDo");
-//
-//        container.setParent(hBox);
-//        hBox.getChildren().add(container);
 
         ListOfCards mylist = new ListOfCards(listName);
         container.setListOfCards(mylist);
@@ -92,41 +80,43 @@ public class TaskListCtrl implements Initializable {
 
     public void firstTimeSetUp() {
         server.setSession();
-        System.out.println("NEW TASK LIST");
 
         refreshBoard();
-//        list = server.getLists();
-//        data = server.getCards();
 
+        // Add card
         server.registerForMessages("/topic/cards", Card.class, c -> {
             data.add(c);
             Platform.runLater(this::refreshBoard);
         });
 
+        // todo Edit card
+
+        // todo Remove card
+
+        // Add list
         server.registerForMessages("/topic/lists", ListOfCards.class, l -> {
             list.add(l);
             Platform.runLater(this::refreshBoard);
         });
 
-//        for(ListOfCards l: list) {
-//            ListContainer container = new ListContainer(l.name, server, mainCtrl);
-//            container.setListOfCards(l);
-//            container.setParent(hBox);
-//            hBox.getChildren().add(container);
-//        }
+        // todo Edit list
+
+        // todo Remove list
+
     }
 
     /**
      * Method that refreshes the board
-     * First removes all lists and their contents, and using the data and lists from the server,
-     * redraws them, one by one (not the best approach, but it should work)
-     * todo maybe come up with a better idea
+     * First removes all lists and their contents, and using
+     * the data and lists from the server,
+     * redraws them, one by one
      */
     public void refreshBoard(){
 //        Platform.runLater(() ->{
 //            clearBoard();
 //            makeBoard();
 //        });
+        // not sure which of these is better, if any
         Platform.runLater(this::clearBoard);
         Platform.runLater(this::makeBoard);
     }
@@ -163,13 +153,6 @@ public class TaskListCtrl implements Initializable {
         for(Node child : hBox.getChildren()){
             if(child.getClass() == ListContainer.class){ // Error handling
                 ListContainer listContainer = (ListContainer) child;
-//                var currentCards = listContainer.getList().getItems();
-//
-//                // Remove all contents of each list
-//                for(String card : currentCards){
-//                    currentCards.remove(card);
-//                }
-
                 ListOfCards listOfCards = listContainer.getListOfCards();
 
                 // Add back each card to their own list

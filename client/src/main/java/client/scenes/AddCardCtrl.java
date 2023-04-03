@@ -16,7 +16,6 @@
 package client.scenes;
 
 import client.utils.OurServerUtils;
-import commons.Card;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
