@@ -24,7 +24,7 @@ public class ListOfCards implements Serializable {
     /**
      * Constructor for ListOfCards
      *
-     * @param title title
+     * @param title title   
      * @param cards cards
      */
     public ListOfCards(String title, List<Card> cards) {

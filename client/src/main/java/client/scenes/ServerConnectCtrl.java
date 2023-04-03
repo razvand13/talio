@@ -28,7 +28,11 @@ public class ServerConnectCtrl {
      */
     public void connect(){
         String portInput = port.getText();
+        if(portInput.equals("")) portInput = "8080";
+
         String addressInput = address.getText();
+        if(addressInput.equals("")) addressInput = "localhost";
+
         client.utils.OurServerUtils.setSERVER("http://"+ addressInput+ ":" +portInput+"/");
 //        client.utils.OurServerUtils.setPort(portInput);
         mainCtrl.showTaskListView();

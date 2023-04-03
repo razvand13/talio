@@ -27,6 +27,7 @@ public class ServerSideSetUpCtrl {
      */
     public void launch(){
         String input = inputPort.getText();
+        if(input.equals("")) input = "8080";
         Main.launchServer(input);
     }
 }
