@@ -82,14 +82,6 @@ public class TaskListCtrl implements Initializable {
 
     public void firstTimeSetUp() {
         server.setSession();
-        /*
-        System.out.println("NEW TASK LIST");
-        server.registerForMessages("/topic/cards", Card.class, c -> {
-            data.add(c);
-            System.out.println("NEW TASK LIST");
-        });
-
-         */
         list = server.getLists();
 
         server.registerForMessages("/topic/lists", ListOfCards.class, l -> {
