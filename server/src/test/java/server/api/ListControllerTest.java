@@ -1,6 +1,5 @@
 package server.api;
 
-import commons.Card;
 import commons.ListOfCards;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
