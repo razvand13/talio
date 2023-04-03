@@ -62,7 +62,7 @@ public class ListController {
     public ResponseEntity<ListOfCards> add(@RequestBody ListOfCards listOfCards/*, long boardId*/){
 
 
-        if(listOfCards == null || listRepo.existsById(listOfCards.getId())){
+        if(listOfCards == null){
             return ResponseEntity.badRequest().build();
         }
 
@@ -80,24 +80,6 @@ public class ListController {
         return ResponseEntity.ok(listOfCards);
     }
 
-    @PostMapping("/cards/{id}")
-    public ResponseEntity<Card> addCard(@PathVariable("id") long id, @RequestBody Card card){
-        System.out.println("got here");
-        if(id<0 || !listRepo.existsById(id)){
-            return ResponseEntity.badRequest().build();
-        }
-
-        //listRepo.getById(id).addCard(card);
-        cardRepo.save(card);
-        return ResponseEntity.ok(card);
-    }
-
-    @MessageMapping("/lists/cards") //app/quotes -> path for basically any client (consumer)
-    @SendTo("/topic/lists/cards")// (producer)
-    public Card addMessage(Card card) {
-        addCard(card.list.id, card);
-        return card;
-    }
     @MessageMapping("/lists") //app/quotes -> path for basically any client (consumer)
     @SendTo("/topic/lists")// (producer)
     public ListOfCards addMessage(ListOfCards loc/*, long boardId*/) {

@@ -108,4 +108,13 @@ public class CardControllerTest {
         assertEquals(BAD_REQUEST, controller.getById(1).getStatusCode());
         assertEquals(BAD_REQUEST, controller.getById(0).getStatusCode());
     }
+
+    @Test
+    public void addMessageTest(){
+        Card card = new Card("name", "description", "colour", thisList);
+        card.id = 0;
+        controller.addMessage(card);
+        assertEquals(OK, controller.getById(0).getStatusCode());
+        assertTrue(cardRepo.calledMethods.contains("save"));
+    }
 }

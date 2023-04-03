@@ -62,11 +62,6 @@ public class CardController {
             return ResponseEntity.badRequest().build();
         }
 
-        //there already exists a card with this id
-        if(cardRepo.existsById(card.getId())){
-            return ResponseEntity.badRequest().build();
-        }
-
         if(!listRepo.existsById(card.list.id)){
             return ResponseEntity.badRequest().build();
         }
@@ -94,7 +89,7 @@ public class CardController {
     }
     @MessageMapping("/cards") //app/cards -> path for basically any client (consumer)
     @SendTo("/topic/cards")// (producer)
-    public Card addMessage(Card c, long listId) {
+    public Card addMessage(Card c/*, long listId*/) {
         System.out.println("ADD MESSAGE");
         add(c);
         return c;
