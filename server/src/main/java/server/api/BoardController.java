@@ -61,7 +61,8 @@
 //     * @return the list with the provided listId in the board with the provided boardId
 //     */
 //    @GetMapping("{boardId}/{listId}")
-//    public ResponseEntity<ListOfCards> getListById(@PathVariable("boardId") long boardId, @PathVariable("listId") long listId){
+//    public ResponseEntity<ListOfCards> getListById(@PathVariable("boardId") long boardId,
+//    @PathVariable("listId") long listId){
 //        if(listId<0 || boardId<0 || !repo.existsById(boardId)) {
 //            return ResponseEntity.badRequest().build();
 //        }
@@ -81,7 +82,8 @@
 //     * @return badRequest iff the card couldn't be found, ok with Card iff it is found.
 //     */
 //    @GetMapping("{boardId}/{listId}/{cardId}")
-//    public ResponseEntity<Card> getCardById(@PathVariable("boardId") long boardId, @PathVariable("listId") long listId, @PathVariable("cardId") long cardId){
+//    public ResponseEntity<Card> getCardById(@PathVariable("boardId") long boardId,
+//    @PathVariable("listId") long listId, @PathVariable("cardId") long cardId){
 //
 //        if(cardId<0 || listId<0 || boardId<0 || !repo.existsById(boardId)){
 //            return ResponseEntity.badRequest().build();
@@ -111,7 +113,8 @@
 //    /**
 //     * adds a board to the repo
 //     * @param board the board that needs to be added
-//     * @return badRequest iff the board is null. ok with the provided board iff it was added successfully.
+//     * @return badRequest iff the board is null.
+//     * ok with the provided board iff it was added successfully.
 //     */
 //    @PostMapping(path ={"","/"})
 //    public ResponseEntity<Board> addBoard(@RequestBody Board board) {
@@ -131,10 +134,12 @@
 //    /**
 //     * @param list the list that needs to be added
 //     * @param id the id of the board it needs to be added to
-//     * @return badRequest iff list is null or there exists no board with the provided id. ok with the provided list iff it was added successfully
+//     * @return badRequest iff list is null or there exists no board with the provided id.
+//     * ok with the provided list iff it was added successfully
 //     */
 //    @PostMapping("/{id}")
-//    public ResponseEntity<ListOfCards> addList(@RequestBody ListOfCards list, @PathVariable("id") long id) {
+//    public ResponseEntity<ListOfCards> addList(@RequestBody ListOfCards list,
+//    @PathVariable("id") long id) {
 //        if(list == null){
 //            return ResponseEntity.badRequest().build();
 //        }
@@ -151,10 +156,12 @@
 //     * @param card card that gets added
 //     * @param boardId board it gets added to
 //     * @param listId list it gets added to
-//     * @return badrequest iff the provided  board or list couldn't be found. ok with card iff it was added successfully
+//     * @return badrequest iff the provided  board or list couldn't be found.
+//     * ok with card iff it was added successfully
 //     */
 //    @PostMapping("/{boardID}/{listId}")
-//    public ResponseEntity<Card> addCard(@RequestBody Card card, @PathVariable("boardId") long boardId, @PathVariable("listId") long listId) {
+//    public ResponseEntity<Card> addCard(@RequestBody Card card,
+//    @PathVariable("boardId") long boardId, @PathVariable("listId") long listId) {
 //        if (card == null || listId<0 || boardId<0 || !repo.existsById(boardId)){
 //            return ResponseEntity.badRequest().build();
 //        }

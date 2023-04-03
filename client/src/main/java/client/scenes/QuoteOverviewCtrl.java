@@ -169,8 +169,10 @@
 //    //
 //    //    @Override
 //    //    public void initialize(URL location, ResourceBundle resources) {
-//    //        colFirstName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().person.firstName));
-//    //        colLastName.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().person.lastName));
+//    //        colFirstName.setCellValueFactory(q ->
+//    new SimpleStringProperty(q.getValue().person.firstName));
+//    //        colLastName.setCellValueFactory(q ->
+//    new SimpleStringProperty(q.getValue().person.lastName));
 //    //        colQuote.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().quote));
 //    //
 //    //    }

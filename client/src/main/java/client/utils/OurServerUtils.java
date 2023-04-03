@@ -3,9 +3,7 @@ package client.utils;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.lang.reflect.Type;
-import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
@@ -74,6 +72,9 @@ public class OurServerUtils {
      */
     private StompSession session;
 
+    /**
+     * Sets the current session
+     */
     public void setSession(){
         System.out.println("session is set up");
         session = connect("ws"+ SERVER.substring(4) + "/websocket");

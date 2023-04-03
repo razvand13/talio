@@ -52,7 +52,8 @@ public class CardController {
     /**
      *
      * @param card card that needs to be added
-     * @return badRequest if it couldn't be added, ok with the provided card iff it was added successfully
+     * @return badRequest if it couldn't be added, ok with the provided card
+     * iff it was added successfully
      */
     @PostMapping(path ={"","/"})
     public ResponseEntity<Card> add(@RequestBody Card card) {
