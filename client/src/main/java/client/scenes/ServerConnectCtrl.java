@@ -13,7 +13,8 @@ public class ServerConnectCtrl {
     @FXML
     private TextField address;
 
-    /**Constructor for ServerConnectCtrl
+    /**
+     * Constructor for ServerConnectCtrl
      *
      * @param mainCtrl
      */
@@ -22,14 +23,14 @@ public class ServerConnectCtrl {
         this.mainCtrl = mainCtrl;
     }
 
-    /**Method to set the server to the port
-     *
+    /**
+     * Method to set the server to the port
      */
     public void connect(){
         String portInput = port.getText();
         String addressInput = address.getText();
         client.utils.OurServerUtils.setSERVER("http://"+ addressInput+ ":" +portInput+"/");
-        client.utils.OurServerUtils.setPort(portInput);
+//        client.utils.OurServerUtils.setPort(portInput);
         mainCtrl.showTaskListView();
     }
 

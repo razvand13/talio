@@ -23,7 +23,6 @@ public class ListController {
     /**
      *
      * @param listRepo the list repository
-     *
      */
     public ListController(ListRepository listRepo/*, BoardRepository boardRepo*/) {
         this.listRepo = listRepo;
@@ -52,6 +51,7 @@ public class ListController {
         return ResponseEntity.ok(listRepo.findById(id).get());
     }
 
+
     /**
      *
      * @param listOfCards the list that needs to be added
@@ -60,8 +60,6 @@ public class ListController {
      */
     @PostMapping
     public ResponseEntity<ListOfCards> add(@RequestBody ListOfCards listOfCards/*, long boardId*/){
-
-
         if(listOfCards == null || listRepo.existsById(listOfCards.id)){
             return ResponseEntity.badRequest().build();
         }
@@ -103,7 +101,6 @@ public class ListController {
      * @param card
      * @return card
      */
-
     @MessageMapping("/lists/cards") //app/quotes -> path for basically any client (consumer)
     @SendTo("/topic/lists/cards")// (producer)
     public Card addMessage(Card card) {
@@ -122,6 +119,7 @@ public class ListController {
         add(loc/*, boardId*/);
         return loc;
     }
+
     /**
      *
      * @param id id of the list to be deleted

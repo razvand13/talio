@@ -52,13 +52,13 @@ public class CardController {
     /**
      *
      * @param card card that needs to be added
-     * @return badRequest if it couldn't be added,
-     * ok with the provided card iff it was added successfully
+     * @return badRequest if it couldn't be added, ok with the provided card iff it was added successfully
      */
     @PostMapping(path ={"","/"})
     public ResponseEntity<Card> add(@RequestBody Card card) {
         System.out.println("got here");
         if(card == null){
+            System.out.println("IS NULL");
             return ResponseEntity.badRequest().build();
         }
 
@@ -71,9 +71,9 @@ public class CardController {
             return ResponseEntity.badRequest().build();
         }
 
-        card.listOfCards.addCard(card);
-
-        cardRepo.save(card);
+//        card.listOfCards.addCard(card);
+        card = cardRepo.save(card);
+        System.out.println("Saved card " + card);
         return ResponseEntity.ok(card);
     }
 
@@ -95,13 +95,12 @@ public class CardController {
 
     /**
      *
-     * @param c
-     * @param listId
-     * @return c
+     * @param c card
+     * @return Card
      */
     @MessageMapping("/cards") //app/cards -> path for basically any client (consumer)
     @SendTo("/topic/cards")// (producer)
-    public Card addMessage(Card c, long listId) {
+    public Card addMessage(Card c/*, long listId*/) {
         System.out.println("ADD MESSAGE");
         add(c);
         return c;

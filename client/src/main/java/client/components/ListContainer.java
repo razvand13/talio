@@ -50,8 +50,6 @@ public class ListContainer extends VBox {
 
     private ListOfCards listOfCards;
 
-
-
     // Since deletion references the list's parent, we need
     // a reference to it inside the container object
     private HBox parent;
@@ -65,7 +63,6 @@ public class ListContainer extends VBox {
      * @param listName the name of the new List
      * @param server
      * @param mainCtrl
-     * @throws RuntimeException if the FXMLLoader cannot load the component
      */
     public ListContainer(String listName, OurServerUtils server, MainTaskListCtrl mainCtrl){
         this.server = server;
@@ -88,6 +85,15 @@ public class ListContainer extends VBox {
         setHandlers();
     }
 
+
+
+//    public void firstTimeSetup1() {
+//        server.setSession();
+//        server.registerForMessages("/topic/cards", Card.class, c -> {
+//            list.getItems().add(c.title);
+//        });
+//    }
+
     /**
      *
      * @param loc
@@ -96,16 +102,15 @@ public class ListContainer extends VBox {
         listOfCards = loc;
     }
 
-    /**
-     *
-     */
-
-    public void firstTimeSetup1() {
-        server.setSession();
-        server.registerForMessages("/topic/cards", Card.class, c -> {
-            list.getItems().add(c.title);
-        });
-    }
+//    /**
+//     *
+//     */
+//    public void firstTimeSetup1() {
+//        server.setSession();
+//        server.registerForMessages("/topic/cards", Card.class, c -> {
+//            list.getItems().add(c.title);
+//        });
+//    }
 
     /**
      * Method that sets all event handlers of a list and its children
@@ -135,26 +140,22 @@ public class ListContainer extends VBox {
             if (!taskInput.equals("")) {
                 list.getItems().add(taskInput);
 
-                server.setSession();
-                System.out.println("CARD SAVED IN SESSION");
+                server.setSession(); // todo is this needed?
+                System.out.println(listOfCards.id);
                 Card myCard = new Card(taskInput, listOfCards);
-                System.out.println(myCard.id);
-                listOfCards.addCard(myCard);
+                myCard.listOfCards = listOfCards;
+                System.out.println(myCard);
                 server.send("/app/cards", myCard);
+                System.out.println(myCard.id);
+//                listOfCards.addCard(myCard);
 
                 textField.clear();
-                mainCtrl.showTaskListView();
+
+//                mainCtrl.showTaskListView();
             }
 
             event.consume();
         });
-    }
-
-    /**
-     *
-     */
-    public void firstTimeSetUp(){
-
     }
 
 
@@ -189,9 +190,9 @@ public class ListContainer extends VBox {
      * Method for saving changes to task title
      *
      * @param editBtn    'edit button' that's clicked
-     * @param delBtn     'delete' button to set invisible
-     * @param textField  text field to fetch new task title from
-     * @param list       list view where the change will be presented
+     * @param delBtn    'delete button
+     * @param textField text field to fetch new task title from
+     * @param list      list view where the change will be presented
      */
     public void setSaveEditAction(Button editBtn, Button delBtn, TextField textField,
                                   ListView<String> list) {
@@ -246,7 +247,6 @@ public class ListContainer extends VBox {
             textField.setText(listName);
             editButton.setVisible(!visibility);
             deleteButton.setVisible(!visibility);
-
             event.consume();
         });
     }
@@ -303,7 +303,6 @@ public class ListContainer extends VBox {
      * Lists are both sources and targets of this operation,
      * so all handlers will be applied on them directly
      * These handlers only work with Strings as the content of lists
-     *
      * @param list list to apply handlers to
      */
     public void setDragAndDrop(ListView<String> list) {
@@ -425,6 +424,19 @@ public class ListContainer extends VBox {
         event.consume();
     }
 
+//    public void refreshList(List<Card> data){
+//        var currentCards = list.getItems();
+//        for(String card : currentCards){
+//            currentCards.remove(card);
+//        }
+//
+//        for(Card card : data){
+//            if(card.list.id == listOfCards.id){
+//                list.getItems().add(card.title);
+//            }
+//        }
+//    }
+
     /**
      * Setter method for parent
      * @param parent parent
@@ -520,4 +532,15 @@ public class ListContainer extends VBox {
     public ListOfCards getListOfCards() {
         return listOfCards;
     }
+
+
+//    /**
+//     * Adds one card to the ListView and displays it
+//     * @param card card to be added
+//     */
+//    public void addCard(Card card){
+////        var names = cards.stream().map(c -> c.title).toList();
+//        String cardTitle = card.title;
+//        list.getItems().add(cardTitle);
+//    }
 }
