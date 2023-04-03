@@ -130,7 +130,7 @@ public class ListContainer extends VBox {
 
                 server.setSession();
                 System.out.println("CARD SAVED IN SESSION");
-                Card myCard = new Card(taskInput, "null", "null", listOfCards);
+                Card myCard = new Card(taskInput, listOfCards);
                 System.out.println(myCard.id);
                 listOfCards.addCard(myCard);
                 server.send("/app/cards", myCard);

@@ -117,45 +117,59 @@ public class ServerUtils {
 //    }
 
 
-    /**
-     * setup for stomp session port, occurs after server is set-up
-     */
-//    private StompSession session;
-//    public void setSession(){
-//        session = connect("ws"+ SERVER.substring(4) + "websocket");
-//    }
+    private StompSession session;
 
-//    private StompSession connect(String url) {
-//        var client = new StandardWebSocketClient();
-//        var stomp = new WebSocketStompClient(client);
-//        stomp.setMessageConverter(new MappingJackson2MessageConverter());
-//
-//        try {
-//            return stomp.connect(url, new StompSessionHandlerAdapter() {}).get();
-//        } catch (InterruptedException e) {
-//            Thread.currentThread().interrupt();
-//        } catch (ExecutionException e) {
-//            throw new RuntimeException(e);
-//        }
-//        throw new IllegalStateException();
-//    }
-//
-//    public <T> void registerForMessages(String dest, Class<T> type, Consumer<T> consumer) {
-//        session.subscribe(dest, new StompFrameHandler() {
-//            @Override
-//            public Type getPayloadType(StompHeaders headers) {
-//                return type;
-//            }
-//
-//            @Override
-//            public void handleFrame(StompHeaders headers, Object payload) {
-//                consumer.accept((T) payload);
-//            }
-//        });
-//    }
-//
-//    public void send(String dest, Object o) {
-//        session.send(dest, o);
-//    }
+    /**
+     * sets session to connect("ws://localhost:[port]/websocket")
+     */
+    public void setSession(){
+        session = connect("ws"+ SERVER.substring(4) + "websocket");
+    }
+
+    private StompSession connect(String url) {
+        var client = new StandardWebSocketClient();
+        var stomp = new WebSocketStompClient(client);
+        stomp.setMessageConverter(new MappingJackson2MessageConverter());
+
+        try {
+            return stomp.connect(url, new StompSessionHandlerAdapter() {}).get();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+        throw new IllegalStateException();
+    }
+
+    /**
+     *
+     * @param dest destination the session needs to subscribe to
+     * @param type class that need will be sent
+     * @param consumer where the messages will be sent to
+     * @param <T> so register for messages can use a generic type
+     */
+    public <T> void registerForMessages(String dest, Class<T> type, Consumer<T> consumer) {
+        session.subscribe(dest, new StompFrameHandler() {
+            @Override
+            public Type getPayloadType(StompHeaders headers) {
+                return type;
+            }
+
+            @Override
+            public void handleFrame(StompHeaders headers, Object payload) {
+                consumer.accept((T) payload);
+            }
+        });
+    }
+
+    /**
+     *
+     * Sends an object by calling the stompSession send method
+     * @param dest destination to send too
+     * @param o object that needs to be sent
+     */
+    public void send(String dest, Object o) {
+        session.send(dest, o);
+    }
 
 }

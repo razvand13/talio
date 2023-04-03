@@ -82,14 +82,6 @@ public class TaskListCtrl implements Initializable {
 
     public void firstTimeSetUp() {
         server.setSession();
-        /*
-        System.out.println("NEW TASK LIST");
-        server.registerForMessages("/topic/cards", Card.class, c -> {
-            data.add(c);
-            System.out.println("NEW TASK LIST");
-        });
-
-         */
         list = server.getLists();
 
         server.registerForMessages("/topic/lists", ListOfCards.class, l -> {
@@ -97,12 +89,9 @@ public class TaskListCtrl implements Initializable {
         });
 
         for(ListOfCards l: list) {
-            ListContainer container = new ListContainer(l.name, server, mainCtrl);
+            ListContainer container = new ListContainer(l.title, server, mainCtrl);
             container.setListOfCards(l);
             hBox.getChildren().add(container);
             }
-
-
-
     }
 }

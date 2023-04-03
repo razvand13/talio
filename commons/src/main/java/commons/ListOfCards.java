@@ -1,78 +1,95 @@
 package commons;
 
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-//import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
+import java.util.*;
 import javax.persistence.Entity;
-//import org.apache.commons.lang3.builder.EqualsBuilder;
-//import org.apache.commons.lang3.builder.HashCodeBuilder;
-//import org.apache.commons.lang3.builder.ToStringBuilder;
 @Entity
-@Table(name="list")
 public class ListOfCards implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(unique = true)
+    @GeneratedValue
     public long id;
-    public String name;
 
-    @OneToMany(mappedBy = "list", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    private Set<Card> cards;
+    @OneToMany(mappedBy = "listOfCards")
+    public List<Card> cards;
 
+    public String title;
 
+    /**Constructor for ListOfCards
+     *
+     * @param title
+     * @param cards
+     */
+    public ListOfCards(String title, List<Card> cards) {
+        this.title = title;
+        this.cards = cards;
+    }
 
-    /*
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "board_id", nullable = false)
-    private Board board;
-*/
-    @SuppressWarnings("unused")
+    /**Constructor only with title for ListOfCards
+     *
+     * @param title
+     */
+    public ListOfCards(String title) {
+        this.title = title;
+        this.cards = new ArrayList<>();
+    }
+
+    /**Empty constructor for ListOfCards
+     *
+     */
     public ListOfCards() {
-        // for object mapper
+
     }
 
-    public ListOfCards(String name/*, Board board*/) {
-        this.name = name;
-    //    this.board = board;
-        this.cards = new HashSet<>();
-    }
-
+    /**Equals method for ListOfCards
+     *
+     * @param o
+     * @return true iff they are completely the same
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ListOfCards that = (ListOfCards) o;
-        return id == that.id && Objects.equals(name, that.name);
+
+        if (id != that.id) return false;
+        if (!Objects.equals(cards, that.cards)) return false;
+        return Objects.equals(title, that.title);
     }
 
+
+    /**
+     * Hashcode method for a ListOfCards
+     *
+     * @return the hash value
+     */
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id, title);
     }
 
-    /**
-     * simple getter
-     * @return id
+    /**ToString method for ListOfCards
+     *
+     * @return human-readable version of the object
      */
-    public long getId() {
-        return id;
-    }
+    @Override
+    public String toString() {
+        StringBuilder a = new StringBuilder("ListOfCards: id = " +
+                id + ", title = " + title + ", cards =");
+        if(cards == null) {
+            a.append("N/A;");
+            return a.toString();
+        }
 
-    /**
-     * simple getter
-     * @return cards
-     */
-
-    public Set<Card> getCards() {
-        return cards;
+        for(Card i:cards){
+            a.append("\n")
+                    .append(i.toString())
+                    .append(";");
+        }
+        return a.toString();
     }
 
     /**

@@ -30,6 +30,8 @@ import javafx.application.Application;
 //import java.util.Scanner;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import static com.google.inject.Guice.createInjector;
 
@@ -54,6 +56,16 @@ public class Main extends Application{
 
     public static void launchServer(String port){
         System.out.println("here on port: " + port);
+        String address = "";
+        try {
+            address = InetAddress.getLocalHost().getHostAddress();
+        }
+        catch (UnknownHostException e){
+            System.out.println("Something went wrong");
+            System.exit(1);
+        }
+        System.out.println(address);
+
         System.setProperty("server.port", port);
         System.setProperty("spring.datasource.url", "jdbc:h2:file:./quizzzz"+port);
         SpringApplication.run(Main.class);

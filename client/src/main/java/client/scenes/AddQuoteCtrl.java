@@ -91,10 +91,47 @@
 //        default:
 //            break;
 //        }
-//    }
-//
-////    public void firstTimeSetUp(){
-////        server.setSession();
-////    }
-//
-//}
+
+        server.send("/app/quotes", getQuote());
+
+        clearFields();
+        mainCtrl.showOverview();
+    }
+    /**
+     *
+     * @return the Quote that has been inputted by the user
+     */
+
+    private Quote getQuote() {
+        var p = new Person(firstName.getText(), lastName.getText());
+        var q = quote.getText();
+        return new Quote(p, q);
+    }
+
+    private void clearFields() {
+        firstName.clear();
+        lastName.clear();
+        quote.clear();
+    }
+
+    public void keyPressed(KeyEvent e) {
+        switch (e.getCode()) {
+        case ENTER:
+            ok();
+            break;
+        case ESCAPE:
+            cancel();
+            break;
+        default:
+            break;
+        }
+    }
+
+    /**
+     * sets session variable in server
+     */
+    public void firstTimeSetUp(){
+        server.setSession();
+    }
+
+}

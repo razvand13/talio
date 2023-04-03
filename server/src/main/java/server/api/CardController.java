@@ -62,12 +62,12 @@ public class CardController {
             return ResponseEntity.badRequest().build();
         }
 
-        if(!listRepo.existsById(card.list.id)){
+
+        if(!listRepo.existsById(card.listOfCards.id)){
             return ResponseEntity.badRequest().build();
         }
 
-        card.list.addCard(card);
-
+        card.listOfCards.addCard(card);
         cardRepo.save(card);
         return ResponseEntity.ok(card);
     }
@@ -89,7 +89,11 @@ public class CardController {
     }
     @MessageMapping("/cards") //app/cards -> path for basically any client (consumer)
     @SendTo("/topic/cards")// (producer)
+<<<<<<< server/src/main/java/server/api/CardController.java
     public Card addMessage(Card c/*, long listId*/) {
+=======
+    public Card addMessage(Card c, long listId) {
+>>>>>>> server/src/main/java/server/api/CardController.java
         System.out.println("ADD MESSAGE");
         add(c);
         return c;
