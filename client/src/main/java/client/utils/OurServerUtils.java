@@ -77,6 +77,7 @@ public class OurServerUtils {
      */
     public void setSession(){
         System.out.println("session is set up");
+        System.out.println("ws"+ SERVER.substring(4) + "/websocket");
         session = connect("ws"+ SERVER.substring(4) + "/websocket");
     }
 
