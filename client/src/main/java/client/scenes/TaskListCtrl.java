@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.geometry.Insets;
 
 import java.net.URL;
 import java.util.ArrayList;
