@@ -79,6 +79,7 @@ public class ListController {
     /**
     *
     *@param loc list to be added 
+    *@return loc
     */
 
     @MessageMapping("/lists") //app/quotes -> path for basically any client (consumer)
