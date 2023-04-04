@@ -53,7 +53,8 @@ public class TaskListCtrl implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        hBox.setSpacing(10);
+        hBox.setPadding(new Insets(10, 10, 10, 10));
     }
 
     /**
@@ -84,7 +85,6 @@ public class TaskListCtrl implements Initializable {
 
         refreshBoard();
 
-        data = server.getCards();
         // Add card
         server.registerForMessages("/topic/cards", Card.class, c -> {
             Platform.runLater(this::refreshBoard);
