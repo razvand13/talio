@@ -107,6 +107,11 @@ public class CardController {
         return c;
     }
 
+    /**
+     * remove card
+     * @param card
+     * @return card
+     */
     @MessageMapping("/remove-card")
     @SendTo("/topic/remove-card")
     public Card removeCard(Card card){
@@ -114,6 +119,11 @@ public class CardController {
         return card;
     }
 
+    /**
+     * edit card
+     * @param card
+     * @return card
+     */
     @MessageMapping("/edit-card")
     @SendTo("/topic/edit-card")
     public Card editCard(Card card){
