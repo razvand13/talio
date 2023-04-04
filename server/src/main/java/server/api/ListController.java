@@ -121,6 +121,30 @@ public class ListController {
     }
 
     /**
+     * edit list
+     * @param loc list of cards
+     * @return list of cards
+     */
+    @MessageMapping("/edit-lists") //app/quotes -> path for basically any client (consumer)
+    @SendTo("/topic/edit-lists")// (producer)
+    public ListOfCards editList(ListOfCards loc) {
+        listRepo.save(loc);
+        return loc;
+    }
+
+    /**
+     * delete list of cards from database
+     * @param loc list of cards to be deleted
+     * @return list of cards
+     */
+    @MessageMapping("/remove-lists") //app/quotes -> path for basically any client (consumer)
+    @SendTo("/topic/remove-lists")// (producer)
+    public ListOfCards removeList(ListOfCards loc) {
+        listRepo.deleteById(loc.id);
+        return loc;
+    }
+
+    /**
      *
      * @param id id of the list to be deleted
      */
