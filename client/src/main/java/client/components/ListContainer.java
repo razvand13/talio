@@ -324,7 +324,7 @@ public class ListContainer extends VBox {
 
             long listID = listOfCards.id;
 
-            allLoc = server.getLists();
+            allLists = server.getLists();
 
             Card delCard = null;
             ListOfCards delList = null;
@@ -338,9 +338,9 @@ public class ListContainer extends VBox {
                 }
             }
 
-            for(int i = 0; i < allLoc.size(); i++){
-                if(allLoc.get(i).id == listID){
-                    delList = allLoc.get(i);
+            for(int i = 0; i < allLists.size(); i++){
+                if(allLists.get(i).id == listID){
+                    delList = allLists.get(i);
                     break;
                 }
             }
@@ -369,13 +369,13 @@ public class ListContainer extends VBox {
             server.setSession();
             long listID = listOfCards.id;
 
-            allLoc = server.getLists();
+            allLists = server.getLists();
 
             ListOfCards newList = null;
 
-            for (int i = 0; i < allLoc.size(); i++) {
-                if (allLoc.get(i).id == listID) {
-                    newList = allLoc.get(i);
+            for (int i = 0; i < allLists.size(); i++) {
+                if (allLists.get(i).id == listID) {
+                    newList = allLists.get(i);
                     break;
                 }
             }
