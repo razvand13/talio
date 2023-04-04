@@ -6,59 +6,59 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
 import javax.persistence.Entity;
+
 @Entity
+@Table(name="listOfCards")
 public class ListOfCards implements Serializable {
 
     @Id
     @GeneratedValue
     public long id;
 
-    @OneToMany(mappedBy = "listOfCards")
-    public List<Card> cards;
-
     public String title;
 
-    /**Constructor for ListOfCards
+//    @OneToMany(mappedBy = "listOfCards", fetch = FetchType.LAZY,
+//            cascade = CascadeType.ALL)
+//    public List<Card> cards = new ArrayList<>();
+
+    /**
+     * Constructor for ListOfCards
      *
-     * @param title
-     * @param cards
+     * @param title title   
+     * @param cards cards
      */
     public ListOfCards(String title, List<Card> cards) {
         this.title = title;
-        this.cards = cards;
+//        this.cards = cards;
     }
 
-    /**Constructor only with title for ListOfCards
+    /**
+     * Constructor only with title for ListOfCards
      *
-     * @param title
+     * @param title title
      */
     public ListOfCards(String title) {
         this.title = title;
-        this.cards = new ArrayList<>();
     }
 
-    /**Empty constructor for ListOfCards
-     *
+    /**
+     * Empty constructor for ListOfCards
      */
-    public ListOfCards() {
+    private ListOfCards() {
 
     }
 
     /**Equals method for ListOfCards
      *
-     * @param o
+     * @param o object to compare to
      * @return true iff they are completely the same
      */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         ListOfCards that = (ListOfCards) o;
-
-        if (id != that.id) return false;
-        if (!Objects.equals(cards, that.cards)) return false;
-        return Objects.equals(title, that.title);
+        return id == that.id && Objects.equals(title, that.title);
     }
 
 
@@ -80,24 +80,24 @@ public class ListOfCards implements Serializable {
     public String toString() {
         StringBuilder a = new StringBuilder("ListOfCards: id = " +
                 id + ", title = " + title + ", cards =");
-        if(cards == null) {
-            a.append("N/A;");
-            return a.toString();
-        }
-
-        for(Card i:cards){
-            a.append("\n")
-                    .append(i.toString())
-                    .append(";");
-        }
+//        if(cards == null) {
+//            a.append("N/A;");
+//            return a.toString();
+//        }
+//
+//        for(Card i:cards){
+//            a.append("\n")
+//                    .append(i.toString())
+//                    .append(";");
+//        }
         return a.toString();
     }
-
-    /**
-     * adds a card to cards
-     * @param card card to be added
-     */
-    public void addCard(Card card){
-        cards.add(card);
-    }
+//
+//    /**
+//     * adds a card to cards
+//     * @param card card to be added
+//     */
+//    public void addCard(Card card){
+//        cards.add(card);
+//    }
 }

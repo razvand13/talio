@@ -5,14 +5,16 @@ import client.utils.OurServerUtils;
 import com.google.inject.Inject;
 import commons.Card;
 import commons.ListOfCards;
-import javafx.collections.ObservableList;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -20,8 +22,7 @@ public class TaskListCtrl implements Initializable {
 
     private final OurServerUtils server;
     private final MainTaskListCtrl mainCtrl;
-
-    private ObservableList<Card> data;
+    private List<Card> data;
     private List<ListOfCards> list;
 
     @FXML
@@ -68,41 +69,101 @@ public class TaskListCtrl implements Initializable {
         String listName = listTitle.getText();
         if (listName.equals("")) listName = "ToDo";
 
-        ListContainer container = new ListContainer(listName, server, mainCtrl);
-
         // Reset text
         listTitle.setText("ToDo");
 
-        container.setParent(hBox);
-        hBox.getChildren().add(container);
+        ListContainer container = new ListContainer(listName, server, mainCtrl);
+        ListOfCards myLoc = new ListOfCards(listName);
 
+        container.setListOfCards(myLoc);
         server.send("/app/lists", container.getListOfCards());
+    }
+
+    /**
+     * Method that is called once, on setup
+     */
+    public void firstTimeSetUp() {
+        server.setSession();
+
+        refreshBoard();
+
+        // Add card
+        server.registerForMessages("/topic/cards", Card.class, c -> {
+            data.add(c);
+            Platform.runLater(this::refreshBoard);
+        });
+
+        // todo Edit card
+
+        // todo Remove card
+
+        // Add list
+        server.registerForMessages("/topic/lists", ListOfCards.class, l -> {
+            list.add(l);
+            Platform.runLater(this::refreshBoard);
+        });
+
+        // todo Edit list
+
+        // todo Remove list
 
     }
 
     /**
-     *
+     * Method that refreshes the board
+     * First removes all lists and their contents, and using
+     * the data and lists from the server,
+     * redraws them, one by one
      */
-    public void firstTimeSetUp() {
-        server.setSession();
-        /*
-        System.out.println("NEW TASK LIST");
-        server.registerForMessages("/topic/cards", Card.class, c -> {
-            data.add(c);
-            System.out.println("NEW TASK LIST");
-        });
+    public void refreshBoard(){
+        clearBoard();
+        makeBoard();
+    }
 
-         */
+    /**
+     * Erase all lists from the board
+     */
+    public void clearBoard(){
+        List<ListContainer> containers = new ArrayList<>();
+        for(Node child : hBox.getChildren()){
+            if(child.getClass() == ListContainer.class){ // Error handling
+                ListContainer listContainer = (ListContainer) child;
+                containers.add(listContainer);
+            }
+        }
+        hBox.getChildren().removeAll(containers);
+    }
+
+    /**
+     * Make the board using 'data' and 'list'
+     */
+    public void makeBoard(){
+
+        //Redraw lists
         list = server.getLists();
+        for(ListOfCards loc : list){
+            ListContainer listContainer = new ListContainer(loc.title, server, mainCtrl);
+            listContainer.setListOfCards(loc);
+            listContainer.setParent(hBox);
+            hBox.getChildren().add(listContainer);
+        }
 
-        server.registerForMessages("/topic/lists", ListOfCards.class, l -> {
-            list.add(l);
-        });
+        //Redraw list contents
+        data = server.getCards();
+        for(Node child : hBox.getChildren()){
+            if(child.getClass() == ListContainer.class){ // Error handling
+                ListContainer listContainer = (ListContainer) child;
+                ListOfCards listOfCards = listContainer.getListOfCards();
 
-        for(ListOfCards l: list) {
-            ListContainer container = new ListContainer(l.title, server, mainCtrl);
-            container.setListOfCards(l);
-            hBox.getChildren().add(container);
+                // Add back each card to their own list
+                for(Card card : data){
+                    if(card.listOfCards.id == listOfCards.id){
+                        var items = listContainer.getList().getItems();
+                        items.add(card.title);
+                    }
+                }
+            }
         }
     }
+
 }

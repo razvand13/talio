@@ -24,8 +24,8 @@ public class MainTaskListCtrl {
     /**Method for initializing main controller
      * @param primaryStage stage passed in as primary stage
      * @param taskList for setting up task list scene
-     * @param addCard
-     * @param serverConnect
+     * @param addCard add card scene
+     * @param serverConnect server connect scene
      */
     public void initialize(Stage primaryStage, Pair<TaskListCtrl, Parent> taskList,
                            Pair<AddCardCtrl, Parent> addCard,
@@ -45,7 +45,8 @@ public class MainTaskListCtrl {
         primaryStage.show();
     }
 
-    /**Method for displaying TaskListView.fxml
+    /**
+     * Method for displaying TaskListView.fxml
      */
     public void showTaskListView() {
         taskListCtrl.firstTimeSetUp();
@@ -59,7 +60,6 @@ public class MainTaskListCtrl {
     /**
      *
      */
-
     public void showAdd() {
         addCardCtrl.firstTimeSetUp();
         primaryStage.setTitle("Add card");
