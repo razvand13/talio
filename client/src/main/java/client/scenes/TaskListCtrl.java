@@ -94,6 +94,12 @@ public class TaskListCtrl implements Initializable {
             Platform.runLater(this::refreshBoard);
         });
 
+        // Add list
+        server.registerForMessages("/topic/lists", ListOfCards.class, l -> {
+            list.add(l);
+            Platform.runLater(this::refreshBoard);
+        });
+
         // todo Edit card
         server.registerForMessages("/topic/edit-card", Card.class, c -> {
             data.remove(c);
@@ -107,16 +113,15 @@ public class TaskListCtrl implements Initializable {
             Platform.runLater(this::refreshBoard);
         });
 
-        // Add list
-        server.registerForMessages("/topic/lists", ListOfCards.class, l -> {
-            list.add(l);
+        // todo Remove list
+        server.registerForMessages("/topic/remove-lists", ListOfCards.class, loc -> {
             Platform.runLater(this::refreshBoard);
         });
 
         // todo Edit list
-
-        // todo Remove list
-
+        server.registerForMessages("/topic/edit-lists", ListOfCards.class, loc -> {
+            Platform.runLater(this::refreshBoard);
+        });
     }
 
     /**
