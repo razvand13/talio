@@ -6,40 +6,52 @@ import javax.persistence.*;
 import java.io.Serializable;
 import javax.persistence.Entity;
 
+
 @Entity
+@Table(name = "card")
 public class Card implements Serializable {
 
     @Id
-    @GeneratedValue
+    @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public long id;
 
-    @Column(nullable = false)
     public String title;
 
-    @ManyToOne
-    @JoinColumn(name = "listOfCards_id")
+    @ManyToOne(targetEntity = ListOfCards.class, cascade = CascadeType.MERGE,
+            fetch = FetchType.EAGER)
+    @JoinColumn(name = "listOfCards", referencedColumnName = "id")
     public ListOfCards listOfCards;
 
     /**Constructor for Card
      *
-     * @param title
-     * @param listOfCards
+     * @param title title
+     * @param listOfCards listOfCards
      */
     public Card(String title, ListOfCards listOfCards) {
         this.title = title;
         this.listOfCards = listOfCards;
     }
 
+    /**
+     * Constructor for Card only with title
+     * @param title title
+     */
+    public Card(String title){
+        this.title = title;
+    }
+
     /**Empty constructor for Card
      *
      */
-    public Card() {
+    private Card() {
 
     }
 
-    /**Equals method for cards
+    /**
+     * Equals method for cards
      *
-     * @param o
+     * @param o object to compare
      * @return true iff they are completely the same
      */
     @Override
@@ -49,9 +61,7 @@ public class Card implements Serializable {
 
         Card card = (Card) o;
 
-        if (id != card.id) return false;
-        if (!title.equals(card.title)) return false;
-        return true;
+        return id == card.id && title.equals(card.title);
     }
 
     /**Hashcode function for card

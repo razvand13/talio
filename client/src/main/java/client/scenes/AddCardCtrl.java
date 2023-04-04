@@ -30,6 +30,11 @@ public class AddCardCtrl {
     @FXML
     private TextField cardTitle;
 
+    /**
+     *
+     * @param server
+     * @param mainCtrl
+     */
     @Inject
     public AddCardCtrl(OurServerUtils server, MainTaskListCtrl mainCtrl) {
         this.mainCtrl = mainCtrl;
@@ -37,11 +42,17 @@ public class AddCardCtrl {
 
     }
 
+    /**
+     *
+     */
     public void cancel() {
         clearFields();
         mainCtrl.showTaskListView();
     }
 
+    /**
+     *
+     */
     public void ok() {
 
        // server.send("/app/cards", getCard());
@@ -57,10 +68,17 @@ public class AddCardCtrl {
 
  */
 
+    /**
+     *
+     */
     private void clearFields() {
         cardTitle.clear();
     }
 
+    /**
+     *
+     * @param e
+     */
     public void keyPressed(KeyEvent e) {
         switch (e.getCode()) {
             case ENTER:
@@ -74,6 +92,9 @@ public class AddCardCtrl {
         }
     }
 
+    /**
+     *
+     */
     public void firstTimeSetUp(){
         server.setSession();
     }

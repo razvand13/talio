@@ -10,6 +10,10 @@ public class ServerSideSetUpCtrl {
 
     private final Main main;
 
+    /**
+     *
+     * @param main
+     */
     @Inject
     public ServerSideSetUpCtrl(Main main){
         this.main = main;
@@ -17,8 +21,13 @@ public class ServerSideSetUpCtrl {
 
     @FXML
     private TextField inputPort;
+
+    /**
+     *
+     */
     public void launch(){
         String input = inputPort.getText();
+        if(input.equals("")) input = "8080";
         Main.launchServer(input);
     }
 }
