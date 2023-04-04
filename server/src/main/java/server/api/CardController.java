@@ -107,5 +107,20 @@ public class CardController {
         return c;
     }
 
+    @MessageMapping("/remove-card")
+    @SendTo("/topic/remove-card")
+    public Card removeCard(Card card){
+        cardRepo.deleteById(card.id);
+        return card;
+    }
+
+    @MessageMapping("/edit-card")
+    @SendTo("/topic/edit-card")
+    public Card editCard(Card card){
+        cardRepo.deleteById(card.id);
+        cardRepo.save(card);
+        return card;
+    }
+
 
 }

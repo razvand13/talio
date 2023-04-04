@@ -87,6 +87,7 @@ public class TaskListCtrl implements Initializable {
 
         refreshBoard();
 
+        data = server.getCards();
         // Add card
         server.registerForMessages("/topic/cards", Card.class, c -> {
             data.add(c);
@@ -94,8 +95,17 @@ public class TaskListCtrl implements Initializable {
         });
 
         // todo Edit card
+        server.registerForMessages("/topic/edit-card", Card.class, c -> {
+            data.remove(c);
+            data.add(c);
+            Platform.runLater(this::refreshBoard);
+        });
 
         // todo Remove card
+        server.registerForMessages("/topic/remove-card", Card.class, c -> {
+            data.remove(c);
+            Platform.runLater(this::refreshBoard);
+        });
 
         // Add list
         server.registerForMessages("/topic/lists", ListOfCards.class, l -> {

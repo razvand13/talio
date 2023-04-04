@@ -18,6 +18,8 @@ public class Card implements Serializable {
 
     public String title;
 
+    public int position;
+
     @ManyToOne(targetEntity = ListOfCards.class, cascade = CascadeType.MERGE,
             fetch = FetchType.EAGER)
     @JoinColumn(name = "listOfCards", referencedColumnName = "id")

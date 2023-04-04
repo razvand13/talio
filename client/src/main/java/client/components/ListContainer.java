@@ -16,7 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
-
+import java.util.List;
 
 
 public class ListContainer extends VBox {
@@ -54,6 +54,11 @@ public class ListContainer extends VBox {
     // a reference to it inside the container object
     private HBox parent;
 
+    private List<Card> allCards;
+
+    private List<ListOfCards> allLoc;
+
+
 
     /**
      * Constructor for the custom FXML component
@@ -71,6 +76,9 @@ public class ListContainer extends VBox {
                 .getResource("/client/components/ListContainer.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
+
+        allCards = server.getCards();
+        allLoc = server.getLists();
 
         try {
             fxmlLoader.load();
@@ -143,11 +151,15 @@ public class ListContainer extends VBox {
                 server.setSession(); // todo is this needed?
                 System.out.println(listOfCards.id);
                 Card myCard = new Card(taskInput, listOfCards);
+                myCard.position = list.getItems().size()-1;
                 myCard.listOfCards = listOfCards;
                 System.out.println(myCard);
                 server.send("/app/cards", myCard);
                 System.out.println(myCard.id);
 //                listOfCards.addCard(myCard);
+
+                allCards = server.getCards();
+                allLoc = server.getLists();
 
                 textField.clear();
 
@@ -200,12 +212,44 @@ public class ListContainer extends VBox {
             String edit = textField.getText();
             // Check if there is something selected AND if the field is not empty
             int idx = list.getSelectionModel().getSelectedIndex();
-            if (idx != -1 && edit.length() >= 1) {
-                list.getItems().set(idx, edit);
+//            if (idx != -1 && edit.length() >= 1) {
+//                list.getItems().set(idx, edit);
+//                editBtn.setVisible(false);
+//                delBtn.setVisible(false);
+//                textField.setVisible(false);
+//            }
+
+            server.setSession();
+        //    int idx = list.getSelectionModel().getSelectedIndex();
+            long listID = listOfCards.id;
+
+            allCards = server.getCards();
+            allLoc = server.getLists();
+
+            Card newCard = null;
+
+            for(int i = 0; i < allCards.size(); i++){
+                if(allCards.get(i).listOfCards.id == listID){
+                    if(allCards.get(i).position == idx){
+                        newCard = allCards.get(i);
+                        i = allCards.size()+1;
+                    }
+                }
+            }
+
+            if (edit.length() >= 1) {
+                //list.getItems().set(idx, edit);
+                newCard.title = edit;
                 editBtn.setVisible(false);
                 delBtn.setVisible(false);
                 textField.setVisible(false);
             }
+
+            event.consume();
+
+            server.send("/app/edit-card", newCard);
+
+
         });
     }
 
@@ -220,11 +264,37 @@ public class ListContainer extends VBox {
     public void setDeleteAction(Button deleteButton, Button editButton, TextField textField,
                                 ListView<String> list){
         deleteButton.setOnAction(event -> {
+            server.setSession();
             int idx = list.getSelectionModel().getSelectedIndex();
-            list.getItems().remove(idx);
-            deleteButton.setVisible(false);
-            editButton.setVisible(false);
-            textField.setVisible(false);
+            long listID = listOfCards.id;
+
+            allCards = server.getCards();
+            allLoc = server.getLists();
+
+            Card delCard = null;
+
+            for(int i = 0; i < allCards.size(); i++){
+                if(allCards.get(i).listOfCards.id == listID){
+                    if(allCards.get(i).position == idx){
+                        delCard = allCards.get(i);
+                        i = allCards.size()+1;
+                    }
+                }
+            }
+
+
+
+
+          //  data.remove(delCard);
+
+//            list.getItems().remove(idx);
+//            deleteButton.setVisible(false);
+//            editButton.setVisible(false);
+//            textField.setVisible(false);
+
+            event.consume();
+
+            server.send("/app/remove-card", delCard);
         });
     }
 
