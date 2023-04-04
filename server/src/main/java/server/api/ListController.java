@@ -57,7 +57,7 @@ public class ListController {
      * @return badRequest iff it couldn't be added, ok with the list if it was added successfully
      */
     @PostMapping
-    public ResponseEntity<ListOfCards> add(@RequestBody ListOfCards listOfCards/*, long boardId*/){
+    public ResponseEntity<ListOfCards> add(@RequestBody ListOfCards listOfCards){
         if(listOfCards == null || listRepo.existsById(listOfCards.id)){
             return ResponseEntity.badRequest().build();
         }
@@ -76,9 +76,14 @@ public class ListController {
         return ResponseEntity.ok(listOfCards);
     }
 
+    /**
+    *
+    *@param loc list to be added 
+    */
+
     @MessageMapping("/lists") //app/quotes -> path for basically any client (consumer)
     @SendTo("/topic/lists")// (producer)
-    public ListOfCards addMessage(ListOfCards loc/*, long boardId*/) {
+    public ListOfCards addMessage(ListOfCards loc) {
         add(loc/*, boardId*/);
         return loc;
     }
