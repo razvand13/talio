@@ -18,16 +18,6 @@ public class Board implements Serializable {
     public String title;
 
     /**
-     * Constructor method for a Board with id and title
-     * @param id long value for id
-     * @param title String value for title
-     */
-    public Board(long id, String title) {
-        this.id = id;
-        this.title = title;
-    }
-
-    /**
      * Constructor method for a Board with title
      * @param title String value for title
      */
