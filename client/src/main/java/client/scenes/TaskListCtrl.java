@@ -116,13 +116,8 @@ public class TaskListCtrl implements Initializable {
      * redraws them, one by one
      */
     public void refreshBoard(){
-        Platform.runLater(() ->{
-            clearBoard();
-            makeBoard();
-        });
-        // not sure which of these is better, if any
-//        Platform.runLater(this::clearBoard);
-//        Platform.runLater(this::makeBoard);
+        clearBoard();
+        makeBoard();
     }
 
     /**
