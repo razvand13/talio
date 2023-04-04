@@ -108,9 +108,9 @@ public class CardController {
     }
 
     /**
-     * remove card
-     * @param card
-     * @return card
+     * Remove card from database
+     * @param card Card to be deleted
+     * @return deleted Card
      */
     @MessageMapping("/remove-card")
     @SendTo("/topic/remove-card")
@@ -120,14 +120,13 @@ public class CardController {
     }
 
     /**
-     * edit card
-     * @param card
-     * @return card
+     * Edit card in database
+     * @param card Card with changed values
+     * @return edited Card
      */
     @MessageMapping("/edit-card")
     @SendTo("/topic/edit-card")
     public Card editCard(Card card){
-        cardRepo.deleteById(card.id);
         cardRepo.save(card);
         return card;
     }

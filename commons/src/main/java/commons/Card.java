@@ -18,6 +18,7 @@ public class Card implements Serializable {
 
     public String title;
 
+    //todo class and tests need to be refactored to have this new attribute
     public int position;
 
     @ManyToOne(targetEntity = ListOfCards.class, cascade = CascadeType.MERGE,
