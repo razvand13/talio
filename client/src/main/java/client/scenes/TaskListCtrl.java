@@ -166,4 +166,10 @@ public class TaskListCtrl implements Initializable {
         }
     }
 
+    /**
+     * Shows the server connection screen so the client can pick a different server
+     */
+    public void disconnect() {
+        mainCtrl.showServerConnect();
+    }
 }
