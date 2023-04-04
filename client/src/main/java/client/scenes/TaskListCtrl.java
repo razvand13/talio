@@ -8,7 +8,6 @@ import commons.ListOfCards;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -54,8 +53,6 @@ public class TaskListCtrl implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        hBox.setSpacing(10);
-        hBox.setPadding(new Insets(10, 10, 10, 10));
 
     }
 
@@ -90,26 +87,22 @@ public class TaskListCtrl implements Initializable {
         data = server.getCards();
         // Add card
         server.registerForMessages("/topic/cards", Card.class, c -> {
-            data.add(c);
             Platform.runLater(this::refreshBoard);
         });
 
-        // todo Edit card
+        // Edit card
         server.registerForMessages("/topic/edit-card", Card.class, c -> {
-            data.remove(c);
-            data.add(c);
             Platform.runLater(this::refreshBoard);
         });
 
-        // todo Remove card
+        // Remove card
         server.registerForMessages("/topic/remove-card", Card.class, c -> {
-            data.remove(c);
             Platform.runLater(this::refreshBoard);
         });
 
         // Add list
         server.registerForMessages("/topic/lists", ListOfCards.class, l -> {
-            list.add(l);
+//            list.add(l);
             Platform.runLater(this::refreshBoard);
         });
 
