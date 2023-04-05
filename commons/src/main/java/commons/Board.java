@@ -63,6 +63,6 @@ public class Board implements Serializable {
     public String toString() {
         return "Board: " +
                 "id=" + id +
-                ", title='" + title;
+                ", title=" + title;
     }
 }
