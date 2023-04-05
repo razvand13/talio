@@ -11,8 +11,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -31,6 +33,12 @@ public class TaskListCtrl implements Initializable {
 
     @FXML
     private TextField listTitle;
+
+    @FXML
+    private Button changeBoardsButton;
+
+    @FXML
+    private Text boardIdText;
 
     private Board board;
 
@@ -110,6 +118,25 @@ public class TaskListCtrl implements Initializable {
 
         // todo Remove list
 
+        changeBoardSetup();
+        showBoardId();
+    }
+
+    /**
+     * Setup for changing the board
+     */
+    public void changeBoardSetup(){
+        changeBoardsButton.setOnMouseClicked(event -> {
+            mainCtrl.showOverviewOfBoards();
+            event.consume();
+        });
+    }
+
+    /**
+     * Editing the board Id text to show the id of the current board;
+     */
+    public void showBoardId(){
+        boardIdText.setText("Board Id: " + board.id);
     }
 
     /**
