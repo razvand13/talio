@@ -50,5 +50,8 @@ public class TaskListMain extends Application {
 
 
         mainTaskCtrl.initialize(primaryStage, taskList, addCard, setup);
+
+        // stop long polling thread as well when app closes
+        primaryStage.setOnCloseRequest(e -> taskList.getKey().stop());
     }
 }
