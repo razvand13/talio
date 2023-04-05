@@ -16,15 +16,12 @@ import java.io.IOException;
 public class BoardContainer extends VBox {
     private HBox parent;
     private final OurServerUtils server;
-
     private final MainTaskListCtrl mainCtrl;
+    private Board board;
     @FXML
     private Button joinBoardWithId;
-
     @FXML
-    private Text textInBoard;
-    private Board board;
-
+    private Text boardNameTextField;
     @FXML
     private Button joinBoardButton;
 
@@ -48,13 +45,14 @@ public class BoardContainer extends VBox {
         try{
             fxmlLoader.load();
         }catch (IOException e){
+            System.out.println("HERE!!!!!!!!!!!!!!!!" + "\n");
             System.out.println(e.getStackTrace());
             throw new RuntimeException(e);
         }
 
         //this.setMinWidth(200);
 
-        textInBoard.setText(board.title);
+        boardNameTextField.setText(board.title);
 
         setOpenBoard();
     }
@@ -98,16 +96,16 @@ public class BoardContainer extends VBox {
      * Getter for textInBoard
      * @return  Text
      */
-    public Text getTextInBoard() {
-        return textInBoard;
+    public Text getBoardNameTextField() {
+        return boardNameTextField;
     }
 
     /**
      * Setter for textInBoard
-     * @param textInBoard
+     * @param boardNameTextField
      */
-    public void setTextInBoard(Text textInBoard) {
-        this.textInBoard = textInBoard;
+    public void setBoardNameTextField(Text boardNameTextField) {
+        this.boardNameTextField = boardNameTextField;
     }
 
     /**

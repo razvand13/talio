@@ -17,18 +17,14 @@ import java.util.List;
 
 public class OverviewOfBoardsCtrl {
     private final OurServerUtils server;
-
     private final MainTaskListCtrl mainCtrl;
-
+    private final List<Board> boards;
     @FXML
     private TextField idTextField;
-
-    private List<Board> boards;
     @FXML
     private Button joinBoardButton;
     @FXML
     private Button adminButton;
-
     @FXML
     private Button serverSelectButton;
     @FXML

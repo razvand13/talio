@@ -53,6 +53,7 @@ public class MainTaskListCtrl {
         this.overviewOfBoardsCtrl = overviewOfBoards.getKey();
         this.overviewOfBoards = new Scene(overviewOfBoards.getValue());
 
+
         showServerConnect();
         primaryStage.show();
     }

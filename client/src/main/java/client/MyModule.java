@@ -34,5 +34,6 @@ public class MyModule implements Module {
         binder.bind(MainTaskListCtrl.class).in(Scopes.SINGLETON);
         binder.bind(AddCardCtrl.class).in(Scopes.SINGLETON);
         binder.bind(TaskListCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(OverviewOfBoardsCtrl.class).in(Scopes.SINGLETON);
     }
 }
