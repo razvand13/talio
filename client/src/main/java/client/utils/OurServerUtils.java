@@ -182,6 +182,19 @@ public class OurServerUtils {
     }
 
     /**
+     * Find all Cards from the specified ListOfCards
+     * @param listId ListOfCards id
+     * @return a List<Card> containing the query result
+     */
+    public List<Card> getCardsByListId(long listId){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/cards/list/"+listId) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<List<Card>>() {});
+    }
+
+    /**
      *
      * @param path path
      * @param body body

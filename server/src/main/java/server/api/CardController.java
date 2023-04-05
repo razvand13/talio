@@ -50,6 +50,20 @@ public class CardController {
     }
 
     /**
+     * Find all Cards from the specified ListOfCards
+     * @param listId ListOfCards id
+     * @return a List<Card> containing the query result
+     */
+    @GetMapping("/list/{listId}")
+    public ResponseEntity<List<Card>> getAllByListId(@PathVariable("listId") long listId){
+        if(listId < 0 || !listRepo.existsById(listId)){
+            return ResponseEntity.badRequest().build();
+        }
+
+        return ResponseEntity.ok(cardRepo.findAllByListId(listId));
+    }
+
+    /**
      *
      * @param card card that needs to be added
      * @return badRequest if it couldn't be added, ok with the provided card

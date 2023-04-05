@@ -17,6 +17,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class TaskListCtrl implements Initializable {
 
@@ -156,12 +157,14 @@ public class TaskListCtrl implements Initializable {
                 ListOfCards listOfCards = listContainer.getListOfCards();
 
                 // Add back each card to their own list
-                for(Card card : data){
-                    if(card.listOfCards.id == listOfCards.id){
-                        var items = listContainer.getList().getItems();
-                        items.add(card.title);
-                    }
-                }
+                var cardsByListId = server
+                        .getCardsByListId(listOfCards.id)
+                        .stream()
+                        .map(c -> c.title)
+                        .collect(Collectors.toList()); // toList() doesn't work
+                listContainer.getList()
+                        .getItems()
+                        .addAll(cardsByListId);
             }
         }
     }
