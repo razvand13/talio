@@ -35,7 +35,7 @@ public class ServerConnectCtrl {
 
         client.utils.OurServerUtils.setSERVER("http://"+ addressInput+ ":" +portInput+"/");
 //        client.utils.OurServerUtils.setPort(portInput);
-        mainCtrl.showTaskListView();
+        mainCtrl.showOverviewOfBoards();
     }
 
 }

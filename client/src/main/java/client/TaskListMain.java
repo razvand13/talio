@@ -5,10 +5,7 @@ import static com.google.inject.Guice.createInjector;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import client.scenes.AddCardCtrl;
-import client.scenes.MainTaskListCtrl;
-import client.scenes.ServerConnectCtrl;
-import client.scenes.TaskListCtrl;
+import client.scenes.*;
 import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -45,10 +42,11 @@ public class TaskListMain extends Application {
 
         var setup = FXML.load(ServerConnectCtrl.class, "client", "scenes", "ServerConnect.fxml");
 
+        var overviewOfBoards = FXML.load(OverviewOfBoardsCtrl.class,
+                "client","scenes","OverviewOfBoards.fxml");
+
         var mainTaskCtrl = INJECTOR.getInstance(MainTaskListCtrl.class);
 
-
-
-        mainTaskCtrl.initialize(primaryStage, taskList, addCard, setup);
+        mainTaskCtrl.initialize(primaryStage, taskList, addCard, setup,overviewOfBoards);
     }
 }

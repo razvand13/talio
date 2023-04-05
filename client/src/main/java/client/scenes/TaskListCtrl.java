@@ -3,6 +3,7 @@ package client.scenes;
 import client.components.ListContainer;
 import client.utils.OurServerUtils;
 import com.google.inject.Inject;
+import commons.Board;
 import commons.Card;
 import commons.ListOfCards;
 import javafx.application.Platform;
@@ -30,6 +31,8 @@ public class TaskListCtrl implements Initializable {
 
     @FXML
     private TextField listTitle;
+
+    private Board board;
 
     /**
      * Constructor method
@@ -171,5 +174,13 @@ public class TaskListCtrl implements Initializable {
      */
     public void disconnect() {
         mainCtrl.showServerConnect();
+    }
+
+    /**
+     * Setter for board
+     * @param b
+     */
+    public void setTaskListCtrlBoard(Board b){
+        this.board = b;
     }
 }

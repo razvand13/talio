@@ -206,6 +206,7 @@ public class ListContainer extends VBox {
                 delBtn.setVisible(false);
                 textField.setVisible(false);
             }
+            event.consume();
         });
     }
 
@@ -225,6 +226,7 @@ public class ListContainer extends VBox {
             deleteButton.setVisible(false);
             editButton.setVisible(false);
             textField.setVisible(false);
+            event.consume();
         });
     }
 
