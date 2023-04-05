@@ -139,17 +139,17 @@ public class OurServerUtils {
 
     /**
      * Generic long polling update method
-     //     * @param path URL
-     //     * @param type class
+          * @param dest URL
+          * @param type class
      * @param consumer callback
-    //     * @param <T> generic
+         * @param <T> generic
      */
-    public void registerForUpdates(Consumer<Card> consumer){
+    public <T> void registerForUpdates(String dest, Class<T> type, Consumer<T> consumer){
 
         EXEC.submit(() ->{
             while(!Thread.interrupted()){
                 var res = ClientBuilder.newClient(new ClientConfig())
-                        .target(SERVER).path("/api/cards/updates")
+                        .target(SERVER).path(dest)
                         .request(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .get(Response.class);
@@ -157,7 +157,7 @@ public class OurServerUtils {
                 if(res.getStatus() == 204) {
                     continue;
                 }
-                var t = res.readEntity(Card.class);
+                var t = res.readEntity(type);
                 consumer.accept(t);
             }
 

@@ -95,9 +95,8 @@ public class TaskListCtrl implements Initializable {
 
         // Long polling
         // "/api/cards" -> CardController -> "/updates" -> getUpdates()
-        server.registerForUpdates(c -> {
-            Platform.runLater(this::refreshBoard);
-        });
+        server.registerForUpdates("/api/cards/updates", Card.class, c ->
+                Platform.runLater(this::refreshBoard));
 
         // todo Edit card
 
