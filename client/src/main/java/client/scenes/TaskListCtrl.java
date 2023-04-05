@@ -88,8 +88,14 @@ public class TaskListCtrl implements Initializable {
         refreshBoard();
 
         // Add card
-        server.registerForMessages("/topic/cards", Card.class, c -> {
-            data.add(c);
+//        server.registerForMessages("/topic/cards", Card.class, c -> {
+//            data.add(c);
+//            Platform.runLater(this::refreshBoard);
+//        });
+
+        // Long polling
+        // "/api/cards" -> CardController -> "/updates" -> getUpdates()
+        server.registerForUpdates(c -> {
             Platform.runLater(this::refreshBoard);
         });
 
@@ -107,6 +113,14 @@ public class TaskListCtrl implements Initializable {
 
         // todo Remove list
 
+    }
+
+    /**
+     * Propagates stop method from OurServerUtils
+     * Method that stops the program, including EXEC's thread
+     */
+    public void stop(){
+        server.stop();
     }
 
     /**
