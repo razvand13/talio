@@ -1,0 +1,6 @@
+2023-04-05 19:56:18 jdbc[53]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DELETE *[*] FROM CARD"; expected "identifier"; SQL statement:
+DELETE * FROM CARD [42001-200]
+2023-04-05 19:56:28 jdbc[53]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DELETE *[*] FROM CARD"; expected "identifier"; SQL statement:
+DELETE * FROM CARD [42001-200]

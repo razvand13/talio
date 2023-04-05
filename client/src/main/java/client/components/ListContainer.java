@@ -389,10 +389,30 @@ public class ListContainer extends VBox {
         String selectedItem = list.getSelectionModel().getSelectedItem();
 
         Dragboard db = list.startDragAndDrop(TransferMode.MOVE);
+        long listID = listOfCards.id;
+//        String dbContent = db.getString();
+        int idx = list.getItems().indexOf(selectedItem);//.remove(dbContent);
+        System.out.println(selectedItem);
+//        allCards = server.getCards();
 
-        ClipboardContent content = new ClipboardContent();
-        content.putString(selectedItem);
-        db.setContent(content);
+        //card that will be passed into the server
+        Card card = null;
+
+        //find the selected card in database
+        for(int i = 0; i < allCards.size(); i++){
+            if(allCards.get(i).listOfCards.id == listID){
+                if(allCards.get(i).position == idx){
+                    card = allCards.get(i);
+                    break;
+                }
+            }
+        }
+        System.out.println(card);
+        if(card!= null) {
+            ClipboardContent content = new ClipboardContent();
+            content.putString(String.valueOf(card.id)+" "+String.valueOf(listID));
+            db.setContent(content);
+        }
 
         event.consume();
     }
@@ -406,8 +426,12 @@ public class ListContainer extends VBox {
      * @param event dragging data over another list
      */
     private void dragOver(ListView<String> list, DragEvent event) {
+
         // Only execute if there is data that is being dragged
         if (event.getDragboard().hasString()) {
+            int index = calculateIndex(list, event);
+            list.getSelectionModel().clearAndSelect(index);
+            list.scrollTo(index);
             event.acceptTransferModes(TransferMode.MOVE);
         }
 
@@ -428,13 +452,48 @@ public class ListContainer extends VBox {
         boolean success = false;
 
         if (db.hasString()) {
-            String dbContent = db.getString();
-            list.getItems().add(dbContent);
-            success = true;
+            String[] data =  db.getString().split(" ");
+            long cardId = Long.parseLong(data[0]);
+            long listId = Long.parseLong(data[1]);
+//            allCards = server.getCards();
+
+            Card card = null;
+
+            for(int i = 0; i < allCards.size(); i++) {
+                if (allCards.get(i).id == cardId) {
+                    card = allCards.get(i);
+                    break;
+                }
+            }
+            if(listOfCards.id != listId) {
+                int pos = card.position;
+                card.position = list.getItems().size();
+                card.listOfCards = listOfCards;
+                server.send("/app/edit-card", card);
+                for(int i =0; i < allCards.size(); i++){
+                    if(allCards.get(i).listOfCards.id== listId && allCards.get(i).position>pos){
+                        allCards.get(i).position--;
+                        server.send("/app/edit-card", allCards.get(i));
+                    }
+                }
+                success = true;
+            }
         }
 
         event.setDropCompleted(success);
         event.consume();
+    }
+
+    private int calculateIndex(ListView<String> list, DragEvent event){
+        double mouseY = event.getY();
+        double totalHeight = list.getHeight();
+        int index = (int) (mouseY/totalHeight*13);
+        if(index<0){
+            index = 0;
+        }else if(index>= list.getItems().size()){
+            index = list.getItems().size();
+        }
+        return index;
     }
 
     /**
