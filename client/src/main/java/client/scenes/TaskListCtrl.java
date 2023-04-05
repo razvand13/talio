@@ -157,14 +157,14 @@ public class TaskListCtrl implements Initializable {
                 ListOfCards listOfCards = listContainer.getListOfCards();
 
                 // Add back each card to their own list
-                var cardsByListId = server
+                var cardsTitles = server
                         .getCardsByListId(listOfCards.id)
                         .stream()
                         .map(c -> c.title)
                         .collect(Collectors.toList()); // toList() doesn't work
                 listContainer.getList()
                         .getItems()
-                        .addAll(cardsByListId);
+                        .addAll(cardsTitles);
             }
         }
     }
