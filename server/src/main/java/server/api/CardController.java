@@ -106,6 +106,15 @@ public class CardController {
      */
     @PostMapping(path ={"","/"})
     public ResponseEntity<Card> add(@RequestBody Card card) {
+        if(card == null){
+            return ResponseEntity.badRequest().build();
+        }
+
+        if(!listRepo.existsById(card.listOfCards.id)){
+            return ResponseEntity.badRequest().build();
+        }
+
+
         Card finalCard = card; // the IDE needs the card to be effectively final
         listeners.forEach((k, l) -> l.accept(finalCard));
 
