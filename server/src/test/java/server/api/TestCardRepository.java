@@ -197,4 +197,9 @@ public class TestCardRepository implements CardRepository {
         // TODO Auto-generated method stub
         return null;
     }
+
+    @Override
+    public void deleteAllByListId(long listId){
+        // TODO Auto-generated method stub
+    }
 }

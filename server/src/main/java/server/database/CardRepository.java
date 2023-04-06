@@ -15,4 +15,12 @@ public interface CardRepository extends JpaRepository<Card, Long>{
      */
     @Query("SELECT c FROM Card c WHERE c.listOfCards.id = :listId ORDER BY c.position")
     List<Card> findAllByListId(long listId);
+
+    /**
+     * Delete all cards from a certain list
+     * Used to avoid FK constraint errors
+     * @param listId list id
+     */
+    @Query("DELETE FROM Card c WHERE c.listOfCards.id = :listId")
+    void deleteAllByListId(long listId);
 }

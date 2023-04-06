@@ -201,6 +201,20 @@ public class OurServerUtils {
     }
 
     /**
+     * Delete all cards from a certain list
+     * Used to avoid FK constraint errors
+     * @param listId list id
+     * @return Response
+     */
+    public Response removeCardsByListId(long listId){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/remove-cards/list/"+listId) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .delete();
+    }
+
+    /**
      *
      * @param path path
      * @param body body

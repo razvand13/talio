@@ -148,6 +148,16 @@ public class CardController {
     }
 
     /**
+     * Delete all cards from a certain list
+     * Used to avoid FK constraint errors
+     * @param listId list id
+     */
+    @PostMapping("/remove-cards/list/{listId}")
+    public void deleteAllFromList(@PathVariable("listId") long listId){
+        cardRepo.deleteAllByListId(listId);
+    }
+
+    /**
      * deletes all cards form the repo
      */
     public void deleteAll(){
