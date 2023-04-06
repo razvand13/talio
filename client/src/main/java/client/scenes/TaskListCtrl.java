@@ -195,4 +195,8 @@ public class TaskListCtrl implements Initializable {
     public void disconnect() {
         mainCtrl.showServerConnect();
     }
+
+    public void admin() {
+        mainCtrl.showAdminOverview();
+    }
 }

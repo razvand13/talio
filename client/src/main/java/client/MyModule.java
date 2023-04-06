@@ -30,6 +30,7 @@ public class MyModule implements Module {
     public void configure(Binder binder) {
         binder.bind(MainTaskListCtrl.class).in(Scopes.SINGLETON);
         binder.bind(TaskListCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(ServerConnectCtrl.class).in(Scopes.SINGLETON);
         binder.bind(AdminSceneCtrl.class).in(Scopes.SINGLETON);
     }
 }

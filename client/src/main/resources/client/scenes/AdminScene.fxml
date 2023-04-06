@@ -47,7 +47,7 @@
          <columns>
             <TableColumn fx:id="IDColumn" text="ID" />
             <TableColumn fx:id="boardNameColumn" minWidth="50.0" prefWidth="180.0" text="Board Name" />
-            <TableColumn fx:id="joinKeyColumn" prefWidth="180.0" text="Join Key" />
+            <TableColumn fx:id="joinKeyColumn" editable="false" prefWidth="180.0" text="Join Key" />
          </columns>
       </TableView>
 
@@ -57,7 +57,7 @@
          </font>
       </Button>
 
-      <Button fx:id="backButton" layoutX="478.0" layoutY="20.0" mnemonicParsing="false" style="-fx-background-color: green;" text="Back to Overview" textFill="WHITE" />
+      <Button fx:id="backButton" layoutX="478.0" layoutY="20.0" mnemonicParsing="false" onAction="#back" style="-fx-background-color: green;" text="Back to Overview" textFill="WHITE" />
       <Label fx:id="adminViewLabel" layoutX="26.0" layoutY="20.0" prefHeight="17.0" prefWidth="209.0" text="Admin View">
          <font>
             <Font name="Arial Black" size="29.0" />

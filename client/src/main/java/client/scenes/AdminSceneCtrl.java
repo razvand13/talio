@@ -38,44 +38,46 @@ public class AdminSceneCtrl implements Initializable {
         this.server = server;
         this.mainCtrl = mainCtrl;
 
-        this.boards = server.getBoards();
+//        var boardList = server.getBoards();
+//        boards = FXCollections.observableList(boardList);
+//        table.setItems(boards);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         IDColumn.setCellValueFactory(b ->
-                new SimpleStringProperty(b.getValue().id));
+                new SimpleStringProperty(b.getValue().getId().toString()));
         boardNameColumn.setCellValueFactory(b ->
                 new SimpleStringProperty(b.getValue().title));
         //joinKeyColumn.setCellValueFactory(b -> new SimpleStringProperty(b.getValue().key));
 
-        server.setSession();
-        server.registerForMessages("/topic/quotes", Board.class, b -> {
-            boards.add(b);
-       });
+//        server.setSession();
+//        server.registerForMessages("/topic/quotes", Board.class, b -> {
+//            boards.add(b);
+//       });
     }
 
     /**show board overview
      *
      */
     public void back(){
-        // TODO mainCtrl.showBoardOverview();
+        mainCtrl.showTaskListView();
     }
 
     public void deleteBoard(Button deleteButton, ListView<String> table){
         deleteButton.setOnAction(event -> {
             server.setSession();
-            int idx = boards.getSelectionModel().getSelectedIndex();
 
-            boards = server.getBoards();
+            String board = table.getSelectionModel().getSelectedItem();
+            System.out.println(board);
             Board delBoard = null;
 
-            for(int i = 0; i < boards.size(); i++){
-                if(boards.get(i).position == idx){
-                    delBoard = boards.get(i);
-                    i = boards.size()+1;
-                }
-            }
+//            for(int i = 0; i < boards.size(); i++){
+//                if(boards.get(i).position == idx){
+//                    delBoard = boards.get(i);
+//                    i = boards.size()+1;
+//                }
+//            }
 
             server.send("/app/remove-board", delBoard);
             event.consume();
