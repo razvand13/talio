@@ -16,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -116,7 +117,7 @@ public class ListContainer extends VBox {
         setListOptions(listNameLabel, listOptionsBtn, listDeleteBtn,
                 listEditBtn, listRenameField);
         setRenameList(listNameLabel, listEditBtn, listRenameField, listDeleteBtn);
-        setDeleteList(this, listDeleteBtn, listRenameField, listEditBtn);
+        setDeleteList(this, listDeleteBtn, listRenameField, listEditBtn, list);
         setDragAndDrop(list);
     }
 
@@ -260,13 +261,42 @@ public class ListContainer extends VBox {
                 }
             }
 
+
             deleteButton.setVisible(false);
             editButton.setVisible(false);
             textField.setVisible(false);
 
-            event.consume();
+
             server.send("/app/remove-card", delCard);
+
+            //the position of the cards in the list that have higher position
+            //than that of the deleted, needs to be updated
+            updatePositions(listID, delCard.position);
+
+            event.consume();
         });
+    }
+
+    /**
+     * Method for updating the card positions in a list, after the removal of one of them
+     * @param listID id of the list from which the card is deleted
+     * @param position position of the deleted card
+     */
+    public void updatePositions(long listID, int position){
+
+        List<Card> toUpdate = new ArrayList<>();
+        for(Card card : allCards){
+            if(card.listOfCards.id == listID){
+                if(card.position > position){
+                    card.position--;
+                    toUpdate.add(card);
+                }
+            }
+        }
+
+        for(Card c : toUpdate){
+            server.send("/app/edit-card", c);
+        }
     }
 
     /**
@@ -294,41 +324,36 @@ public class ListContainer extends VBox {
 
     /**
      * Method for deleting the vertical box containing a list
+     * The list can get deleted only if it contains no cards
      *
      * @param vBox         vertical box getting deleted
      * @param deleteButton delete button that's clicked
      * @param textField    editing field that needs to be set invisible
      * @param editButton   editing button that needs to be set invisible
+     * @param list         list view for checking whether the list is empty
      */
     public void setDeleteList(VBox vBox, Button deleteButton,
-                              TextField textField, Button editButton) {
+                              TextField textField, Button editButton, ListView<String> list) {
         deleteButton.setOnAction(event -> {
-            server.setSession();
+            if(list.getItems().size() == 0){
 
-            long listID = listOfCards.id;
+                long listID = listOfCards.id;
 
-            allLists = server.getLists();
+                allLists = server.getLists();
 
-            Card delCard = null;
-            ListOfCards delList = null;
+                ListOfCards delList = null;
 
-            //delete all cards in the list
-            for(int i = 0; i < allCards.size(); i++){
-                if(allCards.get(i).listOfCards.id == listID){
-                    delCard = allCards.get(i);
-                    System.out.println("card deleted" + delCard.id);
-                    server.send("/app/remove-card", delCard);
+                for(int i = 0; i < allLists.size(); i++){
+                    if(allLists.get(i).id == listID){
+                        delList = allLists.get(i);
+                        break;
+                    }
                 }
-            }
 
-            for(int i = 0; i < allLists.size(); i++){
-                if(allLists.get(i).id == listID){
-                    delList = allLists.get(i);
-                    break;
-                }
-            }
 
-            server.send("/app/remove-lists", delList);
+
+                server.send("/app/remove-lists", delList);
+            }
             event.consume();
         });
     }
@@ -372,6 +397,9 @@ public class ListContainer extends VBox {
 
             event.consume();
             server.send("/app/edit-lists", newList);
+
+
+
         });
     }
 
