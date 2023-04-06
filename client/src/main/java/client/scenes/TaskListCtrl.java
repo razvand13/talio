@@ -8,10 +8,10 @@ import commons.ListOfCards;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.geometry.Insets;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -56,7 +56,6 @@ public class TaskListCtrl implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         hBox.setSpacing(10);
         hBox.setPadding(new Insets(10, 10, 10, 10));
-
     }
 
     /**
@@ -88,14 +87,15 @@ public class TaskListCtrl implements Initializable {
         refreshBoard();
 
         // Add card
-        server.registerForMessages("/topic/cards", Card.class, c -> {
-            data.add(c);
-            Platform.runLater(this::refreshBoard);
-        });
+//        server.registerForMessages("/topic/cards", Card.class, c -> {
+//            data.add(c);
+//            Platform.runLater(this::refreshBoard);
+//        });
 
-        // todo Edit card
-
-        // todo Remove card
+        // Long polling
+        // "/api/cards" -> CardController -> "/updates" -> getUpdates()
+        server.registerForUpdates("/api/cards/updates", Card.class, c ->
+                Platform.runLater(this::refreshBoard));
 
         // Add list
         server.registerForMessages("/topic/lists", ListOfCards.class, l -> {
@@ -103,10 +103,33 @@ public class TaskListCtrl implements Initializable {
             Platform.runLater(this::refreshBoard);
         });
 
-        // todo Edit list
+        // todo Edit card
+        server.registerForMessages("/topic/edit-card", Card.class, c -> {
+            Platform.runLater(this::refreshBoard);
+        });
+
+        // Remove card
+        server.registerForMessages("/topic/remove-card", Card.class, c -> {
+            Platform.runLater(this::refreshBoard);
+        });
 
         // todo Remove list
+        server.registerForMessages("/topic/remove-lists", ListOfCards.class, loc -> {
+            Platform.runLater(this::refreshBoard);
+        });
 
+        // todo Edit list
+        server.registerForMessages("/topic/edit-lists", ListOfCards.class, loc -> {
+            Platform.runLater(this::refreshBoard);
+        });
+    }
+
+    /**
+     * Propagates stop method from OurServerUtils
+     * Method that stops the program, including EXEC's thread
+     */
+    public void stop(){
+        server.stop();
     }
 
     /**

@@ -15,10 +15,7 @@
  */
 package server;
 
-//import MyFXML;
 import com.google.inject.Injector;
-//import MyModule;
-//import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.springframework.boot.SpringApplication;
@@ -26,8 +23,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import server.scenes.ServerSideSetUpCtrl;
 import javafx.application.Application;
-
-//import java.util.Scanner;
 
 import java.io.IOException;
 import java.net.InetAddress;
