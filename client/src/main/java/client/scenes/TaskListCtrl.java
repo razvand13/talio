@@ -88,9 +88,15 @@ public class TaskListCtrl implements Initializable {
         refreshBoard();
 
         // Add card
-        server.registerForMessages("/topic/cards", Card.class, c -> {
-            Platform.runLater(this::refreshBoard);
-        });
+//        server.registerForMessages("/topic/cards", Card.class, c -> {
+//            data.add(c);
+//            Platform.runLater(this::refreshBoard);
+//        });
+
+        // Long polling
+        // "/api/cards" -> CardController -> "/updates" -> getUpdates()
+        server.registerForUpdates("/api/cards/updates", Card.class, c ->
+                Platform.runLater(this::refreshBoard));
 
         // Add list
         server.registerForMessages("/topic/lists", ListOfCards.class, l -> {
@@ -120,19 +126,22 @@ public class TaskListCtrl implements Initializable {
     }
 
     /**
+     * Propagates stop method from OurServerUtils
+     * Method that stops the program, including EXEC's thread
+     */
+    public void stop(){
+        server.stop();
+    }
+
+    /**
      * Method that refreshes the board
      * First removes all lists and their contents, and using
      * the data and lists from the server,
      * redraws them, one by one
      */
     public void refreshBoard(){
-        Platform.runLater(() ->{
-            clearBoard();
-            makeBoard();
-        });
-        // not sure which of these is better, if any
-//        Platform.runLater(this::clearBoard);
-//        Platform.runLater(this::makeBoard);
+        clearBoard();
+        makeBoard();
     }
 
     /**
@@ -187,4 +196,10 @@ public class TaskListCtrl implements Initializable {
         }
     }
 
+    /**
+     * Shows the server connection screen so the client can pick a different server
+     */
+    public void disconnect() {
+        mainCtrl.showServerConnect();
+    }
 }

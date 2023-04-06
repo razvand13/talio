@@ -17,21 +17,6 @@ public class ListOfCards implements Serializable {
 
     public String title;
 
-//    @OneToMany(mappedBy = "listOfCards", fetch = FetchType.LAZY,
-//            cascade = CascadeType.ALL)
-//    public List<Card> cards = new ArrayList<>();
-
-    /**
-     * Constructor for ListOfCards
-     *
-     * @param title title   
-     * @param cards cards
-     */
-    public ListOfCards(String title, List<Card> cards) {
-        this.title = title;
-//        this.cards = cards;
-    }
-
     /**
      * Constructor only with title for ListOfCards
      *
@@ -80,24 +65,6 @@ public class ListOfCards implements Serializable {
     public String toString() {
         StringBuilder a = new StringBuilder("ListOfCards: id = " +
                 id + ", title = " + title + ", cards =");
-//        if(cards == null) {
-//            a.append("N/A;");
-//            return a.toString();
-//        }
-//
-//        for(Card i:cards){
-//            a.append("\n")
-//                    .append(i.toString())
-//                    .append(";");
-//        }
         return a.toString();
     }
-
-//    /**
-//     * adds a card to cards
-//     * @param card card to be added
-//     */
-//    public void addCard(Card card){
-//        cards.add(card);
-//    }
 }

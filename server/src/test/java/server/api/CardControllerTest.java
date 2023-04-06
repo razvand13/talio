@@ -4,21 +4,22 @@ import commons.Card;
 import commons.ListOfCards;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.context.request.async.DeferredResult;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.function.Consumer;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.OK;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.http.HttpStatus.*;
 
 public class CardControllerTest {
     TestListRepository listRepo;
     TestCardRepository cardRepo;
     CardController controller;
     ListOfCards thisList;
+
+    private Map<Object, Consumer<Card>> listeners;
 
     @BeforeEach
     public void setup() {
@@ -28,6 +29,7 @@ public class CardControllerTest {
         thisList = new ListOfCards("name");
         thisList.id = 1;
         listRepo.lists.add(thisList);
+        listeners = new HashMap<>();
     }
 
     @Test
@@ -107,5 +109,29 @@ public class CardControllerTest {
 
         assertEquals(BAD_REQUEST, controller.getById(1).getStatusCode());
         assertEquals(BAD_REQUEST, controller.getById(0).getStatusCode());
+    }
+
+    @Test
+    public void addMessageTest(){
+        Card card = new Card("name",  thisList);
+        card.id = 0;
+        controller.addMessage(card);
+        assertEquals(OK, controller.getById(0).getStatusCode());
+        assertTrue(cardRepo.calledMethods.contains("save"));
+    }
+
+    @Test
+    public void testGetUpdates() {
+        DeferredResult<ResponseEntity<Card>> res = controller.getUpdates();
+        Card card = new Card("name",  thisList);
+        ResponseEntity<Card> expected = ResponseEntity.ok(card);
+
+        Object key = new Object();
+        Consumer<Card> listener = c -> res.setResult(expected);
+        listeners.put(key, listener);
+        listener.accept(card);
+        assertEquals(expected, res.getResult());
+
+        listeners.remove(key);
     }
 }

@@ -96,14 +96,6 @@ public class ListContainer extends VBox {
     }
 
 
-
-//    public void firstTimeSetup1() {
-//        server.setSession();
-//        server.registerForMessages("/topic/cards", Card.class, c -> {
-//            list.getItems().add(c.title);
-//        });
-//    }
-
     /**
      *
      * @param loc
@@ -112,15 +104,6 @@ public class ListContainer extends VBox {
         listOfCards = loc;
     }
 
-//    /**
-//     *
-//     */
-//    public void firstTimeSetup1() {
-//        server.setSession();
-//        server.registerForMessages("/topic/cards", Card.class, c -> {
-//            list.getItems().add(c.title);
-//        });
-//    }
 
     /**
      * Method that sets all event handlers of a list and its children
@@ -634,19 +617,6 @@ public class ListContainer extends VBox {
         event.consume();
     }
 
-//    public void refreshList(List<Card> data){
-//        var currentCards = list.getItems();
-//        for(String card : currentCards){
-//            currentCards.remove(card);
-//        }
-//
-//        for(Card card : data){
-//            if(card.list.id == listOfCards.id){
-//                list.getItems().add(card.title);
-//            }
-//        }
-//    }
-
     /**
      * Setter method for parent
      * @param parent parent
@@ -742,15 +712,4 @@ public class ListContainer extends VBox {
     public ListOfCards getListOfCards() {
         return listOfCards;
     }
-
-
-//    /**
-//     * Adds one card to the ListView and displays it
-//     * @param card card to be added
-//     */
-//    public void addCard(Card card){
-////        var names = cards.stream().map(c -> c.title).toList();
-//        String cardTitle = card.title;
-//        list.getItems().add(cardTitle);
-//    }
 }

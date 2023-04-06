@@ -1,14 +1,10 @@
 package server.api;
 
-//import commons.Board;
-import commons.Card;
 import commons.ListOfCards;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
-//import server.database.BoardRepository;
-import server.database.CardRepository;
 import server.database.ListRepository;
 
 import java.util.List;
@@ -17,16 +13,13 @@ import java.util.List;
 @RequestMapping("api/lists")
 public class ListController {
     private ListRepository listRepo;
-    private CardRepository cardRepo;
-    //private BoardRepository boardRepo;
 
     /**
      *
      * @param listRepo the list repository
      */
-    public ListController(ListRepository listRepo/*, BoardRepository boardRepo*/) {
+    public ListController(ListRepository listRepo) {
         this.listRepo = listRepo;
-        //    this.boardRepo = boardRepo;
     }
 
     /**
@@ -59,64 +52,24 @@ public class ListController {
      * @return badRequest iff it couldn't be added, ok with the list if it was added successfully
      */
     @PostMapping
-    public ResponseEntity<ListOfCards> add(@RequestBody ListOfCards listOfCards/*, long boardId*/){
+    public ResponseEntity<ListOfCards> add(@RequestBody ListOfCards listOfCards){
         if(listOfCards == null || listRepo.existsById(listOfCards.id)){
             return ResponseEntity.badRequest().build();
         }
-
-/*
-        //check if the provided board exists
-        if(boardId<0 || !boardRepo.existsById(boardId)){
-            return ResponseEntity.badRequest().build();
-        }
-        Board boardWithID = boardRepo.getById(boardId);
-
-        boardWithID.addList(listOfCards);
-
- */
         listOfCards = listRepo.save(listOfCards);
         return ResponseEntity.ok(listOfCards);
     }
 
     /**
-     *
-     * @param id
-     * @param card
-     * @return ResponseEntity
-     */
-    @PostMapping("/cards/{id}")
-    public ResponseEntity<Card> addCard(@PathVariable("id") long id, @RequestBody Card card){
-        System.out.println("got here");
-        if(id<0 || !listRepo.existsById(id)){
-            return ResponseEntity.badRequest().build();
-        }
+    *
+    *@param loc list to be added 
+    *@return loc
+    */
 
-        //listRepo.getById(id).addCard(card);
-        cardRepo.save(card);
-        return ResponseEntity.ok(card);
-    }
-
-    /**
-     *
-     * @param card
-     * @return card
-     */
-    @MessageMapping("/lists/cards") //app/quotes -> path for basically any client (consumer)
-    @SendTo("/topic/lists/cards")// (producer)
-    public Card addMessage(Card card) {
-        addCard(card.listOfCards.id, card);
-        return card;
-    }
-
-    /**
-     *
-     * @param loc
-     * @return loc
-     */
     @MessageMapping("/lists") //app/quotes -> path for basically any client (consumer)
     @SendTo("/topic/lists")// (producer)
-    public ListOfCards addMessage(ListOfCards loc/*, long boardId*/) {
-        add(loc/*, boardId*/);
+    public ListOfCards addMessage(ListOfCards loc) {
+        add(loc);
         return loc;
     }
 
@@ -148,7 +101,6 @@ public class ListController {
      *
      * @param id id of the list to be deleted
      */
-    //@Transactional not sure if this is necessary
     public void deleteById(long id){
         listRepo.deleteById(id);
     }
