@@ -164,11 +164,15 @@ public class TaskListCtrl implements Initializable {
         }
 
         //Redraw list contents
-        data = server.getCards().stream().sorted((a, b)-> a.position-b.position).collect(Collectors.toList());
+        data = server.getCards().stream().
+                sorted((a, b)-> a.position-b.position)
+                .collect(Collectors.toList());
         for(Node child : hBox.getChildren()){
             if(child.getClass() == ListContainer.class){ // Error handling
-                ListContainer listContainer = (ListContainer) child;
-                ListOfCards listOfCards = listContainer.getListOfCards();
+                ListContainer listContainer =
+                        (ListContainer) child;
+                ListOfCards listOfCards =
+                        listContainer.getListOfCards();
 
                 // Add back each card to their own list
                 for(Card card : data){

@@ -16,7 +16,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -517,25 +516,11 @@ public class ListContainer extends VBox {
                 int newPos = list.getSelectionModel().getSelectedIndex();
                 ListOfCards wanted = card.listOfCards;
                 if(pos<newPos) {
-                    for (int i = 0; i<allCards.size(); i++) {
-                        if (allCards.get(i).position <= newPos && allCards.get(i).position > pos &&
-                                allCards.get(i).listOfCards.equals(wanted)) {
-                            Card dec = allCards.get(i);
-                            dec.position = dec.position-1;
-                            server.send("/app/edit-card", dec);
-                        }
-                    }
+                    decrementIndexes(card, pos, newPos, wanted);
                     card.position = newPos;
                     server.send("/app/edit-card", card);
                 }else if(pos>newPos){
-                    for(int i =0; i < allCards.size(); i++){
-                        if(allCards.get(i).position>=newPos && allCards.get(i).position<pos
-                                && allCards.get(i).listOfCards.equals(wanted)){
-                            Card inc = allCards.get(i);
-                            inc.position = inc.position+1;
-                            server.send("/app/edit-card", inc);
-                        }
-                    }
+                    incrementIndexes(card, pos, newPos, wanted);
                     card.position = newPos;
                     server.send("/app/edit-card", card);
                 }
@@ -545,6 +530,48 @@ public class ListContainer extends VBox {
 
         event.setDropCompleted(success);
         event.consume();
+    }
+
+    /** Method used to shift all cards between the 2 positions by incrementing their index
+     * @param card The card we clicked on
+     * @param pos The original position of the card
+     * @param newPos The new position where we want to add the card
+     * @param list the listOfCards belonging to the card
+     */
+    public void incrementIndexes(Card card, int pos, int newPos, ListOfCards list){
+        for(int i =0; i < allCards.size(); i++){
+            if(allCards.get(i).position>=newPos
+                    && allCards.get(i).position<pos
+                    && allCards.get(i).listOfCards.equals(list)){
+                Card inc = allCards.get(i);
+                inc.position = inc.position+1;
+                server.send("/app/edit-card", inc);
+            }
+        }
+        card.position = newPos;
+        server.send("/app/edit-card", card);
+    }
+
+    /** Method used to shift all cards between the 2 positions by decrementing their index
+     * @param card The card we clicked on
+     * @param pos The original position of the card
+     * @param newPos The new position where we want to add the card
+     * @param list the listOfCards belonging to the card
+     */
+    public void decrementIndexes(Card card, int pos, int newPos, ListOfCards list) {
+        if (pos < newPos) {
+            for (int i = 0; i < allCards.size(); i++) {
+                if (allCards.get(i).position <= newPos
+                        && allCards.get(i).position > pos
+                        && allCards.get(i).listOfCards.equals(list)) {
+                    Card dec = allCards.get(i);
+                    dec.position = dec.position - 1;
+                    server.send("/app/edit-card", dec);
+                }
+            }
+            card.position = newPos;
+            server.send("/app/edit-card", card);
+        }
     }
 
     private int calculateIndex(ListView<String> list, DragEvent event){
