@@ -17,7 +17,6 @@ public class Board implements Serializable {
 
     public String title;
 
-
     /**
      * Constructor method for a Board with title
      * @param title String value for title
@@ -64,6 +63,10 @@ public class Board implements Serializable {
     public String toString() {
         return "Board: " +
                 "id=" + id +
-                ", title='" + title;
+                ", title=" + title;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

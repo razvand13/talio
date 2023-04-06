@@ -86,24 +86,6 @@ public class ListOfCards implements Serializable {
     public String toString() {
         StringBuilder a = new StringBuilder("ListOfCards: id = " +
                 id + ", title = " + title + ", cards =");
-//        if(cards == null) {
-//            a.append("N/A;");
-//            return a.toString();
-//        }
-//
-//        for(Card i:cards){
-//            a.append("\n")
-//                    .append(i.toString())
-//                    .append(";");
-//        }
         return a.toString();
     }
-//
-//    /**
-//     * adds a card to cards
-//     * @param card card to be added
-//     */
-//    public void addCard(Card card){
-//        cards.add(card);
-//    }
 }

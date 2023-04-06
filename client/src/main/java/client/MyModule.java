@@ -35,5 +35,7 @@ public class MyModule implements Module {
         binder.bind(AddCardCtrl.class).in(Scopes.SINGLETON);
         binder.bind(TaskListCtrl.class).in(Scopes.SINGLETON);
         binder.bind(OverviewOfBoardsCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(ServerConnectCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(AdminSceneCtrl.class).in(Scopes.SINGLETON);
     }
 }

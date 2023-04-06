@@ -7,7 +7,6 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 
 
-
 public class MainTaskListCtrl {
 
     private Stage primaryStage;
@@ -22,22 +21,28 @@ public class MainTaskListCtrl {
     private ServerConnectCtrl serverConnectCtrl;
     private Scene serverConnect;
 
+    private AdminSceneCtrl adminSceneCtrl;
+    private Scene adminOverview;
+
     private OverviewOfBoardsCtrl overviewOfBoardsCtrl;
     private Scene overviewOfBoards;
 
     private Board board;
 
 
-    /**Method for initializing main controller
-     * @param primaryStage stage passed in as primary stage
-     * @param taskList for setting up task list scene
-     * @param addCard add card scene
-     * @param  overviewOfBoards overviewOfBoards scene
+
+    /**
+     * Method for initializing main controller
+     *
+     * @param primaryStage  stage passed in as primary stage
+     * @param taskList      for setting up task list scene
      * @param serverConnect server connect scene
+     * @param  overviewOfBoards overviewOfBoards scene
+     * @param adminOverview
      */
     public void initialize(Stage primaryStage, Pair<TaskListCtrl, Parent> taskList,
-                           Pair<AddCardCtrl, Parent> addCard,
                            Pair<ServerConnectCtrl, Parent> serverConnect,
+                           Pair<AdminSceneCtrl, Parent> adminOverview,
                            Pair<OverviewOfBoardsCtrl, Parent> overviewOfBoards) {
         this.primaryStage = primaryStage;
 
@@ -49,6 +54,9 @@ public class MainTaskListCtrl {
 
         this.serverConnectCtrl = serverConnect.getKey();
         this.serverConnect = new Scene(serverConnect.getValue());
+
+        this.adminSceneCtrl = adminOverview.getKey();
+        this.adminOverview = new Scene(adminOverview.getValue());
 
         this.overviewOfBoardsCtrl = overviewOfBoards.getKey();
         this.overviewOfBoards = new Scene(overviewOfBoards.getValue());
@@ -67,14 +75,6 @@ public class MainTaskListCtrl {
         primaryStage.setScene(taskList);
     }
 
-    /**
-     *
-     */
-    public void showAdd() {
-        addCardCtrl.firstTimeSetUp();
-        primaryStage.setTitle("Add card");
-        primaryStage.setScene(addCard);
-    }
 
     /**
      *
@@ -82,6 +82,11 @@ public class MainTaskListCtrl {
     public void showServerConnect() {
         primaryStage.setTitle("Choose a port");
         primaryStage.setScene(serverConnect);
+    }
+
+    public void showAdminOverview() {
+        primaryStage.setTitle("Admin Overview");
+        primaryStage.setScene(adminOverview);
     }
 
     /**

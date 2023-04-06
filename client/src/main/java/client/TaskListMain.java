@@ -6,6 +6,10 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import client.scenes.*;
+import client.scenes.*;
+import client.scenes.MainTaskListCtrl;
+import client.scenes.ServerConnectCtrl;
+import client.scenes.TaskListCtrl;
 import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -42,11 +46,18 @@ public class TaskListMain extends Application {
 
         var setup = FXML.load(ServerConnectCtrl.class, "client", "scenes", "ServerConnect.fxml");
 
+        var adminOverview = FXML.load(AdminSceneCtrl.class, "client", "scenes", "AdminScene.fxml");
+
         var overviewOfBoards = FXML.load(OverviewOfBoardsCtrl.class,
                 "client","scenes","OverviewOfBoards.fxml");
 
         var mainTaskCtrl = INJECTOR.getInstance(MainTaskListCtrl.class);
 
-        mainTaskCtrl.initialize(primaryStage, taskList, addCard, setup,overviewOfBoards);
+
+
+        mainTaskCtrl.initialize(primaryStage, taskList, addCard, setup, adminOverview, overviewOfBoards);
+
+        // stop long polling thread as well when app closes
+        primaryStage.setOnCloseRequest(e -> taskList.getKey().stop());
     }
 }
