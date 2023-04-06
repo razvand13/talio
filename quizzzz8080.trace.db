@@ -1,15 +1,1 @@
-2023-04-05 19:56:18 jdbc[53]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DELETE *[*] FROM CARD"; expected "identifier"; SQL statement:
-DELETE * FROM CARD [42001-200]
-2023-04-05 19:56:28 jdbc[53]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DELETE *[*] FROM CARD"; expected "identifier"; SQL statement:
-DELETE * FROM CARD [42001-200]
-2023-04-06 14:56:02 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CARD" not found; SQL statement:
-select card0_.id as id1_0_, card0_.list_of_cards as list_of_4_0_, card0_.position as position2_0_, card0_.title as title3_0_ from card card0_ [42102-200]
-2023-04-06 14:56:07 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CARD" not found; SQL statement:
-select card0_.id as id1_0_, card0_.list_of_cards as list_of_4_0_, card0_.position as position2_0_, card0_.title as title3_0_ from card card0_ [42102-200]
-2023-04-06 14:57:36 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CARD" not found; SQL statement:
-select card0_.id as id1_0_, card0_.list_of_cards as list_of_4_0_, card0_.position as position2_0_, card0_.title as title3_0_ from card card0_ [42102-200]
+
