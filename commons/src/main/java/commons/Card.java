@@ -84,6 +84,6 @@ public class Card implements Serializable {
      */
     @Override
     public String toString() {
-        return "Card: id = " + id + ", title = " + title+". Position: "+ position ;
+        return "Card: id = " + id + ", title = " + title ;
     }
 }

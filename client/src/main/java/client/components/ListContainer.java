@@ -16,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -426,7 +427,7 @@ public class ListContainer extends VBox {
         long listID = listOfCards.id;
 //        String dbContent = db.getString();
         int idx = list.getItems().indexOf(selectedItem);//.remove(dbContent);
-        System.out.println(selectedItem);
+//        System.out.println(selectedItem);
 //        allCards = server.getCards();
 
         //card that will be passed into the server
@@ -441,7 +442,7 @@ public class ListContainer extends VBox {
                 }
             }
         }
-        System.out.println(card);
+//        System.out.println(card);
         if(card!= null) {
             ClipboardContent content = new ClipboardContent();
             content.putString(String.valueOf(card.id)+" "+String.valueOf(listID));
@@ -511,6 +512,33 @@ public class ListContainer extends VBox {
                     }
                 }
                 success = true;
+            }else{
+                int pos = card.position;
+                int newPos = list.getSelectionModel().getSelectedIndex();
+                ListOfCards wanted = card.listOfCards;
+                if(pos<newPos) {
+                    for (int i = 0; i<allCards.size(); i++) {
+                        if (allCards.get(i).position <= newPos && allCards.get(i).position > pos &&
+                                allCards.get(i).listOfCards.equals(wanted)) {
+                            Card dec = allCards.get(i);
+                            dec.position = dec.position-1;
+                            server.send("/app/edit-card", dec);
+                        }
+                    }
+                    card.position = newPos;
+                    server.send("/app/edit-card", card);
+                }else if(pos>newPos){
+                    for(int i =0; i < allCards.size(); i++){
+                        if(allCards.get(i).position>=newPos && allCards.get(i).position<pos
+                                && allCards.get(i).listOfCards.equals(wanted)){
+                            Card inc = allCards.get(i);
+                            inc.position = inc.position+1;
+                            server.send("/app/edit-card", inc);
+                        }
+                    }
+                    card.position = newPos;
+                    server.send("/app/edit-card", card);
+                }
             }
         }
 
