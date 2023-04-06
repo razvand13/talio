@@ -9,10 +9,10 @@ import java.util.List;
 public interface CardRepository extends JpaRepository<Card, Long>{
 
     /**
-     * Find all Cards from the specified ListOfCards
+     * Find all Cards from the specified ListOfCards, in the order of their position inside the list
      * @param listId ListOfCards id
      * @return a List<Card> containing the query result
      */
-    @Query("SELECT c FROM Card c WHERE c.listOfCards.id = :listId") // todo ORDER BY position
+    @Query("SELECT c FROM Card c WHERE c.listOfCards.id = :listId ORDER BY c.position")
     List<Card> findAllByListId(long listId);
 }
