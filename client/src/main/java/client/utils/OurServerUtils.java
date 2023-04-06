@@ -36,40 +36,6 @@ public class OurServerUtils {
         SERVER = address;
     }
 
-//    /**
-//     * Trying to connect websocket without hardcoding
-//     * @param address address
-//     */
-//    public static void setPort(String address) {
-//    }
-
-//    /**
-//     * Ask the user which port they want to connect to,
-//     * iff their response isn't a number ask again,
-//     * iff it is a number return the associated address
-//     *
-//     * @return a String of the form "http://localhost:[PORT NUMBER]/"
-//     * where [PORT NUMBER] is a user-specified int
-//     * */
-//    public static String getAddress(){
-//        //Scanner input = new Scanner(System.in);
-//        System.out.println("On which port is the server?");
-//        int port =0;
-//        try{
-//            Scanner input = new Scanner(System.in);
-//            port = input.nextInt();
-//        }
-//
-//        catch (InputMismatchException e){
-//            System.out.println("please provide a number");
-//            return getAddress();
-//        }
-//
-//        return "http://localhost:" + port +"/";
-//    }
-
-
-
     /**
      * setup for stomp session port, occurs after server is set up
      */
