@@ -5,10 +5,13 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 import commons.Card;
 import commons.ListOfCards;
+import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientConfig;
 
 import jakarta.ws.rs.client.ClientBuilder;
@@ -96,6 +99,43 @@ public class OurServerUtils {
                 consumer.accept((T) payload);
             }
         });
+    }
+
+    private static final ExecutorService EXEC = Executors.newSingleThreadExecutor();
+
+    /**
+     * Generic long polling update method
+          * @param dest URL
+          * @param type class
+     * @param consumer callback
+         * @param <T> generic
+     */
+    public <T> void registerForUpdates(String dest, Class<T> type, Consumer<T> consumer){
+
+        EXEC.submit(() ->{
+            while(!Thread.interrupted()){
+                var res = ClientBuilder.newClient(new ClientConfig())
+                        .target(SERVER).path(dest)
+                        .request(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .get(Response.class);
+
+                if(res.getStatus() == 204) {
+                    continue;
+                }
+                var t = res.readEntity(type);
+                consumer.accept(t);
+            }
+
+        });
+
+    }
+
+    /**
+     * Method that stops the program, including EXEC's thread
+     */
+    public void stop(){
+        EXEC.shutdownNow();
     }
 
     /**

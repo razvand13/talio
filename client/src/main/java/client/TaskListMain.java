@@ -45,7 +45,9 @@ public class TaskListMain extends Application {
         var mainTaskCtrl = INJECTOR.getInstance(MainTaskListCtrl.class);
 
 
-
         mainTaskCtrl.initialize(primaryStage, taskList, setup);
+
+        // stop long polling thread as well when app closes
+        primaryStage.setOnCloseRequest(e -> taskList.getKey().stop());
     }
 }
