@@ -14,8 +14,6 @@ public class MainTaskListCtrl {
     private TaskListCtrl taskListCtrl;
     private Scene taskList;
 
-    private AddCardCtrl addCardCtrl;
-
     private Scene addCard;
 
     private ServerConnectCtrl serverConnectCtrl;
@@ -48,9 +46,6 @@ public class MainTaskListCtrl {
 
         this.taskListCtrl = taskList.getKey();
         this.taskList = new Scene(taskList.getValue());
-
-        this.addCardCtrl = addCard.getKey();
-        this.addCard = new Scene(addCard.getValue());
 
         this.serverConnectCtrl = serverConnect.getKey();
         this.serverConnect = new Scene(serverConnect.getValue());

@@ -3,17 +3,21 @@ package client.scenes;
 import client.components.BoardContainer;
 import client.components.ListContainer;
 import client.utils.OurServerUtils;
+import com.google.inject.Inject;
 import commons.Board;
-import jakarta.inject.Inject;
+
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class OverviewOfBoardsCtrl {
     private final OurServerUtils server;
@@ -42,7 +46,7 @@ public class OverviewOfBoardsCtrl {
         this.server = server;
         this.mainCtrl = mainCtrl;
         this.boards = new ArrayList<>();
-        buttonsSetup();
+       // buttonsSetup();
     }
 
     /**

@@ -42,8 +42,6 @@ public class TaskListMain extends Application {
 
         var taskList = FXML.load(TaskListCtrl.class, "client", "scenes", "TaskListView.fxml");
 
-        var addCard = FXML.load(AddCardCtrl.class, "client", "scenes", "AddCard.fxml");
-
         var setup = FXML.load(ServerConnectCtrl.class, "client", "scenes", "ServerConnect.fxml");
 
         var adminOverview = FXML.load(AdminSceneCtrl.class, "client", "scenes", "AdminScene.fxml");
@@ -55,7 +53,7 @@ public class TaskListMain extends Application {
 
 
 
-        mainTaskCtrl.initialize(primaryStage, taskList, addCard, setup, adminOverview, overviewOfBoards);
+        mainTaskCtrl.initialize(primaryStage, taskList, setup, adminOverview, overviewOfBoards);
 
         // stop long polling thread as well when app closes
         primaryStage.setOnCloseRequest(e -> taskList.getKey().stop());
