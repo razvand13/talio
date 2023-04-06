@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
+import commons.Board;
 import commons.Card;
 import commons.ListOfCards;
 import org.glassfish.jersey.client.ClientConfig;
@@ -179,6 +180,19 @@ public class OurServerUtils {
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<List<Card>>() {});
+    }
+
+    /**
+     * Gets a board from the database by specifying its id
+     * @param id id of board
+     * @return the board with the id
+     */
+    public Board getBoardById(long id){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/boards/"+id) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<Board>() {});
     }
 
     /**

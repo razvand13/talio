@@ -12,13 +12,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class OverviewOfBoardsCtrl {
     private final OurServerUtils server;
     private final MainTaskListCtrl mainCtrl;
-    private final List<Board> boards;
+    private List<Board> boards;
     @FXML
     private TextField idTextField;
     @FXML
@@ -67,6 +69,7 @@ public class OverviewOfBoardsCtrl {
                         if(b.id == id){
                             mainCtrl.setTaskListCtrlBoard(b);
                             mainCtrl.showTaskListView();
+                            writeId(id);
                         }
                     }
                     mainCtrl.showTaskListView();
@@ -78,6 +81,20 @@ public class OverviewOfBoardsCtrl {
             }
             event.consume();
         });
+    }
+
+    /**
+     * method for writing joined board's id to a file
+     * @param id the id of the board
+     */
+    public void writeId(long id){
+        try{
+            Writer writer = new FileWriter("TalioJoinedBoards.txt");
+            writer.write("\n"+id);
+        }
+        catch (IOException e){
+            System.out.println("sorry, we couldn't save your board");
+        }
     }
 
     /**
@@ -136,9 +153,22 @@ public class OverviewOfBoardsCtrl {
      * Method for making the boardContainers appear
      */
     public void makeBoards(){
+        //this next bit is fully unnecessary I think
         //When the repository and ints controller are done, uncomment the next line
         //boards = server.getBoards();
-        boards.add(new Board("board1"));
+        //boards.add(new Board("board1"));
+
+        try {
+            Scanner boardScanner = new Scanner(new File("TalioJoinedBoards.txt"));
+            while (boardScanner.hasNextLine()){
+                long id =boardScanner.nextLong();
+                boards.add(server.getBoardById(id));
+            }
+        }
+        //necessary for scanner construction, but iff file isn't found boards should be empty
+        //since it means this client hasn't joined any boards yet, so we can ignore the exception
+        catch (FileNotFoundException ignored){}
+
         for(Board b : boards) {
             BoardContainer boardContainer = new BoardContainer(b, server, mainCtrl);
             boardContainer.setParent(hBoxBoards);
