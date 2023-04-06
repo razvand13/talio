@@ -54,9 +54,11 @@ public class ListContainer extends VBox {
     // a reference to it inside the container object
     private HBox parent;
 
+    //list of all cards in the database
     private List<Card> allCards;
 
-    private List<ListOfCards> allLoc;
+    //list of all ListOfCards in the database
+    private List<ListOfCards> allLists;
 
 
 
@@ -78,7 +80,7 @@ public class ListContainer extends VBox {
         fxmlLoader.setController(this);
 
         allCards = server.getCards();
-        allLoc = server.getLists();
+        allLists = server.getLists();
 
         try {
             fxmlLoader.load();
@@ -94,14 +96,6 @@ public class ListContainer extends VBox {
     }
 
 
-
-//    public void firstTimeSetup1() {
-//        server.setSession();
-//        server.registerForMessages("/topic/cards", Card.class, c -> {
-//            list.getItems().add(c.title);
-//        });
-//    }
-
     /**
      *
      * @param loc
@@ -110,15 +104,6 @@ public class ListContainer extends VBox {
         listOfCards = loc;
     }
 
-//    /**
-//     *
-//     */
-//    public void firstTimeSetup1() {
-//        server.setSession();
-//        server.registerForMessages("/topic/cards", Card.class, c -> {
-//            list.getItems().add(c.title);
-//        });
-//    }
 
     /**
      * Method that sets all event handlers of a list and its children
@@ -146,24 +131,18 @@ public class ListContainer extends VBox {
         button.setOnAction(event -> {
             String taskInput = textField.getText();
             if (!taskInput.equals("")) {
-                list.getItems().add(taskInput);
 
-                server.setSession(); // todo is this needed?
-                System.out.println(listOfCards.id);
                 Card myCard = new Card(taskInput, listOfCards);
-                myCard.position = list.getItems().size()-1;
+                myCard.position = list.getItems().size();
                 myCard.listOfCards = listOfCards;
-                System.out.println(myCard);
+
                 server.send("/app/cards", myCard);
-                System.out.println(myCard.id);
-//                listOfCards.addCard(myCard);
 
                 allCards = server.getCards();
-                allLoc = server.getLists();
+                allLists = server.getLists();
 
                 textField.clear();
 
-//                mainCtrl.showTaskListView();
             }
 
             event.consume();
@@ -212,20 +191,27 @@ public class ListContainer extends VBox {
             String edit = textField.getText();
             // Check if there is something selected AND if the field is not empty
             int idx = list.getSelectionModel().getSelectedIndex();
+            if (idx != -1 && edit.length() >= 1) {
+                editBtn.setVisible(false);
+                delBtn.setVisible(false);
+                textField.setVisible(false);
+            }
 
-            server.setSession();
             long listID = listOfCards.id;
 
             allCards = server.getCards();
-            allLoc = server.getLists();
+            allLists = server.getLists();
 
+            //card that will be passed into the server
             Card newCard = null;
 
+            //find the selected card in database
             for(int i = 0; i < allCards.size(); i++){
                 if(allCards.get(i).listOfCards.id == listID){
                     if(allCards.get(i).position == idx){
                         newCard = allCards.get(i);
                         i = allCards.size()+1;
+
                     }
                 }
             }
@@ -253,15 +239,18 @@ public class ListContainer extends VBox {
     public void setDeleteAction(Button deleteButton, Button editButton, TextField textField,
                                 ListView<String> list){
         deleteButton.setOnAction(event -> {
-            server.setSession();
+
             int idx = list.getSelectionModel().getSelectedIndex();
+
             long listID = listOfCards.id;
 
             allCards = server.getCards();
-            allLoc = server.getLists();
+            allLists = server.getLists();
 
+            //card passed to into the server
             Card delCard = null;
 
+            //find chosen card in database
             for(int i = 0; i < allCards.size(); i++){
                 if(allCards.get(i).listOfCards.id == listID){
                     if(allCards.get(i).position == idx){
@@ -270,6 +259,10 @@ public class ListContainer extends VBox {
                     }
                 }
             }
+
+            deleteButton.setVisible(false);
+            editButton.setVisible(false);
+            textField.setVisible(false);
 
             event.consume();
             server.send("/app/remove-card", delCard);
@@ -314,7 +307,7 @@ public class ListContainer extends VBox {
 
             long listID = listOfCards.id;
 
-            allLoc = server.getLists();
+            allLists = server.getLists();
 
             Card delCard = null;
             ListOfCards delList = null;
@@ -328,9 +321,9 @@ public class ListContainer extends VBox {
                 }
             }
 
-            for(int i = 0; i < allLoc.size(); i++){
-                if(allLoc.get(i).id == listID){
-                    delList = allLoc.get(i);
+            for(int i = 0; i < allLists.size(); i++){
+                if(allLists.get(i).id == listID){
+                    delList = allLists.get(i);
                     break;
                 }
             }
@@ -359,13 +352,13 @@ public class ListContainer extends VBox {
             server.setSession();
             long listID = listOfCards.id;
 
-            allLoc = server.getLists();
+            allLists = server.getLists();
 
             ListOfCards newList = null;
 
-            for (int i = 0; i < allLoc.size(); i++) {
-                if (allLoc.get(i).id == listID) {
-                    newList = allLoc.get(i);
+            for (int i = 0; i < allLists.size(); i++) {
+                if (allLists.get(i).id == listID) {
+                    newList = allLists.get(i);
                     break;
                 }
             }
@@ -510,19 +503,6 @@ public class ListContainer extends VBox {
         event.consume();
     }
 
-//    public void refreshList(List<Card> data){
-//        var currentCards = list.getItems();
-//        for(String card : currentCards){
-//            currentCards.remove(card);
-//        }
-//
-//        for(Card card : data){
-//            if(card.list.id == listOfCards.id){
-//                list.getItems().add(card.title);
-//            }
-//        }
-//    }
-
     /**
      * Setter method for parent
      * @param parent parent
@@ -618,15 +598,4 @@ public class ListContainer extends VBox {
     public ListOfCards getListOfCards() {
         return listOfCards;
     }
-
-
-//    /**
-//     * Adds one card to the ListView and displays it
-//     * @param card card to be added
-//     */
-//    public void addCard(Card card){
-////        var names = cards.stream().map(c -> c.title).toList();
-//        String cardTitle = card.title;
-//        list.getItems().add(cardTitle);
-//    }
 }

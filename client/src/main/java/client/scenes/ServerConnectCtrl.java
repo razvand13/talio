@@ -34,7 +34,6 @@ public class ServerConnectCtrl {
         if(addressInput.equals("")) addressInput = "localhost";
 
         client.utils.OurServerUtils.setSERVER("http://"+ addressInput+ ":" +portInput+"/");
-//        client.utils.OurServerUtils.setPort(portInput);
         mainCtrl.showTaskListView();
     }
 

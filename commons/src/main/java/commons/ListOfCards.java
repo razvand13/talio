@@ -12,24 +12,30 @@ import javax.persistence.Entity;
 public class ListOfCards implements Serializable {
 
     @Id
+    @Column(nullable = false)
     @GeneratedValue
     public long id;
 
     public String title;
+
+    @ManyToOne(targetEntity = Board.class, cascade = CascadeType.MERGE,
+            fetch = FetchType.EAGER)
+    @JoinColumn(name = "board", referencedColumnName = "id")
+    public Board board;
 
 //    @OneToMany(mappedBy = "listOfCards", fetch = FetchType.LAZY,
 //            cascade = CascadeType.ALL)
 //    public List<Card> cards = new ArrayList<>();
 
     /**
-     * Constructor for ListOfCards
+     * Constructor for ListOfCards with title and Board
      *
      * @param title title   
-     * @param cards cards
+     * @param board reference to Board
      */
-    public ListOfCards(String title, List<Card> cards) {
+    public ListOfCards(String title, Board board) {
         this.title = title;
-//        this.cards = cards;
+        this.board = board;
     }
 
     /**
@@ -80,24 +86,6 @@ public class ListOfCards implements Serializable {
     public String toString() {
         StringBuilder a = new StringBuilder("ListOfCards: id = " +
                 id + ", title = " + title + ", cards =");
-//        if(cards == null) {
-//            a.append("N/A;");
-//            return a.toString();
-//        }
-//
-//        for(Card i:cards){
-//            a.append("\n")
-//                    .append(i.toString())
-//                    .append(";");
-//        }
         return a.toString();
     }
-
-//    /**
-//     * adds a card to cards
-//     * @param card card to be added
-//     */
-//    public void addCard(Card card){
-//        cards.add(card);
-//    }
 }

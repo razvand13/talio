@@ -59,21 +59,10 @@ public class MainTaskListCtrl {
      */
     public void showTaskListView() {
         taskListCtrl.firstTimeSetUp();
-     //   taskListCtrl.refresh();
-        //firstTimeSetup1();
         primaryStage.setTitle("Task List");
         primaryStage.setScene(taskList);
-        //taskListCtrl.refresh();
     }
 
-    /**
-     *
-     */
-    public void showAdd() {
-        addCardCtrl.firstTimeSetUp();
-        primaryStage.setTitle("Add card");
-        primaryStage.setScene(addCard);
-    }
 
     /**
      *

@@ -93,4 +93,12 @@ public class ListControllerTest {
         assertEquals(BAD_REQUEST, controller.getById(1).getStatusCode());
         assertEquals(BAD_REQUEST, controller.getById(0).getStatusCode());
     }
+    @Test
+    public void addMessageTest(){
+        ListOfCards list = new ListOfCards("name");
+        list.id = 0;
+        controller.addMessage(list);
+        assertEquals(OK, controller.getById(0).getStatusCode());
+        assertTrue(listRepo.calledMethods.contains("save"));
+    }
 }

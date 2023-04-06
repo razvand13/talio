@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import client.scenes.*;
+import client.scenes.MainTaskListCtrl;
+import client.scenes.ServerConnectCtrl;
+import client.scenes.TaskListCtrl;
 import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -47,7 +50,10 @@ public class TaskListMain extends Application {
         var mainTaskCtrl = INJECTOR.getInstance(MainTaskListCtrl.class);
 
 
+        mainTaskCtrl.initialize(primaryStage, taskList, setup);
 
         mainTaskCtrl.initialize(primaryStage, taskList, addCard, setup, adminOverview);
+        // stop long polling thread as well when app closes
+        primaryStage.setOnCloseRequest(e -> taskList.getKey().stop());
     }
 }
