@@ -20,16 +20,22 @@ public class MainTaskListCtrl {
     private ServerConnectCtrl serverConnectCtrl;
     private Scene serverConnect;
 
+    private AdminSceneCtrl adminSceneCtrl;
+    private Scene adminOverview;
 
-    /**Method for initializing main controller
-     * @param primaryStage stage passed in as primary stage
-     * @param taskList for setting up task list scene
-     * @param addCard add card scene
+
+    /**
+     * Method for initializing main controller
+     *
+     * @param primaryStage  stage passed in as primary stage
+     * @param taskList      for setting up task list scene
+     * @param addCard       add card scene
      * @param serverConnect server connect scene
+     * @param adminOverview
      */
     public void initialize(Stage primaryStage, Pair<TaskListCtrl, Parent> taskList,
                            Pair<AddCardCtrl, Parent> addCard,
-                           Pair<ServerConnectCtrl, Parent> serverConnect) {
+                           Pair<ServerConnectCtrl, Parent> serverConnect, Pair<AdminSceneCtrl, Parent> adminOverview) {
         this.primaryStage = primaryStage;
 
         this.taskListCtrl = taskList.getKey();
@@ -40,6 +46,9 @@ public class MainTaskListCtrl {
 
         this.serverConnectCtrl = serverConnect.getKey();
         this.serverConnect = new Scene(serverConnect.getValue());
+
+        this.adminSceneCtrl = adminOverview.getKey();
+        this.adminOverview = new Scene(adminOverview.getValue());
 
         showServerConnect();
         primaryStage.show();
@@ -72,6 +81,11 @@ public class MainTaskListCtrl {
     public void showServerConnect() {
         primaryStage.setTitle("Choose a port");
         primaryStage.setScene(serverConnect);
+    }
+
+    public void showAdminOverview() {
+        primaryStage.setTitle("Admin Overview");
+        primaryStage.setScene(adminOverview);
     }
 
 }
