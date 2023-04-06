@@ -12,11 +12,6 @@ public class MainTaskListCtrl {
 
     private TaskListCtrl taskListCtrl;
     private Scene taskList;
-
-    private AddCardCtrl addCardCtrl;
-
-    private Scene addCard;
-
     private ServerConnectCtrl serverConnectCtrl;
     private Scene serverConnect;
 
@@ -29,20 +24,16 @@ public class MainTaskListCtrl {
      *
      * @param primaryStage  stage passed in as primary stage
      * @param taskList      for setting up task list scene
-     * @param addCard       add card scene
      * @param serverConnect server connect scene
      * @param adminOverview
      */
     public void initialize(Stage primaryStage, Pair<TaskListCtrl, Parent> taskList,
-                           Pair<AddCardCtrl, Parent> addCard,
                            Pair<ServerConnectCtrl, Parent> serverConnect, Pair<AdminSceneCtrl, Parent> adminOverview) {
         this.primaryStage = primaryStage;
 
         this.taskListCtrl = taskList.getKey();
         this.taskList = new Scene(taskList.getValue());
 
-        this.addCardCtrl = addCard.getKey();
-        this.addCard = new Scene(addCard.getValue());
 
         this.serverConnectCtrl = serverConnect.getKey();
         this.serverConnect = new Scene(serverConnect.getValue());

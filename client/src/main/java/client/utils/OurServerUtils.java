@@ -9,9 +9,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
+import commons.Board;
 import commons.Card;
 import commons.ListOfCards;
 import jakarta.ws.rs.core.Response;
+import javafx.collections.ObservableList;
 import org.glassfish.jersey.client.ClientConfig;
 
 import jakarta.ws.rs.client.ClientBuilder;
@@ -204,4 +206,11 @@ public class OurServerUtils {
                 .post(Entity.entity(body, APPLICATION_JSON), responseType);
     }
 
+    public List<Board> getBoards(){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/boards") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<List<Board>>() {});
+    }
 }

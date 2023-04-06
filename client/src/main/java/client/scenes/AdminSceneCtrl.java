@@ -2,8 +2,10 @@ package client.scenes;
 
 import client.utils.OurServerUtils;
 import com.google.inject.Inject;
+import commons.Board;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -45,7 +47,7 @@ public class AdminSceneCtrl implements Initializable {
                 new SimpleStringProperty(b.getValue().id));
         boardNameColumn.setCellValueFactory(b ->
                 new SimpleStringProperty(b.getValue().title));
-        joinKeyColumn.setCellValueFactory(b -> new SimpleStringProperty(b.getValue().key));
+        //joinKeyColumn.setCellValueFactory(b -> new SimpleStringProperty(b.getValue().key));
 
         server.setSession();
         server.registerForMessages("/topic/quotes", Board.class, b -> {

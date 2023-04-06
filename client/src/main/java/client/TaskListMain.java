@@ -41,7 +41,7 @@ public class TaskListMain extends Application {
 
         var taskList = FXML.load(TaskListCtrl.class, "client", "scenes", "TaskListView.fxml");
 
-        var addCard = FXML.load(AddCardCtrl.class, "client", "scenes", "AddCard.fxml");
+      //  var addCard = FXML.load(AddCardCtrl.class, "client", "scenes", "AddCard.fxml");
 
         var setup = FXML.load(ServerConnectCtrl.class, "client", "scenes", "ServerConnect.fxml");
 
@@ -50,9 +50,7 @@ public class TaskListMain extends Application {
         var mainTaskCtrl = INJECTOR.getInstance(MainTaskListCtrl.class);
 
 
-        mainTaskCtrl.initialize(primaryStage, taskList, setup);
-
-        mainTaskCtrl.initialize(primaryStage, taskList, addCard, setup, adminOverview);
+        mainTaskCtrl.initialize(primaryStage, taskList, setup, adminOverview);
         // stop long polling thread as well when app closes
         primaryStage.setOnCloseRequest(e -> taskList.getKey().stop());
     }
