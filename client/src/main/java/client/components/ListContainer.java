@@ -7,10 +7,7 @@ import commons.ListOfCards;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -323,8 +320,8 @@ public class ListContainer extends VBox {
     }
 
     /**
-     * Method for deleting the vertical box containing a list
-     * The list can get deleted only if it contains no cards
+     * Method for deleting the vertical box containing a list. The list can get deleted
+     * only if it contains no cards, otherwise an alert is shown to the user
      *
      * @param vBox         vertical box getting deleted
      * @param deleteButton delete button that's clicked
@@ -354,6 +351,18 @@ public class ListContainer extends VBox {
 
                 server.send("/app/remove-lists", delList);
             }
+            else{
+
+                Alert a = new Alert(Alert.AlertType.INFORMATION);
+
+                a.setGraphic(null);
+                a.setTitle("Alert");
+                a.setHeaderText("The list cannot be deleted as it still contains tasks.");
+
+                a.show();
+            }
+
+
             event.consume();
         });
     }
