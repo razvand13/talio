@@ -92,7 +92,6 @@ public class OverviewOfBoardsCtrl {
     public void writeId(long id) {
         // can't have : in a filename so replace that with _
         String currentConnection = server.getAddress().replace(":","_");
-
         File boardIdListFile = new File("TalioJoinedBoardsOn"+currentConnection+".txt");
         try {
             Writer writer = new FileWriter(boardIdListFile, true);
@@ -173,7 +172,7 @@ public class OverviewOfBoardsCtrl {
         String currentConnection = server.getAddress().replace(":","_");
         try {
             Scanner boardScanner = new Scanner(
-                    new File("TalioJoinedBoardsOn"+currentConnection+".txt"));
+                    new File("TalioJoinedBoardsOn:"+currentConnection+".txt"));
             while (boardScanner.hasNextLine()){
                 long id =boardScanner.nextLong();
                 boards.add(server.getBoardById(id));
