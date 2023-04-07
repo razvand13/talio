@@ -61,7 +61,8 @@ class CardTest {
 
     @Test
     void testToString() {
-        String expected = "Card: id = 9223372036854775807, title = title";
+        card.position = 1;
+        String expected = "Card: id = 9223372036854775807, title = title, position = 1";
         assertEquals(expected, card.toString());
     }
 }
