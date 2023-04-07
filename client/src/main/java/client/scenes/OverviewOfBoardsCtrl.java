@@ -8,12 +8,14 @@ import jakarta.inject.Inject;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -87,13 +89,23 @@ public class OverviewOfBoardsCtrl {
      * method for writing joined board's id to a file
      * @param id the id of the board
      */
-    public void writeId(long id){
-        try{
-            Writer writer = new FileWriter("TalioJoinedBoards.txt");
-            writer.write("\n"+id);
+    public void writeId(long id) {
+        // can't have : in a filename so replace that with _
+        String currentConnection = server.getAddress().replace(":","_");
+
+        File boardIdListFile = new File("TalioJoinedBoardsOn"+currentConnection+".txt");
+        try {
+            Writer writer = new FileWriter(boardIdListFile, true);
+            writer.write("\n" + id);
+            writer.close();
         }
-        catch (IOException e){
-            System.out.println("sorry, we couldn't save your board");
+        catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("error writing to file");
+            alert.setHeaderText("unable to save board id");
+            alert.setContentText("We're currently unable to save this id to your pc:"+
+                            "\n"+e);
+            alert.show();
         }
     }
 
@@ -153,17 +165,20 @@ public class OverviewOfBoardsCtrl {
      * Method for making the boardContainers appear
      */
     public void makeBoards(){
-        //this next bit is fully unnecessary I think
+        ///this next bit is fully unnecessary I think///
         //When the repository and ints controller are done, uncomment the next line
         //boards = server.getBoards();
         //boards.add(new Board("board1"));
-
+  
+        String currentConnection = server.getAddress().replace(":","_");
         try {
-            Scanner boardScanner = new Scanner(new File("TalioJoinedBoards.txt"));
+            Scanner boardScanner = new Scanner(
+                    new File("TalioJoinedBoardsOn"+currentConnection+".txt"));
             while (boardScanner.hasNextLine()){
                 long id =boardScanner.nextLong();
                 boards.add(server.getBoardById(id));
             }
+            Collections.reverse(boards); //the most recent boards at start of list
         }
         //necessary for scanner construction, but iff file isn't found boards should be empty
         //since it means this client hasn't joined any boards yet, so we can ignore the exception
