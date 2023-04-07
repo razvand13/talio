@@ -85,6 +85,7 @@ public class TaskListCtrl implements Initializable {
 
         ListContainer container = new ListContainer(listName, server, mainCtrl);
         ListOfCards myLoc = new ListOfCards(listName);
+        myLoc.board = board;
 
         container.setListOfCards(myLoc);
         server.send("/app/lists", container.getListOfCards());
@@ -198,10 +199,12 @@ public class TaskListCtrl implements Initializable {
         //Redraw lists
         list = server.getLists();
         for(ListOfCards loc : list){
-            ListContainer listContainer = new ListContainer(loc.title, server, mainCtrl);
-            listContainer.setListOfCards(loc);
-            listContainer.setParent(hBox);
-            hBox.getChildren().add(listContainer);
+            if(loc.board.equals(board)) {
+                ListContainer listContainer = new ListContainer(loc.title, server, mainCtrl);
+                listContainer.setListOfCards(loc);
+                listContainer.setParent(hBox);
+                hBox.getChildren().add(listContainer);
+            }
         }
 
         //Redraw list contents

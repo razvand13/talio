@@ -89,6 +89,7 @@ public class MainTaskListCtrl {
      * @param b
      */
     public void setTaskListCtrlBoard(Board b){
+        taskListCtrl.setTaskListCtrlBoard(b);
         this.board = b;
     }
 
