@@ -2,8 +2,8 @@ package client.components;
 
 import client.scenes.MainTaskListCtrl;
 import client.utils.OurServerUtils;
+import com.google.inject.Inject;
 import commons.Board;
-import jakarta.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -31,14 +31,14 @@ public class BoardContainer extends VBox {
      * @param server
      * @param mainCtrl
      */
-    @Inject
+    //@Inject
     public BoardContainer(Board board, OurServerUtils server, MainTaskListCtrl mainCtrl) {
         this.board = board;
         this.server = server;
         this.mainCtrl = mainCtrl;
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass()
-                .getResource("client/components/BoardContainer.fxml"));
+                .getResource("/client/components/BoardContainer.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
 
@@ -46,7 +46,6 @@ public class BoardContainer extends VBox {
             fxmlLoader.load();
         }catch (IOException e){
             System.out.println("HERE!!!!!!!!!!!!!!!!" + "\n");
-            System.out.println(e.getStackTrace());
             throw new RuntimeException(e);
         }
 

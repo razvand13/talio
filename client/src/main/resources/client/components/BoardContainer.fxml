@@ -5,9 +5,9 @@
 <?import javafx.scene.text.Text?>
 
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="127.0" prefWidth="184.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root type="VBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="127.0" prefWidth="184.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Text fx:id="boardNameTextField" strokeType="OUTSIDE" strokeWidth="0.0" text="*BoardName*" wrappingWidth="72.955078125" />
       <Button fx:id="joinBoardButton" mnemonicParsing="false" text="Join" />
    </children>
-</VBox>
+</fx:root>

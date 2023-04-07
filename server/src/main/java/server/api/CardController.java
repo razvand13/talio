@@ -1,14 +1,19 @@
 package server.api;
 
 import commons.Card;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.async.DeferredResult;
 import server.database.CardRepository;
 import server.database.ListRepository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 @RestController
 @RequestMapping("api/cards")
@@ -48,6 +53,50 @@ public class CardController {
         }
         return ResponseEntity.ok(cardRepo.findById(id).get());
     }
+//
+//    /**
+//     *
+//     * @param card card that needs to be added
+//     * @return badRequest if it couldn't be added, ok with the provided card
+//     * iff it was added successfully
+//     */
+//    @PostMapping(path ={"","/"})
+//    public ResponseEntity<Card> add(@RequestBody Card card) {
+//        System.out.println("got here");
+//        if(card == null){
+//            System.out.println("IS NULL");
+//            return ResponseEntity.badRequest().build();
+//        }
+//
+//
+//        if(!listRepo.existsById(card.listOfCards.id)){
+//            return ResponseEntity.badRequest().build();
+//        }
+//
+////        card.listOfCards.addCard(card);
+//        card = cardRepo.save(card);
+//        System.out.println("Saved card " + card);
+//        return ResponseEntity.ok(card);
+//    }
+
+    private Map<Object, Consumer<Card>> listeners = new HashMap<>();
+
+    /**
+     * Method for defining results of long polling updates
+     * @return DeferredResult<ResponseEntity<Card>>
+     */
+    @GetMapping("/updates")
+    public DeferredResult<ResponseEntity<Card>> getUpdates() {
+        var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        var res = new DeferredResult<ResponseEntity<Card>>(5000L, noContent);
+
+        var key = new Object();
+        listeners.put(key, c -> res.setResult(ResponseEntity.ok(c)));
+
+        res.onCompletion(() -> listeners.remove(key));
+
+        return res;
+    }
 
     /**
      *
@@ -57,16 +106,17 @@ public class CardController {
      */
     @PostMapping(path ={"","/"})
     public ResponseEntity<Card> add(@RequestBody Card card) {
-        System.out.println("got here");
         if(card == null){
-            System.out.println("IS NULL");
             return ResponseEntity.badRequest().build();
         }
-
 
         if(!listRepo.existsById(card.listOfCards.id)){
             return ResponseEntity.badRequest().build();
         }
+
+
+        Card finalCard = card; // the IDE needs the card to be effectively final
+        listeners.forEach((k, l) -> l.accept(finalCard));
 
 //        card.listOfCards.addCard(card);
         card = cardRepo.save(card);
@@ -101,6 +151,30 @@ public class CardController {
         System.out.println("ADD MESSAGE");
         add(c);
         return c;
+    }
+
+    /**
+     * Remove card from database
+     * @param card Card to be deleted
+     * @return deleted Card
+     */
+    @MessageMapping("/remove-card")
+    @SendTo("/topic/remove-card")
+    public Card removeCard(Card card){
+        cardRepo.deleteById(card.id);
+        return card;
+    }
+
+    /**
+     * Edit card in database
+     * @param card Card with changed values
+     * @return edited Card
+     */
+    @MessageMapping("/edit-card")
+    @SendTo("/topic/edit-card")
+    public Card editCard(Card card){
+        cardRepo.save(card);
+        return card;
     }
 
 
