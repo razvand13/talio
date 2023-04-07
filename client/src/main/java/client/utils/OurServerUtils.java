@@ -23,7 +23,7 @@ import org.springframework.web.socket.messaging.WebSocketStompClient;
 public class OurServerUtils {
 
 
-    private static String SERVER = "http://localhost:8080";
+    private static String SERVER = "http://localhost:8080/";
 
 
     /**
@@ -210,6 +210,14 @@ public class OurServerUtils {
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(body, APPLICATION_JSON), responseType);
+    }
+
+    /**
+     * gets the address of the current server
+     * @return SERVER minus the "http://" at the start and the "/" at the end (so localhost:8080 by default)
+     */
+    public String getAddress(){
+        return SERVER.substring(7, SERVER.length()-1);
     }
 
 }
