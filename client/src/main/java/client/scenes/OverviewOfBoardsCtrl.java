@@ -35,7 +35,7 @@ public class OverviewOfBoardsCtrl {
     @FXML
     private HBox hBoxBoards;
     @FXML
-    private Button createNewBoardButton;
+    private Button NewBoardButton;
 
     /**Constructorfor OverviewOfBoardsCtrl
      *
@@ -76,10 +76,7 @@ public class OverviewOfBoardsCtrl {
                             writeId(id);
                             break;
                         }
-                        throw new RuntimeException();//no board found
                     }
-                    mainCtrl.showTaskListView();
-
                 }
             } catch (NumberFormatException e){
                 System.out.println(e.getStackTrace());
@@ -161,6 +158,7 @@ public class OverviewOfBoardsCtrl {
      * Delete all the boards
      */
     public void clearBoards(){
+        boards.clear();
         List<BoardContainer> containers = new ArrayList<>();
         for(Node child : hBoxBoards.getChildren()){
             if(child.getClass() == BoardContainer.class){ // Error handling
