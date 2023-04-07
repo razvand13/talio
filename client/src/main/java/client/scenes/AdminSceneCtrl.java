@@ -61,7 +61,7 @@ public class AdminSceneCtrl implements Initializable {
      *
      */
     public void back(){
-        mainCtrl.showTaskListView();
+        mainCtrl.showOverviewOfBoards();
     }
 
     public void deleteBoard(Button deleteButton, ListView<String> table){

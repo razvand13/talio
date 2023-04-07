@@ -8,21 +8,19 @@ import commons.Board;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
+
 
 public class OverviewOfBoardsCtrl {
     private final OurServerUtils server;
     private final MainTaskListCtrl mainCtrl;
-    private final List<Board> boards;
+    private List<Board> boards;
     @FXML
     private TextField idTextField;
     @FXML
@@ -88,16 +86,14 @@ public class OverviewOfBoardsCtrl {
      * Method for setting up the admin button
      */
     public void adminButtonSetup(){
-        this.adminButton.setOnMouseClicked(event -> {
-            //load the admin scenes
-            event.consume();
-        });
+        mainCtrl.showAdminOverview();
     }
 
     /**
      * Method for going back to the serverConnect
      */
     public void serverSelectSetUp(){
+        System.out.println("here");
         serverSelectButton.setOnMouseClicked(event -> {
             mainCtrl.showServerConnect();
             event.consume();
@@ -141,7 +137,7 @@ public class OverviewOfBoardsCtrl {
      */
     public void makeBoards(){
         //When the repository and ints controller are done, uncomment the next line
-        //boards = server.getBoards();
+        boards = server.getBoards();
         boards.add(new Board("board1"));
         for(Board b : boards) {
             BoardContainer boardContainer = new BoardContainer(b, server, mainCtrl);

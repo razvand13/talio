@@ -145,7 +145,7 @@ public class TaskListCtrl implements Initializable {
         // todo Remove list
 
         changeBoardSetup();
-        showBoardId();
+        //showBoardId();
     }
 
     /**
