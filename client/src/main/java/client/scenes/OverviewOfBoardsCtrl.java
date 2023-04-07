@@ -172,7 +172,7 @@ public class OverviewOfBoardsCtrl {
         String currentConnection = server.getAddress().replace(":","_");
         try {
             Scanner boardScanner = new Scanner(
-                    new File("TalioJoinedBoardsOn:"+currentConnection+".txt"));
+                    new File("TalioJoinedBoardsOn"+currentConnection+".txt"));
             while (boardScanner.hasNextLine()){
                 long id =boardScanner.nextLong();
                 boards.add(server.getBoardById(id));
