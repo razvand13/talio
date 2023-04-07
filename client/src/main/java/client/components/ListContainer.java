@@ -534,8 +534,15 @@ public class ListContainer extends VBox {
             }else{
                 int pos = card.position;
                 int newPos = list.getSelectionModel().getSelectedIndex();
+                System.out.println("new position = " +newPos);
                 ListOfCards wanted = card.listOfCards;
-                if(pos<newPos) {
+                if(newPos == -1){
+                    card.position = list.getItems().size();
+                    //System.out.println(list.getItems().size());
+                    decrementIndexes(card, pos, list.getItems().size(), wanted);
+                    server.send("/app/edit-card", card);
+                }
+                else if(pos<newPos) {
                     decrementIndexes(card, pos, newPos, wanted);
                     card.position = newPos;
                     server.send("/app/edit-card", card);
