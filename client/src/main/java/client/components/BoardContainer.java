@@ -2,7 +2,6 @@ package client.components;
 
 import client.scenes.MainTaskListCtrl;
 import client.utils.OurServerUtils;
-import com.google.inject.Inject;
 import commons.Board;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,7 +30,6 @@ public class BoardContainer extends VBox {
      * @param server
      * @param mainCtrl
      */
-    //@Inject
     public BoardContainer(Board board, OurServerUtils server, MainTaskListCtrl mainCtrl) {
         this.board = board;
         this.server = server;
