@@ -1,1 +1,7 @@
 
+2023-04-06 20:37:27 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CARD" not found; SQL statement:
+DROP TABLE CARD [42102-200]
+2023-04-06 20:37:31 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CARD" not found; SQL statement:
+DROP TABLE CARD [42102-200]

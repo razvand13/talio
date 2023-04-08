@@ -32,7 +32,17 @@ class CardTest {
         card.position = myPosition;
         equalCard.position = myPosition;
         diffCard.position = myPosition;
+        Card c = new Card("TITLE");
     }
+
+    @Test
+    void testConstructor(){
+        assertEquals("title", card.title);
+        assertEquals(list1, card.listOfCards);
+        assertEquals(myId, card.id);
+        assertEquals(myPosition, card.position);
+    }
+
 
     @Test
     void testNotNull(){
@@ -69,4 +79,6 @@ class CardTest {
         String expected = "Card: id = 9223372036854775807, title = title";
         assertEquals(expected, card.toString());
     }
+
+//
 }
