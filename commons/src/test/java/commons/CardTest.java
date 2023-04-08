@@ -15,6 +15,7 @@ class CardTest {
     private long myId;
     private ListOfCards list1;
     private ListOfCards list2;
+    private int myPosition;
     @BeforeEach
     void setup(){
         myId = Long.MAX_VALUE;
@@ -27,6 +28,10 @@ class CardTest {
         card.id = myId;
         equalCard.id = myId;
         diffCard.id = myId;
+        myPosition = 5;
+        card.position = myPosition;
+        equalCard.position = myPosition;
+        diffCard.position = myPosition;
     }
 
     @Test
@@ -61,7 +66,8 @@ class CardTest {
 
     @Test
     void testToString() {
-        String expected = "Card: id = 9223372036854775807, title = title";
+        card.position = 1;
+        String expected = "Card: id = 9223372036854775807, title = title, position = 1";
         assertEquals(expected, card.toString());
     }
 }
