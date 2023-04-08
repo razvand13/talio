@@ -167,7 +167,7 @@ public class ListContainer extends VBox {
                 textField.setText(item);
             } else {
                 editBtn.setVisible(false);
-                delBtn.setVisible(true);
+                delBtn.setVisible(false);
                 textField.setVisible(false);
             }
 
