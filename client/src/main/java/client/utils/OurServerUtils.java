@@ -141,12 +141,13 @@ public class OurServerUtils {
     }
 
     /**
-     *
-     * @param dest
-     * @param o
+     * sends object to server using stompsession
+     * @param dest hesitation to send object to
+     * @param o object to send
      */
     public void send(String dest, Object o) {
         session.send(dest, o);
+
     }
 
 
@@ -235,5 +236,17 @@ public class OurServerUtils {
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<List<Board>>() {});
+    }
+
+    /**
+     * 
+     * @return the most recently added board.
+     */
+    public Board getMostRecentBoard(){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/boards/mostRecent") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<Board>() {});
     }
 }

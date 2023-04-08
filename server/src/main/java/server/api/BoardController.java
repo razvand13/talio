@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("/api/boards")
 public class BoardController {
     private final BoardRepository repo;
-
+    private Board mostRecent;
     /**
      * initializes the controller
      * @param repo the repository to use
@@ -62,9 +62,18 @@ public class BoardController {
             return ResponseEntity.badRequest().build();
         }
         repo.save(board);
+        mostRecent = board;
         return ResponseEntity.ok(board);
     }
 
+    /**
+     * gives the most recently added board
+     * @return most recently added board
+     */
+    @GetMapping("/mostRecent")
+    public Board getMostRecent() {
+        return mostRecent;
+    }
 
     @MessageMapping("/boards") //app/quotes -> path for basically any client (consumer)
     @SendTo("/topic/boards")// (producer)

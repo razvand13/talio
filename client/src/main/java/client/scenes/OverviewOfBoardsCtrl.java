@@ -68,24 +68,16 @@ public class OverviewOfBoardsCtrl {
 
     public void newBoard() {
         String title = boardTitle.getText();
-        Board b = new Board(title);
-        System.out.println("make new board " + b.toString());
-        server.send("/app/boards", b);
+        Board board = new Board(title);
+        System.out.println("make new board " + board);
+        server.send("/app/boards", board);
+        board = server.getMostRecentBoard();
 
-        long id = b.id;
-        if (id > 0) {
-            System.out.println("not 0");
-            List<Board> allBoards = server.getBoards();
-            for (Board b1 : allBoards) {
-                if (b1.id == id) {
-                    taskListCtrl.setTaskListCtrlBoard(b1);
-                    System.out.println("join board");
-                    mainCtrl.showTaskListView();
-                    writeId(id);
-                    break;
-                }
-            }
-        }
+        taskListCtrl.setTaskListCtrlBoard(board);
+        System.out.println("join board");
+        mainCtrl.showTaskListView();
+        writeId(board.id);
+
     }
 
 
@@ -200,10 +192,6 @@ public class OverviewOfBoardsCtrl {
      * Method for making the boardContainers appear
      */
     public void makeBoards(){
-        ///this next bit is fully unnecessary I think///
-        //When the repository and ints controller are done, uncomment the next line
-        //boards = server.getBoards();
-        //boards.add(new Board("board1"));
   
         String currentConnection = server.getAddress().replace(":","_");
         try {
