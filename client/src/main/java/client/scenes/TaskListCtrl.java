@@ -40,7 +40,7 @@ public class TaskListCtrl implements Initializable {
     @FXML
     private Text boardIdText;
 
-    private Board board;
+    private static Board board;
 
     /**
      * Constructor method
@@ -84,7 +84,7 @@ public class TaskListCtrl implements Initializable {
         listTitle.setText("ToDo");
 
         ListContainer container = new ListContainer(listName, server, mainCtrl);
-        ListOfCards myLoc = new ListOfCards(listName);
+        ListOfCards myLoc = new ListOfCards(listName, board);
 
         container.setListOfCards(myLoc);
         server.send("/app/lists", container.getListOfCards());
@@ -198,10 +198,15 @@ public class TaskListCtrl implements Initializable {
         //Redraw lists
         list = server.getLists();
         for(ListOfCards loc : list){
-            ListContainer listContainer = new ListContainer(loc.title, server, mainCtrl);
-            listContainer.setListOfCards(loc);
-            listContainer.setParent(hBox);
-            hBox.getChildren().add(listContainer);
+            if(loc.getBoard() == null) {
+                System.out.println("makeBoard null");
+            } else if(loc.getBoard().equals(this.board)) {
+                System.out.println("not null");
+                ListContainer listContainer = new ListContainer(loc.title, server, mainCtrl);
+                listContainer.setListOfCards(loc);
+                listContainer.setParent(hBox);
+                hBox.getChildren().add(listContainer);
+            }
         }
 
         //Redraw list contents
@@ -233,7 +238,8 @@ public class TaskListCtrl implements Initializable {
      * Setter for board
      * @param b
      */
-    public void setTaskListCtrlBoard(Board b){
+
+    public void setTaskListCtrlBoard(Board b) {
         this.board = b;
     }
 

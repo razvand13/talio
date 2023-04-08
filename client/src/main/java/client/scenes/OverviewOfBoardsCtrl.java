@@ -23,6 +23,8 @@ import java.util.Scanner;
 public class OverviewOfBoardsCtrl {
     private final OurServerUtils server;
     private final MainTaskListCtrl mainCtrl;
+    private final TaskListCtrl taskListCtrl;
+
     private List<Board> boards;
     @FXML
     private TextField idTextField;
@@ -36,16 +38,21 @@ public class OverviewOfBoardsCtrl {
     private HBox hBoxBoards;
     @FXML
     private Button NewBoardButton;
+    @FXML
+    private TextField boardTitle;
 
-    /**Constructorfor OverviewOfBoardsCtrl
+    /**
+     * Constructorfor OverviewOfBoardsCtrl
      *
      * @param server
      * @param mainCtrl
+     * @param taskListCtrl
      */
     @Inject
-    public OverviewOfBoardsCtrl(OurServerUtils server, MainTaskListCtrl mainCtrl) {
+    public OverviewOfBoardsCtrl(OurServerUtils server, MainTaskListCtrl mainCtrl, TaskListCtrl taskListCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+        this.taskListCtrl = taskListCtrl;
         this.boards = new ArrayList<>();
        // buttonsSetup();
     }
@@ -59,31 +66,52 @@ public class OverviewOfBoardsCtrl {
         adminButtonSetup();
     }
 
+    public void newBoard() {
+        String title = boardTitle.getText();
+        Board b = new Board(title);
+        System.out.println("make new board " + b.toString());
+        server.send("/app/boards", b);
+
+        long id = b.id;
+        if (id > 0) {
+            System.out.println("not 0");
+            List<Board> allBoards = server.getBoards();
+            for (Board b1 : allBoards) {
+                if (b1.id == id) {
+                    taskListCtrl.setTaskListCtrlBoard(b1);
+                    System.out.println("join board");
+                    mainCtrl.showTaskListView();
+                    writeId(id);
+                    break;
+                }
+            }
+        }
+    }
+
+
     /**
      * Method for setting up the controller for the join board by id
      */
     public void joinButtonSetUp(){
-        joinBoardButton.setOnMouseClicked(event -> {
-            String idString = idTextField.getText();
-            try{
-                long id = Long.parseLong(idString);
-                if(id > 0){
-                    List<Board> allBoards = server.getBoards();
-                    for(Board b : allBoards){
-                        if(b.id == id){
-                            mainCtrl.setTaskListCtrlBoard(b);
-                            mainCtrl.showTaskListView();
-                            writeId(id);
-                            break;
-                        }
+        String idString = idTextField.getText();
+        try {
+            long id = Long.parseLong(idString);
+            if (id > 0) {
+                List<Board> allBoards = server.getBoards();
+                for (Board b : allBoards) {
+                    if (b.id == id) {
+                        taskListCtrl.setTaskListCtrlBoard(b);
+                        System.out.println("join board");
+                        mainCtrl.showTaskListView();
+                        writeId(id);
+                        break;
                     }
                 }
-            } catch (NumberFormatException e){
-                System.out.println(e.getStackTrace());
-                throw new RuntimeException(e);
             }
-            event.consume();
-        });
+        } catch (NumberFormatException e) {
+            System.out.println(e.getStackTrace());
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -128,7 +156,6 @@ public class OverviewOfBoardsCtrl {
      * Method for going back to the serverConnect
      */
     public void serverSelectSetUp(){
-        System.out.println("here");
         serverSelectButton.setOnMouseClicked(event -> {
             mainCtrl.showServerConnect();
             event.consume();
@@ -192,7 +219,7 @@ public class OverviewOfBoardsCtrl {
         //since it means this client hasn't joined any boards yet, so we can ignore the exception
         catch (FileNotFoundException ignored){}
         for(Board b : boards) {
-            BoardContainer boardContainer = new BoardContainer(b, server, mainCtrl);
+            BoardContainer boardContainer = new BoardContainer(b, server, mainCtrl, taskListCtrl);
             boardContainer.setParent(hBoxBoards);
             hBoxBoards.getChildren().add(boardContainer);
         }

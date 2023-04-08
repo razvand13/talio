@@ -1,6 +1,7 @@
 package client.components;
 
 import client.scenes.MainTaskListCtrl;
+import client.scenes.TaskListCtrl;
 import client.utils.OurServerUtils;
 import commons.Board;
 import javafx.fxml.FXML;
@@ -16,6 +17,8 @@ public class BoardContainer extends VBox {
     private HBox parent;
     private final OurServerUtils server;
     private final MainTaskListCtrl mainCtrl;
+    private final TaskListCtrl taskListCtrl;
+
     private Board board;
     @FXML
     private Button joinBoardWithId;
@@ -29,11 +32,13 @@ public class BoardContainer extends VBox {
      * @param board
      * @param server
      * @param mainCtrl
+     * @param taskListCtrl
      */
-    public BoardContainer(Board board, OurServerUtils server, MainTaskListCtrl mainCtrl) {
+    public BoardContainer(Board board, OurServerUtils server, MainTaskListCtrl mainCtrl, TaskListCtrl taskListCtrl) {
         this.board = board;
         this.server = server;
         this.mainCtrl = mainCtrl;
+        this.taskListCtrl = taskListCtrl;
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass()
                 .getResource("/client/components/BoardContainer.fxml"));
@@ -59,7 +64,7 @@ public class BoardContainer extends VBox {
      */
     public void setOpenBoard(){
         this.joinBoardButton.setOnMouseClicked(event -> {
-            mainCtrl.setTaskListCtrlBoard(board);
+            taskListCtrl.setTaskListCtrlBoard(board);
             mainCtrl.showTaskListView();
             event.consume();
         });

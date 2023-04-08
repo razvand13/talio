@@ -88,9 +88,11 @@ public class MainTaskListCtrl {
      * Set board of the taskList
      * @param b
      */
-    public void setTaskListCtrlBoard(Board b){
-        this.board = b;
-    }
+//    public void setTaskListCtrlBoard(Board b){
+//        taskListCtrl.setTaskListCtrlBoard(b);
+//        this.board = b;
+//        System.out.println(board.id);
+//    }
 
     /**
      * Show overview of boards

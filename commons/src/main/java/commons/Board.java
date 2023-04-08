@@ -12,7 +12,7 @@ public class Board implements Serializable {
 
     @Id
     @Column(nullable = false)
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public long id;
 
     public String title;

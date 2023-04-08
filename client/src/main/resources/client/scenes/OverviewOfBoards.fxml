@@ -30,6 +30,7 @@
             <HBox fx:id="hBoxBoards" prefHeight="406.0" prefWidth="843.0" />
          </content>
       </ScrollPane>
-      <Button fx:id="createNewBoardButton" layoutX="230.0" layoutY="120.0" mnemonicParsing="false" onAction="#makeBoards" text="Create New Board" />
+      <Button fx:id="createNewBoardButton" layoutX="407.0" layoutY="120.0" mnemonicParsing="false" onAction="#newBoard" text="Create New Board" />
+      <TextField fx:id="boardTitle" layoutX="246.0" layoutY="120.0" />
    </children>
 </AnchorPane>

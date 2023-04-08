@@ -11,9 +11,9 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AdminSceneCtrl">
+<AnchorPane prefHeight="560.0" prefWidth="833.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AdminSceneCtrl">
    <children>
-      <Rectangle fx:id="gradient" arcHeight="5.0" arcWidth="5.0" height="75.0" layoutY="-5.0" stroke="#b19cd9" strokeType="INSIDE" width="600.0">
+      <Rectangle fx:id="gradient" arcHeight="5.0" arcWidth="5.0" height="75.0" layoutY="-5.0" stroke="#b19cd9" strokeType="INSIDE" width="833.0">
          <fill>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
@@ -37,27 +37,27 @@
          </fill>
       </Rectangle>
 
-      <Label fx:id="" layoutX="65.0" layoutY="94.0" prefHeight="34.0" prefWidth="441.0" style="-fx-background-color: B19cd9;" text=" All boards on current server:">
+      <Label fx:id="" layoutX="65.0" layoutY="94.0" prefHeight="34.0" prefWidth="658.0" style="-fx-background-color: B19cd9;" text=" All boards on current server:">
          <font>
             <Font name="System Italic" size="15.0" />
          </font>
       </Label>
 
-      <TableView fx:id="table" layoutX="65.0" layoutY="128.0" prefHeight="200.0" prefWidth="441.0">
+      <TableView fx:id="table" layoutX="65.0" layoutY="128.0" prefHeight="319.0" prefWidth="658.0">
          <columns>
-            <TableColumn fx:id="IDColumn" text="ID" />
-            <TableColumn fx:id="boardNameColumn" minWidth="50.0" prefWidth="180.0" text="Board Name" />
-            <TableColumn fx:id="joinKeyColumn" editable="false" prefWidth="180.0" text="Join Key" />
+            <TableColumn fx:id="IDColumn" prefWidth="150.0" text="ID" />
+            <TableColumn fx:id="boardNameColumn" minWidth="50.0" prefWidth="320.0" text="Board Name" />
+            <TableColumn fx:id="joinKeyColumn" editable="false" prefWidth="190.0" text="Join Key" />
          </columns>
       </TableView>
 
-      <Button fx:id="deleteButton" defaultButton="true" layoutX="409.0" layoutY="337.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" style="-fx-background-color: #ff3624;" text="Delete" textFill="WHITE" textOverrun="CLIP">
+      <Button fx:id="deleteButton" defaultButton="true" layoutX="622.0" layoutY="467.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="97.0" style="-fx-background-color: #ff3624;" text="Delete" textFill="WHITE" textOverrun="CLIP">
          <font>
             <Font size="13.0" />
          </font>
       </Button>
 
-      <Button fx:id="backButton" layoutX="478.0" layoutY="20.0" mnemonicParsing="false" onAction="#back" style="-fx-background-color: green;" text="Back to Overview" textFill="WHITE" />
+      <Button fx:id="backButton" layoutX="658.0" layoutY="27.0" mnemonicParsing="false" onAction="#back" prefHeight="27.0" prefWidth="122.0" style="-fx-background-color: green;" text="Back to Overview" textFill="WHITE" />
       <Label fx:id="adminViewLabel" layoutX="26.0" layoutY="20.0" prefHeight="17.0" prefWidth="209.0" text="Admin View">
          <font>
             <Font name="Arial Black" size="29.0" />
