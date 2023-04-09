@@ -24,7 +24,6 @@ public class OverviewOfBoardsCtrl {
     private final OurServerUtils server;
     private final MainTaskListCtrl mainCtrl;
     private final TaskListCtrl taskListCtrl;
-    private final AdminSceneCtrl adminSceneCtrl;
 
     private List<Board> boards;
     @FXML
@@ -45,18 +44,16 @@ public class OverviewOfBoardsCtrl {
     /**
      * Constructorfor OverviewOfBoardsCtrl
      *
-     * @param server
-     * @param mainCtrl
-     * @param taskListCtrl
-     * @param adminSceneCtrl
+     * @param server server
+     * @param mainCtrl mainCtrl
+     * @param taskListCtrl taskListCtrl
      */
     @Inject
-    public OverviewOfBoardsCtrl(OurServerUtils server, MainTaskListCtrl mainCtrl, TaskListCtrl taskListCtrl,
-                                AdminSceneCtrl adminSceneCtrl) {
+    public OverviewOfBoardsCtrl(OurServerUtils server, MainTaskListCtrl mainCtrl,
+                                TaskListCtrl taskListCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
         this.taskListCtrl = taskListCtrl;
-        this.adminSceneCtrl = adminSceneCtrl;
         this.boards = new ArrayList<>();
        // buttonsSetup();
     }
@@ -70,6 +67,9 @@ public class OverviewOfBoardsCtrl {
         adminButtonSetup();
     }
 
+    /**
+     * Creates a new board
+     */
     public void newBoard() {
         String title = boardTitle.getText();
         Board board = new Board(title);
@@ -148,7 +148,8 @@ public class OverviewOfBoardsCtrl {
      */
     public void adminButtonSetup(){
         System.out.println("print boards");
-        mainCtrl.showAdminOverview();
+//        mainCtrl.showAdminOverview();
+        mainCtrl.showAdminKey();
     }
 
     /**
@@ -160,6 +161,14 @@ public class OverviewOfBoardsCtrl {
             event.consume();
         });
     }
+
+    /**
+     * Prompts the user with inputting the admin key
+     */
+    public void promptAdminKey(){
+        mainCtrl.showAdminKey();
+    }
+
     /**
      * First time setup method
      */
