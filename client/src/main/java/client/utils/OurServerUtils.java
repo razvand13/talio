@@ -69,6 +69,7 @@ public class OurServerUtils {
         throw new IllegalStateException();
     }
 
+
     /**
      * Generic websocket update method
      * @param dest URL
@@ -216,12 +217,12 @@ public class OurServerUtils {
      * @param id id of board
      * @return the list
      */
-    public ListOfCards getListByBoardId(long id){
+    public List<ListOfCards> getListByBoardId(long id){
         return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/lists/"+id) //
+                .target(SERVER).path("api/lists/board/"+ id) //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .get(new GenericType<ListOfCards>() {});
+                .get(new GenericType<List<ListOfCards>>() {});
     }
 
     /**

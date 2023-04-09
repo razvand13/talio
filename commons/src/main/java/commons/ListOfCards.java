@@ -18,6 +18,10 @@ public class ListOfCards implements Serializable {
 
     public String title;
 
+    /**
+     * getter for board associated with this list of cards
+     * @return board
+     */
     public Board getBoard() {
         return board;
     }

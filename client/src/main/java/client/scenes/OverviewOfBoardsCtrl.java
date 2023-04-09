@@ -51,8 +51,8 @@ public class OverviewOfBoardsCtrl {
      * @param adminSceneCtrl
      */
     @Inject
-    public OverviewOfBoardsCtrl(OurServerUtils server, MainTaskListCtrl mainCtrl, TaskListCtrl taskListCtrl,
-                                AdminSceneCtrl adminSceneCtrl) {
+    public OverviewOfBoardsCtrl(OurServerUtils server, MainTaskListCtrl mainCtrl,
+                                TaskListCtrl taskListCtrl, AdminSceneCtrl adminSceneCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
         this.taskListCtrl = taskListCtrl;
@@ -70,15 +70,17 @@ public class OverviewOfBoardsCtrl {
         adminButtonSetup();
     }
 
+    /**
+     * creates new board and opens new scene
+     */
     public void newBoard() {
         String title = boardTitle.getText();
         Board board = new Board(title);
-        System.out.println("make new board " + board);
+
         server.send("/app/boards", board);
         board = server.getMostRecentBoard();
 
         taskListCtrl.setTaskListCtrlBoard(board);
-        System.out.println("join board");
         mainCtrl.showTaskListView();
         writeId(board.id);
         boardTitle.clear();

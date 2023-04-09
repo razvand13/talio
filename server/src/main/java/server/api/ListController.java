@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
+import server.database.BoardRepository;
 import server.database.ListRepository;
 
 import java.util.List;
@@ -13,13 +14,16 @@ import java.util.List;
 @RequestMapping("api/lists")
 public class ListController {
     private ListRepository listRepo;
+    private final BoardRepository boardRepository;
 
     /**
-     *
+     * @param boardRepository board repository
      * @param listRepo the list repository
      */
-    public ListController(ListRepository listRepo) {
+    public ListController(ListRepository listRepo,
+                          BoardRepository boardRepository) {
         this.listRepo = listRepo;
+        this.boardRepository = boardRepository;
     }
 
     /**
@@ -42,6 +46,20 @@ public class ListController {
             return  ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(listRepo.findById(id).get());
+    }
+
+    /**
+     * Find all Cards from the specified ListOfCards
+     * @param  boardId id of board
+     * @return a ListOfCards containing the query result
+     */
+    @GetMapping("/board/{boardId}")
+    public ResponseEntity<List<ListOfCards>> getByBoardId(@PathVariable("boardId") long boardId){
+        if(boardId < 0 || !boardRepository.existsById(boardId)){
+            return ResponseEntity.badRequest().build();
+        }
+
+        return ResponseEntity.ok(listRepo.findByBoardId(boardId));
     }
 
 

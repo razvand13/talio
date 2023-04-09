@@ -192,4 +192,9 @@ public class TestListRepository implements ListRepository {
         // TODO Auto-generated method stub
         return null;
     }
+
+    @Override
+    public ListOfCards findByBoardId(long boardId) {
+        return null;
+    }
 }

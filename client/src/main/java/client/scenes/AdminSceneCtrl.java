@@ -102,21 +102,17 @@ public class AdminSceneCtrl implements Initializable {
         id = s.next();
 
         Board delBoard = server.getBoardById(Long.parseLong(id));
+        System.out.println(delBoard);
 
+        List<ListOfCards> allLists =  server.getListByBoardId(Long.parseLong(id));
 
-        List<ListOfCards> allLists = server.getLists();
-        ListOfCards delList = server.getListByBoardId(Long.parseLong(id));
-
-        for(int i = 0; i < allLists.size(); i++){
-            if(allLists.get(i).board.equals(delBoard)){
-                delList = allLists.get(i);
-                deleteList(delList);
-                if(server.getListById(delList.id) != null)
-                deleteList(delList);
-            }
+        for(ListOfCards list : allLists) {
+            deleteList(list);
         }
+
         server.send("/app/remove-board", delBoard);
         refresh();
+
     }
 
     /**
@@ -128,13 +124,10 @@ public class AdminSceneCtrl implements Initializable {
         server.setSession();
 
         Card delCard = new Card(null);
-        ListOfCards delList = server.getListByBoardId(list.id);
+        ListOfCards delList = server.getListById(list.id);
 
-        //delete all cards in the list
-        while(delCard != null) {
-            delCard = server.getCardByListId(list.id);
-            server.send("/app/remove-card", delCard);
-        }
+        server.send("/app/remove-cards/list/" + list.id, list.id);
+
         server.send("/app/remove-lists", delList);
     }
 

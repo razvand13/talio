@@ -79,6 +79,9 @@ public class MainTaskListCtrl {
         primaryStage.setScene(serverConnect);
     }
 
+    /**
+     * connection to admin overview
+     */
     public void showAdminOverview() {
         adminSceneCtrl.showBoards();
         primaryStage.setTitle("Admin Overview");

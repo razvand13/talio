@@ -3,19 +3,22 @@ package client.components;
 import client.scenes.MainTaskListCtrl;
 import client.scenes.TaskListCtrl;
 import client.utils.OurServerUtils;
+import com.google.errorprone.annotations.FormatMethod;
 import commons.Board;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.util.Scanner;
 
 public class BoardContainer extends VBox {
+    @FXML
+    private Label idLabel;
     private HBox parent;
     private final OurServerUtils server;
     private final MainTaskListCtrl mainCtrl;
@@ -38,7 +41,8 @@ public class BoardContainer extends VBox {
      * @param mainCtrl
      * @param taskListCtrl
      */
-    public BoardContainer(Board board, OurServerUtils server, MainTaskListCtrl mainCtrl, TaskListCtrl taskListCtrl) {
+    public BoardContainer(Board board, OurServerUtils server, MainTaskListCtrl mainCtrl,
+                          TaskListCtrl taskListCtrl) {
         this.board = board;
         this.server = server;
         this.mainCtrl = mainCtrl;
@@ -59,6 +63,7 @@ public class BoardContainer extends VBox {
         //this.setMinWidth(200);
 
         boardNameTextField.setText(board.title);
+        idLabel.setText("ID: " + board.id);
         setRemoveBoard();
         setOpenBoard();
     }
