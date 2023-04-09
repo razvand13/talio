@@ -444,15 +444,11 @@ public class ListContainer extends VBox {
 
         Dragboard db = list.startDragAndDrop(TransferMode.MOVE);
         long listID = listOfCards.id;
-//        String dbContent = db.getString();
-        int idx = list.getItems().indexOf(selectedItem);//.remove(dbContent);
-//        System.out.println(selectedItem);
-//        allCards = server.getCards();
+        int idx = list.getItems().indexOf(selectedItem);
 
-        //card that will be passed into the server
         Card card = null;
 
-        //find the selected card in database
+
         for(int i = 0; i < allCards.size(); i++){
             if(allCards.get(i).listOfCards.id == listID){
                 if(allCards.get(i).position == idx){
@@ -461,7 +457,7 @@ public class ListContainer extends VBox {
                 }
             }
         }
-//        System.out.println(card);
+
         if(card!= null) {
             ClipboardContent content = new ClipboardContent();
             content.putString(String.valueOf(card.id)+" "+String.valueOf(listID));
@@ -509,7 +505,7 @@ public class ListContainer extends VBox {
             String[] data =  db.getString().split(" ");
             long cardId = Long.parseLong(data[0]);
             long listId = Long.parseLong(data[1]);
-//            allCards = server.getCards();
+
 
             Card card = null;
 
