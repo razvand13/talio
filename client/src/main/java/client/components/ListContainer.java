@@ -517,20 +517,10 @@ public class ListContainer extends VBox {
             }
             int pos = card.position;
             if(listOfCards.id != listId) {
-                List<Card> update = new ArrayList<>();
                 card.position = list.getItems().size();
                 card.listOfCards = listOfCards;
                 server.send("/app/edit-card", card);
-                for (Card c : allCards) {
-                    if (c.listOfCards.id == listId && c.position > pos) {
-                        c.position--;
-                        update.add(c);
-//                        server.send("/app/edit-card", allCards.get(i));
-                    }
-                }
-                for(Card c : update){
-                    server.send("/app/edit-card", c);
-                }
+                updatePositions(listId, pos);
                 success = true;
             }else{
                 List<Card> toUpdate = new ArrayList<>();
@@ -563,6 +553,8 @@ public class ListContainer extends VBox {
         event.setDropCompleted(success);
         event.consume();
     }
+
+
 
     /** Method used to shift all cards between the 2 positions by incrementing their index
      * @param card The card we clicked on
