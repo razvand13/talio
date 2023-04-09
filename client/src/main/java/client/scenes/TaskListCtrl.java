@@ -212,25 +212,21 @@ public class TaskListCtrl implements Initializable {
         }
 
         //Redraw list contents
-        data = server.getCards().stream().
-                sorted((a, b)-> a.position-b.position)
-                .collect(Collectors.toList());
+        data = server.getCards();
         for(Node child : hBox.getChildren()){
             if(child.getClass() == ListContainer.class){ // Error handling
-                ListContainer listContainer =
-                        (ListContainer) child;
-                ListOfCards listOfCards =
-                        listContainer.getListOfCards();
+                ListContainer listContainer = (ListContainer) child;
+                ListOfCards listOfCards = listContainer.getListOfCards();
 
                 // Add back each card to their own list
-                for(Card card : data){
-                    if(card.listOfCards.id == listOfCards.id){
-                        var items = listContainer.getList().getItems();
-                        items.add(card.title);
-                    }
-                }
-                System.out.println(listContainer.getList().getItems());
-                System.out.println(data);
+                var cardsTitles = server
+                        .getCardsByListId(listOfCards.id)
+                        .stream()
+                        .map(c -> c.title)
+                        .collect(Collectors.toList()); // toList() doesn't work
+                listContainer.getList()
+                        .getItems()
+                        .addAll(cardsTitles);
             }
         }
     }

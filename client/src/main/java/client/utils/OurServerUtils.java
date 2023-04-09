@@ -9,7 +9,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
-import commons.Board;
 import commons.Card;
 import commons.ListOfCards;
 import jakarta.ws.rs.core.Response;
@@ -70,21 +69,29 @@ public class OurServerUtils {
     }
 
     /**
-     *
-     * @param dest
-     * @param type
-     * @param consumer
-     * @param <T>
+     * Generic websocket update method
+     * @param dest URL
+     * @param type class
+     * @param consumer callback
+     * @param <T> generic
      */
     public <T> void registerForMessages(String dest, Class<T> type, Consumer<T> consumer) {
         session.subscribe(dest, new StompFrameHandler() {
-
+            /**
+             *
+             * @param headers the headers of a message
+             * @return
+             */
             @Override
             public Type getPayloadType(StompHeaders headers) {
                 return type;
             }
 
-
+            /**
+             *
+             * @param headers the headers of the frame
+             * @param payload the payload, or {@code null} if there was no payload
+             */
             @Override
             public void handleFrame(StompHeaders headers, Object payload) {
                 consumer.accept((T) payload);
@@ -92,16 +99,14 @@ public class OurServerUtils {
         });
     }
 
-
-
     private static final ExecutorService EXEC = Executors.newSingleThreadExecutor();
 
     /**
      * Generic long polling update method
-          * @param dest URL
-          * @param type class
+     * @param dest URL
+     * @param type class
      * @param consumer callback
-         * @param <T> generic
+     * @param <T> generic
      */
     public <T> void registerForUpdates(String dest, Class<T> type, Consumer<T> consumer){
 
@@ -138,7 +143,6 @@ public class OurServerUtils {
      */
     public void send(String dest, Object o) {
         session.send(dest, o);
-
     }
 
 
@@ -220,12 +224,66 @@ public class OurServerUtils {
     }
 
     /**
+     * Method for retrieving a card from the database by its ID
+     * @param id Card id
+     * @return Card
+     */
+    public Card getCardById(long id){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/cards/" + id) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<Card>() {});
+    }
+
+    /**
+     * Method for retrieving a list from the database by its ID
+     * @param id ListOfCards id
+     * @return ListOfCards
+     */
+    public ListOfCards getListById(long id){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/lists/" + id) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<ListOfCards>() {});
+    }
+
+    /**
+     * Find all Cards from the specified ListOfCards
+     * @param listId ListOfCards id
+     * @return a List<Card> containing the query result
+     */
+    public List<Card> getCardsByListId(long listId){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/cards/list/"+listId) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<List<Card>>() {});
+    }
+
+    /**
+     * Delete all cards from a certain list
+     * Used to avoid FK constraint errors
+     * @param listId list id
+     * @return Response
+     */
+    public Response removeCardsByListId(long listId){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/remove-cards/list/"+listId) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .delete();
+    }
+
+    /**
      *
      * @param path path
      * @param body body
      * @param responseType generic response type
      * @param <T> generic T
      * @return invocation response
+     *
      */
     public <T> T add(String path, Object body, GenericType<T> responseType) {
         return ClientBuilder.newClient(new ClientConfig())
@@ -259,7 +317,7 @@ public class OurServerUtils {
     }
 
     /**
-     * 
+     *
      * @return the most recently added board.
      */
     public Board getMostRecentBoard(){
