@@ -197,6 +197,9 @@ public class CardController {
     @MessageMapping("/edit-card")
     @SendTo("/topic/edit-card")
     public Card editCard(Card card){
+        if(card.position<0){
+            System.out.println("problems" + card);
+        }
         cardRepo.save(card);
         return card;
     }

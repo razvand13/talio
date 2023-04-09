@@ -15,6 +15,7 @@ class CardTest {
     private long myId;
     private ListOfCards list1;
     private ListOfCards list2;
+    private int myPosition;
     @BeforeEach
     void setup(){
         myId = Long.MAX_VALUE;
@@ -27,7 +28,21 @@ class CardTest {
         card.id = myId;
         equalCard.id = myId;
         diffCard.id = myId;
+        myPosition = 5;
+        card.position = myPosition;
+        equalCard.position = myPosition;
+        diffCard.position = myPosition;
+        Card c = new Card("TITLE");
     }
+
+    @Test
+    void testConstructor(){
+        assertEquals("title", card.title);
+        assertEquals(list1, card.listOfCards);
+        assertEquals(myId, card.id);
+        assertEquals(myPosition, card.position);
+    }
+
 
     @Test
     void testNotNull(){
@@ -61,7 +76,39 @@ class CardTest {
 
     @Test
     void testToString() {
-        String expected = "Card: id = 9223372036854775807, title = title";
+        card.position = 1;
+        String expected = "Card: id = 9223372036854775807, title = title, position = 1";
         assertEquals(expected, card.toString());
     }
+
+    @Test
+    void testSetter(){
+        ListOfCards l = new ListOfCards("name");
+        ListOfCards l2 = new ListOfCards("name2");
+        ListOfCards l3 = new ListOfCards("name");
+        Card c = new Card("TITLE", l);
+        Card c2 = new Card("TITLE", l);
+        Card c3 = new Card("TITLE2",l);
+        c.setCard("title", l3);
+        c2.setCard("title", l3);
+        c3.setCard("T", l);
+        assertEquals(c, c2);
+        assertNotEquals(c, c3);
+        assertNotEquals(c2, c3);
+    }
+
+    @Test
+    void testSetter2(){
+        Card c = new Card("TITLE");
+        Card c2 = new Card("TITLE");
+        Card c3 = new Card("TITLE2");
+        c2.setCard("title");
+        c.setCard("title");
+        c3.setCard("TITLE");
+        assertEquals(c, c2);
+        assertNotEquals(c, c3);
+        assertNotEquals(c2, c3);
+    }
+
+//
 }
