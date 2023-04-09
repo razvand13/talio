@@ -18,7 +18,12 @@ public class ListOfCards implements Serializable {
 
     public String title;
 
+    /**
+     * Getter for board
+     * @return board
+     */
     public Board getBoard() {
+        //the board attribute is public, this may not be needed
         return board;
     }
 

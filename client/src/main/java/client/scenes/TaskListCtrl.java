@@ -247,6 +247,9 @@ public class TaskListCtrl implements Initializable {
         this.board = b;
     }
 
+    /**
+     * Method for switching to admin view
+     */
     public void admin() {
         mainCtrl.showAdminOverview();
     }
