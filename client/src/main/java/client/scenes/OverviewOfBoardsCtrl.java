@@ -172,6 +172,10 @@ public class OverviewOfBoardsCtrl {
             boards.add(b);
             Platform.runLater(this::refreshBoards);
         });
+
+        server.registerForMessages("/topic/remove-board", Board.class, b -> {
+            Platform.runLater(this::refreshBoards);
+        });
     }
 
     /**

@@ -1,10 +1,12 @@
 package client.scenes;
 
-import client.utils.OurServerUtils;
+import client.utils
+        .OurServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
 import commons.Card;
 import commons.ListOfCards;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -75,11 +77,17 @@ public class AdminSceneCtrl implements Initializable {
      * shows the boards currently on the server
      */
     public void showBoards() {
-        server.setSession();
         refresh();
+        server.setSession();
         server.registerForMessages("/topic/boards", Board.class, b -> {
             boards.add(b);
+            Platform.runLater(this::refresh);
         });
+
+        server.registerForMessages("/topic/remove-board", Board.class, b -> {
+            Platform.runLater(this::refresh);
+        });
+        System.out.println("here");
 
     }
 
@@ -115,10 +123,9 @@ public class AdminSceneCtrl implements Initializable {
             deleteList(list);
         }
 
-        removeFromFile(delBoard);
         server.send("/app/remove-board", delBoard);
+        removeFromFile(delBoard);
         refresh();
-
     }
 
     public void removeFromFile(Board board) {
@@ -143,7 +150,7 @@ public class AdminSceneCtrl implements Initializable {
      * @param list to be deleted
      */
     public void deleteList(ListOfCards list) {
-        server.setSession();
+        //server.setSession();
 
         Card delCard = new Card(null);
         ListOfCards delList = server.getListById(list.id);
