@@ -12,7 +12,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Scanner;
@@ -95,7 +100,7 @@ public class AdminSceneCtrl implements Initializable {
         //whole part for getting the ID from the selected board in the table
         String board = String.valueOf(this.table.getSelectionModel().getSelectedItem());
         board = board.substring(10,board.length()-1);
-        String id = board;
+        String id = "";
 
         Scanner s = new Scanner(board);
         s.useDelimiter(",");
@@ -110,9 +115,26 @@ public class AdminSceneCtrl implements Initializable {
             deleteList(list);
         }
 
+        removeFromFile(delBoard);
         server.send("/app/remove-board", delBoard);
         refresh();
 
+    }
+
+    public void removeFromFile(Board board) {
+        long id = board.id;
+        String currentConnection = server.getAddress().replace(":","_");
+        File boardIdListFile = new File("TalioJoinedBoardsOn"+currentConnection+".txt");
+        try{
+            String newIds = Files.readString(boardIdListFile.toPath()).replace(id+" ", "");
+            Writer writer = new FileWriter(boardIdListFile, false);
+            writer.write(newIds);
+            writer.close();
+            mainCtrl.updateOverviewOfBoards();
+        }
+        catch (IOException e){
+            System.out.println(e.getStackTrace());
+        }
     }
 
     /**

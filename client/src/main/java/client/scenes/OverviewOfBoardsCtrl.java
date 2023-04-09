@@ -58,7 +58,7 @@ public class OverviewOfBoardsCtrl {
         this.taskListCtrl = taskListCtrl;
         this.adminSceneCtrl = adminSceneCtrl;
         this.boards = new ArrayList<>();
-       // buttonsSetup();
+        // buttonsSetup();
     }
 
     /**
@@ -140,7 +140,7 @@ public class OverviewOfBoardsCtrl {
             alert.setTitle("error writing to file");
             alert.setHeaderText("unable to save board id");
             alert.setContentText("We're currently unable to save this id to your pc:"+
-                            "\n"+e);
+                    "\n"+e);
             alert.show();
         }
     }
@@ -201,7 +201,7 @@ public class OverviewOfBoardsCtrl {
      * Method for making the boardContainers appear
      */
     public void makeBoards(){
-  
+
         String currentConnection = server.getAddress().replace(":","_");
         try {
             Scanner boardScanner = new Scanner(
