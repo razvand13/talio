@@ -194,7 +194,7 @@ public class TestListRepository implements ListRepository {
     }
 
     @Override
-    public ListOfCards findByBoardId(long boardId) {
+    public List<ListOfCards> findByBoardId(long boardId) {
         return null;
     }
 }
