@@ -103,5 +103,8 @@ public class MainTaskListCtrl {
         primaryStage.setTitle("Overview of boards");
         primaryStage.setScene(overviewOfBoards);
     }
+    public void updateOverviewOfBoards(){
+        overviewOfBoardsCtrl.refreshBoards();
+    }
 
 }
