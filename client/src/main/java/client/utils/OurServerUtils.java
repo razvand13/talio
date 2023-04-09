@@ -71,11 +71,11 @@ public class OurServerUtils {
     }
 
     /**
-     *
-     * @param dest
-     * @param type
-     * @param consumer
-     * @param <T>
+     * Generic websocket update method
+     * @param dest URL
+     * @param type class
+     * @param consumer callback
+     * @param <T> generic
      */
     public <T> void registerForMessages(String dest, Class<T> type, Consumer<T> consumer) {
         session.subscribe(dest, new StompFrameHandler() {
@@ -105,10 +105,10 @@ public class OurServerUtils {
 
     /**
      * Generic long polling update method
-          * @param dest URL
-          * @param type class
+     * @param dest URL
+     * @param type class
      * @param consumer callback
-         * @param <T> generic
+     * @param <T> generic
      */
     public <T> void registerForUpdates(String dest, Class<T> type, Consumer<T> consumer){
 
@@ -185,6 +185,59 @@ public class OurServerUtils {
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<List<Card>>() {});
+    }
+
+    /**
+     * Method for retrieving a card from the database by its ID
+     * @param id Card id
+     * @return Card
+     */
+    public Card getCardById(long id){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/cards/" + id) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<Card>() {});
+    }
+
+    /**
+     * Method for retrieving a list from the database by its ID
+     * @param id ListOfCards id
+     * @return ListOfCards
+     */
+    public ListOfCards getListById(long id){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/lists/" + id) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<ListOfCards>() {});
+    }
+
+    /**
+     * Find all Cards from the specified ListOfCards
+     * @param listId ListOfCards id
+     * @return a List<Card> containing the query result
+     */
+    public List<Card> getCardsByListId(long listId){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/cards/list/"+listId) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<List<Card>>() {});
+    }
+
+    /**
+     * Delete all cards from a certain list
+     * Used to avoid FK constraint errors
+     * @param listId list id
+     * @return Response
+     */
+    public Response removeCardsByListId(long listId){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/remove-cards/list/"+listId) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .delete();
     }
 
     /**

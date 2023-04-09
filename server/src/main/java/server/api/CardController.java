@@ -53,31 +53,6 @@ public class CardController {
         }
         return ResponseEntity.ok(cardRepo.findById(id).get());
     }
-//
-//    /**
-//     *
-//     * @param card card that needs to be added
-//     * @return badRequest if it couldn't be added, ok with the provided card
-//     * iff it was added successfully
-//     */
-//    @PostMapping(path ={"","/"})
-//    public ResponseEntity<Card> add(@RequestBody Card card) {
-//        System.out.println("got here");
-//        if(card == null){
-//            System.out.println("IS NULL");
-//            return ResponseEntity.badRequest().build();
-//        }
-//
-//
-//        if(!listRepo.existsById(card.listOfCards.id)){
-//            return ResponseEntity.badRequest().build();
-//        }
-//
-////        card.listOfCards.addCard(card);
-//        card = cardRepo.save(card);
-//        System.out.println("Saved card " + card);
-//        return ResponseEntity.ok(card);
-//    }
 
     private Map<Object, Consumer<Card>> listeners = new HashMap<>();
 
@@ -96,6 +71,20 @@ public class CardController {
         res.onCompletion(() -> listeners.remove(key));
 
         return res;
+    }
+
+    /**
+     * Find all Cards from the specified ListOfCards
+     * @param listId ListOfCards id
+     * @return a List<Card> containing the query result
+     */
+    @GetMapping("/list/{listId}")
+    public ResponseEntity<List<Card>> getAllByListId(@PathVariable("listId") long listId){
+        if(listId < 0 || !listRepo.existsById(listId)){
+            return ResponseEntity.badRequest().build();
+        }
+
+        return ResponseEntity.ok(cardRepo.findAllByListId(listId));
     }
 
     /**
@@ -131,6 +120,16 @@ public class CardController {
     //@Transactional not sure if this is necessary
     public void deleteById(long id){
         cardRepo.deleteById(id);
+    }
+
+    /**
+     * Delete all cards from a certain list
+     * Used to avoid FK constraint errors
+     * @param listId list id
+     */
+    @PostMapping("/remove-cards/list/{listId}")
+    public void deleteAllFromList(@PathVariable("listId") long listId){
+        cardRepo.deleteAllByListId(listId);
     }
 
     /**

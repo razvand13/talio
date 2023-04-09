@@ -55,9 +55,6 @@ public class ListContainer extends VBox {
     //list of all cards in the database
     private List<Card> allCards;
 
-    //list of all ListOfCards in the database
-    private List<ListOfCards> allLists;
-
 
 
     /**
@@ -77,9 +74,6 @@ public class ListContainer extends VBox {
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
 
-        allCards = server.getCards();
-        allLists = server.getLists();
-
         try {
             fxmlLoader.load();
         } catch (IOException exception) {
@@ -95,8 +89,8 @@ public class ListContainer extends VBox {
 
 
     /**
-     *
-     * @param loc
+     * Setter method for ListOfCards
+     * @param loc ListOfCards
      */
     public void setListOfCards(ListOfCards loc){
         listOfCards = loc;
@@ -135,9 +129,6 @@ public class ListContainer extends VBox {
                 myCard.listOfCards = listOfCards;
 
                 server.send("/app/cards", myCard);
-
-                allCards = server.getCards();
-                allLists = server.getLists();
 
                 textField.clear();
 
@@ -195,22 +186,14 @@ public class ListContainer extends VBox {
                 textField.setVisible(false);
             }
 
-            long listID = listOfCards.id;
+            var cards = server.getCardsByListId(listOfCards.id);
 
-            allCards = server.getCards();
-            allLists = server.getLists();
-
-            //card that will be passed into the server
+            //card passed to into the server
             Card newCard = null;
-
-            //find the selected card in database
-            for(int i = 0; i < allCards.size(); i++){
-                if(allCards.get(i).listOfCards.id == listID){
-                    if(allCards.get(i).position == idx){
-                        newCard = allCards.get(i);
-                        i = allCards.size()+1;
-
-                    }
+            for(Card card : cards){
+                if(card.position == idx){
+                    newCard = card;
+                    break;
                 }
             }
 
@@ -240,24 +223,16 @@ public class ListContainer extends VBox {
 
             int idx = list.getSelectionModel().getSelectedIndex();
 
-            long listID = listOfCards.id;
-
-            allCards = server.getCards();
-            allLists = server.getLists();
+            var cards = server.getCardsByListId(listOfCards.id);
 
             //card passed to into the server
             Card delCard = null;
-
-            //find chosen card in database
-            for(int i = 0; i < allCards.size(); i++){
-                if(allCards.get(i).listOfCards.id == listID){
-                    if(allCards.get(i).position == idx){
-                        delCard = allCards.get(i);
-                        i = allCards.size()+1;
-                    }
+            for(Card card : cards){
+                if(card.position == idx){
+                    delCard = card;
+                    break;
                 }
             }
-
 
             deleteButton.setVisible(false);
             editButton.setVisible(false);
@@ -268,7 +243,7 @@ public class ListContainer extends VBox {
 
             //the position of the cards in the list that have higher position
             //than that of the deleted, needs to be updated
-            updatePositions(listID, delCard.position);
+            updatePositions(listOfCards.id, delCard.position);
 
             event.consume();
         });
@@ -282,12 +257,11 @@ public class ListContainer extends VBox {
     public void updatePositions(long listID, int position){
 
         List<Card> toUpdate = new ArrayList<>();
-        for(Card card : allCards){
-            if(card.listOfCards.id == listID){
-                if(card.position > position){
-                    card.position--;
-                    toUpdate.add(card);
-                }
+        List<Card> cards = server.getCardsByListId(listID);
+        for(Card card : cards){
+            if(card.position > position){
+                card.position--;
+                toUpdate.add(card);
             }
         }
 
@@ -333,26 +307,10 @@ public class ListContainer extends VBox {
                               TextField textField, Button editButton, ListView<String> list) {
         deleteButton.setOnAction(event -> {
             if(list.getItems().size() == 0){
-
-                long listID = listOfCards.id;
-
-                allLists = server.getLists();
-
-                ListOfCards delList = null;
-
-                for(int i = 0; i < allLists.size(); i++){
-                    if(allLists.get(i).id == listID){
-                        delList = allLists.get(i);
-                        break;
-                    }
-                }
-
-
-
+                ListOfCards delList = server.getListById(listOfCards.id);
                 server.send("/app/remove-lists", delList);
             }
             else{
-
                 Alert a = new Alert(Alert.AlertType.INFORMATION);
 
                 a.setGraphic(null);
@@ -361,7 +319,6 @@ public class ListContainer extends VBox {
 
                 a.show();
             }
-
 
             event.consume();
         });
@@ -378,24 +335,10 @@ public class ListContainer extends VBox {
     public void setRenameList(Label listNameLabel, Button editButton,
                               TextField textField, Button deleteButton) {
         editButton.setOnAction(event -> {
-            String newName = textField.getText();
-
             String edit = textField.getText();
 
-
             server.setSession();
-            long listID = listOfCards.id;
-
-            allLists = server.getLists();
-
-            ListOfCards newList = null;
-
-            for (int i = 0; i < allLists.size(); i++) {
-                if (allLists.get(i).id == listID) {
-                    newList = allLists.get(i);
-                    break;
-                }
-            }
+            ListOfCards newList = server.getListById(listOfCards.id);
 
             if (edit.length() >= 1) {
                 newList.title = edit;
@@ -406,9 +349,6 @@ public class ListContainer extends VBox {
 
             event.consume();
             server.send("/app/edit-lists", newList);
-
-
-
         });
     }
 
@@ -446,21 +386,20 @@ public class ListContainer extends VBox {
         long listID = listOfCards.id;
         int idx = list.getItems().indexOf(selectedItem);
 
-        Card card = null;
+        var cards = server.getCardsByListId(listOfCards.id);
 
-
-        for(int i = 0; i < allCards.size(); i++){
-            if(allCards.get(i).listOfCards.id == listID){
-                if(allCards.get(i).position == idx){
-                    card = allCards.get(i);
-                    break;
-                }
+        //card passed to into the server
+        Card dragCard = null;
+        for(Card card : cards){
+            if(card.position == idx){
+                dragCard = card;
+                break;
             }
         }
 
-        if(card!= null) {
+        if(dragCard != null) {
             ClipboardContent content = new ClipboardContent();
-            content.putString(String.valueOf(card.id)+" "+String.valueOf(listID));
+            content.putString(dragCard.id+" "+listID);
             db.setContent(content);
         }
 
@@ -507,14 +446,8 @@ public class ListContainer extends VBox {
             long listId = Long.parseLong(data[1]);
 
 
-            Card card = null;
+            Card card = server.getCardById(cardId);
 
-            for(int i = 0; i < allCards.size(); i++) {
-                if (allCards.get(i).id == cardId) {
-                    card = allCards.get(i);
-                    break;
-                }
-            }
             int pos = card.position;
             if(listOfCards.id != listId) {
                 card.position = list.getItems().size();
@@ -564,6 +497,7 @@ public class ListContainer extends VBox {
      */
     public void incrementIndexes(Card card, int pos, int newPos, ListOfCards list){
         List<Card> toInc = new ArrayList<>();
+        allCards = server.getCards();
         for(int i =0; i < allCards.size(); i++){
             if(allCards.get(i).position>=newPos
                     && allCards.get(i).position<pos
@@ -589,6 +523,7 @@ public class ListContainer extends VBox {
     public void decrementIndexes(Card card, int pos, int newPos, ListOfCards list) {
         if (pos < newPos) {
             List<Card> toDec = new ArrayList<>();
+            allCards = server.getCards();
             for (int i = 0; i < allCards.size(); i++) {
                 if (allCards.get(i).position <= newPos
                         && allCards.get(i).position > pos
