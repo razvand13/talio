@@ -515,37 +515,46 @@ public class ListContainer extends VBox {
                     break;
                 }
             }
+            int pos = card.position;
             if(listOfCards.id != listId) {
-                int pos = card.position;
+                List<Card> update = new ArrayList<>();
                 card.position = list.getItems().size();
                 card.listOfCards = listOfCards;
                 server.send("/app/edit-card", card);
-                for(int i =0; i < allCards.size(); i++){
-                    if(allCards.get(i).listOfCards.id== listId && allCards.get(i).position>pos){
-                        allCards.get(i).position--;
-                        server.send("/app/edit-card", allCards.get(i));
+                for (Card c : allCards) {
+                    if (c.listOfCards.id == listId && c.position > pos) {
+                        c.position--;
+                        update.add(c);
+//                        server.send("/app/edit-card", allCards.get(i));
                     }
+                }
+                for(Card c : update){
+                    server.send("/app/edit-card", c);
                 }
                 success = true;
             }else{
-                int pos = card.position;
+                List<Card> toUpdate = new ArrayList<>();
                 int newPos = list.getSelectionModel().getSelectedIndex();
-                System.out.println("new position = " +newPos);
+                System.out.println("new position = " + newPos);
                 ListOfCards wanted = card.listOfCards;
                 if(newPos == -1){
                     card.position = list.getItems().size()-1;
                     System.out.println(list.getItems().size());
                     decrementIndexes(card, pos, list.getItems().size()-1, wanted);
-                    server.send("/app/edit-card", card);
+                    toUpdate.add(card);
                 }
                 else if(pos<newPos) {
                     decrementIndexes(card, pos, newPos, wanted);
                     card.position = newPos;
-                    server.send("/app/edit-card", card);
+                    toUpdate.add(card);
                 }else if(pos>newPos){
                     incrementIndexes(card, pos, newPos, wanted);
                     card.position = newPos;
-                    server.send("/app/edit-card", card);
+                    toUpdate.add(card);
+                }
+
+                for(Card update : toUpdate){
+                    server.send("/app/edit-card", update);
                 }
             }
         }
@@ -562,14 +571,18 @@ public class ListContainer extends VBox {
      * @param list the listOfCards belonging to the card
      */
     public void incrementIndexes(Card card, int pos, int newPos, ListOfCards list){
+        List<Card> toInc = new ArrayList<>();
         for(int i =0; i < allCards.size(); i++){
             if(allCards.get(i).position>=newPos
                     && allCards.get(i).position<pos
                     && allCards.get(i).listOfCards.equals(list)){
                 Card inc = allCards.get(i);
                 inc.position = inc.position+1;
-                server.send("/app/edit-card", inc);
+                toInc.add(inc);
             }
+        }
+        for(Card inc : toInc){
+            server.send("/app/edit-card", inc);
         }
         card.position = newPos;
         server.send("/app/edit-card", card);
@@ -583,14 +596,18 @@ public class ListContainer extends VBox {
      */
     public void decrementIndexes(Card card, int pos, int newPos, ListOfCards list) {
         if (pos < newPos) {
+            List<Card> toDec = new ArrayList<>();
             for (int i = 0; i < allCards.size(); i++) {
                 if (allCards.get(i).position <= newPos
                         && allCards.get(i).position > pos
                         && allCards.get(i).listOfCards.equals(list)) {
                     Card dec = allCards.get(i);
                     dec.position = dec.position - 1;
-                    server.send("/app/edit-card", dec);
+                    toDec.add(dec);
                 }
+            }
+            for(Card dec : toDec){
+                server.send("/app/edit-card", dec);
             }
             card.position = newPos;
             server.send("/app/edit-card", card);
