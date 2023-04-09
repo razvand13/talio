@@ -7,16 +7,14 @@ import commons.Board;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-//import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-//import javafx.scene.layout.VBox;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
 
 public class BoardContainer extends VBox {
-    private HBox parent;
+    private TilePane parent;
     private final OurServerUtils server;
     private final MainTaskListCtrl mainCtrl;
     private final TaskListCtrl taskListCtrl;
@@ -39,7 +37,8 @@ public class BoardContainer extends VBox {
      * @param mainCtrl
      * @param taskListCtrl
      */
-    public BoardContainer(Board board, OurServerUtils server, MainTaskListCtrl mainCtrl, TaskListCtrl taskListCtrl) {
+    public BoardContainer(Board board, OurServerUtils server, MainTaskListCtrl mainCtrl,
+                          TaskListCtrl taskListCtrl) {
         this.board = board;
         this.server = server;
         this.mainCtrl = mainCtrl;
@@ -81,7 +80,7 @@ public class BoardContainer extends VBox {
      * Setter for parent
      * @param parent
      */
-    public void setParent(HBox parent) {
+    public void setParent(TilePane parent) {
         this.parent = parent;
     }
 
