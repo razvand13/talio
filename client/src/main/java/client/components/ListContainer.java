@@ -88,13 +88,8 @@ public class ListContainer extends VBox {
     }
 
 
-    /**
-     * Setter method for ListOfCards
-     * @param loc ListOfCards
-     */
-    public void setListOfCards(ListOfCards loc){
-        listOfCards = loc;
-    }
+
+
 
 
     /**
@@ -609,6 +604,21 @@ public class ListContainer extends VBox {
         this.parent = parent;
     }
 
+
+    /**
+     * @return parent
+     */
+    public HBox getParentOfThis() {
+        return parent;
+    }
+
+    /**vcvcx
+     * @return server
+     */
+    public OurServerUtils getServer() {
+        return server; //get the server
+    }
+
     /**
      * Getter method for listNameLabel
      * @return listNameLabel
@@ -641,7 +651,7 @@ public class ListContainer extends VBox {
         return taskInputField;
     }
 
-    /**
+    /**bgfdg
      * Getter method for taskEditBtn
      * @return taskEditBtn
      */
@@ -696,4 +706,15 @@ public class ListContainer extends VBox {
     public ListOfCards getListOfCards() {
         return listOfCards;
     }
+
+    /**
+     * Setter method for ListOfCards
+     * @param loc ListOfCards
+     */
+    public void setListOfCards(ListOfCards loc){
+        listOfCards = loc;
+    }
+
+
+
 }
