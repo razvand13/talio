@@ -18,6 +18,9 @@ public class Card implements Serializable {
 
     public String title;
 
+    //todo class and tests need to be refactored to have this new attribute
+    public int position;
+
     @ManyToOne(targetEntity = ListOfCards.class, cascade = CascadeType.MERGE,
             fetch = FetchType.EAGER)
     @JoinColumn(name = "listOfCards", referencedColumnName = "id")
@@ -81,6 +84,22 @@ public class Card implements Serializable {
      */
     @Override
     public String toString() {
-        return "Card: id = " + id + ", title = " + title;
+        return "Card: id = " + id + ", title = " + title + ", position = " + position;
+    }
+
+    /**setCard method for Card
+     * @param title String
+     * @param listOfCards ListOfCards
+     */
+    public void setCard(String title, ListOfCards listOfCards){
+        this.title = title;
+        this.listOfCards = listOfCards;
+    }
+
+    /** setCard method for Card
+     * @param title String
+     */
+    public void setCard(String title){
+        this.title = title;
     }
 }

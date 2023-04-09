@@ -5,10 +5,13 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 import commons.Card;
 import commons.ListOfCards;
+import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientConfig;
 
 import jakarta.ws.rs.client.ClientBuilder;
@@ -32,40 +35,6 @@ public class OurServerUtils {
     public static void setSERVER(String address){
         SERVER = address;
     }
-
-//    /**
-//     * Trying to connect websocket without hardcoding
-//     * @param address address
-//     */
-//    public static void setPort(String address) {
-//    }
-
-//    /**
-//     * Ask the user which port they want to connect to,
-//     * iff their response isn't a number ask again,
-//     * iff it is a number return the associated address
-//     *
-//     * @return a String of the form "http://localhost:[PORT NUMBER]/"
-//     * where [PORT NUMBER] is a user-specified int
-//     * */
-//    public static String getAddress(){
-//        //Scanner input = new Scanner(System.in);
-//        System.out.println("On which port is the server?");
-//        int port =0;
-//        try{
-//            Scanner input = new Scanner(System.in);
-//            port = input.nextInt();
-//        }
-//
-//        catch (InputMismatchException e){
-//            System.out.println("please provide a number");
-//            return getAddress();
-//        }
-//
-//        return "http://localhost:" + port +"/";
-//    }
-
-
 
     /**
      * setup for stomp session port, occurs after server is set up
@@ -102,11 +71,11 @@ public class OurServerUtils {
     }
 
     /**
-     *
-     * @param dest
-     * @param type
-     * @param consumer
-     * @param <T>
+     * Generic websocket update method
+     * @param dest URL
+     * @param type class
+     * @param consumer callback
+     * @param <T> generic
      */
     public <T> void registerForMessages(String dest, Class<T> type, Consumer<T> consumer) {
         session.subscribe(dest, new StompFrameHandler() {
@@ -130,6 +99,43 @@ public class OurServerUtils {
                 consumer.accept((T) payload);
             }
         });
+    }
+
+    private static final ExecutorService EXEC = Executors.newSingleThreadExecutor();
+
+    /**
+     * Generic long polling update method
+     * @param dest URL
+     * @param type class
+     * @param consumer callback
+     * @param <T> generic
+     */
+    public <T> void registerForUpdates(String dest, Class<T> type, Consumer<T> consumer){
+
+        EXEC.submit(() ->{
+            while(!Thread.interrupted()){
+                var res = ClientBuilder.newClient(new ClientConfig())
+                        .target(SERVER).path(dest)
+                        .request(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .get(Response.class);
+
+                if(res.getStatus() == 204) {
+                    continue;
+                }
+                var t = res.readEntity(type);
+                consumer.accept(t);
+            }
+
+        });
+
+    }
+
+    /**
+     * Method that stops the program, including EXEC's thread
+     */
+    public void stop(){
+        EXEC.shutdownNow();
     }
 
     /**
@@ -179,6 +185,59 @@ public class OurServerUtils {
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<List<Card>>() {});
+    }
+
+    /**
+     * Method for retrieving a card from the database by its ID
+     * @param id Card id
+     * @return Card
+     */
+    public Card getCardById(long id){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/cards/" + id) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<Card>() {});
+    }
+
+    /**
+     * Method for retrieving a list from the database by its ID
+     * @param id ListOfCards id
+     * @return ListOfCards
+     */
+    public ListOfCards getListById(long id){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/lists/" + id) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<ListOfCards>() {});
+    }
+
+    /**
+     * Find all Cards from the specified ListOfCards
+     * @param listId ListOfCards id
+     * @return a List<Card> containing the query result
+     */
+    public List<Card> getCardsByListId(long listId){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/cards/list/"+listId) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<List<Card>>() {});
+    }
+
+    /**
+     * Delete all cards from a certain list
+     * Used to avoid FK constraint errors
+     * @param listId list id
+     * @return Response
+     */
+    public Response removeCardsByListId(long listId){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/remove-cards/list/"+listId) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .delete();
     }
 
     /**

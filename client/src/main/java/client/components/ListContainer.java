@@ -7,16 +7,14 @@ import commons.ListOfCards;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ListContainer extends VBox {
@@ -54,6 +52,10 @@ public class ListContainer extends VBox {
     // a reference to it inside the container object
     private HBox parent;
 
+    //list of all cards in the database
+    private List<Card> allCards;
+
+
 
     /**
      * Constructor for the custom FXML component
@@ -86,31 +88,14 @@ public class ListContainer extends VBox {
     }
 
 
-
-//    public void firstTimeSetup1() {
-//        server.setSession();
-//        server.registerForMessages("/topic/cards", Card.class, c -> {
-//            list.getItems().add(c.title);
-//        });
-//    }
-
     /**
-     *
-     * @param loc
+     * Setter method for ListOfCards
+     * @param loc ListOfCards
      */
     public void setListOfCards(ListOfCards loc){
         listOfCards = loc;
     }
 
-//    /**
-//     *
-//     */
-//    public void firstTimeSetup1() {
-//        server.setSession();
-//        server.registerForMessages("/topic/cards", Card.class, c -> {
-//            list.getItems().add(c.title);
-//        });
-//    }
 
     /**
      * Method that sets all event handlers of a list and its children
@@ -123,7 +108,7 @@ public class ListContainer extends VBox {
         setListOptions(listNameLabel, listOptionsBtn, listDeleteBtn,
                 listEditBtn, listRenameField);
         setRenameList(listNameLabel, listEditBtn, listRenameField, listDeleteBtn);
-        setDeleteList(this, listDeleteBtn, listRenameField, listEditBtn);
+        setDeleteList(this, listDeleteBtn, listRenameField, listEditBtn, list);
         setDragAndDrop(list);
     }
 
@@ -138,20 +123,15 @@ public class ListContainer extends VBox {
         button.setOnAction(event -> {
             String taskInput = textField.getText();
             if (!taskInput.equals("")) {
-                list.getItems().add(taskInput);
 
-                server.setSession(); // todo is this needed?
-                System.out.println(listOfCards.id);
                 Card myCard = new Card(taskInput, listOfCards);
+                myCard.position = list.getItems().size();
                 myCard.listOfCards = listOfCards;
-                System.out.println(myCard);
+
                 server.send("/app/cards", myCard);
-                System.out.println(myCard.id);
-//                listOfCards.addCard(myCard);
 
                 textField.clear();
 
-//                mainCtrl.showTaskListView();
             }
 
             event.consume();
@@ -178,7 +158,7 @@ public class ListContainer extends VBox {
                 textField.setText(item);
             } else {
                 editBtn.setVisible(false);
-                delBtn.setVisible(true);
+                delBtn.setVisible(false);
                 textField.setVisible(false);
             }
 
@@ -201,11 +181,31 @@ public class ListContainer extends VBox {
             // Check if there is something selected AND if the field is not empty
             int idx = list.getSelectionModel().getSelectedIndex();
             if (idx != -1 && edit.length() >= 1) {
-                list.getItems().set(idx, edit);
                 editBtn.setVisible(false);
                 delBtn.setVisible(false);
                 textField.setVisible(false);
             }
+
+            var cards = server.getCardsByListId(listOfCards.id);
+
+            //card passed to into the server
+            Card newCard = null;
+            for(Card card : cards){
+                if(card.position == idx){
+                    newCard = card;
+                    break;
+                }
+            }
+
+            if (edit.length() >= 1) {
+                newCard.title = edit;
+                editBtn.setVisible(false);
+                delBtn.setVisible(false);
+                textField.setVisible(false);
+            }
+
+            event.consume();
+            server.send("/app/edit-card", newCard);
         });
     }
 
@@ -220,12 +220,54 @@ public class ListContainer extends VBox {
     public void setDeleteAction(Button deleteButton, Button editButton, TextField textField,
                                 ListView<String> list){
         deleteButton.setOnAction(event -> {
+
             int idx = list.getSelectionModel().getSelectedIndex();
-            list.getItems().remove(idx);
+
+            var cards = server.getCardsByListId(listOfCards.id);
+
+            //card passed to into the server
+            Card delCard = null;
+            for(Card card : cards){
+                if(card.position == idx){
+                    delCard = card;
+                    break;
+                }
+            }
+
             deleteButton.setVisible(false);
             editButton.setVisible(false);
             textField.setVisible(false);
+
+
+            server.send("/app/remove-card", delCard);
+
+            //the position of the cards in the list that have higher position
+            //than that of the deleted, needs to be updated
+            updatePositions(listOfCards.id, delCard.position);
+
+            event.consume();
         });
+    }
+
+    /**
+     * Method for updating the card positions in a list, after the removal of one of them
+     * @param listID id of the list from which the card is deleted
+     * @param position position of the deleted card
+     */
+    public void updatePositions(long listID, int position){
+
+        List<Card> toUpdate = new ArrayList<>();
+        List<Card> cards = server.getCardsByListId(listID);
+        for(Card card : cards){
+            if(card.position > position){
+                card.position--;
+                toUpdate.add(card);
+            }
+        }
+
+        for(Card c : toUpdate){
+            server.send("/app/edit-card", c);
+        }
     }
 
     /**
@@ -252,26 +294,34 @@ public class ListContainer extends VBox {
     }
 
     /**
-     * Method for deleting the vertical box containing a list
+     * Method for deleting the vertical box containing a list. The list can get deleted
+     * only if it contains no cards, otherwise an alert is shown to the user
      *
      * @param vBox         vertical box getting deleted
      * @param deleteButton delete button that's clicked
      * @param textField    editing field that needs to be set invisible
      * @param editButton   editing button that needs to be set invisible
+     * @param list         list view for checking whether the list is empty
      */
     public void setDeleteList(VBox vBox, Button deleteButton,
-                              TextField textField, Button editButton) {
+                              TextField textField, Button editButton, ListView<String> list) {
         deleteButton.setOnAction(event -> {
+            if(list.getItems().size() == 0){
+                ListOfCards delList = server.getListById(listOfCards.id);
+                server.send("/app/remove-lists", delList);
+            }
+            else{
+                Alert a = new Alert(Alert.AlertType.INFORMATION);
 
-            parent.getChildren().remove(vBox);
-            deleteButton.setVisible(false);
-            textField.setVisible(false);
-            deleteButton.setVisible(false);
-            editButton.setVisible(false);
+                a.setGraphic(null);
+                a.setTitle("Alert");
+                a.setHeaderText("The list cannot be deleted as it still contains tasks.");
+
+                a.show();
+            }
 
             event.consume();
         });
-
     }
 
     /**
@@ -285,16 +335,21 @@ public class ListContainer extends VBox {
     public void setRenameList(Label listNameLabel, Button editButton,
                               TextField textField, Button deleteButton) {
         editButton.setOnAction(event -> {
-            String newName = textField.getText();
-            if (!newName.equals("")) {
-                listNameLabel.setText(newName);
-                editButton.setVisible(false);
-                textField.setVisible(false);
-                deleteButton.setVisible(false);
-            }
-            event.consume();
-        });
+            String edit = textField.getText();
 
+            server.setSession();
+            ListOfCards newList = server.getListById(listOfCards.id);
+
+            if (edit.length() >= 1) {
+                newList.title = edit;
+                editButton.setVisible(false);
+                deleteButton.setVisible(false);
+                textField.setVisible(false);
+            }
+
+            event.consume();
+            server.send("/app/edit-lists", newList);
+        });
     }
 
 
@@ -328,10 +383,25 @@ public class ListContainer extends VBox {
         String selectedItem = list.getSelectionModel().getSelectedItem();
 
         Dragboard db = list.startDragAndDrop(TransferMode.MOVE);
+        long listID = listOfCards.id;
+        int idx = list.getItems().indexOf(selectedItem);
 
-        ClipboardContent content = new ClipboardContent();
-        content.putString(selectedItem);
-        db.setContent(content);
+        var cards = server.getCardsByListId(listOfCards.id);
+
+        //card passed to into the server
+        Card dragCard = null;
+        for(Card card : cards){
+            if(card.position == idx){
+                dragCard = card;
+                break;
+            }
+        }
+
+        if(dragCard != null) {
+            ClipboardContent content = new ClipboardContent();
+            content.putString(dragCard.id+" "+listID);
+            db.setContent(content);
+        }
 
         event.consume();
     }
@@ -345,8 +415,12 @@ public class ListContainer extends VBox {
      * @param event dragging data over another list
      */
     private void dragOver(ListView<String> list, DragEvent event) {
+
         // Only execute if there is data that is being dragged
         if (event.getDragboard().hasString()) {
+            int index = calculateIndex(list, event);
+            list.getSelectionModel().clearAndSelect(index);
+            list.scrollTo(index);
             event.acceptTransferModes(TransferMode.MOVE);
         }
 
@@ -367,13 +441,116 @@ public class ListContainer extends VBox {
         boolean success = false;
 
         if (db.hasString()) {
-            String dbContent = db.getString();
-            list.getItems().add(dbContent);
-            success = true;
+            String[] data =  db.getString().split(" ");
+            long cardId = Long.parseLong(data[0]);
+            long listId = Long.parseLong(data[1]);
+
+
+            Card card = server.getCardById(cardId);
+
+            int pos = card.position;
+            if(listOfCards.id != listId) {
+                card.position = list.getItems().size();
+                card.listOfCards = listOfCards;
+                server.send("/app/edit-card", card);
+                updatePositions(listId, pos);
+                success = true;
+            }else{
+                List<Card> toUpdate = new ArrayList<>();
+                int newPos = list.getSelectionModel().getSelectedIndex();
+                System.out.println("new position = " + newPos);
+                ListOfCards wanted = card.listOfCards;
+                if(newPos == -1){
+                    card.position = list.getItems().size()-1;
+                    System.out.println(list.getItems().size());
+                    decrementIndexes(card, pos, list.getItems().size()-1, wanted);
+                    toUpdate.add(card);
+                }
+                else if(pos<newPos) {
+                    decrementIndexes(card, pos, newPos, wanted);
+                    card.position = newPos;
+                    toUpdate.add(card);
+                }else if(pos>newPos){
+                    incrementIndexes(card, pos, newPos, wanted);
+                    card.position = newPos;
+                    toUpdate.add(card);
+                }
+
+                for(Card update : toUpdate){
+                    server.send("/app/edit-card", update);
+                }
+            }
         }
+
 
         event.setDropCompleted(success);
         event.consume();
+    }
+
+
+
+    /** Method used to shift all cards between the 2 positions by incrementing their index
+     * @param card The card we clicked on
+     * @param pos The original position of the card
+     * @param newPos The new position where we want to add the card
+     * @param list the listOfCards belonging to the card
+     */
+    public void incrementIndexes(Card card, int pos, int newPos, ListOfCards list){
+        List<Card> toInc = new ArrayList<>();
+        allCards = server.getCards();
+        for(int i =0; i < allCards.size(); i++){
+            if(allCards.get(i).position>=newPos
+                    && allCards.get(i).position<pos
+                    && allCards.get(i).listOfCards.equals(list)){
+                Card inc = allCards.get(i);
+                inc.position = inc.position+1;
+                toInc.add(inc);
+            }
+        }
+        for(Card inc : toInc){
+            server.send("/app/edit-card", inc);
+        }
+        card.position = newPos;
+        server.send("/app/edit-card", card);
+    }
+
+    /** Method used to shift all cards between the 2 positions by decrementing their index
+     * @param card The card we clicked on
+     * @param pos The original position of the card
+     * @param newPos The new position where we want to add the card
+     * @param list the listOfCards belonging to the card
+     */
+    public void decrementIndexes(Card card, int pos, int newPos, ListOfCards list) {
+        if (pos < newPos) {
+            List<Card> toDec = new ArrayList<>();
+            allCards = server.getCards();
+            for (int i = 0; i < allCards.size(); i++) {
+                if (allCards.get(i).position <= newPos
+                        && allCards.get(i).position > pos
+                        && allCards.get(i).listOfCards.equals(list)) {
+                    Card dec = allCards.get(i);
+                    dec.position = dec.position - 1;
+                    toDec.add(dec);
+                }
+            }
+            for(Card dec : toDec){
+                server.send("/app/edit-card", dec);
+            }
+            card.position = newPos;
+            server.send("/app/edit-card", card);
+        }
+    }
+
+    private int calculateIndex(ListView<String> list, DragEvent event){
+        double mouseY = event.getY();
+        double totalHeight = list.getHeight();
+        int index = (int) (mouseY/totalHeight*13);
+        if(index<0){
+            index = 0;
+        }else if(index>= list.getItems().size()){
+            index = list.getItems().size();
+        }
+        return index;
     }
 
     /**
@@ -423,19 +600,6 @@ public class ListContainer extends VBox {
         list.setStyle("");
         event.consume();
     }
-
-//    public void refreshList(List<Card> data){
-//        var currentCards = list.getItems();
-//        for(String card : currentCards){
-//            currentCards.remove(card);
-//        }
-//
-//        for(Card card : data){
-//            if(card.list.id == listOfCards.id){
-//                list.getItems().add(card.title);
-//            }
-//        }
-//    }
 
     /**
      * Setter method for parent
@@ -532,15 +696,4 @@ public class ListContainer extends VBox {
     public ListOfCards getListOfCards() {
         return listOfCards;
     }
-
-
-//    /**
-//     * Adds one card to the ListView and displays it
-//     * @param card card to be added
-//     */
-//    public void addCard(Card card){
-////        var names = cards.stream().map(c -> c.title).toList();
-//        String cardTitle = card.title;
-//        list.getItems().add(cardTitle);
-//    }
 }
