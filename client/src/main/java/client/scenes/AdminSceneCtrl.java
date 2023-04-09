@@ -5,6 +5,7 @@ import com.google.inject.Inject;
 import commons.Board;
 import commons.Card;
 import commons.ListOfCards;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -79,6 +80,10 @@ public class AdminSceneCtrl implements Initializable {
         refresh();
         server.registerForMessages("/topic/boards", Board.class, b -> {
             boards.add(b);
+        });
+
+        server.registerForMessages("/topic/remove-board", ListOfCards.class, loc -> {
+            Platform.runLater(this::refresh);
         });
 
     }

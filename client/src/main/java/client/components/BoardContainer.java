@@ -7,6 +7,7 @@ import commons.Board;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -26,6 +27,8 @@ public class BoardContainer extends VBox {
     private Button joinBoardWithId;
     @FXML
     private Text boardNameTextField;
+    @FXML
+    private Label idLabel;
     @FXML
     private Button joinBoardButton;
     @FXML
@@ -59,6 +62,7 @@ public class BoardContainer extends VBox {
         //this.setMinWidth(200);
         if(board != null) {
             boardNameTextField.setText(board.title);
+            idLabel.setText("ID: " + board.id);
             setRemoveBoard();
             setOpenBoard();
         }
