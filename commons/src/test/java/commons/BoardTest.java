@@ -56,6 +56,29 @@ class BoardTest {
         assertNotEquals(b1, b2);
     }
 
+    @Test
+    void getIDTest(){
+        Board b1 = new Board("title1");
+        Board b2 = new Board("title1");
+        b1.id = 12345;
+        b2.id = 12346;
+        assertEquals(12345, b1.id);
+        assertNotEquals(b1.id, b2.id);
+    }
+
+    @Test
+    void setIDTest(){
+        Board b1 = new Board("title1");
+        Board b2 = new Board("title1");
+        b1.id = 12345;
+        b2.id = 12346;
+        long newId1 = 1369;
+        long newId2 = 1369;
+        b1.setId(newId1);
+        b2.setId(newId2);
+        assertEquals(b1.id, b2.id);
+    }
+
 
 
 
