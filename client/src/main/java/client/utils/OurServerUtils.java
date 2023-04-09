@@ -204,4 +204,13 @@ public class OurServerUtils {
                 .post(Entity.entity(body, APPLICATION_JSON), responseType);
     }
 
+    /**
+     * Getter for the SERVER string
+     * Used for testing
+     * @return SERVER
+     */
+    public String getSERVER(){
+        return SERVER;
+    }
+
 }

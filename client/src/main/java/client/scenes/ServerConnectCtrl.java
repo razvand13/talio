@@ -25,16 +25,39 @@ public class ServerConnectCtrl {
 
     /**
      * Method to set the server to the port
+     *
+     * @return server address string
      */
-    public void connect(){
+    public String connect(){
         String portInput = port.getText();
         if(portInput.equals("")) portInput = "8080";
 
         String addressInput = address.getText();
         if(addressInput.equals("")) addressInput = "localhost";
 
-        client.utils.OurServerUtils.setSERVER("http://"+ addressInput+ ":" +portInput+"/");
+        String serverAddress = "http://"+ addressInput+ ":" +portInput+"/";
+
+        client.utils.OurServerUtils.setSERVER(serverAddress);
         mainCtrl.showTaskListView();
+
+        return serverAddress;
     }
 
+    /**
+     * Setter method for the port field
+     * Used for testing
+     * @param port port
+     */
+    public void setPort(TextField port) {
+        this.port = port;
+    }
+
+    /**
+     * Setter method for the address field
+     * Used for testing
+     * @param address addres
+     */
+    public void setAddress(TextField address) {
+        this.address = address;
+    }
 }
