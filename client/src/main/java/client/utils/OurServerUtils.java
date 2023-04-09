@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
+import commons.Board;
 import commons.Card;
 import commons.ListOfCards;
 import jakarta.ws.rs.core.Response;
@@ -236,18 +237,6 @@ public class OurServerUtils {
                 .get(new GenericType<Card>() {});
     }
 
-    /**
-     * Method for retrieving a list from the database by its ID
-     * @param id ListOfCards id
-     * @return ListOfCards
-     */
-    public ListOfCards getListById(long id){
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/lists/" + id) //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .get(new GenericType<ListOfCards>() {});
-    }
 
     /**
      * Find all Cards from the specified ListOfCards
@@ -260,6 +249,20 @@ public class OurServerUtils {
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<List<Card>>() {});
+    }
+
+
+    /**
+     * Find Card from the specified ListOfCards
+     * @param listId ListOfCards id
+     * @return a Card containing the query result
+     */
+    public Card getCardByListId(long listId){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/cards/list/"+listId) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<Card>() {});
     }
 
     /**

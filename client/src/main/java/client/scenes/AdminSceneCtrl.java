@@ -105,7 +105,7 @@ public class AdminSceneCtrl implements Initializable {
 
 
         List<ListOfCards> allLists = server.getLists();
-        ListOfCards delList = server.getListById();
+        ListOfCards delList = server.getListByBoardId(Long.parseLong(id));
 
         for(int i = 0; i < allLists.size(); i++){
             if(allLists.get(i).board.equals(delBoard)){
@@ -132,7 +132,7 @@ public class AdminSceneCtrl implements Initializable {
 
         //delete all cards in the list
         while(delCard != null) {
-            delCard = server.getCardsByListId(list.id);
+            delCard = server.getCardByListId(list.id);
             server.send("/app/remove-card", delCard);
         }
         server.send("/app/remove-lists", delList);
