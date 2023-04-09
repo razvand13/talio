@@ -24,6 +24,7 @@ public class OverviewOfBoardsCtrl {
     private final OurServerUtils server;
     private final MainTaskListCtrl mainCtrl;
     private final TaskListCtrl taskListCtrl;
+    private final AdminSceneCtrl adminSceneCtrl;
 
     private List<Board> boards;
     @FXML
@@ -47,12 +48,15 @@ public class OverviewOfBoardsCtrl {
      * @param server
      * @param mainCtrl
      * @param taskListCtrl
+     * @param adminSceneCtrl
      */
     @Inject
-    public OverviewOfBoardsCtrl(OurServerUtils server, MainTaskListCtrl mainCtrl, TaskListCtrl taskListCtrl) {
+    public OverviewOfBoardsCtrl(OurServerUtils server, MainTaskListCtrl mainCtrl, TaskListCtrl taskListCtrl,
+                                AdminSceneCtrl adminSceneCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
         this.taskListCtrl = taskListCtrl;
+        this.adminSceneCtrl = adminSceneCtrl;
         this.boards = new ArrayList<>();
        // buttonsSetup();
     }
@@ -77,6 +81,7 @@ public class OverviewOfBoardsCtrl {
         System.out.println("join board");
         mainCtrl.showTaskListView();
         writeId(board.id);
+        boardTitle.clear();
 
     }
 
@@ -96,6 +101,7 @@ public class OverviewOfBoardsCtrl {
                         System.out.println("join board");
                         mainCtrl.showTaskListView();
                         writeId(id);
+                        idTextField.clear();
                         break;
                     }
                 }
@@ -141,6 +147,7 @@ public class OverviewOfBoardsCtrl {
      * Method for setting up the admin button
      */
     public void adminButtonSetup(){
+        System.out.println("print boards");
         mainCtrl.showAdminOverview();
     }
 

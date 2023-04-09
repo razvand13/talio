@@ -135,6 +135,7 @@ public class TaskListCtrl implements Initializable {
         server.registerForMessages("/topic/edit-lists", ListOfCards.class, loc -> {
             Platform.runLater(this::refreshBoard);
         });
+
     }
 
     /**

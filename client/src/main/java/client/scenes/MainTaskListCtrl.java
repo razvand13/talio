@@ -80,6 +80,7 @@ public class MainTaskListCtrl {
     }
 
     public void showAdminOverview() {
+        adminSceneCtrl.showBoards();
         primaryStage.setTitle("Admin Overview");
         primaryStage.setScene(adminOverview);
     }

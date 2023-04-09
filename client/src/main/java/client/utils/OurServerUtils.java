@@ -203,6 +203,14 @@ public class OurServerUtils {
                 .get(new GenericType<Board>() {});
     }
 
+    public ListOfCards getListById(long id){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/lists/"+id) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<ListOfCards>() {});
+    }
+
     /**
      *
      * @param path path

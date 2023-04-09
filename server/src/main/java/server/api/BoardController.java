@@ -81,4 +81,15 @@ public class BoardController {
         addBoard(board);
         return board;
     }
+
+    @MessageMapping("/remove-board")
+    @SendTo("/topic/remove-board")
+    public Board removeBoard(Board board){
+        repo.deleteById(board.id);
+        return board;
+    }
+
+    public void deleteById(long id){
+        repo.deleteById(id);
+    }
 }

@@ -346,13 +346,9 @@ public class ListContainer extends VBox {
                         break;
                     }
                 }
-
-
-
                 server.send("/app/remove-lists", delList);
             }
             else{
-
                 Alert a = new Alert(Alert.AlertType.INFORMATION);
 
                 a.setGraphic(null);
@@ -361,8 +357,6 @@ public class ListContainer extends VBox {
 
                 a.show();
             }
-
-
             event.consume();
         });
     }
