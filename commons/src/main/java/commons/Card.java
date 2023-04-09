@@ -86,4 +86,13 @@ public class Card implements Serializable {
     public String toString() {
         return "Card: id = " + id + ", title = " + title ;
     }
+
+    public void setCard(String title, ListOfCards listOfCards){
+        this.title = title;
+        this.listOfCards = listOfCards;
+    }
+
+    public void setCard(String title){
+        this.title = title;
+    }
 }

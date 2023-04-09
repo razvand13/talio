@@ -80,5 +80,34 @@ class CardTest {
         assertEquals(expected, card.toString());
     }
 
+    @Test
+    void testSetter(){
+        ListOfCards l = new ListOfCards("name");
+        ListOfCards l2 = new ListOfCards("name2");
+        ListOfCards l3 = new ListOfCards("name");
+        Card c = new Card("TITLE", l);
+        Card c2 = new Card("TITLE", l);
+        Card c3 = new Card("TITLE2",l);
+        c.setCard("title", l3);
+        c2.setCard("title", l3);
+        c3.setCard("T", l);
+        assertEquals(c, c2);
+        assertNotEquals(c, c3);
+        assertNotEquals(c2, c3);
+    }
+
+    @Test
+    void testSetter2(){
+        Card c = new Card("TITLE");
+        Card c2 = new Card("TITLE");
+        Card c3 = new Card("TITLE2");
+        c2.setCard("title");
+        c.setCard("title");
+        c3.setCard("TITLE");
+        assertEquals(c, c2);
+        assertNotEquals(c, c3);
+        assertNotEquals(c2, c3);
+    }
+
 //
 }
