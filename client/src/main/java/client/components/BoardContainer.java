@@ -34,7 +34,8 @@ public class BoardContainer extends VBox {
      * @param mainCtrl
      * @param taskListCtrl
      */
-    public BoardContainer(Board board, OurServerUtils server, MainTaskListCtrl mainCtrl, TaskListCtrl taskListCtrl) {
+    public BoardContainer(Board board, OurServerUtils server, MainTaskListCtrl mainCtrl,
+                          TaskListCtrl taskListCtrl) {
         this.board = board;
         this.server = server;
         this.mainCtrl = mainCtrl;

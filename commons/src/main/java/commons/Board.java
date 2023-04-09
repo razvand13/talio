@@ -65,8 +65,4 @@ public class Board implements Serializable {
                 "id=" + id +
                 ", title=" + title;
     }
-
-    public Long getId() {
-        return id;
-    }
 }

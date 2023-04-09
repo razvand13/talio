@@ -112,7 +112,7 @@ public class AdminSceneCtrl implements Initializable {
                 delList = allLists.get(i);
                 deleteList(delList);
                 if(server.getListById(delList.id) != null)
-                deleteList(delList);
+                    deleteList(delList);
             }
         }
         server.send("/app/remove-board", delBoard);
