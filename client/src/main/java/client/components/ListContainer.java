@@ -167,7 +167,7 @@ public class ListContainer extends VBox {
                 textField.setText(item);
             } else {
                 editBtn.setVisible(false);
-                delBtn.setVisible(true);
+                delBtn.setVisible(false);
                 textField.setVisible(false);
             }
 
@@ -443,10 +443,26 @@ public class ListContainer extends VBox {
         String selectedItem = list.getSelectionModel().getSelectedItem();
 
         Dragboard db = list.startDragAndDrop(TransferMode.MOVE);
+        long listID = listOfCards.id;
+        int idx = list.getItems().indexOf(selectedItem);
 
-        ClipboardContent content = new ClipboardContent();
-        content.putString(selectedItem);
-        db.setContent(content);
+        Card card = null;
+
+
+        for(int i = 0; i < allCards.size(); i++){
+            if(allCards.get(i).listOfCards.id == listID){
+                if(allCards.get(i).position == idx){
+                    card = allCards.get(i);
+                    break;
+                }
+            }
+        }
+
+        if(card!= null) {
+            ClipboardContent content = new ClipboardContent();
+            content.putString(String.valueOf(card.id)+" "+String.valueOf(listID));
+            db.setContent(content);
+        }
 
         event.consume();
     }
@@ -460,8 +476,12 @@ public class ListContainer extends VBox {
      * @param event dragging data over another list
      */
     private void dragOver(ListView<String> list, DragEvent event) {
+
         // Only execute if there is data that is being dragged
         if (event.getDragboard().hasString()) {
+            int index = calculateIndex(list, event);
+            list.getSelectionModel().clearAndSelect(index);
+            list.scrollTo(index);
             event.acceptTransferModes(TransferMode.MOVE);
         }
 
@@ -482,14 +502,120 @@ public class ListContainer extends VBox {
         boolean success = false;
 
         if (db.hasString()) {
-            String dbContent = db.getString();
-            list.getItems().add(dbContent);
-            success = true;
+            String[] data =  db.getString().split(" ");
+            long cardId = Long.parseLong(data[0]);
+            long listId = Long.parseLong(data[1]);
+
+
+            Card card = null;
+
+            for(int i = 0; i < allCards.size(); i++) {
+                if (allCards.get(i).id == cardId) {
+                    card = allCards.get(i);
+                    break;
+                }
+            }
+            int pos = card.position;
+            if(listOfCards.id != listId) {
+                card.position = list.getItems().size();
+                card.listOfCards = listOfCards;
+                server.send("/app/edit-card", card);
+                updatePositions(listId, pos);
+                success = true;
+            }else{
+                List<Card> toUpdate = new ArrayList<>();
+                int newPos = list.getSelectionModel().getSelectedIndex();
+                System.out.println("new position = " + newPos);
+                ListOfCards wanted = card.listOfCards;
+                if(newPos == -1){
+                    card.position = list.getItems().size()-1;
+                    System.out.println(list.getItems().size());
+                    decrementIndexes(card, pos, list.getItems().size()-1, wanted);
+                    toUpdate.add(card);
+                }
+                else if(pos<newPos) {
+                    decrementIndexes(card, pos, newPos, wanted);
+                    card.position = newPos;
+                    toUpdate.add(card);
+                }else if(pos>newPos){
+                    incrementIndexes(card, pos, newPos, wanted);
+                    card.position = newPos;
+                    toUpdate.add(card);
+                }
+
+                for(Card update : toUpdate){
+                    server.send("/app/edit-card", update);
+                }
+            }
         }
 
 
         event.setDropCompleted(success);
         event.consume();
+    }
+
+
+
+    /** Method used to shift all cards between the 2 positions by incrementing their index
+     * @param card The card we clicked on
+     * @param pos The original position of the card
+     * @param newPos The new position where we want to add the card
+     * @param list the listOfCards belonging to the card
+     */
+    public void incrementIndexes(Card card, int pos, int newPos, ListOfCards list){
+        List<Card> toInc = new ArrayList<>();
+        for(int i =0; i < allCards.size(); i++){
+            if(allCards.get(i).position>=newPos
+                    && allCards.get(i).position<pos
+                    && allCards.get(i).listOfCards.equals(list)){
+                Card inc = allCards.get(i);
+                inc.position = inc.position+1;
+                toInc.add(inc);
+            }
+        }
+        for(Card inc : toInc){
+            server.send("/app/edit-card", inc);
+        }
+        card.position = newPos;
+        server.send("/app/edit-card", card);
+    }
+
+    /** Method used to shift all cards between the 2 positions by decrementing their index
+     * @param card The card we clicked on
+     * @param pos The original position of the card
+     * @param newPos The new position where we want to add the card
+     * @param list the listOfCards belonging to the card
+     */
+    public void decrementIndexes(Card card, int pos, int newPos, ListOfCards list) {
+        if (pos < newPos) {
+            List<Card> toDec = new ArrayList<>();
+            for (int i = 0; i < allCards.size(); i++) {
+                if (allCards.get(i).position <= newPos
+                        && allCards.get(i).position > pos
+                        && allCards.get(i).listOfCards.equals(list)) {
+                    Card dec = allCards.get(i);
+                    dec.position = dec.position - 1;
+                    toDec.add(dec);
+                }
+            }
+            for(Card dec : toDec){
+                server.send("/app/edit-card", dec);
+            }
+            card.position = newPos;
+            server.send("/app/edit-card", card);
+        }
+    }
+
+    private int calculateIndex(ListView<String> list, DragEvent event){
+        double mouseY = event.getY();
+        double totalHeight = list.getHeight();
+        int index = (int) (mouseY/totalHeight*13);
+        if(index<0){
+            index = 0;
+        }else if(index>= list.getItems().size()){
+            index = list.getItems().size();
+        }
+        return index;
     }
 
     /**

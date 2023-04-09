@@ -187,7 +187,8 @@ public class TestListRepository implements ListRepository {
     }
 
     @Override
-    public <S extends ListOfCards, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
+    public <S extends ListOfCards, R> R findBy(Example<S> example,
+                                               Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
         // TODO Auto-generated method stub
         return null;
     }

@@ -69,4 +69,25 @@ class ListOfCardsTest {
 //                + "\nCard: id = 9223372036854775807, title = title;";
         assertEquals(expected, list.toString());
     }
+
+    @Test
+    void setListOfCardsTest() {
+        String name = "abc";
+        ListOfCards l = new ListOfCards("list");
+        ListOfCards l2 = new ListOfCards("list2");
+        ListOfCards l3 = new ListOfCards("abc");
+        l3.setTitle("list3");
+        l.setTitle(name);
+        l2.setTitle(name);
+        assertEquals(l.title, l2.title);
+        assertNotEquals(l.title, l3.title);
+        assertNotEquals(l2.title, l3.title);
+    }
+
+    @Test
+    void getListsOfCardsTest() {
+        ListOfCards l = new ListOfCards("list");
+        assertNotEquals(l.getTitle(), "list2");
+        assertEquals(l.getTitle(), "list");
+    }
 }
