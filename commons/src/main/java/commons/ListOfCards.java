@@ -68,10 +68,16 @@ public class ListOfCards implements Serializable {
         return a.toString();
     }
 
+    /** setter for title
+     * @param title String
+     */
     public void setTitle(String title) {
         this.title = title;
     }
 
+    /**getter for title
+     * @return the title
+     */
     public String getTitle() {
         return title;
     }

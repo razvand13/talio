@@ -29,10 +29,4 @@ class TaskListCtrlTest {
     }
 
 
-    @Test
-    void testToString() {
-        TaskListCtrl taskListCtrl = new TaskListCtrl(server, mainCtrl);
-        assertEquals(taskListCtrl.toString(), taskListCtrl.toString());
-    }
-
 }
