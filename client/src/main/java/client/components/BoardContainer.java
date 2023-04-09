@@ -13,7 +13,6 @@ import javafx.scene.text.Text;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.util.Scanner;
 
 public class BoardContainer extends VBox {
     private HBox parent;
