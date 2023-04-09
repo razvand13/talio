@@ -84,7 +84,7 @@ public class Card implements Serializable {
      */
     @Override
     public String toString() {
-        return "Card: id = " + id + ", title = " + title ;
+        return "Card: id = " + id + ", title = " + title + ", position = " + position;
     }
 
     public void setCard(String title, ListOfCards listOfCards){
