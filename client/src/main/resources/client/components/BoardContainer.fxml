@@ -4,9 +4,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<fx:root alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="127.0" prefWidth="184.0" style="-fx-background-color: yellow;" type="VBox" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="114.0" prefWidth="166.0" style="-fx-background-color: white; -fx-border-color: #DFDFDF #DFDFDF; -fx-border-width: 10;" type="VBox" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Text fx:id="boardNameTextField" strokeType="OUTSIDE" strokeWidth="0.0" text="*BoardName*" wrappingWidth="72.955078125" />
-      <Button fx:id="joinBoardButton" mnemonicParsing="false" text="Join" />
+      <Button fx:id="joinBoardButton" mnemonicParsing="false" style="-fx-background-color: green;" text="Join" />
    </children>
 </fx:root>

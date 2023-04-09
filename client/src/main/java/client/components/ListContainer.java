@@ -336,16 +336,8 @@ public class ListContainer extends VBox {
 
                 long listID = listOfCards.id;
 
-                allLists = server.getLists();
 
-                ListOfCards delList = null;
-
-                for(int i = 0; i < allLists.size(); i++){
-                    if(allLists.get(i).id == listID){
-                        delList = allLists.get(i);
-                        break;
-                    }
-                }
+                ListOfCards delList = server.getListById(listID);
                 server.send("/app/remove-lists", delList);
             }
             else{

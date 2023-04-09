@@ -13,7 +13,6 @@ import commons.Board;
 import commons.Card;
 import commons.ListOfCards;
 import jakarta.ws.rs.core.Response;
-import javafx.collections.ObservableList;
 import org.glassfish.jersey.client.ClientConfig;
 
 import jakarta.ws.rs.client.ClientBuilder;
@@ -47,8 +46,6 @@ public class OurServerUtils {
      * Sets the current session
      */
     public void setSession(){
-        System.out.println("session is set up");
-        System.out.println("ws"+ SERVER.substring(4) + "/websocket");
         session = connect("ws"+ SERVER.substring(4) + "/websocket");
     }
 
@@ -81,27 +78,21 @@ public class OurServerUtils {
      */
     public <T> void registerForMessages(String dest, Class<T> type, Consumer<T> consumer) {
         session.subscribe(dest, new StompFrameHandler() {
-            /**
-             *
-             * @param headers the headers of a message
-             * @return
-             */
+
             @Override
             public Type getPayloadType(StompHeaders headers) {
                 return type;
             }
 
-            /**
-             *
-             * @param headers the headers of the frame
-             * @param payload the payload, or {@code null} if there was no payload
-             */
+
             @Override
             public void handleFrame(StompHeaders headers, Object payload) {
                 consumer.accept((T) payload);
             }
         });
     }
+
+
 
     private static final ExecutorService EXEC = Executors.newSingleThreadExecutor();
 
@@ -202,8 +193,25 @@ public class OurServerUtils {
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<Board>() {});
     }
-
+    /**
+     * Gets a list from the database by specifying its id
+     * @param id id of list
+     * @return the list with the id
+     */
     public ListOfCards getListById(long id){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/lists/"+id) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<ListOfCards>() {});
+    }
+
+    /**
+     * Gets a list from the database by specifying the board ID associated with the list
+     * @param id id of board
+     * @return the list
+     */
+    public ListOfCards getListByBoardId(long id){
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/lists/"+id) //
                 .request(APPLICATION_JSON) //
@@ -218,7 +226,6 @@ public class OurServerUtils {
      * @param responseType generic response type
      * @param <T> generic T
      * @return invocation response
-     *
      */
     public <T> T add(String path, Object body, GenericType<T> responseType) {
         return ClientBuilder.newClient(new ClientConfig())
@@ -229,8 +236,9 @@ public class OurServerUtils {
     }
 
 
+
     /**
-     * gets the address of the current server
+     * Gets the address of the current server
      * @return SERVER minus the "http://" at the start and the "/" at the end (so localhost:8080 by default)
      */
     public String getAddress(){
@@ -238,6 +246,10 @@ public class OurServerUtils {
     }
 
 
+    /**
+     * Gets all the boards from the server
+     * @return list of all the boards
+     */
     public List<Board> getBoards(){
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/boards") //

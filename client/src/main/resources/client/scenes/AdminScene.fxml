@@ -45,19 +45,21 @@
 
       <TableView fx:id="table" layoutX="65.0" layoutY="128.0" prefHeight="319.0" prefWidth="658.0">
          <columns>
-            <TableColumn fx:id="IDColumn" prefWidth="150.0" text="ID" />
-            <TableColumn fx:id="boardNameColumn" minWidth="50.0" prefWidth="320.0" text="Board Name" />
-            <TableColumn fx:id="joinKeyColumn" editable="false" prefWidth="190.0" text="Join Key" />
+            <TableColumn fx:id="IDColumn" prefWidth="180.0" text="ID" />
+            <TableColumn fx:id="boardNameColumn" minWidth="50.0" prefWidth="480.0" text="Board Name" />
          </columns>
       </TableView>
 
-      <Button fx:id="deleteButton" layoutX="626.0" layoutY="457.0" mnemonicParsing="false" onAction="#deleteBoard" prefHeight="25.0" prefWidth="97.0" style="-fx-background-color: #ff3624;" text="Delete" textFill="WHITE" textOverrun="CLIP">
+      <Button fx:id="deleteButton" layoutX="615.0" layoutY="457.0" mnemonicParsing="false" onAction="#deleteBoard" prefHeight="34.0" prefWidth="108.0" style="-fx-background-color: #ff3624;" text="DELETE" textFill="WHITE" textOverrun="CLIP">
          <font>
-            <Font size="13.0" />
+            <Font size="14.0" />
          </font>
       </Button>
 
-      <Button fx:id="backButton" layoutX="658.0" layoutY="27.0" mnemonicParsing="false" onAction="#back" prefHeight="27.0" prefWidth="122.0" style="-fx-background-color: green;" text="Back to Overview" textFill="WHITE" />
+      <Button fx:id="backButton" layoutX="658.0" layoutY="20.0" mnemonicParsing="false" onAction="#back" prefHeight="34.0" prefWidth="142.0" style="-fx-background-color: green;" text="Back to Overview" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
       <Label fx:id="adminViewLabel" layoutX="26.0" layoutY="20.0" prefHeight="17.0" prefWidth="209.0" text="Admin View">
          <font>
             <Font name="Arial Black" size="29.0" />

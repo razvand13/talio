@@ -37,26 +37,38 @@ public class AdminSceneCtrl implements Initializable {
 
     private ObservableList<Board> boards;
 
+    /**
+     * Constructor for admin scene
+     * @param server OurServerUtils
+     * @param mainCtrl MainTaskListCtrl
+     */
     @Inject
     public AdminSceneCtrl(OurServerUtils server, MainTaskListCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
-
-//        var boardList = server.getBoards();
-//        boards = FXCollections.observableList(boardList);
-//        table.setItems(boards);
     }
 
+    /**
+     * Initializer
+     * @param location
+     * The location used to resolve relative paths for the root object, or
+     * {@code null} if the location is not known.
+     *
+     * @param resources
+     * The resources used to localize the root object, or {@code null} if
+     * the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         IDColumn.setCellValueFactory(b ->
                 new SimpleStringProperty(b.getValue().getId().toString()));
         boardNameColumn.setCellValueFactory(b ->
                 new SimpleStringProperty(b.getValue().title));
-        //joinKeyColumn.setCellValueFactory(b -> new SimpleStringProperty(b.getValue().key))
-
     }
 
+    /**
+     * shows the boards currently on the server
+     */
     public void showBoards() {
         server.setSession();
         refresh();
@@ -66,13 +78,17 @@ public class AdminSceneCtrl implements Initializable {
 
     }
 
-    /**show board overview
-     *
+    /**
+     * show board overview
      */
     public void back(){
         mainCtrl.showOverviewOfBoards();
     }
 
+    /** Deletes the selected board from the database,
+     * including all lists and cards assiciated with that bard
+     *
+     */
     public void deleteBoard(){
         server.setSession();
 
@@ -86,18 +102,10 @@ public class AdminSceneCtrl implements Initializable {
         id = s.next();
 
         Board delBoard = server.getBoardById(Long.parseLong(id));
-        /////////////////////////////////////////////////////////////////////
 
-      //  List<Board> serverBoards = server.getBoards();
-//        for(int i = 0; i < serverBoards.size(); i++){
-//            if(serverBoards.get(i).id == delBoard.id){
-//                delBoard = serverBoards.get(i);
-//                break;
-//            }
-//        }
 
         List<ListOfCards> allLists = server.getLists();
-        ListOfCards delList = null;
+        ListOfCards delList = server.getListById();
 
         for(int i = 0; i < allLists.size(); i++){
             if(allLists.get(i).board.equals(delBoard)){
@@ -107,43 +115,32 @@ public class AdminSceneCtrl implements Initializable {
                 deleteList(delList);
             }
         }
-        System.out.println(delBoard);
         server.send("/app/remove-board", delBoard);
-        System.out.println(server.getBoards());
         refresh();
-        System.out.println("refresh");
     }
 
+    /**
+     * method to delete all the cards from a list, then delete the list
+     * without using button event
+     * @param list to be deleted
+     */
     public void deleteList(ListOfCards list) {
         server.setSession();
 
-        long listID = list.id;
-
-        List<ListOfCards> allLists = server.getLists();
-        List<Card> allCards = server.getCards();
-
-        Card delCard = null;
-        ListOfCards delList = null;
+        Card delCard = new Card(null);
+        ListOfCards delList = server.getListByBoardId(list.id);
 
         //delete all cards in the list
-        for(int i = 0; i < allCards.size(); i++) {
-            if (allCards.get(i).listOfCards.id == listID) {
-                delCard = allCards.get(i);
-                System.out.println("card deleted" + delCard.id);
-                server.send("/app/remove-card", delCard);
-            }
-        }
-
-        for(int i = 0; i < allLists.size(); i++) {
-            if (allLists.get(i).id == listID) {
-                delList = allLists.get(i);
-                break;
-            }
+        while(delCard != null) {
+            delCard = server.getCardsByListId(list.id);
+            server.send("/app/remove-card", delCard);
         }
         server.send("/app/remove-lists", delList);
-
     }
 
+    /**
+     * show changes (remove deleted list) from the board table
+     */
     public void refresh() {
         var listOfBoards = server.getBoards();
         boards = FXCollections.observableList(listOfBoards);
