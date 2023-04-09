@@ -57,10 +57,11 @@ public class BoardContainer extends VBox {
         }
 
         //this.setMinWidth(200);
-
-        boardNameTextField.setText(board.title);
-        setRemoveBoard();
-        setOpenBoard();
+        if(board != null) {
+            boardNameTextField.setText(board.title);
+            setRemoveBoard();
+            setOpenBoard();
+        }
     }
 
     /**
