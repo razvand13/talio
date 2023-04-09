@@ -3,14 +3,17 @@ package client.scenes;
 import client.components.ListContainer;
 import client.utils.OurServerUtils;
 import com.google.inject.Inject;
+import commons.Board;
 import commons.Card;
 import commons.ListOfCards;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import javafx.geometry.Insets;
 
 import java.net.URL;
@@ -31,6 +34,14 @@ public class TaskListCtrl implements Initializable {
 
     @FXML
     private TextField listTitle;
+
+    @FXML
+    private Button changeBoardsButton;
+
+    @FXML
+    private Text boardIdText;
+
+    private static Board board;
 
     /**
      * Constructor method
@@ -57,6 +68,7 @@ public class TaskListCtrl implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         hBox.setSpacing(10);
         hBox.setPadding(new Insets(10, 10, 10, 10));
+
     }
 
     /**
@@ -73,7 +85,7 @@ public class TaskListCtrl implements Initializable {
         listTitle.setText("ToDo");
 
         ListContainer container = new ListContainer(listName, server, mainCtrl);
-        ListOfCards myLoc = new ListOfCards(listName);
+        ListOfCards myLoc = new ListOfCards(listName, board);
 
         container.setListOfCards(myLoc);
         server.send("/app/lists", container.getListOfCards());
@@ -123,6 +135,7 @@ public class TaskListCtrl implements Initializable {
         server.registerForMessages("/topic/edit-lists", ListOfCards.class, loc -> {
             Platform.runLater(this::refreshBoard);
         });
+
     }
 
     /**
@@ -131,6 +144,27 @@ public class TaskListCtrl implements Initializable {
      */
     public void stop(){
         server.stop();
+        // todo Remove list
+
+        changeBoardSetup();
+        //showBoardId();
+    }
+
+    /**
+     * Setup for changing the board
+     */
+    public void changeBoardSetup(){
+        changeBoardsButton.setOnMouseClicked(event -> {
+            mainCtrl.showOverviewOfBoards();
+            event.consume();
+        });
+    }
+
+    /**
+     * Editing the board Id text to show the id of the current board;
+     */
+    public void showBoardId(){
+        boardIdText.setText("Board Id: " + board.id);
     }
 
     /**
@@ -166,10 +200,15 @@ public class TaskListCtrl implements Initializable {
         //Redraw lists
         list = server.getLists();
         for(ListOfCards loc : list){
-            ListContainer listContainer = new ListContainer(loc.title, server, mainCtrl);
-            listContainer.setListOfCards(loc);
-            listContainer.setParent(hBox);
-            hBox.getChildren().add(listContainer);
+            if(loc.getBoard() == null) {
+                System.out.println("makeBoard null");
+            } else if(loc.getBoard().equals(this.board)) {
+                System.out.println("not null");
+                ListContainer listContainer = new ListContainer(loc.title, server, mainCtrl);
+                listContainer.setListOfCards(loc);
+                listContainer.setParent(hBox);
+                hBox.getChildren().add(listContainer);
+            }
         }
 
         //Redraw list contents
@@ -197,5 +236,18 @@ public class TaskListCtrl implements Initializable {
      */
     public void disconnect() {
         mainCtrl.showServerConnect();
+    }
+
+    /**
+     * Setter for board
+     * @param b
+     */
+
+    public void setTaskListCtrlBoard(Board b) {
+        this.board = b;
+    }
+
+    public void admin() {
+        mainCtrl.showAdminOverview();
     }
 }

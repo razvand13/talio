@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="609.0" prefWidth="926.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.OverviewOfBoardsCtrl">
+   <children>
+      <HBox alignment="CENTER" prefHeight="80.0" prefWidth="926.0" spacing="20.0" style="-fx-background-color: B19cd9;">
+         <children>
+            <Label fx:id="adminViewLabel" prefHeight="43.0" prefWidth="291.0" text="Recent Boards">
+               <font>
+                  <Font name="Arial Black" size="29.0" />
+               </font>
+            </Label>
+            <Pane disable="true" prefHeight="80.0" prefWidth="306.0" />
+            <Button fx:id="serverSelectButton" mnemonicParsing="false" onAction="#serverSelectSetUp" prefHeight="41.0" prefWidth="92.0" style="-fx-background-color: #F9C848;" text="Server select">
+               <font>
+                  <Font size="13.0" />
+               </font></Button>
+            <Button fx:id="adminButton" mnemonicParsing="false" onAction="#adminButtonSetup" prefHeight="42.0" prefWidth="88.0" style="-fx-background-color: #F9C848;" text="Admin">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <ScrollPane layoutX="40.0" layoutY="161.0" prefHeight="409.0" prefWidth="845.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="41.0">
+         <content>
+            <ScrollPane>
+               <content>
+                  <HBox fx:id="hBoxBoards" prefHeight="406.0" prefWidth="843.0" />
+               </content>
+            </ScrollPane>
+         </content>
+      </ScrollPane>
+      <Button fx:id="createNewBoardButton" layoutX="761.0" layoutY="111.0" mnemonicParsing="false" onAction="#newBoard" prefHeight="42.0" prefWidth="124.0" style="-fx-background-color: FFB800;" text="Create New Board">
+         <font>
+            <Font size="13.0" />
+         </font></Button>
+      <TextField fx:id="idTextField" layoutX="46.0" layoutY="114.0" prefHeight="39.0" prefWidth="238.0" promptText="Id:" style="-fx-background-color: #EDEDED; -fx-border-color: grey;" />
+      <Button fx:id="joinBoardButton" layoutX="293.0" layoutY="112.0" mnemonicParsing="false" onAction="#joinButtonSetUp" prefHeight="42.0" prefWidth="47.0" style="-fx-background-color: FFB800;" text="Join">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Button>
+      <TextField fx:id="boardTitle" layoutX="508.0" layoutY="114.0" prefHeight="39.0" prefWidth="238.0" promptText="Title:" style="-fx-background-color: #EDEDED; -fx-border-color: grey;" />
+   </children>
+</AnchorPane>

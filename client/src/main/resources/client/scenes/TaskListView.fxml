@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="739.0" prefWidth="948.0" style="-fx-background-color: B19cd9;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskListCtrl">
     <children>
@@ -17,6 +18,9 @@
                 <HBox fx:id="hBox" prefHeight="585.0" prefWidth="842.0" style="-fx-background-color: #D3D3D3;" />
             </content>
         </ScrollPane>
-      <Button fx:id="disconnect" layoutX="776.0" layoutY="23.0" mnemonicParsing="false" onAction="#disconnect"  text="Disconnect"/>
+      <Button fx:id="disconnect" layoutX="776.0" layoutY="23.0" mnemonicParsing="false" onAction="#disconnect" text="Disconnect" />
+      <Button fx:id="changeBoardsButton" layoutX="661.0" layoutY="23.0" mnemonicParsing="false" onAction="#changeBoardSetup" text="Change boards" />
+      <Text fx:id="boardIdText" fill="WHITE" layoutX="500.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Board ID: " />
+      <Button fx:id="g" layoutX="776.0" layoutY="55.0" mnemonicParsing="false" onAction="#admin" prefHeight="25.0" prefWidth="75.0" text="Admin" />
     </children>
 </AnchorPane>
