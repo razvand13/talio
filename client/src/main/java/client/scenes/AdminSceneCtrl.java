@@ -115,12 +115,12 @@ public class AdminSceneCtrl implements Initializable {
             deleteList(list);
         }
 
-        removeFromFile(delBoard);
+//        removeFromFile(delBoard);
         server.send("/app/remove-board", delBoard);
         refresh();
 
     }
-
+/*
     public void removeFromFile(Board board) {
         long id = board.id;
         String currentConnection = server.getAddress().replace(":","_");
@@ -136,6 +136,8 @@ public class AdminSceneCtrl implements Initializable {
             System.out.println(e.getStackTrace());
         }
     }
+
+ */
 
     /**
      * method to delete all the cards from a list, then delete the list

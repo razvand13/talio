@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -168,8 +169,7 @@ public class OverviewOfBoardsCtrl {
     public void firstTimeSetUp(){
         refreshBoards();
         server.setSession();
-        server.registerForMessages("/topic/boards", Board.class, b -> {
-            boards.add(b);
+        server.registerForMessages("/topic/remove-board", Board.class, b -> {
             Platform.runLater(this::refreshBoards);
         });
     }
@@ -204,11 +204,24 @@ public class OverviewOfBoardsCtrl {
 
         String currentConnection = server.getAddress().replace(":","_");
         try {
-            Scanner boardScanner = new Scanner(
-                    new File("TalioJoinedBoardsOn"+currentConnection+".txt"));
+            File boardIdListFile = new File("TalioJoinedBoardsOn"+currentConnection+".txt");
+            Scanner boardScanner = new Scanner(boardIdListFile);
             while (boardScanner.hasNextLong()){
                 long id =boardScanner.nextLong();
-                boards.add(server.getBoardById(id));
+                Board myBoard =server.getBoardById(id);
+                if(myBoard == null){
+                    try {
+                        String newIds = Files.readString(boardIdListFile.toPath())
+                                .replace(id + " ", "");
+                        Writer writer = new FileWriter(boardIdListFile, false);
+                        writer.write(newIds);
+                        writer.close();
+                    }
+                    catch (IOException e){
+                        System.out.println(e);
+                    }
+                }
+                boards.add(myBoard);
             }
             Collections.reverse(boards); //the most recent boards at start of list
         }
