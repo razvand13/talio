@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<fx:root alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="114.0" prefWidth="166.0" style="-fx-background-color: white; -fx-border-color: #DFDFDF #DFDFDF; -fx-border-width: 10;" type="VBox" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="114.0" prefWidth="149.0" style="-fx-background-color: white; -fx-border-color: #DFDFDF #DFDFDF; -fx-border-width: 10;" type="VBox" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Text fx:id="boardNameTextField" strokeType="OUTSIDE" strokeWidth="0.0" text="*BoardName*" wrappingWidth="72.955078125" />
-      <Button fx:id="joinBoardButton" mnemonicParsing="false" style="-fx-background-color: green;" text="Join" />
+      <AnchorPane prefHeight="94.0" prefWidth="104.0">
+         <children>
+            <Button fx:id="joinBoardButton" layoutX="78.0" layoutY="57.0" mnemonicParsing="false" style="-fx-background-color: green;" text="Join" AnchorPane.bottomAnchor="11.0" AnchorPane.rightAnchor="10.0" />
+            <Text fx:id="boardNameTextField" layoutX="11.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*BoardName*" wrappingWidth="72.955078125" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
+            <Text fx:id="boardIDText" layoutX="11.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" AnchorPane.leftAnchor="10.0" />
+         </children>
+      </AnchorPane>
    </children>
 </fx:root>
