@@ -123,7 +123,6 @@ public class AdminSceneCtrl implements Initializable {
 //        removeFromFile(delBoard);
         server.send("/app/remove-board", delBoard);
         refresh();
-
     }
 /*
     public void removeFromFile(Board board) {

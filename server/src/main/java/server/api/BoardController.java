@@ -48,8 +48,7 @@ public class BoardController {
     /**
      * adds a board to the repo
      * @param board the board that needs to be added
-     * @return badRequest iff the board is null.
-     * ok with the provided board iff it was added successfully.
+     * @return badRequest iff the board is null. ok with the provided board iff it was added successfully.
      */
     @PostMapping(path ={"","/"})
     public ResponseEntity<Board> addBoard(@RequestBody Board board) {
@@ -59,7 +58,7 @@ public class BoardController {
         }
 
         //there already exists a board with this id
-        if(repo.existsById(board.getId())){
+        if(repo.existsById(board.id)){
             return ResponseEntity.badRequest().build();
         }
         repo.save(board);

@@ -251,6 +251,6 @@ public class TaskListCtrl implements Initializable {
      * admin button to go to admin panel
      */
     public void admin() {
-        mainCtrl.showAdminOverview();
+        mainCtrl.showAdminKey();
     }
 }

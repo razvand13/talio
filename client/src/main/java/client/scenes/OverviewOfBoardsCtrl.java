@@ -52,14 +52,14 @@ public class OverviewOfBoardsCtrl {
      * @param adminSceneCtrl
      */
     @Inject
-    public OverviewOfBoardsCtrl(OurServerUtils server, MainTaskListCtrl mainCtrl,
-                                TaskListCtrl taskListCtrl, AdminSceneCtrl adminSceneCtrl) {
+    public OverviewOfBoardsCtrl(OurServerUtils server, MainTaskListCtrl mainCtrl, TaskListCtrl taskListCtrl,
+                                AdminSceneCtrl adminSceneCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
         this.taskListCtrl = taskListCtrl;
         this.adminSceneCtrl = adminSceneCtrl;
         this.boards = new ArrayList<>();
-        // buttonsSetup();
+       // buttonsSetup();
     }
 
     /**
@@ -110,7 +110,7 @@ public class OverviewOfBoardsCtrl {
                 }
             }
         } catch (NumberFormatException e) {
-            System.out.println(e.getStackTrace());
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
@@ -152,23 +152,33 @@ public class OverviewOfBoardsCtrl {
     public void adminButtonSetup(){
         System.out.println("print boards");
         mainCtrl.showAdminOverview();
+        mainCtrl.showAdminKey();
     }
 
     /**
      * Method for going back to the serverConnect
      */
     public void serverSelectSetUp(){
-        serverSelectButton.setOnMouseClicked(event -> {
-            mainCtrl.showServerConnect();
-            event.consume();
-        });
+        mainCtrl.showServerConnect();
     }
+
+    /**
+     * Prompts the user with inputting the admin key
+     */
+    public void promptAdminKey(){
+        mainCtrl.showAdminKey();
+    }
+
     /**
      * First time setup method
      */
     public void firstTimeSetUp(){
         refreshBoards();
         server.setSession();
+        server.registerForMessages("/topic/boards", Board.class, b -> {
+            boards.add(b);
+            Platform.runLater(this::refreshBoards);
+        });
         server.registerForMessages("/topic/remove-board", Board.class, b -> {
             Platform.runLater(this::refreshBoards);
         });
@@ -201,7 +211,7 @@ public class OverviewOfBoardsCtrl {
      * Method for making the boardContainers appear
      */
     public void makeBoards(){
-
+  
         String currentConnection = server.getAddress().replace(":","_");
         try {
             File boardIdListFile = new File("TalioJoinedBoardsOn"+currentConnection+".txt");
