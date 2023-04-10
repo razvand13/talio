@@ -75,8 +75,8 @@ class BoardTest {
         b2.id = 12346;
         long newId1 = 1369;
         long newId2 = 1369;
-        b1.setId(newId1);
-        b2.setId(newId2);
+        b1.id = newId1;
+        b2.id = newId2;
         assertEquals(b1.id, b2.id);
     }
 
@@ -96,9 +96,9 @@ class BoardTest {
         Board b1 = new Board("title1");
         Board b2 = new Board("title1");
         Board b3 = new Board("title3");
-        b1.setTitle("newTitle");
-        b2.setTitle("newTitle");
-        b3.setTitle("newTitle2");
+        b1.title = "newTitle";
+        b2.title = "newTitle";
+        b3.title = "newTitle2";
         assertEquals(b1.title, b2.title);
         assertNotEquals(b1.title, b3.title);
     }
