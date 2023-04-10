@@ -45,12 +45,12 @@ public class OverviewOfBoardsCtrl {
     private TilePane boardTilePane;
 
     /**
-     * Constructorfor OverviewOfBoardsCtrl
+     * Constructor for OverviewOfBoardsCtrl
      *
-     * @param server
-     * @param mainCtrl
-     * @param taskListCtrl
-     * @param adminSceneCtrl
+     * @param server server
+     * @param mainCtrl mainCtrl
+     * @param taskListCtrl taskListCtrl
+     * @param adminSceneCtrl adminSceneCtrl
      */
     @Inject
     public OverviewOfBoardsCtrl(OurServerUtils server, MainTaskListCtrl mainCtrl,
@@ -60,17 +60,6 @@ public class OverviewOfBoardsCtrl {
         this.taskListCtrl = taskListCtrl;
         this.adminSceneCtrl = adminSceneCtrl;
         this.boards = new ArrayList<>();
-
-       // buttonsSetup();
-    }
-
-    /**
-     * Method for setting up the buttons
-     */
-    public void buttonsSetup(){
-        joinButtonSetUp();
-        serverSelectSetUp();
-        adminButtonSetup();
     }
 
     /**
@@ -96,7 +85,7 @@ public class OverviewOfBoardsCtrl {
     /**
      * Method for setting up the controller for the join board by id
      */
-    public void joinButtonSetUp(){
+    public void join(){
         String idString = idTextField.getText();
         try {
             long id = Long.parseLong(idString);
@@ -114,7 +103,7 @@ public class OverviewOfBoardsCtrl {
                 }
             }
         } catch (NumberFormatException e) {
-            System.out.println(e.getStackTrace());
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
@@ -153,7 +142,7 @@ public class OverviewOfBoardsCtrl {
     /**
      * Method for setting up the admin button
      */
-    public void adminButtonSetup(){
+    public void admin(){
         System.out.println("print boards");
         mainCtrl.showAdminOverview();
     }
@@ -161,20 +150,20 @@ public class OverviewOfBoardsCtrl {
     /**
      * Method for going back to the serverConnect
      */
-    public void serverSelectSetUp(){
-        serverSelectButton.setOnMouseClicked(event -> {
-            mainCtrl.showServerConnect();
-            event.consume();
-        });
+    public void serverSelect(){
+        mainCtrl.showServerConnect();
     }
     /**
      * First time setup method
      */
     public void firstTimeSetUp(){
-        refreshBoards();
         server.setSession();
+        refreshBoards();
         server.registerForMessages("/topic/boards", Board.class, b -> {
             boards.add(b);
+            Platform.runLater(this::refreshBoards);
+        });
+        server.registerForMessages("/topic/edit-board", Board.class, b -> {
             Platform.runLater(this::refreshBoards);
         });
     }

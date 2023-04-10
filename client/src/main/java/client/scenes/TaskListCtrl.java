@@ -38,9 +38,13 @@ public class TaskListCtrl implements Initializable {
 
     @FXML
     private TextField listTitle;
+    @FXML
+    private TextField editBoardTitleField;
 
     @FXML
     private Button changeBoardsButton;
+    @FXML
+    private Button editBoardTitleBtn;
 
     @FXML
     private Text boardIdText;
@@ -116,8 +120,9 @@ public class TaskListCtrl implements Initializable {
 
         // Long polling
         // "/api/cards" -> CardController -> "/updates" -> getUpdates()
-        server.registerForUpdates("/api/cards/updates", Card.class, c ->
-                Platform.runLater(this::refreshBoard));
+        server.registerForUpdates("/api/cards/updates", Card.class, c -> {
+            Platform.runLater(this::refreshBoard);
+        });
 
         // Add list
         server.registerForMessages("/topic/lists", ListOfCards.class, l -> {
@@ -125,7 +130,7 @@ public class TaskListCtrl implements Initializable {
             Platform.runLater(this::refreshBoard);
         });
 
-        // todo Edit card
+        // Edit card
         server.registerForMessages("/topic/edit-card", Card.class, c -> {
             Platform.runLater(this::refreshBoard);
         });
@@ -135,13 +140,18 @@ public class TaskListCtrl implements Initializable {
             Platform.runLater(this::refreshBoard);
         });
 
-        // todo Remove list
+        // Remove list
         server.registerForMessages("/topic/remove-lists", ListOfCards.class, loc -> {
             Platform.runLater(this::refreshBoard);
         });
 
-        // todo Edit list
+        // Edit list
         server.registerForMessages("/topic/edit-lists", ListOfCards.class, loc -> {
+            Platform.runLater(this::refreshBoard);
+        });
+
+        // Edit board
+        server.registerForMessages("/topic/edit-board", Board.class, b -> {
             Platform.runLater(this::refreshBoard);
         });
 
@@ -153,20 +163,13 @@ public class TaskListCtrl implements Initializable {
      */
     public void stop(){
         server.stop();
-        // todo Remove list
-
-        changeBoardSetup();
-        //showBoardId();
     }
 
     /**
      * Setup for changing the board
      */
     public void changeBoardSetup(){
-        changeBoardsButton.setOnMouseClicked(event -> {
-            mainCtrl.showOverviewOfBoards();
-            event.consume();
-        });
+        mainCtrl.showOverviewOfBoards();
     }
 
     /**
@@ -183,6 +186,7 @@ public class TaskListCtrl implements Initializable {
      * redraws them, one by one
      */
     public void refreshBoard(){
+        board = server.getBoardById(board.id); // Refresh any changes made to the board
         clearBoard();
         makeBoard();
     }
@@ -279,5 +283,41 @@ public class TaskListCtrl implements Initializable {
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(content, null);
         return id;
+    }
+
+    /**
+     * Place this method on boardNameText, on right click
+     * When the Board's name is clicked, a TextField appears where the user can
+     * change the Board's name
+     */
+    public void promptEditBoardTitle(){
+        editBoardTitleField.setText(board.title);
+        editBoardTitleBtn.setVisible(true);
+        editBoardTitleField.setVisible(true);
+    }
+
+    /**
+     * Place this method on editBoardNameBtn
+     * When the button is pressed, change the Board's name
+     * to what is inside editBoardNameField
+     * Don't allow for empty names or no changes, in this case don't save
+     */
+    public void saveEditBoardTitle(){
+        String edit = editBoardTitleField.getText();
+        if(edit != null && !edit.equals("") && !edit.equals(board.title)){
+            Board b = server.getBoardById(board.id);
+            board.title = edit;
+//            boardNameText.setText("Board: " + edit);
+            editBoardTitleField.setText(edit);
+            server.send("/app/edit-board", board);
+//            board = b; // refresh
+//            Platform.runLater(() -> {
+//                boardNameText.setText("Board: " + edit); // THIS IS ONLY VISUAL !!!
+//            });
+        }
+        editBoardTitleBtn.setVisible(false);
+        editBoardTitleField.setVisible(false);
+//        Platform.runLater(this::refreshBoard);
+
     }
 }

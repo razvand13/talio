@@ -1,6 +1,7 @@
 package server.api;
 
 import commons.Board;
+import commons.Card;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -97,6 +98,18 @@ public class BoardController {
     @SendTo("/topic/remove-board")
     public Board removeBoard(Board board){
         repo.deleteById(board.id);
+        return board;
+    }
+
+    /**
+     * Edit board in database
+     * @param board Board with changed values
+     * @return edited Board
+     */
+    @MessageMapping("/edit-board")
+    @SendTo("/topic/edit-board")
+    public Board editCard(Board board){
+        board = repo.save(board);
         return board;
     }
 
