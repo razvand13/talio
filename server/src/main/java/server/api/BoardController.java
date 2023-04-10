@@ -102,20 +102,6 @@ public class BoardController {
 
 
     /**
-     * Method for finding Board based on id
-     * @param id id of Board that is searched
-     * @return an OK response if found, badRequest otherwise
-     */
-    @GetMapping("/{id}")
-    public ResponseEntity<Board> getById(@PathVariable("id") long id) {
-        if(id < 0 || !repo.existsById(id)) {
-            return  ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(repo.findById(id).get());
-    }
-
-
-    /**
      * Deletes a board based on its id
      * @param id id of board to be deleted
      */

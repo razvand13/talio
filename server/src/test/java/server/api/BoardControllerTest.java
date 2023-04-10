@@ -105,8 +105,8 @@ public class BoardControllerTest {
 
         controller.deleteById(1);
 
-        assertEquals(BAD_REQUEST, controller.getById(1).getStatusCode());
-        assertEquals(OK, controller.getById(0).getStatusCode());
+        assertEquals(BAD_REQUEST, controller.getBoardById(1).getStatusCode());
+        assertEquals(OK, controller.getBoardById(0).getStatusCode());
     }
 
     @Test
@@ -119,8 +119,8 @@ public class BoardControllerTest {
         controller.addBoard(myBoard1);
 
         controller.deleteAll();
-        assertEquals(BAD_REQUEST, controller.getById(0).getStatusCode());
-        assertEquals(BAD_REQUEST, controller.getById(1).getStatusCode());
+        assertEquals(BAD_REQUEST, controller.getBoardById(0).getStatusCode());
+        assertEquals(BAD_REQUEST, controller.getBoardById(1).getStatusCode());
     }
 
     @Test
