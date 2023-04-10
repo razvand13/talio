@@ -248,6 +248,6 @@ public class TaskListCtrl implements Initializable {
     }
 
     public void admin() {
-        mainCtrl.showAdminOverview();
+        mainCtrl.showAdminKey();
     }
 }
