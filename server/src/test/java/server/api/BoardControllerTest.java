@@ -109,7 +109,7 @@ public class BoardControllerTest {
         assertEquals(OK, controller.getById(0).getStatusCode());
     }
 
-        @Test
+    @Test
     public void deleteAllTest() {
         Board myBoard0 = new Board("name");
         myBoard0.id = 0;
@@ -122,35 +122,6 @@ public class BoardControllerTest {
         assertEquals(BAD_REQUEST, controller.getById(0).getStatusCode());
         assertEquals(BAD_REQUEST, controller.getById(1).getStatusCode());
     }
-
-//    @Test
-//    public void deleteByIdTest() {
-//        Board myBoard0 = new Board("name");
-//        myBoard0.id = 0;
-//        Board myBoard1 = new Board("name");
-//        myBoard1.id = 1;
-//        controller.addBoard(myBoard0);
-//        controller.addBoard(myBoard1);
-//
-//        controller.deleteBById(1);
-//
-//        assertEquals(BAD_REQUEST, controller.getById(1).getStatusCode());
-//        assertEquals(OK, controller.getById(0).getStatusCode());
-//    }
-//
-//    @Test
-//    public void deleteAllTest() {
-//        Board myBoard0 = new Board("name");
-//        myBoard0.id = 0;
-//        Board myBoard1 = new Board("name");
-//        myBoard1.id = 1;
-//        controller.add(myBoard0);
-//        controller.add(myBoard1);
-//
-//        controller.deleteAll();
-//        assertEquals(BAD_REQUEST, controller.getById(0).getStatusCode());
-//        assertEquals(BAD_REQUEST, controller.getById(1).getStatusCode());
-//    }
 
     @Test
     public void getMostRecentTest() {
