@@ -107,7 +107,7 @@ public class OverviewOfBoardsCtrl {
                 }
             }
         } catch (NumberFormatException e) {
-            System.out.println(e.getStackTrace());
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
@@ -156,10 +156,7 @@ public class OverviewOfBoardsCtrl {
      * Method for going back to the serverConnect
      */
     public void serverSelectSetUp(){
-        serverSelectButton.setOnMouseClicked(event -> {
-            mainCtrl.showServerConnect();
-            event.consume();
-        });
+        mainCtrl.showServerConnect();
     }
 
     /**

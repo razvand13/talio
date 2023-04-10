@@ -11,15 +11,17 @@ public class AdminKeyCtrl {
 
     private final OurServerUtils server;
     private final MainTaskListCtrl mainCtrl;
-    private boolean isAdmin;
     @FXML
     private Label inputKeyLabel;
+    @FXML
+    private Label incorrectLabel;
     @FXML
     private TextField keyField;
     @FXML
     private Button okBtn;
     @FXML
-    private Label incorrectLabel;
+    private Button backBtn;
+
 
     /**
      * Constructor
@@ -40,7 +42,6 @@ public class AdminKeyCtrl {
     public void ok(){
         String inputKey = keyField.getText();
         if(inputKey.equals("password1234!")){ // todo do we want it hardcoded?
-            isAdmin = true;
             incorrectLabel.setVisible(false);
             mainCtrl.showAdminOverview();
         }
@@ -48,6 +49,14 @@ public class AdminKeyCtrl {
             incorrectLabel.setVisible(true);
             keyField.clear();
         }
-
     }
+
+    /**
+     * Functionality of backBtn
+     * Displays the Overview of Boards scene
+     */
+    public void back(){
+        mainCtrl.showOverviewOfBoards();
+    }
+
 }

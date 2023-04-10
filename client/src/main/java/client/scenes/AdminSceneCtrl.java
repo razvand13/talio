@@ -61,7 +61,7 @@ public class AdminSceneCtrl implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         IDColumn.setCellValueFactory(b ->
-                new SimpleStringProperty(b.getValue().getId().toString()));
+                new SimpleStringProperty(String.valueOf(b.getValue().id)));
         boardNameColumn.setCellValueFactory(b ->
                 new SimpleStringProperty(b.getValue().title));
     }

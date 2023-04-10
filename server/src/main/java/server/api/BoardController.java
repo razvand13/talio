@@ -59,7 +59,7 @@ public class BoardController {
         }
 
         //there already exists a board with this id
-        if(repo.existsById(board.getId())){
+        if(repo.existsById(board.id)){
             return ResponseEntity.badRequest().build();
         }
         repo.save(board);
