@@ -100,4 +100,21 @@ public class BoardController {
         return board;
     }
 
+
+    /**
+     * Deletes a board based on its id
+     * @param id id of board to be deleted
+     */
+    public void deleteById(long id){
+        repo.deleteById(id);
+    }
+
+
+    /**
+     * Method for deleting all boards from the repository
+     */
+    public void deleteAll(){
+        repo.deleteAll();
+    }
+
 }
