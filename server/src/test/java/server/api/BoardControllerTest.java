@@ -35,6 +35,18 @@ public class BoardControllerTest {
     }
 
     @Test
+    public void cantAddDuplicateTest(){
+        Board b1 = new Board("name");
+        Board b2 = new Board("name");
+        b2.id = b1.id;
+        var first = controller.addBoard(b1);
+        assertEquals(OK, first.getStatusCode());
+        var second = controller.addBoard(b2);
+        assertEquals(BAD_REQUEST, second.getStatusCode());
+
+    }
+
+    @Test
     public void databaseIsUsed() {
         controller.addBoard(new Board("name"));
         assertTrue(repo.calledMethods.contains("save"));
@@ -61,6 +73,54 @@ public class BoardControllerTest {
         myBoard.id = 0;
         controller.addBoard(myBoard);
         assertEquals(myBoard, controller.getBoardById(0).getBody());
+    }
+
+    @Test
+    public void noBoardByIdTest(){
+        assertEquals(BAD_REQUEST, controller.getBoardById(1).getStatusCode());
+    }
+
+    @Test
+    public void addMessageTest(){
+        Board b1 = new Board("name");
+        Board b2 = controller.addMessage(b1);
+        assertEquals(b1, b2);
+    }
+
+    @Test
+    public void removeBoardTest(){
+        Board b1 = new Board("name");
+        Board b2 = controller.removeBoard(b1);
+        assertEquals(b1, b2);
+    }
+
+    @Test
+    public void deleteByIdTest() {
+        Board myBoard0 = new Board("name");
+        myBoard0.id = 0;
+        Board myBoard1 = new Board("name");
+        myBoard1.id = 1;
+        controller.addBoard(myBoard0);
+        controller.addBoard(myBoard1);
+
+        controller.deleteById(1);
+
+        assertEquals(BAD_REQUEST, controller.getById(1).getStatusCode());
+        assertEquals(OK, controller.getById(0).getStatusCode());
+    }
+
+        @Test
+    public void deleteAllTest() {
+        Board myBoard0 = new Board("name");
+        myBoard0.id = 0;
+        Board myBoard1 = new Board("name");
+        myBoard1.id = 1;
+        controller.addBoard(myBoard0);
+        controller.addBoard(myBoard1);
+
+        controller.deleteAll();
+        assertEquals(BAD_REQUEST, controller.getById(0).getStatusCode());
+        assertEquals(BAD_REQUEST, controller.getById(1).getStatusCode());
     }
 
 //    @Test
