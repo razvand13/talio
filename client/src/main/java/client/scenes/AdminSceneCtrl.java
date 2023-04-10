@@ -105,7 +105,7 @@ public class AdminSceneCtrl implements Initializable {
         //whole part for getting the ID from the selected board in the table
         String board = String.valueOf(this.table.getSelectionModel().getSelectedItem());
         board = board.substring(10,board.length()-1);
-        String id = "";
+        String id = board;
 
         Scanner s = new Scanner(board);
         s.useDelimiter(",");
@@ -124,24 +124,6 @@ public class AdminSceneCtrl implements Initializable {
         server.send("/app/remove-board", delBoard);
         refresh();
     }
-/*
-    public void removeFromFile(Board board) {
-        long id = board.id;
-        String currentConnection = server.getAddress().replace(":","_");
-        File boardIdListFile = new File("TalioJoinedBoardsOn"+currentConnection+".txt");
-        try{
-            String newIds = Files.readString(boardIdListFile.toPath()).replace(id+" ", "");
-            Writer writer = new FileWriter(boardIdListFile, false);
-            writer.write(newIds);
-            writer.close();
-            mainCtrl.updateOverviewOfBoards();
-        }
-        catch (IOException e){
-            System.out.println(e.getStackTrace());
-        }
-    }
-
- */
 
     /**
      * method to delete all the cards from a list, then delete the list

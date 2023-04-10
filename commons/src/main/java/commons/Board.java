@@ -67,6 +67,7 @@ public class Board implements Serializable {
     }
 
     public Long getId() {
+        //is this method needed? the id attribute is public
         return id;
     }
 }

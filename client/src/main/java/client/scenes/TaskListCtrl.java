@@ -16,11 +16,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.geometry.Insets;
 
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+import java.awt.Toolkit;
+
 
 public class TaskListCtrl implements Initializable {
 
@@ -41,7 +45,10 @@ public class TaskListCtrl implements Initializable {
     @FXML
     private Text boardIdText;
 
-    private static Board board;
+    @FXML
+    private Text boardNameText;
+
+    private Board board;
 
     /**
      * Constructor method
@@ -197,6 +204,11 @@ public class TaskListCtrl implements Initializable {
      */
     public void makeBoard(){
 
+        if (board != null) {
+            boardNameText.setText("Board: " + board.title);
+            boardIdText.setText("ID: " + board.id);
+        }
+
         //Redraw lists
         list = server.getLists();
         for(ListOfCards loc : list){
@@ -251,6 +263,19 @@ public class TaskListCtrl implements Initializable {
      * admin button to go to admin panel
      */
     public void admin() {
-        mainCtrl.showAdminKey();
+        mainCtrl.showAdminOverview();
+    }
+
+    /**
+     * Method that copies the ID of the current board to the clipboard
+     * Gets called then "Copy ID" is pressed in list overview
+     * @return id of current board
+     */
+    public long copyID(){
+        long id = board.id;
+        StringSelection content = new StringSelection(String.valueOf(id));
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(content, null);
+        return id;
     }
 }
