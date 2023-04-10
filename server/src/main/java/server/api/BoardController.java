@@ -49,7 +49,7 @@ public class BoardController {
      * adds a board to the repo
      * @param board the board that needs to be added
      * @return badRequest iff the board is null. ok with the provided board
-     *          iff it was added successfully.
+     * iff it was added successfully.
      */
     @PostMapping(path ={"","/"})
     public ResponseEntity<Board> addBoard(@RequestBody Board board) {
@@ -76,6 +76,11 @@ public class BoardController {
         return mostRecent;
     }
 
+    /**
+     *
+     * @param board board
+     * @return Board
+     */
     @MessageMapping("/boards") //app/quotes -> path for basically any client (consumer)
     @SendTo("/topic/boards")// (producer)
     public Board addMessage(Board board) {
@@ -83,6 +88,11 @@ public class BoardController {
         return board;
     }
 
+    /**
+     *
+     * @param board board
+     * @return Board
+     */
     @MessageMapping("/remove-board")
     @SendTo("/topic/remove-board")
     public Board removeBoard(Board board){
@@ -90,6 +100,10 @@ public class BoardController {
         return board;
     }
 
+    /**
+     *
+     * @param id id
+     */
     public void deleteById(long id){
         repo.deleteById(id);
     }
