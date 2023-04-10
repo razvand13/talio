@@ -79,6 +79,9 @@ public class MainTaskListCtrl {
         primaryStage.setScene(serverConnect);
     }
 
+    /**
+     * Method for displaying AdminScene.fxml
+     */
     public void showAdminOverview() {
         adminSceneCtrl.showBoards();
         primaryStage.setTitle("Admin Overview");
