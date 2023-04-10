@@ -14,7 +14,6 @@ import javafx.scene.text.Text;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.util.Scanner;
 
 public class BoardContainer extends VBox {
     private HBox parent;
@@ -41,7 +40,8 @@ public class BoardContainer extends VBox {
      * @param mainCtrl
      * @param taskListCtrl
      */
-    public BoardContainer(Board board, OurServerUtils server, MainTaskListCtrl mainCtrl, TaskListCtrl taskListCtrl) {
+    public BoardContainer(Board board, OurServerUtils server, MainTaskListCtrl mainCtrl,
+                          TaskListCtrl taskListCtrl) {
         this.board = board;
         this.server = server;
         this.mainCtrl = mainCtrl;

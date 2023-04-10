@@ -13,12 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
 import java.net.URL;
-import java.nio.file.Files;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Scanner;
