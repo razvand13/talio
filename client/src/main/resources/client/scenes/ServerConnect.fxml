@@ -5,12 +5,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<!--<?import client.components.LogoImage?>-->
+<?import client.components.LogoImage?>
 <?import javafx.scene.layout.VBox?>
 <AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ServerConnectCtrl">
       <children>
       <VBox fx:id="vBox" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" style="-fx-padding: 50; -fx-alignment: CENTER; ">
-<!--                  <LogoImage/>-->
+                  <LogoImage/>
       </VBox>
 
       <Button layoutX="274.0" layoutY="244.0" mnemonicParsing="false" onAction="#connect" text="Connect" />
