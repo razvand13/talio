@@ -17,48 +17,44 @@ import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientConfig;
 
 import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.stomp.*;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
+public class NewServerUtils {
 
-public class OurServerUtils {
-
-
-    private static String SERVER = "http://localhost:8080/";
+    private static String SERVER = "http://localhost:8080";
 
 
     /**
-     * Set the SERVER variable to the input value
      * @param address address to connect to
+     * Set the SERVER variable to the input value
      */
     public static void setSERVER(String address){
-        SERVER = address;
+        SERVER =address;
     }
 
+    private StompSession session;
     /**
      * setup for stomp session port, occurs after server is set up
      */
-    private StompSession session;
-
-    /**
-     * Sets the current session
-     */
     public void setSession(){
+        System.out.println("session is set up");
         session = connect("ws"+ SERVER.substring(4) + "/websocket");
     }
 
     /**
-     *
-     * @param url url to connect to
-     * @return new StompSession
+     * connection to websocket using stomp session
+     * sets up Jackson mapper (message converter)
+     * @param url set in setSession() ws://localhost:<port>/websocket
+     * @return stompsession
      */
     private StompSession connect(String url) {
         var client = new StandardWebSocketClient();
         var stomp = new WebSocketStompClient(client);
         stomp.setMessageConverter(new MappingJackson2MessageConverter());
+
 
         try {
             return stomp.connect(url, new StompSessionHandlerAdapter() {}).get();
@@ -70,7 +66,6 @@ public class OurServerUtils {
         throw new IllegalStateException();
     }
 
-
     /**
      * Generic websocket update method
      * @param dest URL
@@ -80,27 +75,18 @@ public class OurServerUtils {
      */
     public <T> void registerForMessages(String dest, Class<T> type, Consumer<T> consumer) {
         session.subscribe(dest, new StompFrameHandler() {
-            /**
-             *
-             * @param headers the headers of a message
-             * @return
-             */
             @Override
             public Type getPayloadType(StompHeaders headers) {
                 return type;
             }
 
-            /**
-             *
-             * @param headers the headers of the frame
-             * @param payload the payload, or {@code null} if there was no payload
-             */
             @Override
             public void handleFrame(StompHeaders headers, Object payload) {
                 consumer.accept((T) payload);
             }
         });
     }
+
 
     private static final ExecutorService EXEC = Executors.newSingleThreadExecutor();
 
@@ -133,13 +119,6 @@ public class OurServerUtils {
     }
 
     /**
-     * Method that stops the program, including EXEC's thread
-     */
-    public void stop(){
-        EXEC.shutdownNow();
-    }
-
-    /**
      * sends object to server using stompsession
      * @param dest hesitation to send object to
      * @param o object to send
@@ -149,19 +128,12 @@ public class OurServerUtils {
     }
 
 
+
     /**
-     *
-     * @param path
-     * @param responseType
-     * @return invocation response
-     * @param <T>
+     * Method that stops the program, including EXEC's thread
      */
-    public <T> T get(String path, GenericType<T> responseType) {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path(path) //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .get(responseType);
+    public void stop(){
+        EXEC.shutdownNow();
     }
 
     /**
@@ -259,53 +231,6 @@ public class OurServerUtils {
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<List<Card>>() {});
     }
-
-
-    /**
-     * Find Card from the specified ListOfCards
-     * @param listId ListOfCards id
-     * @return a Card containing the query result
-     */
-    public Card getCardByListId(long listId){
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/cards/list/"+listId) //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .get(new GenericType<Card>() {});
-    }
-
-    /**
-     * Delete all cards from a certain list
-     * Used to avoid FK constraint errors
-     * @param listId list id
-     * @return Response
-     */
-    public Response removeCardsByListId(long listId){
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("/remove-cards/list/"+listId) //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .delete();
-    }
-
-    /**
-     *
-     * @param path path
-     * @param body body
-     * @param responseType generic response type
-     * @param <T> generic T
-     * @return invocation response
-     *
-     */
-    public <T> T add(String path, Object body, GenericType<T> responseType) {
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path(path)
-                .request(APPLICATION_JSON)
-                .accept(APPLICATION_JSON)
-                .post(Entity.entity(body, APPLICATION_JSON), responseType);
-    }
-
-
 
     /**
      * Gets the address of the current server

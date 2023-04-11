@@ -1,7 +1,7 @@
 package client.scenes;
 
 import client.components.BoardContainer;
-import client.utils.OurServerUtils;
+import client.utils.NewServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
 
@@ -17,7 +17,7 @@ import java.util.*;
 
 
 public class OverviewOfBoardsCtrl {
-    private final OurServerUtils server;
+    private final NewServerUtils server;
     private final MainTaskListCtrl mainCtrl;
     private final TaskListCtrl taskListCtrl;
     private final AdminSceneCtrl adminSceneCtrl;
@@ -50,7 +50,7 @@ public class OverviewOfBoardsCtrl {
      * @param adminSceneCtrl adminSceneCtrl
      */
     @Inject
-    public OverviewOfBoardsCtrl(OurServerUtils server, MainTaskListCtrl mainCtrl,
+    public OverviewOfBoardsCtrl(NewServerUtils server, MainTaskListCtrl mainCtrl,
                                 TaskListCtrl taskListCtrl,
                                 AdminSceneCtrl adminSceneCtrl) {
         this.server = server;
@@ -199,7 +199,7 @@ public class OverviewOfBoardsCtrl {
     /** Getter for server
      * @return the server
      */
-    public OurServerUtils getServer() {
+    public NewServerUtils getServer() {
         return server;
     }
 

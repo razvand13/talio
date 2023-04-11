@@ -1,7 +1,7 @@
 package client.components;
 
 import client.scenes.MainTaskListCtrl;
-import client.utils.OurServerUtils;
+import client.utils.NewServerUtils;
 import commons.Card;
 import commons.ListOfCards;
 import javafx.collections.ObservableList;
@@ -40,7 +40,7 @@ public class ListContainer extends VBox {
     private Button listEditBtn;
     @FXML
     private TextField listRenameField;
-    private final OurServerUtils server;
+    private final NewServerUtils server;
 
     private final MainTaskListCtrl mainCtrl;
 
@@ -66,7 +66,7 @@ public class ListContainer extends VBox {
      * @param server
      * @param mainCtrl
      */
-    public ListContainer(String listName, OurServerUtils server, MainTaskListCtrl mainCtrl){
+    public ListContainer(String listName, NewServerUtils server, MainTaskListCtrl mainCtrl){
         this.server = server;
         this.mainCtrl = mainCtrl;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass()
@@ -643,7 +643,7 @@ public class ListContainer extends VBox {
     /**vcvcx
      * @return server
      */
-    public OurServerUtils getServer() {
+    public NewServerUtils getServer() {
         return server; //get the server
     }
 

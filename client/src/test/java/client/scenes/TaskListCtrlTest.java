@@ -1,15 +1,15 @@
 package client.scenes;
 
+import client.utils.NewServerUtils;
 import client.utils.HelperFXinit;
-import client.utils.OurServerUtils;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TaskListCtrlTest  {
 
-    public static MainTaskListCtrl mainCtrl = new MainTaskListCtrl();
-    public static OurServerUtils server = new OurServerUtils();
+    private static NewServerUtils server= new NewServerUtils();
+    private static MainTaskListCtrl mainCtrl = new MainTaskListCtrl();
     public static TaskListCtrl taskListCtrl = new TaskListCtrl(server, mainCtrl);
 
     @Test

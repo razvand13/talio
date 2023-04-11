@@ -1,7 +1,7 @@
 package client.scenes;
 
 import client.components.ListContainer;
-import client.utils.OurServerUtils;
+import client.utils.NewServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
 import commons.Card;
@@ -28,7 +28,7 @@ import java.awt.Toolkit;
 
 public class TaskListCtrl implements Initializable {
 
-    private final OurServerUtils server;
+    private final NewServerUtils server;
     private final MainTaskListCtrl mainCtrl;
     private List<Card> data;
     private List<ListOfCards> list;
@@ -61,7 +61,7 @@ public class TaskListCtrl implements Initializable {
      * @param mainCtrl main controller
      */
     @Inject
-    public TaskListCtrl(OurServerUtils server, MainTaskListCtrl mainCtrl) {
+    public TaskListCtrl(NewServerUtils server, MainTaskListCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
@@ -307,7 +307,7 @@ public class TaskListCtrl implements Initializable {
     /** getter for the server
      * @return the server
      */
-    public OurServerUtils getServer() {
+    public NewServerUtils getServer() {
         return server;
     }
 

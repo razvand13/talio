@@ -1,7 +1,7 @@
 package client.scenes;
 
 import client.utils.HelperFXinit;
-import client.utils.OurServerUtils;
+import client.utils.NewServerUtils;
 
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +14,7 @@ class AdminSceneCtrlTest  {
 
     @Test
     void testConstructor(){
-        OurServerUtils server = new OurServerUtils();
+        NewServerUtils server = new NewServerUtils();
         MainTaskListCtrl mainCtrl = new MainTaskListCtrl();
         AdminSceneCtrl adminSceneCtrl = new AdminSceneCtrl(server, mainCtrl);
         assertEquals(adminSceneCtrl.getServer(), server);
@@ -24,7 +24,7 @@ class AdminSceneCtrlTest  {
     @Test
     public void testBack() {
         MainTaskListCtrl mainCtrl = mock(MainTaskListCtrl.class);
-        AdminSceneCtrl adminCtrl = new AdminSceneCtrl(new OurServerUtils(), mainCtrl);
+        AdminSceneCtrl adminCtrl = new AdminSceneCtrl(new NewServerUtils(), mainCtrl);
         adminCtrl.back();
         verify(mainCtrl, times(1)).showOverviewOfBoards();
     }

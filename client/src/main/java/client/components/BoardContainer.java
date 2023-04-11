@@ -2,7 +2,7 @@ package client.components;
 
 import client.scenes.MainTaskListCtrl;
 import client.scenes.TaskListCtrl;
-import client.utils.OurServerUtils;
+import client.utils.NewServerUtils;
 import commons.Board;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +15,7 @@ import java.io.*;
 
 public class BoardContainer extends VBox {
     private TilePane parent;
-    private final OurServerUtils server;
+    private final NewServerUtils server;
     private final MainTaskListCtrl mainCtrl;
     private final TaskListCtrl taskListCtrl;
 
@@ -39,7 +39,7 @@ public class BoardContainer extends VBox {
      * @param mainCtrl
      * @param taskListCtrl
      */
-    public BoardContainer(Board board, OurServerUtils server, MainTaskListCtrl mainCtrl,
+    public BoardContainer(Board board, NewServerUtils server, MainTaskListCtrl mainCtrl,
                           TaskListCtrl taskListCtrl) {
         this.board = board;
         this.server = server;
@@ -108,7 +108,7 @@ public class BoardContainer extends VBox {
     /**getter for server
      * @return server
      */
-    public OurServerUtils getServer() {
+    public NewServerUtils getServer() {
         return server;
     }
 
