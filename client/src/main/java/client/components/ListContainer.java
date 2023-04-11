@@ -565,15 +565,16 @@ public class ListContainer extends VBox {
      */
     public ListView<String> getList() {
         return list;
-        }
+    }
 
     /**
      * Getter for listOfCards
      * @return the listOfCards associated with this container
      */
     public ListOfCards getListOfCards() {
+
         return listOfCards;
-        }
+    }
 
     /**
      * Adds a dragDone event handler on a list
@@ -654,13 +655,6 @@ public class ListContainer extends VBox {
         return listNameLabel;
     }
 
-    /**
-     * Getter method for list
-     * @return list
-     */
-    public ListView<String> getList() {
-        return list;
-    }
 
     /** Getter method for mainCtrl
      * @return mainCtrl
@@ -669,13 +663,6 @@ public class ListContainer extends VBox {
         return mainCtrl;
     }
 
-    /**
-     * Getter for listOfCards
-     * @return the listOfCards associated with this container
-     */
-    public ListOfCards getListOfCards() {
-        return listOfCards;
-    }
 
     /**
      * Setter method for ListOfCards
