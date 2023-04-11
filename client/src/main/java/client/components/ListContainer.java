@@ -564,8 +564,8 @@ public class ListContainer extends VBox {
      * @return list
      */
     public ListView<String> getList() {
-        return list;
-    }
+        return list;
+        }
 
     /**
      * Getter for listOfCards
@@ -573,7 +573,7 @@ public class ListContainer extends VBox {
      */
     public ListOfCards getListOfCards() {
         return listOfCards;
-    }
+        }
 
     /**
      * Adds a dragDone event handler on a list
