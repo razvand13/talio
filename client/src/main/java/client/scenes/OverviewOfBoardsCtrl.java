@@ -96,7 +96,8 @@ public class OverviewOfBoardsCtrl {
                         System.out.println("join board");
                         mainCtrl.showTaskListView();
                         //writeId(id);
-                        joinedBoardIds.add(id);
+                        if(!joinedBoardIds.contains(id))
+                            joinedBoardIds.add(id);
                         idTextField.clear();
                         break;
                     }
