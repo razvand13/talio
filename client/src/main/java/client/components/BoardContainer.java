@@ -11,7 +11,8 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
 
 public class BoardContainer extends VBox {
     private TilePane parent;
@@ -26,6 +27,8 @@ public class BoardContainer extends VBox {
     private Text boardNameTextField;
     @FXML
     private Button joinBoardButton;
+    @FXML
+    private Button removeBoardButton;
 
     @FXML
     private Text boardIDText;
@@ -57,6 +60,11 @@ public class BoardContainer extends VBox {
         }
 
         //this.setMinWidth(200);
+        if(board != null) {
+            boardNameTextField.setText(board.title);
+            setRemoveBoard();
+            setOpenBoard();
+        }
 
         boardNameTextField.setText(board.title);
 
@@ -73,6 +81,29 @@ public class BoardContainer extends VBox {
             taskListCtrl.setTaskListCtrlBoard(board);
             mainCtrl.showTaskListView();
             event.consume();
+        });
+    }
+
+
+    /**
+     * removes this board for this user
+     * does NOT delete the board form the database
+     */
+    public void setRemoveBoard(){
+        this.removeBoardButton.setOnMouseClicked(event -> {
+            long id = board.id;
+            String currentConnection = server.getAddress().replace(":","_");
+            File boardIdListFile = new File("TalioJoinedBoardsOn"+currentConnection+".txt");
+            try{
+                String newIds = Files.readString(boardIdListFile.toPath()).replace(id+" ", "");
+                Writer writer = new FileWriter(boardIdListFile, false);
+                writer.write(newIds);
+                writer.close();
+                mainCtrl.updateOverviewOfBoards();
+            }
+            catch (IOException e){
+                System.out.println(e.getStackTrace());
+            }
         });
     }
 
@@ -150,7 +181,7 @@ public class BoardContainer extends VBox {
 
     /**
      * Getter for joinBoardButton
-     * @return Button
+     * @return JoinButton
      */
     public Button getJoinBoardButton() {
         return joinBoardButton;
@@ -162,5 +193,21 @@ public class BoardContainer extends VBox {
      */
     public void setJoinBoardButton(Button joinBoardButton) {
         this.joinBoardButton = joinBoardButton;
+    }
+
+    /**
+     * getter for remove board button
+     * @return RemoveButton
+     */
+    public Button getRemoveBoardButton() {
+        return removeBoardButton;
+    }
+
+    /**
+     * setter for remove board button
+     * @param removeBoardButton
+     */
+    public void setRemoveBoardButton(Button removeBoardButton) {
+        this.removeBoardButton = removeBoardButton;
     }
 }
