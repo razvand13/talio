@@ -102,6 +102,4 @@ public class Card implements Serializable {
     public void setCard(String title){
         this.title = title;
     }
-
-
 }

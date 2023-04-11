@@ -303,18 +303,4 @@ public class TaskListCtrl implements Initializable {
         editBoardTitleBtn.setVisible(false);
         editBoardTitleField.setVisible(false);
     }
-
-    /** getter for the server
-     * @return the server
-     */
-    public OurServerUtils getServer() {
-        return server;
-    }
-
-    /** getter for the mainCtrl
-     * @return the mainCtrl
-     */
-    public MainTaskListCtrl getMainCtrl() {
-        return mainCtrl;
-    }
 }

@@ -88,12 +88,14 @@ public class ListContainer extends VBox {
     }
 
 
-    /** Method for setting the cards
-     * @param allCards list of all cards in the database
+    /**
+     * Setter method for ListOfCards
+     * @param loc ListOfCards
      */
-    public void setAllCards(List<Card> allCards) {
-        this.allCards = allCards;
+    public void setListOfCards(ListOfCards loc){
+        listOfCards = loc;
     }
+
 
     /**
      * Method that sets all event handlers of a list and its children
@@ -137,8 +139,6 @@ public class ListContainer extends VBox {
     }
 
 
-
-
     /**
      * Method for making task editing option visible
      *
@@ -148,7 +148,7 @@ public class ListContainer extends VBox {
      * @param textField text field to fetch task title from
      */
     public void setShowTaskEditAction(Button editBtn, Button delBtn, ListView<String> list,
-                                             TextField textField) {
+                                      TextField textField) {
         list.setOnContextMenuRequested(event -> {
             String item = list.getSelectionModel().getSelectedItem();
             if (item != null) {
@@ -233,7 +233,6 @@ public class ListContainer extends VBox {
                     break;
                 }
             }
-
 
             deleteButton.setVisible(false);
             editButton.setVisible(false);
@@ -361,7 +360,7 @@ public class ListContainer extends VBox {
      * These handlers only work with Strings as the content of lists
      * @param list list to apply handlers to
      */
-    private void setDragAndDrop(ListView<String> list) {
+    public void setDragAndDrop(ListView<String> list) {
         // Functionality
         list.setOnDragDetected(event -> dragDetected(list, event));
         list.setOnDragOver(event -> dragOver(list, event));
@@ -542,12 +541,7 @@ public class ListContainer extends VBox {
         }
     }
 
-    /** Method used to update the positions of the cards in the list
-     * @param list the list the data was dragged from
-     * @param event the drag event
-     * @return an int representing the index of the card
-     */
-    public int calculateIndex(ListView<String> list, DragEvent event){
+    private int calculateIndex(ListView<String> list, DragEvent event){
         double mouseY = event.getY();
         double totalHeight = list.getHeight();
         int index = (int) (mouseY/totalHeight*13);
@@ -557,23 +551,6 @@ public class ListContainer extends VBox {
             index = list.getItems().size();
         }
         return index;
-    }
-
-    /**
-     * Getter method for list
-     * @return list
-     */
-    public ListView<String> getList() {
-        return list;
-    }
-
-    /**
-     * Getter for listOfCards
-     * @return the listOfCards associated with this container
-     */
-    public ListOfCards getListOfCards() {
-
-        return listOfCards;
     }
 
     /**
@@ -632,21 +609,6 @@ public class ListContainer extends VBox {
         this.parent = parent;
     }
 
-
-    /**
-     * @return parent
-     */
-    public HBox getParentOfThis() {
-        return parent;
-    }
-
-    /**vcvcx
-     * @return server
-     */
-    public OurServerUtils getServer() {
-        return server; //get the server
-    }
-
     /**
      * Getter method for listNameLabel
      * @return listNameLabel
@@ -655,23 +617,83 @@ public class ListContainer extends VBox {
         return listNameLabel;
     }
 
-
-    /** Getter method for mainCtrl
-     * @return mainCtrl
+    /**
+     * Getter method for list
+     * @return list
      */
-    public MainTaskListCtrl getMainCtrl() {
-        return mainCtrl;
+    public ListView<String> getList() {
+        return list;
     }
-
 
     /**
-     * Setter method for ListOfCards
-     * @param loc ListOfCards
+     * Getter method for addTaskBtn
+     * @return addTaskBtn
      */
-    public void setListOfCards(ListOfCards loc){
-        listOfCards = loc;
+    public Button getAddTaskBtn() {
+        return addTaskBtn;
     }
 
+    /**
+     * Getter method for taskInputField
+     * @return taskInputField
+     */
+    public TextField getTaskInputField() {
+        return taskInputField;
+    }
 
+    /**
+     * Getter method for taskEditBtn
+     * @return taskEditBtn
+     */
+    public Button getTaskEditBtn() {
+        return taskEditBtn;
+    }
 
+    /**
+     * Getter method for taskEditField
+     * @return taskEditField
+     */
+    public TextField getTaskEditField() {
+        return taskEditField;
+    }
+
+    /**
+     * Getter method for listOptionsBtn
+     * @return listOptionsBtn
+     */
+    public Button getListOptionsBtn() {
+        return listOptionsBtn;
+    }
+
+    /**
+     * Getter method for listDeleteBtn
+     * @return listDeleteBtn
+     */
+    public Button getListDeleteBtn() {
+        return listDeleteBtn;
+    }
+
+    /**
+     * Getter method for listEditBtn
+     * @return listEditBtn
+     */
+    public Button getListEditBtn() {
+        return listEditBtn;
+    }
+
+    /**
+     * Getter method for listRenameField
+     * @return listRenameField
+     */
+    public TextField getListRenameField() {
+        return listRenameField;
+    }
+
+    /**
+     * Getter for listOfCards
+     * @return the listOfCards associated with this container
+     */
+    public ListOfCards getListOfCards() {
+        return listOfCards;
+    }
 }

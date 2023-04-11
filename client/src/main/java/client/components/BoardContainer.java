@@ -104,26 +104,20 @@ public class BoardContainer extends VBox {
         this.parent = parent;
     }
 
-
-    /**getter for server
-     * @return server
+    /**
+     * Getter for joinBoardButtonWithId
+     * @return button
      */
-    public OurServerUtils getServer() {
-        return server;
+    public Button getJoinBoard() {
+        return joinBoardWithId;
     }
 
-    /**getter for mainCtrl
-     * @return mainCtrl
+    /**
+     * Setter for joinBoardButton
+     * @param joinBoardWithId
      */
-    public MainTaskListCtrl getMainCtrl() {
-        return mainCtrl;
-    }
-
-    /**getter for taskListCtrl
-     * @return taskListCtrl
-     */
-    public TaskListCtrl getTaskListCtrl() {
-        return taskListCtrl;
+    public void setJoinBoard(Button joinBoardWithId) {
+        this.joinBoardWithId = joinBoardWithId;
     }
 
     /**
@@ -182,7 +176,13 @@ public class BoardContainer extends VBox {
         return joinBoardButton;
     }
 
-
+    /**
+     * Setter for joinBoardButton
+     * @param joinBoardButton
+     */
+    public void setJoinBoardButton(Button joinBoardButton) {
+        this.joinBoardButton = joinBoardButton;
+    }
 
     /**
      * getter for remove board button
@@ -192,4 +192,11 @@ public class BoardContainer extends VBox {
         return removeBoardButton;
     }
 
+    /**
+     * setter for remove board button
+     * @param removeBoardButton
+     */
+    public void setRemoveBoardButton(Button removeBoardButton) {
+        this.removeBoardButton = removeBoardButton;
+    }
 }
