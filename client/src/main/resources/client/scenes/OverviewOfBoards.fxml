@@ -21,11 +21,11 @@
                </font>
             </Label>
             <Pane disable="true" prefHeight="80.0" prefWidth="306.0" />
-            <Button fx:id="serverSelectButton" mnemonicParsing="false" onAction="#serverSelectSetUp" prefHeight="41.0" prefWidth="92.0" style="-fx-background-color: #F9C848;" text="Server select">
+            <Button fx:id="serverSelectButton" mnemonicParsing="false" onAction="#serverSelect" prefHeight="41.0" prefWidth="92.0" style="-fx-background-color: #F9C848;" text="Server select">
                <font>
                   <Font size="13.0" />
                </font></Button>
-            <Button fx:id="adminButton" mnemonicParsing="false" onAction="#adminButtonSetup" prefHeight="42.0" prefWidth="88.0" style="-fx-background-color: #F9C848;" text="Admin">
+            <Button fx:id="adminButton" mnemonicParsing="false" onAction="#admin" prefHeight="42.0" prefWidth="88.0" style="-fx-background-color: #F9C848;" text="Admin">
                <font>
                   <Font size="14.0" />
                </font>
@@ -37,7 +37,7 @@
             <Font size="13.0" />
          </font></Button>
       <TextField fx:id="idTextField" layoutX="46.0" layoutY="114.0" prefHeight="39.0" prefWidth="238.0" promptText="Id:" style="-fx-background-color: #EDEDED; -fx-border-color: grey;" />
-      <Button fx:id="joinBoardButton" layoutX="293.0" layoutY="112.0" mnemonicParsing="false" onAction="#joinButtonSetUp" prefHeight="42.0" prefWidth="47.0" style="-fx-background-color: FFB800;" text="Join">
+      <Button fx:id="joinBoardButton" layoutX="293.0" layoutY="112.0" mnemonicParsing="false" onAction="#join" prefHeight="42.0" prefWidth="47.0" style="-fx-background-color: FFB800;" text="Join">
          <font>
             <Font size="13.0" />
          </font>
