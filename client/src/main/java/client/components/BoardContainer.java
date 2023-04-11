@@ -108,7 +108,7 @@ public class BoardContainer extends VBox {
     /**getter for server
      * @return server
      */
-    public OurServerUtils getServer() {
+    public NewServerUtils getServer() {
         return server;
     }
 
