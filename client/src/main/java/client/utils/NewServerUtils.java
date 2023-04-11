@@ -25,40 +25,46 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 public class NewServerUtils {
 
-        private static String SERVER = "http://localhost:8080";
+    private static String SERVER = "http://localhost:8080";
 
 
-        /**
-         * @param address address to connect to
-         * Set the SERVER variable to the input value
-         */
-        public static void setSERVER(String address){
-            SERVER =address;
+    /**
+     * @param address address to connect to
+     * Set the SERVER variable to the input value
+     */
+    public static void setSERVER(String address){
+        SERVER =address;
+    }
+    /**
+     * setup for stomp session port, occurs after server is set up
+     */
+    private StompSession session;
+    public void setSession(){
+        System.out.println("session is set up");
+        session = connect("ws"+ SERVER.substring(4) + "/websocket");
+    }
+
+    /**
+     * connection to websocket using stomp session
+     * sets up Jackson mapper (message converter)
+     * @param url set in setSession() ws://localhost:<port>/websocket
+     * @return stompsession
+     */
+    private StompSession connect(String url) {
+        var client = new StandardWebSocketClient();
+        var stomp = new WebSocketStompClient(client);
+        stomp.setMessageConverter(new MappingJackson2MessageConverter());
+
+
+        try {
+            return stomp.connect(url, new StompSessionHandlerAdapter() {}).get();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
         }
-
-        /**
-         * setup for stomp session port, occurs after server is set up
-         */
-        private StompSession session;
-        public void setSession(){
-            System.out.println("session is set up");
-            session = connect("ws"+ SERVER.substring(4) + "/websocket");
-        }
-
-        private StompSession connect(String url) {
-            var client = new StandardWebSocketClient();
-            var stomp = new WebSocketStompClient(client);
-            stomp.setMessageConverter(new MappingJackson2MessageConverter());
-
-            try {
-                return stomp.connect(url, new StompSessionHandlerAdapter() {}).get();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            } catch (ExecutionException e) {
-                throw new RuntimeException(e);
-            }
-            throw new IllegalStateException();
-        }
+        throw new IllegalStateException();
+    }
 
     /**
      * Generic websocket update method
@@ -67,19 +73,19 @@ public class NewServerUtils {
      * @param consumer callback
      * @param <T> generic
      */
-        public <T> void registerForMessages(String dest, Class<T> type, Consumer<T> consumer) {
-            session.subscribe(dest, new StompFrameHandler() {
-                @Override
-                public Type getPayloadType(StompHeaders headers) {
-                    return type;
-                }
+    public <T> void registerForMessages(String dest, Class<T> type, Consumer<T> consumer) {
+        session.subscribe(dest, new StompFrameHandler() {
+            @Override
+            public Type getPayloadType(StompHeaders headers) {
+                return type;
+            }
 
-                @Override
-                public void handleFrame(StompHeaders headers, Object payload) {
-                    consumer.accept((T) payload);
-                }
-            });
-        }
+            @Override
+            public void handleFrame(StompHeaders headers, Object payload) {
+                consumer.accept((T) payload);
+            }
+        });
+    }
 
 
     private static final ExecutorService EXEC = Executors.newSingleThreadExecutor();
@@ -118,8 +124,8 @@ public class NewServerUtils {
      * @param o object to send
      */
     public void send(String dest, Object o) {
-            session.send(dest, o);
-        }
+        session.send(dest, o);
+    }
 
 
 
