@@ -1,8 +1,6 @@
 package client.components;
 
-import client.components.ListContainer;
 import client.scenes.MainTaskListCtrl;
-import client.utils.HelperFXinit;
 import client.utils.OurServerUtils;
 import commons.Card;
 import commons.ListOfCards;
@@ -16,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import org.mockito.ArgumentCaptor;
-import org.springframework.jmx.export.annotation.ManagedOperation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +22,7 @@ import static org.mockito.Mockito.*;
 import static org.mockito.ArgumentMatchers.any;
 
 
-class ListContainerTest extends HelperFXinit {
+class ListContainerTest {
 
     public static OurServerUtils utils = mock(OurServerUtils.class);
     public static MainTaskListCtrl mainCtrl = mock(MainTaskListCtrl.class);

@@ -3,7 +3,6 @@ package client.components;
 import client.TaskListMain;
 import client.scenes.MainTaskListCtrl;
 import client.scenes.TaskListCtrl;
-import client.utils.HelperFXinit;
 import client.utils.OurServerUtils;
 import commons.Board;
 import commons.Card;
@@ -17,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class BoardContainerTest extends HelperFXinit {
+class BoardContainerTest  {
 
     public static OurServerUtils utils = mock(OurServerUtils.class);
     public static MainTaskListCtrl mainCtrl = mock(MainTaskListCtrl.class);
