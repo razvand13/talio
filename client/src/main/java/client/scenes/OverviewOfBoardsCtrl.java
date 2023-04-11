@@ -67,7 +67,7 @@ public class OverviewOfBoardsCtrl {
      */
     public void newBoard() {
         String title = boardTitle.getText();
-        if(title==null || title ==""){
+        if(title==null || title.equals("")){
             title = "New Board";
         }
         Board board = new Board(title);
