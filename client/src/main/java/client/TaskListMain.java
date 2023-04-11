@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import client.scenes.*;
-import client.scenes.*;
 import client.scenes.MainTaskListCtrl;
 import client.scenes.ServerConnectCtrl;
 import client.scenes.TaskListCtrl;

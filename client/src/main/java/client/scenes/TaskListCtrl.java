@@ -60,7 +60,6 @@ public class TaskListCtrl implements Initializable {
     public TaskListCtrl(OurServerUtils server, MainTaskListCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
-
     }
 
 
@@ -76,7 +75,6 @@ public class TaskListCtrl implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         hBox.setSpacing(10);
         hBox.setPadding(new Insets(10, 10, 10, 10));
-
 
     }
 
@@ -262,10 +260,10 @@ public class TaskListCtrl implements Initializable {
     }
 
     /**
-     * Method for switching to admin view
+     * admin button to go to admin panel
      */
     public void admin() {
-        mainCtrl.showAdminKey();
+        mainCtrl.showAdminOverview();
     }
 
     /**
