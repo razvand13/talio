@@ -22,7 +22,7 @@ public class MainTaskListCtrl {
     private AdminSceneCtrl adminSceneCtrl;
     private Scene adminOverview;
 
-    private OverviewOfBoardsCtrl overviewOfBoardsCtrl;
+    public OverviewOfBoardsCtrl overviewOfBoardsCtrl;
     private Scene overviewOfBoards;
 
     private AdminKeyCtrl adminKeyCtrl;
