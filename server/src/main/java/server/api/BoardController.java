@@ -77,11 +77,11 @@ public class BoardController {
     }
 
     /**
-     *
-     * @param board board
-     * @return Board
+     * adds board to database by sending it to add method above.
+     * @return added board is sent to /topics
+     * @param board is board you want to add
      */
-    @MessageMapping("/boards") //app/quotes -> path for basically any client (consumer)
+    @MessageMapping("/boards") //app/boards
     @SendTo("/topic/boards")// (producer)
     public Board addMessage(Board board) {
         addBoard(board);
@@ -89,9 +89,9 @@ public class BoardController {
     }
 
     /**
-     *
-     * @param board board
-     * @return Board
+     * removes board from database by calling delete by id
+     * @return added board that has been deleted
+     * @param board baord to be removed from database
      */
     @MessageMapping("/remove-board")
     @SendTo("/topic/remove-board")

@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.TilePane;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,6 +25,7 @@ public class OverviewOfBoardsCtrl {
     private final OurServerUtils server;
     private final MainTaskListCtrl mainCtrl;
     private final TaskListCtrl taskListCtrl;
+    private final AdminSceneCtrl adminSceneCtrl;
 
     private List<Board> boards;
     @FXML
@@ -46,9 +48,10 @@ public class OverviewOfBoardsCtrl {
     /**
      * Constructorfor OverviewOfBoardsCtrl
      *
-     * @param server server
-     * @param mainCtrl mainCtrl
-     * @param taskListCtrl taskListCtrl
+     * @param server
+     * @param mainCtrl
+     * @param taskListCtrl
+     * @param adminSceneCtrl
      */
     @Inject
     public OverviewOfBoardsCtrl(OurServerUtils server, MainTaskListCtrl mainCtrl,
@@ -56,18 +59,8 @@ public class OverviewOfBoardsCtrl {
         this.server = server;
         this.mainCtrl = mainCtrl;
         this.taskListCtrl = taskListCtrl;
+        this.adminSceneCtrl = adminSceneCtrl;
         this.boards = new ArrayList<>();
-
-       // buttonsSetup();
-    }
-
-    /**
-     * Method for setting up the buttons
-     */
-    public void buttonsSetup(){
-        joinButtonSetUp();
-        serverSelectSetUp();
-        adminButtonSetup();
     }
 
     /**
@@ -77,12 +70,11 @@ public class OverviewOfBoardsCtrl {
     public void newBoard() {
         String title = boardTitle.getText();
         Board board = new Board(title);
-        System.out.println("make new board " + board);
+
         server.send("/app/boards", board);
         board = server.getMostRecentBoard();
 
         taskListCtrl.setTaskListCtrlBoard(board);
-        System.out.println("join board");
         mainCtrl.showTaskListView();
         writeId(board.id);
         boardTitle.clear();
@@ -142,7 +134,7 @@ public class OverviewOfBoardsCtrl {
             alert.setTitle("error writing to file");
             alert.setHeaderText("unable to save board id");
             alert.setContentText("We're currently unable to save this id to your pc:"+
-                            "\n"+e);
+                    "\n"+e);
             alert.show();
         }
     }
@@ -152,7 +144,7 @@ public class OverviewOfBoardsCtrl {
      */
     public void adminButtonSetup(){
         System.out.println("print boards");
-//        mainCtrl.showAdminOverview();
+        //mainCtrl.showAdminOverview();
         mainCtrl.showAdminKey();
     }
 
@@ -178,6 +170,9 @@ public class OverviewOfBoardsCtrl {
         server.setSession();
         server.registerForMessages("/topic/boards", Board.class, b -> {
             boards.add(b);
+            Platform.runLater(this::refreshBoards);
+        });
+        server.registerForMessages("/topic/remove-board", Board.class, b -> {
             Platform.runLater(this::refreshBoards);
         });
     }
@@ -212,11 +207,24 @@ public class OverviewOfBoardsCtrl {
   
         String currentConnection = server.getAddress().replace(":","_");
         try {
-            Scanner boardScanner = new Scanner(
-                    new File("TalioJoinedBoardsOn"+currentConnection+".txt"));
+            File boardIdListFile = new File("TalioJoinedBoardsOn"+currentConnection+".txt");
+            Scanner boardScanner = new Scanner(boardIdListFile);
             while (boardScanner.hasNextLong()){
                 long id =boardScanner.nextLong();
-                boards.add(server.getBoardById(id));
+                Board myBoard =server.getBoardById(id);
+                if(myBoard == null){
+                    try {
+                        String newIds = Files.readString(boardIdListFile.toPath())
+                                .replace(id + " ", "");
+                        Writer writer = new FileWriter(boardIdListFile, false);
+                        writer.write(newIds);
+                        writer.close();
+                    }
+                    catch (IOException e){
+                        System.out.println(e);
+                    }
+                }
+                boards.add(myBoard);
             }
             Collections.reverse(boards); //the most recent boards at start of list
         }

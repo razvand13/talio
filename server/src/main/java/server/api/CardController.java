@@ -140,7 +140,7 @@ public class CardController {
     }
 
     /**
-     *
+     *adds card to database
      * @param c card
      * @return Card
      */
