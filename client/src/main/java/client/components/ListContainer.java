@@ -560,6 +560,22 @@ public class ListContainer extends VBox {
     }
 
     /**
+     * Getter method for list
+     * @return list
+     */
+    public ListView<String> getList() {
+        return list;
+    }
+
+    /**
+     * Getter for listOfCards
+     * @return the listOfCards associated with this container
+     */
+    public ListOfCards getListOfCards() {
+        return listOfCards;
+    }
+
+    /**
      * Adds a dragDone event handler on a list
      * Once the drag is over, since the dragDropped(ListView<String>, DragEvent)
      * method offers the new data to that list,
