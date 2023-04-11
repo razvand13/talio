@@ -91,6 +91,7 @@ public class BoardContainer extends VBox {
      */
     public void setRemoveBoard(){
         this.removeBoardButton.setOnMouseClicked(event -> {
+            /*
             long id = board.id;
             String currentConnection = server.getAddress().replace(":","_");
             File boardIdListFile = new File("TalioJoinedBoardsOn"+currentConnection+".txt");
@@ -104,6 +105,11 @@ public class BoardContainer extends VBox {
             catch (IOException e){
                 System.out.println(e.getStackTrace());
             }
+
+             */
+            long id = board.id;
+            mainCtrl.overviewOfBoardsCtrl.joinedBoardIds.remove(id);
+            mainCtrl.updateOverviewOfBoards();
         });
     }
 
