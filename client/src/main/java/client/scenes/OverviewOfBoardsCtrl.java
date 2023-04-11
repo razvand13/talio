@@ -11,7 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.TilePane;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -36,12 +36,14 @@ public class OverviewOfBoardsCtrl {
     private Button adminButton;
     @FXML
     private Button serverSelectButton;
-    @FXML
-    private HBox hBoxBoards;
+
     @FXML
     private Button NewBoardButton;
     @FXML
     private TextField boardTitle;
+
+    @FXML
+    private TilePane boardTilePane;
 
     /**
      * Constructorfor OverviewOfBoardsCtrl
@@ -59,7 +61,7 @@ public class OverviewOfBoardsCtrl {
         this.taskListCtrl = taskListCtrl;
         this.adminSceneCtrl = adminSceneCtrl;
         this.boards = new ArrayList<>();
-        // buttonsSetup();
+       // buttonsSetup();
     }
 
     /**
@@ -72,16 +74,18 @@ public class OverviewOfBoardsCtrl {
     }
 
     /**
-     * creates new board and opens new scene
+     * Method called when "Create New Board" is clicked in board overview.
+     * It creates a new board, and switches to its task list overview
      */
     public void newBoard() {
         String title = boardTitle.getText();
         Board board = new Board(title);
-
+        System.out.println("make new board " + board);
         server.send("/app/boards", board);
         board = server.getMostRecentBoard();
 
         taskListCtrl.setTaskListCtrlBoard(board);
+        System.out.println("join board");
         mainCtrl.showTaskListView();
         writeId(board.id);
         boardTitle.clear();
@@ -169,6 +173,10 @@ public class OverviewOfBoardsCtrl {
     public void firstTimeSetUp(){
         refreshBoards();
         server.setSession();
+        server.registerForMessages("/topic/boards", Board.class, b -> {
+            boards.add(b);
+            Platform.runLater(this::refreshBoards);
+        });
         server.registerForMessages("/topic/remove-board", Board.class, b -> {
             Platform.runLater(this::refreshBoards);
         });
@@ -188,20 +196,20 @@ public class OverviewOfBoardsCtrl {
     public void clearBoards(){
         boards.clear();
         List<BoardContainer> containers = new ArrayList<>();
-        for(Node child : hBoxBoards.getChildren()){
+        for(Node child : boardTilePane.getChildren()){
             if(child.getClass() == BoardContainer.class){ // Error handling
                 BoardContainer boardContainer = (BoardContainer) child;
                 containers.add(boardContainer);
             }
         }
-        hBoxBoards.getChildren().removeAll(containers);
+        boardTilePane.getChildren().removeAll(containers);
     }
 
     /**
      * Method for making the boardContainers appear
      */
     public void makeBoards(){
-
+  
         String currentConnection = server.getAddress().replace(":","_");
         try {
             File boardIdListFile = new File("TalioJoinedBoardsOn"+currentConnection+".txt");
@@ -230,8 +238,8 @@ public class OverviewOfBoardsCtrl {
         catch (FileNotFoundException ignored){}
         for(Board b : boards) {
             BoardContainer boardContainer = new BoardContainer(b, server, mainCtrl, taskListCtrl);
-            boardContainer.setParent(hBoxBoards);
-            hBoxBoards.getChildren().add(boardContainer);
+            boardContainer.setParent(boardTilePane);
+            boardTilePane.getChildren().add(boardContainer);
         }
     }
 }

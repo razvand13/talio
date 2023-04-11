@@ -7,8 +7,7 @@ import commons.Board;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -16,7 +15,7 @@ import java.io.*;
 import java.nio.file.Files;
 
 public class BoardContainer extends VBox {
-    private HBox parent;
+    private TilePane parent;
     private final OurServerUtils server;
     private final MainTaskListCtrl mainCtrl;
     private final TaskListCtrl taskListCtrl;
@@ -32,6 +31,9 @@ public class BoardContainer extends VBox {
     private Button joinBoardButton;
     @FXML
     private Button removeBoardButton;
+
+    @FXML
+    private Text boardIDText;
 
     /**
      * Constructor for BoardContainer
@@ -60,12 +62,12 @@ public class BoardContainer extends VBox {
         }
 
         //this.setMinWidth(200);
-        if(board != null) {
-            boardNameTextField.setText(board.title);
-            idLabel.setText("ID: " + board.id);
-            setRemoveBoard();
-            setOpenBoard();
-        }
+
+        boardNameTextField.setText(board.title);
+
+        boardIDText.setText("ID: " + String.valueOf(board.id));
+
+        setOpenBoard();
     }
 
     /**
@@ -106,7 +108,7 @@ public class BoardContainer extends VBox {
      * Setter for parent
      * @param parent
      */
-    public void setParent(HBox parent) {
+    public void setParent(TilePane parent) {
         this.parent = parent;
     }
 
@@ -143,6 +145,22 @@ public class BoardContainer extends VBox {
     }
 
     /**
+     * Getter for boardIDText
+     * @return  Text
+     */
+    public Text getBoardIDText() {
+        return boardIDText;
+    }
+
+    /**
+     * Setter for boardIDText
+     * @param boardIDText Text object to set boardIDText to
+     */
+    public void setBoardID(Text boardIDText) {
+        this.boardIDText = boardIDText;
+    }
+
+    /**
      * Getter for board
      * @return Board
      */
@@ -160,7 +178,7 @@ public class BoardContainer extends VBox {
 
     /**
      * Getter for joinBoardButton
-     * @return JoinButton
+     * @return Button
      */
     public Button getJoinBoardButton() {
         return joinBoardButton;
