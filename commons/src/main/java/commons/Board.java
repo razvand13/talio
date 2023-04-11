@@ -71,6 +71,11 @@ public class Board implements Serializable {
      * Needed for admin scene initialize()
      * @return long id
      */
+    /**
+     * Getter for id of Board
+     * Needed for admin scene initialize()
+     * @return long id
+     */
     public Long getId() {
         return id;
     }

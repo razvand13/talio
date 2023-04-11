@@ -15,7 +15,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class OverviewOfBoardsCtrlTest extends HelperFXinit {
+class OverviewOfBoardsCtrlTest  {
 
     @Test
     public void testConstructor(){

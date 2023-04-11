@@ -123,6 +123,7 @@ public class AdminSceneCtrl implements Initializable {
     /**
      * method to delete all the cards from a list, then delete the list
      * without using button event
+     *
      * @param list to be deleted
      */
     public void deleteList(ListOfCards list) {

@@ -143,6 +143,22 @@ public class BoardContainer extends VBox {
     }
 
     /**
+     * Getter for boardIDText
+     * @return  Text
+     */
+    public Text getBoardIDText() {
+        return boardIDText;
+    }
+
+    /**
+     * Setter for boardIDText
+     * @param boardIDText Text object to set boardIDText to
+     */
+    public void setBoardID(Text boardIDText) {
+        this.boardIDText = boardIDText;
+    }
+
+    /**
      * Getter for board
      * @return Board
      */
@@ -158,7 +174,6 @@ public class BoardContainer extends VBox {
         this.board = board;
     }
 
-
     /**
      * Getter for joinBoardButton
      * @return JoinButton
@@ -167,11 +182,14 @@ public class BoardContainer extends VBox {
         return joinBoardButton;
     }
 
-    /**getter for parent
-     * @return parent
+
+
+    /**
+     * getter for remove board button
+     * @return RemoveButton
      */
-    public HBox getParentOfThis() {
-        return parent;
+    public Button getRemoveBoardButton() {
+        return removeBoardButton;
     }
 
 }

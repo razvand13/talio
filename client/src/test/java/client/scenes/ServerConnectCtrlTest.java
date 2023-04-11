@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ServerConnectCtrlTest extends HelperFXinit{
+class ServerConnectCtrlTest {
 
     @Test
     public void testConstructor(){
