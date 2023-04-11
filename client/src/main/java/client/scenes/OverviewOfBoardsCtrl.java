@@ -61,16 +61,6 @@ public class OverviewOfBoardsCtrl {
         this.taskListCtrl = taskListCtrl;
         this.adminSceneCtrl = adminSceneCtrl;
         this.boards = new ArrayList<>();
-       // buttonsSetup();
-    }
-
-    /**
-     * Method for setting up the buttons
-     */
-    public void buttonsSetup(){
-        joinButtonSetUp();
-        serverSelectSetUp();
-        adminButtonSetup();
     }
 
     /**
