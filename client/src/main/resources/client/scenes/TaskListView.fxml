@@ -10,8 +10,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.layout.VBox?>
+<?import client.components.LogoImage?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="739.0" prefWidth="948.0" style="-fx-background-color: B19cd9;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskListCtrl">
     <children>
+        <VBox fx:id="vBox" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="-500" AnchorPane.rightAnchor="0" style="-fx-padding: 10; -fx-alignment: CENTER; " layoutX="0" layoutY="0">
+            <LogoImage />
+        </VBox>
         <Label layoutX="36.0" layoutY="5.0" text="List Title:" />
         <TextField fx:id="listTitle" layoutX="36.0" layoutY="23.0" text="ToDo" />
         <Button fx:id="addListButton" layoutX="36.0" layoutY="55.0" mnemonicParsing="false" onAction="#addNewList" style=" -fx-text-fill: black" text="Add new list" />
