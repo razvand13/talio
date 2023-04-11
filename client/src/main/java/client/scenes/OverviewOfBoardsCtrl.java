@@ -70,6 +70,9 @@ public class OverviewOfBoardsCtrl {
      */
     public void newBoard() {
         String title = boardTitle.getText();
+        if(title==null || title ==""){
+            title = "New Board";
+        }
         Board board = new Board(title);
 
         server.send("/app/boards", board);
