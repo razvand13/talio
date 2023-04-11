@@ -11,7 +11,7 @@
       <children>
       <VBox fx:id="vBox" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" style="-fx-padding: 50; -fx-alignment: CENTER; ">
                   <LogoImage/>
-        </VBox>
+      </VBox>
 
       <Button layoutX="274.0" layoutY="244.0" mnemonicParsing="false" onAction="#connect" text="Connect" />
       <TextField fx:id="port" layoutX="315.0" layoutY="200.0" prefHeight="25.0" prefWidth="60.0" promptText="8080" />

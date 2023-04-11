@@ -11,8 +11,13 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.layout.VBox?>
+<?import client.components.LogoImage?>
 <AnchorPane prefHeight="560.0" prefWidth="833.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AdminSceneCtrl">
    <children>
+      <VBox fx:id="vBox" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" style="-fx-padding: 20; -fx-alignment: CENTER;" >
+         <LogoImage fitHeight="60" fitWidth="80"/>
+      </VBox>
       <Rectangle fx:id="gradient" arcHeight="5.0" arcWidth="5.0" height="75.0" layoutY="-5.0" stroke="#b19cd9" strokeType="INSIDE" width="833.0">
          <fill>
             <LinearGradient endX="1.0" endY="1.0">

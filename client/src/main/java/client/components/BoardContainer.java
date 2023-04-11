@@ -104,20 +104,26 @@ public class BoardContainer extends VBox {
         this.parent = parent;
     }
 
-    /**
-     * Getter for joinBoardButtonWithId
-     * @return button
+
+    /**getter for server
+     * @return server
      */
-    public Button getJoinBoard() {
-        return joinBoardWithId;
+    public OurServerUtils getServer() {
+        return server;
     }
 
-    /**
-     * Setter for joinBoardButton
-     * @param joinBoardWithId
+    /**getter for mainCtrl
+     * @return mainCtrl
      */
-    public void setJoinBoard(Button joinBoardWithId) {
-        this.joinBoardWithId = joinBoardWithId;
+    public MainTaskListCtrl getMainCtrl() {
+        return mainCtrl;
+    }
+
+    /**getter for taskListCtrl
+     * @return taskListCtrl
+     */
+    public TaskListCtrl getTaskListCtrl() {
+        return taskListCtrl;
     }
 
     /**
@@ -137,22 +143,6 @@ public class BoardContainer extends VBox {
     }
 
     /**
-     * Getter for boardIDText
-     * @return  Text
-     */
-    public Text getBoardIDText() {
-        return boardIDText;
-    }
-
-    /**
-     * Setter for boardIDText
-     * @param boardIDText Text object to set boardIDText to
-     */
-    public void setBoardID(Text boardIDText) {
-        this.boardIDText = boardIDText;
-    }
-
-    /**
      * Getter for board
      * @return Board
      */
@@ -168,6 +158,7 @@ public class BoardContainer extends VBox {
         this.board = board;
     }
 
+
     /**
      * Getter for joinBoardButton
      * @return JoinButton
@@ -176,27 +167,11 @@ public class BoardContainer extends VBox {
         return joinBoardButton;
     }
 
-    /**
-     * Setter for joinBoardButton
-     * @param joinBoardButton
+    /**getter for parent
+     * @return parent
      */
-    public void setJoinBoardButton(Button joinBoardButton) {
-        this.joinBoardButton = joinBoardButton;
+    public HBox getParentOfThis() {
+        return parent;
     }
 
-    /**
-     * getter for remove board button
-     * @return RemoveButton
-     */
-    public Button getRemoveBoardButton() {
-        return removeBoardButton;
-    }
-
-    /**
-     * setter for remove board button
-     * @param removeBoardButton
-     */
-    public void setRemoveBoardButton(Button removeBoardButton) {
-        this.removeBoardButton = removeBoardButton;
-    }
 }

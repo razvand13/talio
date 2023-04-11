@@ -88,9 +88,12 @@ public class ListContainer extends VBox {
     }
 
 
-
-
-
+    /** Method for setting the cards
+     * @param allCards list of all cards in the database
+     */
+    public void setAllCards(List<Card> allCards) {
+        this.allCards = allCards;
+    }
 
     /**
      * Method that sets all event handlers of a list and its children
@@ -134,6 +137,8 @@ public class ListContainer extends VBox {
     }
 
 
+
+
     /**
      * Method for making task editing option visible
      *
@@ -143,7 +148,7 @@ public class ListContainer extends VBox {
      * @param textField text field to fetch task title from
      */
     public void setShowTaskEditAction(Button editBtn, Button delBtn, ListView<String> list,
-                                      TextField textField) {
+                                             TextField textField) {
         list.setOnContextMenuRequested(event -> {
             String item = list.getSelectionModel().getSelectedItem();
             if (item != null) {
@@ -228,6 +233,7 @@ public class ListContainer extends VBox {
                     break;
                 }
             }
+
 
             deleteButton.setVisible(false);
             editButton.setVisible(false);
@@ -374,7 +380,7 @@ public class ListContainer extends VBox {
      * @param list  source list
      * @param event clicking on a list item
      */
-    private void dragDetected(ListView<String> list, MouseEvent event) {
+    public void dragDetected(ListView<String> list, MouseEvent event) {
         String selectedItem = list.getSelectionModel().getSelectedItem();
 
         Dragboard db = list.startDragAndDrop(TransferMode.MOVE);
@@ -409,7 +415,7 @@ public class ListContainer extends VBox {
      * @param list  target list
      * @param event dragging data over another list
      */
-    private void dragOver(ListView<String> list, DragEvent event) {
+    public void dragOver(ListView<String> list, DragEvent event) {
 
         // Only execute if there is data that is being dragged
         if (event.getDragboard().hasString()) {
@@ -536,7 +542,12 @@ public class ListContainer extends VBox {
         }
     }
 
-    private int calculateIndex(ListView<String> list, DragEvent event){
+    /** Method used to update the positions of the cards in the list
+     * @param list the list the data was dragged from
+     * @param event the drag event
+     * @return an int representing the index of the card
+     */
+    public int calculateIndex(ListView<String> list, DragEvent event){
         double mouseY = event.getY();
         double totalHeight = list.getHeight();
         int index = (int) (mouseY/totalHeight*13);
@@ -635,68 +646,11 @@ public class ListContainer extends VBox {
         return list;
     }
 
-    /**
-     * Getter method for addTaskBtn
-     * @return addTaskBtn
+    /** Getter method for mainCtrl
+     * @return mainCtrl
      */
-    public Button getAddTaskBtn() {
-        return addTaskBtn;
-    }
-
-    /**
-     * Getter method for taskInputField
-     * @return taskInputField
-     */
-    public TextField getTaskInputField() {
-        return taskInputField;
-    }
-
-    /**bgfdg
-     * Getter method for taskEditBtn
-     * @return taskEditBtn
-     */
-    public Button getTaskEditBtn() {
-        return taskEditBtn;
-    }
-
-    /**
-     * Getter method for taskEditField
-     * @return taskEditField
-     */
-    public TextField getTaskEditField() {
-        return taskEditField;
-    }
-
-    /**
-     * Getter method for listOptionsBtn
-     * @return listOptionsBtn
-     */
-    public Button getListOptionsBtn() {
-        return listOptionsBtn;
-    }
-
-    /**
-     * Getter method for listDeleteBtn
-     * @return listDeleteBtn
-     */
-    public Button getListDeleteBtn() {
-        return listDeleteBtn;
-    }
-
-    /**
-     * Getter method for listEditBtn
-     * @return listEditBtn
-     */
-    public Button getListEditBtn() {
-        return listEditBtn;
-    }
-
-    /**
-     * Getter method for listRenameField
-     * @return listRenameField
-     */
-    public TextField getListRenameField() {
-        return listRenameField;
+    public MainTaskListCtrl getMainCtrl() {
+        return mainCtrl;
     }
 
     /**
