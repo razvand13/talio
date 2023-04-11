@@ -12,7 +12,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.*;
-import java.nio.file.Files;
 
 public class BoardContainer extends VBox {
     private TilePane parent;

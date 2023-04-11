@@ -279,7 +279,8 @@ public class OverviewOfBoardsCtrl {
 /*
         String currentConnection = server.getAddress().replace(":","_");
         try {
-            FileInputStream boarIdListFile = new FileInputStream("TalioJoinedBoardsOn"+currentConnection+".ser");
+            FileInputStream boarIdListFile =
+                new FileInputStream("TalioJoinedBoardsOn"+currentConnection+".ser");
             ObjectInputStream stream = new ObjectInputStream(boarIdListFile);
             Id myId = (Id) stream.readObject();
             for(long id : myId.thisId){
