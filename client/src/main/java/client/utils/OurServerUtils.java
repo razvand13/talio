@@ -9,8 +9,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
+import commons.Board;
 import commons.Card;
 import commons.ListOfCards;
+import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientConfig;
 
@@ -25,7 +27,7 @@ import org.springframework.web.socket.messaging.WebSocketStompClient;
 public class OurServerUtils {
 
 
-    private static String SERVER = "http://localhost:8080";
+    private static String SERVER = "http://localhost:8080/";
 
 
     /**
@@ -45,8 +47,6 @@ public class OurServerUtils {
      * Sets the current session
      */
     public void setSession(){
-        System.out.println("session is set up");
-        System.out.println("ws"+ SERVER.substring(4) + "/websocket");
         session = connect("ws"+ SERVER.substring(4) + "/websocket");
     }
 
@@ -69,6 +69,7 @@ public class OurServerUtils {
         }
         throw new IllegalStateException();
     }
+
 
     /**
      * Generic websocket update method
@@ -139,9 +140,9 @@ public class OurServerUtils {
     }
 
     /**
-     *
-     * @param dest
-     * @param o
+     * sends object to server using stompsession
+     * @param dest hesitation to send object to
+     * @param o object to send
      */
     public void send(String dest, Object o) {
         session.send(dest, o);
@@ -188,6 +189,51 @@ public class OurServerUtils {
     }
 
     /**
+     * Gets a board from the database by specifying its id
+     * @param id id of board
+     * @return the board with the id or null if the board wasn't found
+     */
+    public Board getBoardById(long id){
+        try {
+            return ClientBuilder.newClient(new ClientConfig()) //
+                    .target(SERVER).path("api/boards/" + id) //
+                    .request(APPLICATION_JSON) //
+                    .accept(APPLICATION_JSON) //
+                    .get(new GenericType<Board>() {
+                    });
+        }
+        //board not in db
+        catch (BadRequestException e){
+            return null;
+        }
+    }
+    /**
+     * Gets a list from the database by specifying its id
+     * @param id id of list
+     * @return the list with the id
+     */
+    public ListOfCards getListById(long id){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/lists/"+id) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<ListOfCards>() {});
+    }
+
+    /**
+     * Gets a list from the database by specifying the board ID associated with the list
+     * @param id id of board
+     * @return the list
+     */
+    public List<ListOfCards> getListByBoardId(long id){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/lists/board/"+ id) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<List<ListOfCards>>() {});
+    }
+
+    /**
      * Method for retrieving a card from the database by its ID
      * @param id Card id
      * @return Card
@@ -200,18 +246,6 @@ public class OurServerUtils {
                 .get(new GenericType<Card>() {});
     }
 
-    /**
-     * Method for retrieving a list from the database by its ID
-     * @param id ListOfCards id
-     * @return ListOfCards
-     */
-    public ListOfCards getListById(long id){
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/lists/" + id) //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .get(new GenericType<ListOfCards>() {});
-    }
 
     /**
      * Find all Cards from the specified ListOfCards
@@ -224,6 +258,20 @@ public class OurServerUtils {
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<List<Card>>() {});
+    }
+
+
+    /**
+     * Find Card from the specified ListOfCards
+     * @param listId ListOfCards id
+     * @return a Card containing the query result
+     */
+    public Card getCardByListId(long listId){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/cards/list/"+listId) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<Card>() {});
     }
 
     /**
@@ -257,4 +305,38 @@ public class OurServerUtils {
                 .post(Entity.entity(body, APPLICATION_JSON), responseType);
     }
 
+
+
+    /**
+     * Gets the address of the current server
+     * @return SERVER minus the "http://" at the start and the "/" at the end (so localhost:8080 by default)
+     */
+    public String getAddress(){
+        return SERVER.substring(7, SERVER.length()-1);
+    }
+
+
+    /**
+     * Gets all the boards from the server
+     * @return list of all the boards
+     */
+    public List<Board> getBoards(){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/boards") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<List<Board>>() {});
+    }
+
+    /**
+     *
+     * @return the most recently added board.
+     */
+    public Board getMostRecentBoard(){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/boards/mostRecent") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<Board>() {});
+    }
 }

@@ -1,5 +1,6 @@
 package client.scenes;
 
+import commons.Board;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -13,24 +14,55 @@ public class MainTaskListCtrl {
     private TaskListCtrl taskListCtrl;
     private Scene taskList;
 
+    private Scene addCard;
 
+    private ServerConnectCtrl serverConnectCtrl;
     private Scene serverConnect;
 
+    private AdminSceneCtrl adminSceneCtrl;
+    private Scene adminOverview;
 
-    /**Method for initializing main controller
-     * @param primaryStage stage passed in as primary stage
-     * @param taskList for setting up task list scene
+    public OverviewOfBoardsCtrl overviewOfBoardsCtrl;
+    private Scene overviewOfBoards;
+
+    private AdminKeyCtrl adminKeyCtrl;
+    private Scene adminKey;
+
+    private Board board;
+
+
+
+    /**
+     * Method for initializing main controller
+     *
+     * @param primaryStage  stage passed in as primary stage
+     * @param taskList      for setting up task list scene
      * @param serverConnect server connect scene
+     * @param  overviewOfBoards overviewOfBoards scene
+     * @param adminOverview admin overview scene
+     * @param adminKey admin key scene
      */
     public void initialize(Stage primaryStage, Pair<TaskListCtrl, Parent> taskList,
-                           Pair<ServerConnectCtrl, Parent> serverConnect) {
+                           Pair<ServerConnectCtrl, Parent> serverConnect,
+                           Pair<AdminSceneCtrl, Parent> adminOverview,
+                           Pair<OverviewOfBoardsCtrl, Parent> overviewOfBoards,
+                           Pair<AdminKeyCtrl, Parent> adminKey) {
         this.primaryStage = primaryStage;
 
         this.taskListCtrl = taskList.getKey();
         this.taskList = new Scene(taskList.getValue());
 
-
+        this.serverConnectCtrl = serverConnect.getKey();
         this.serverConnect = new Scene(serverConnect.getValue());
+
+        this.adminSceneCtrl = adminOverview.getKey();
+        this.adminOverview = new Scene(adminOverview.getValue());
+
+        this.overviewOfBoardsCtrl = overviewOfBoards.getKey();
+        this.overviewOfBoards = new Scene(overviewOfBoards.getValue());
+
+        this.adminKeyCtrl = adminKey.getKey();
+        this.adminKey = new Scene(adminKey.getValue());
 
         showServerConnect();
         primaryStage.show();
@@ -52,6 +84,69 @@ public class MainTaskListCtrl {
     public void showServerConnect() {
         primaryStage.setTitle("Choose a port");
         primaryStage.setScene(serverConnect);
+    }
+
+    /**
+     * connection to admin overview
+     */
+    public void showAdminOverview() {
+        adminSceneCtrl.showBoards();
+        primaryStage.setTitle("Admin Overview");
+        primaryStage.setScene(adminOverview);
+    }
+
+    /**
+     * Set board of the taskList
+     * @param b
+     */
+//    public void setTaskListCtrlBoard(Board b){
+//        taskListCtrl.setTaskListCtrlBoard(b);
+//        this.board = b;
+//        System.out.println(board.id);
+//    }
+
+    /**
+     * Show overview of boards
+     */
+    public void showOverviewOfBoards(){
+        overviewOfBoardsCtrl.firstTimeSetUp();
+        primaryStage.setTitle("Overview of boards");
+        primaryStage.setScene(overviewOfBoards);
+    }
+
+    /** setters for primary stage
+     * @param primaryStage the primary stage for this application, onto which
+     */
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
+    /** setter for taskListCtrl
+     * @param taskListCtrl the taskListCtrl to set
+     */
+    public void setTaskListCtrl(TaskListCtrl taskListCtrl) {
+        this.taskListCtrl = taskListCtrl;
+    }
+
+    /** setter for taskList
+     * @param taskList the taskList to set
+     */
+    public void setTaskList(Scene taskList) {
+        this.taskList = taskList;
+    }
+    /**
+     * refresh for board overview
+     */
+    public void updateOverviewOfBoards(){
+        overviewOfBoardsCtrl.refreshBoards();
+    }
+
+    /**
+     * Show admin key scene
+     */
+    public void showAdminKey(){
+        primaryStage.setTitle("Admin key");
+        primaryStage.setScene(adminKey);
     }
 
 }

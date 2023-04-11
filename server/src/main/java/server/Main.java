@@ -77,6 +77,7 @@ public class Main extends Application{
             System.exit(1);
         }
         System.out.println(address);
+        System.out.println("Admin key: password1234!");
 
         System.setProperty("server.port", port);
         System.setProperty("spring.datasource.url", "jdbc:h2:file:./quizzzz"+port);

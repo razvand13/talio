@@ -29,6 +29,13 @@ class ListOfCardsTest {
     }
 
     @Test
+    void constructorTest(){
+        Board b = new Board();
+        ListOfCards l = new ListOfCards("title", b);
+        assertNotNull(l);
+    }
+
+    @Test
     void testNotNull(){
         assertNotNull(list);
     }
