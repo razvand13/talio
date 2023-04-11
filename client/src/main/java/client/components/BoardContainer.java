@@ -123,6 +123,27 @@ public class BoardContainer extends VBox {
         return joinBoardWithId;
     }
 
+    /** Getter for server
+     * @return OurServerUtils
+     */
+    public OurServerUtils getServer() {
+        return server;
+    }
+
+    /** Getter for mainCtrl
+     * @return MainTaskListCtrl
+     */
+    public MainTaskListCtrl getMainCtrl() {
+        return mainCtrl;
+    }
+
+    /** Getter for taskListCtrl
+     * @return TaskListCtrl
+     */
+    public TaskListCtrl getTaskListCtrl() {
+        return taskListCtrl;
+    }
+
     /**
      * Setter for joinBoardButton
      * @param joinBoardWithId

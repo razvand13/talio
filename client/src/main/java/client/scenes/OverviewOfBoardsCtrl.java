@@ -244,4 +244,33 @@ public class OverviewOfBoardsCtrl {
             boardTilePane.getChildren().add(boardContainer);
         }
     }
+
+    /** Getter for server
+     * @return the server
+     */
+    public OurServerUtils getServer() {
+        return server;
+    }
+
+    /** Getter for mainCtrl
+     * @return the mainCtrl
+     */
+    public MainTaskListCtrl getMainCtrl() {
+        return mainCtrl;
+    }
+
+    /** Getter for taskListCtrl
+     * @return the taskListCtrl
+     */
+    public TaskListCtrl getTaskListCtrl() {
+        return taskListCtrl;
+    }
+
+    /** Getter for adminSceneCtrl
+     * @return the adminSceneCtrl
+     */
+    public AdminSceneCtrl getAdminSceneCtrl() {
+        return adminSceneCtrl;
+    }
+
 }

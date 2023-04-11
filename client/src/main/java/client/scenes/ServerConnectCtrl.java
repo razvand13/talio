@@ -38,4 +38,11 @@ public class ServerConnectCtrl {
         mainCtrl.showOverviewOfBoards();
     }
 
+    /** Getter for main controller
+     * @return main controller
+     */
+    public MainTaskListCtrl getMainCtrl() {
+        return mainCtrl;
+    }
+
 }

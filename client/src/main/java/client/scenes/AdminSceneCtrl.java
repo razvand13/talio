@@ -145,4 +145,19 @@ public class AdminSceneCtrl implements Initializable {
         table.setItems(boards);
     }
 
+    /** getter for server
+     * @return server
+     */
+    public OurServerUtils getServer() {
+        return server;
+    }
+
+    /** getter for mainCtrl
+     * @return mainCtrl
+     */
+    public MainTaskListCtrl getMainCtrl() {
+        return mainCtrl;
+    }
+
+
 }

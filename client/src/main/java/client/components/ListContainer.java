@@ -379,7 +379,7 @@ public class ListContainer extends VBox {
      * @param list  source list
      * @param event clicking on a list item
      */
-    private void dragDetected(ListView<String> list, MouseEvent event) {
+    public void dragDetected(ListView<String> list, MouseEvent event) {
         String selectedItem = list.getSelectionModel().getSelectedItem();
 
         Dragboard db = list.startDragAndDrop(TransferMode.MOVE);
@@ -406,6 +406,59 @@ public class ListContainer extends VBox {
         event.consume();
     }
 
+    /** set all cards
+     * @param allCards list of all cards
+     */
+    public void setAllCards(List<Card> allCards) {
+        this.allCards = allCards;
+    }
+
+    /** getter for parent
+     * @return the parent of this
+     */
+    public HBox getParentOfThis() {
+        return parent;
+    }
+
+    /** getter for server
+     * @return the server
+     */
+    public OurServerUtils getServer() {
+        return server;
+    }
+
+    /** getter for all cards
+     * @return the list of all cards
+     */
+    public List<Card> getAllCards() {
+        return allCards;
+    }
+
+    /** Getter for the taskDeleteBtn
+     * @return the taskDeleteBtn
+     */
+    public Button getTaskDeleteBtn() {
+        return taskDeleteBtn;
+    }
+
+    /** Getter for the mainctrl
+     * @return the mainCtrl
+     */
+    public MainTaskListCtrl getMainCtrl() {
+        return mainCtrl;
+    }
+
+    /** Getter for the data
+     * @return the data
+     */
+    public ObservableList<Card> getData() {
+        return data;
+    }
+
+
+
+
+
     /**
      * Adds a dragOver event handler on a list
      * When a drag is in progress and the users drags content over another list,
@@ -414,7 +467,7 @@ public class ListContainer extends VBox {
      * @param list  target list
      * @param event dragging data over another list
      */
-    private void dragOver(ListView<String> list, DragEvent event) {
+    public void dragOver(ListView<String> list, DragEvent event) {
 
         // Only execute if there is data that is being dragged
         if (event.getDragboard().hasString()) {
