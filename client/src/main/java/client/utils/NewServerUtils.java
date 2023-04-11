@@ -17,7 +17,6 @@ import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientConfig;
 
 import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.stomp.*;
@@ -138,21 +137,6 @@ public class NewServerUtils {
 
     /**
      *
-     * @param path
-     * @param responseType
-     * @return invocation response
-     * @param <T>
-     */
-    public <T> T get(String path, GenericType<T> responseType) {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path(path) //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .get(responseType);
-    }
-
-    /**
-     *
      * @return a list of all lists
      */
     public List<ListOfCards> getLists(){
@@ -246,53 +230,6 @@ public class NewServerUtils {
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<List<Card>>() {});
     }
-
-
-    /**
-     * Find Card from the specified ListOfCards
-     * @param listId ListOfCards id
-     * @return a Card containing the query result
-     */
-    public Card getCardByListId(long listId){
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/cards/list/"+listId) //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .get(new GenericType<Card>() {});
-    }
-
-    /**
-     * Delete all cards from a certain list
-     * Used to avoid FK constraint errors
-     * @param listId list id
-     * @return Response
-     */
-    public Response removeCardsByListId(long listId){
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("/remove-cards/list/"+listId) //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .delete();
-    }
-
-    /**
-     *
-     * @param path path
-     * @param body body
-     * @param responseType generic response type
-     * @param <T> generic T
-     * @return invocation response
-     *
-     */
-    public <T> T add(String path, Object body, GenericType<T> responseType) {
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path(path)
-                .request(APPLICATION_JSON)
-                .accept(APPLICATION_JSON)
-                .post(Entity.entity(body, APPLICATION_JSON), responseType);
-    }
-
-
 
     /**
      * Gets the address of the current server
