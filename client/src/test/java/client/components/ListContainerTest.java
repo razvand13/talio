@@ -24,12 +24,14 @@ import static org.mockito.Mockito.*;
 import static org.mockito.ArgumentMatchers.any;
 
 
+
 class ListContainerTest extends HelperFXinit {
+
+    public static OurServerUtils utils = mock(OurServerUtils.class);
+    public static MainTaskListCtrl mainCtrl = mock(MainTaskListCtrl.class);
 
     @Test
     public void testConstructor() {
-        OurServerUtils utils = mock(OurServerUtils.class);
-        MainTaskListCtrl mainCtrl = mock(MainTaskListCtrl.class);
         ListContainer listContainer = new ListContainer("Test", utils, mainCtrl);
         assertEquals("Test", listContainer.getListNameLabel().getText());
 
@@ -37,8 +39,6 @@ class ListContainerTest extends HelperFXinit {
 
     @Test
     public void testGettersAndSetters() {
-        OurServerUtils utils = mock(OurServerUtils.class);
-        MainTaskListCtrl mainCtrl = mock(MainTaskListCtrl.class);
         ListContainer listContainer = new ListContainer("Test", utils, mainCtrl);
         //test setParent
         assertEquals(listContainer.getServer(), utils);
@@ -73,7 +73,6 @@ class ListContainerTest extends HelperFXinit {
     @Test
     public void testIncrementIndexes() {
         // Create a mock server
-        OurServerUtils server = mock(OurServerUtils.class);
 
         // Create a mock card and list
         Card card = new Card("Card 1", new ListOfCards("List 1"));
@@ -88,10 +87,10 @@ class ListContainerTest extends HelperFXinit {
         // Set up the behavior of the server mock to capture the edited cards
         ArgumentCaptor<String> pathCaptor = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<Card> cardCaptor = ArgumentCaptor.forClass(Card.class);
-        doNothing().when(server).send(pathCaptor.capture(), cardCaptor.capture());
+        doNothing().when(utils).send(pathCaptor.capture(), cardCaptor.capture());
 
         // Create a new list container and set its allCards list
-        ListContainer container = new ListContainer("Test List", server, null);
+        ListContainer container = new ListContainer("Test List", utils, null);
         container.setAllCards(allCards);
 
         // Call the method being tested
@@ -105,24 +104,18 @@ class ListContainerTest extends HelperFXinit {
 
     @Test
     public void testGetList() {
-        OurServerUtils utils = mock(OurServerUtils.class);
-        MainTaskListCtrl mainCtrl = mock(MainTaskListCtrl.class);
         ListContainer listContainer = new ListContainer("Test", utils, mainCtrl);
         assertNotNull(listContainer.getList());
     }
 
     @Test
     public void testGetListOfCards() {
-        OurServerUtils utils = mock(OurServerUtils.class);
-        MainTaskListCtrl mainCtrl = mock(MainTaskListCtrl.class);
         ListContainer listContainer = new ListContainer("Test", utils, mainCtrl);
         assertNotNull(listContainer.getListOfCards());
     }
 
     @Test
     public void testSetListOfCards() {
-        OurServerUtils utils = mock(OurServerUtils.class);
-        MainTaskListCtrl mainCtrl = mock(MainTaskListCtrl.class);
         ListContainer listContainer = new ListContainer("Test", utils, mainCtrl);
 
         ListOfCards newListOfCards = new ListOfCards("New List");

@@ -15,18 +15,18 @@ import javafx.scene.text.Text;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 class BoardContainerTest extends HelperFXinit {
 
+    public static OurServerUtils utils = mock(OurServerUtils.class);
+    public static MainTaskListCtrl mainCtrl = mock(MainTaskListCtrl.class);
+    public static TaskListCtrl taskListCtrl = mock(TaskListCtrl.class);
+    public static Board board = mock(Board.class);
+    public static Board board2 = mock(Board.class);
+
     @Test
     public void testConstructor(){
-        Board board = mock(Board.class);
-        OurServerUtils utils = mock(OurServerUtils.class);
-        MainTaskListCtrl mainCtrl = mock(MainTaskListCtrl.class);
-        TaskListCtrl taskListCtrl = mock(TaskListCtrl.class);
         BoardContainer boardContainer = new BoardContainer(board, utils, mainCtrl, taskListCtrl);
         assertEquals(boardContainer.getBoard(), board);
         assertEquals(boardContainer.getServer(), utils);
@@ -39,11 +39,6 @@ class BoardContainerTest extends HelperFXinit {
 
     @Test
     public void setBoardTest(){
-        Board board = mock(Board.class);
-        Board board2 = mock(Board.class);
-        OurServerUtils utils = mock(OurServerUtils.class);
-        MainTaskListCtrl mainCtrl = mock(MainTaskListCtrl.class);
-        TaskListCtrl taskListCtrl = mock(TaskListCtrl.class);
         BoardContainer boardContainer = new BoardContainer(board, utils, mainCtrl, taskListCtrl);
         boardContainer.setBoard(board2);
         assertEquals(board2, boardContainer.getBoard());
@@ -52,11 +47,6 @@ class BoardContainerTest extends HelperFXinit {
 
     @Test
     public void getBoardTest(){
-        Board board = mock(Board.class);
-        Board board2 = mock(Board.class);
-        OurServerUtils utils = mock(OurServerUtils.class);
-        MainTaskListCtrl mainCtrl = mock(MainTaskListCtrl.class);
-        TaskListCtrl taskListCtrl = mock(TaskListCtrl.class);
         BoardContainer boardContainer = new BoardContainer(board, utils, mainCtrl, taskListCtrl);
         boardContainer.setBoard(board2);
         assertEquals(board2, boardContainer.getBoard());
@@ -64,11 +54,6 @@ class BoardContainerTest extends HelperFXinit {
 
     @Test
     public void setBoardNameTextFieldTest(){
-        Board board = mock(Board.class);
-        Board board2 = mock(Board.class);
-        OurServerUtils utils = mock(OurServerUtils.class);
-        MainTaskListCtrl mainCtrl = mock(MainTaskListCtrl.class);
-        TaskListCtrl taskListCtrl = mock(TaskListCtrl.class);
         BoardContainer boardContainer = new BoardContainer(board, utils, mainCtrl, taskListCtrl);
         Text boardNameTextField = new Text("abc");
         boardContainer.setBoardNameTextField(boardNameTextField);
