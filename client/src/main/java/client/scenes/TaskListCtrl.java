@@ -111,6 +111,7 @@ public class TaskListCtrl implements Initializable {
         refreshBoard();
 
         // Add card
+        // Websockets
 //        server.registerForMessages("/topic/cards", Card.class, c -> {
 //            data.add(c);
 //            Platform.runLater(this::refreshBoard);
@@ -168,13 +169,6 @@ public class TaskListCtrl implements Initializable {
      */
     public void changeBoardSetup(){
         mainCtrl.showOverviewOfBoards();
-    }
-
-    /**
-     * Editing the board Id text to show the id of the current board;
-     */
-    public void showBoardId(){
-        boardIdText.setText("Board Id: " + board.id);
     }
 
     /**
@@ -266,7 +260,7 @@ public class TaskListCtrl implements Initializable {
      * admin button to go to admin panel
      */
     public void admin() {
-        mainCtrl.showAdminOverview();
+        mainCtrl.showAdminKey();
     }
 
     /**
