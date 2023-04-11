@@ -12,7 +12,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.*;
-import java.nio.file.Files;
 
 public class BoardContainer extends VBox {
     private TilePane parent;
@@ -92,18 +91,8 @@ public class BoardContainer extends VBox {
     public void setRemoveBoard(){
         this.removeBoardButton.setOnMouseClicked(event -> {
             long id = board.id;
-            String currentConnection = server.getAddress().replace(":","_");
-            File boardIdListFile = new File("TalioJoinedBoardsOn"+currentConnection+".txt");
-            try{
-                String newIds = Files.readString(boardIdListFile.toPath()).replace(id+" ", "");
-                Writer writer = new FileWriter(boardIdListFile, false);
-                writer.write(newIds);
-                writer.close();
-                mainCtrl.updateOverviewOfBoards();
-            }
-            catch (IOException e){
-                System.out.println(e.getStackTrace());
-            }
+            mainCtrl.overviewOfBoardsCtrl.joinedBoardIds.remove(id);
+            mainCtrl.updateOverviewOfBoards();
         });
     }
 

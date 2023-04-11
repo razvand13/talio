@@ -8,17 +8,12 @@ import commons.Board;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.TilePane;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class OverviewOfBoardsCtrl {
@@ -28,6 +23,7 @@ public class OverviewOfBoardsCtrl {
     private final AdminSceneCtrl adminSceneCtrl;
 
     private List<Board> boards;
+    public List<Long> joinedBoardIds;
     @FXML
     private TextField idTextField;
     @FXML
@@ -62,6 +58,7 @@ public class OverviewOfBoardsCtrl {
         this.taskListCtrl = taskListCtrl;
         this.adminSceneCtrl = adminSceneCtrl;
         this.boards = new ArrayList<>();
+        this.joinedBoardIds = new ArrayList<>();
     }
 
     /**
@@ -80,7 +77,8 @@ public class OverviewOfBoardsCtrl {
 
         taskListCtrl.setTaskListCtrlBoard(board);
         mainCtrl.showTaskListView();
-        writeId(board.id);
+        //writeId(board.id);
+        joinedBoardIds.add(board.id);
         boardTitle.clear();
 
     }
@@ -100,7 +98,8 @@ public class OverviewOfBoardsCtrl {
                         taskListCtrl.setTaskListCtrlBoard(b);
                         System.out.println("join board");
                         mainCtrl.showTaskListView();
-                        writeId(id);
+                        //writeId(id);
+                        joinedBoardIds.add(id);
                         idTextField.clear();
                         break;
                     }
@@ -109,37 +108,6 @@ public class OverviewOfBoardsCtrl {
         } catch (NumberFormatException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * method for writing joined board's id to a file
-     * @param id the id of the board
-     */
-    public void writeId(long id) {
-        // can't have : in a filename so replace that with _
-        String currentConnection = server.getAddress().replace(":","_");
-        File boardIdListFile = new File("TalioJoinedBoardsOn"+currentConnection+".txt");
-        //check if board was joined before
-        try{
-            Scanner fileScanner = new Scanner( boardIdListFile);
-            while (fileScanner.hasNextLong()){
-                if(fileScanner.nextLong()== id) return;
-            }
-        }catch (FileNotFoundException ignored){}
-
-        try {
-            Writer writer = new FileWriter(boardIdListFile, true);
-            writer.write(id+" ");
-            writer.close();
-        }
-        catch (IOException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("error writing to file");
-            alert.setHeaderText("unable to save board id");
-            alert.setContentText("We're currently unable to save this id to your pc:"+
-                    "\n"+e);
-            alert.show();
         }
     }
 
@@ -211,33 +179,15 @@ public class OverviewOfBoardsCtrl {
      * Method for making the boardContainers appear
      */
     public void makeBoards(){
-  
-        String currentConnection = server.getAddress().replace(":","_");
-        try {
-            File boardIdListFile = new File("TalioJoinedBoardsOn"+currentConnection+".txt");
-            Scanner boardScanner = new Scanner(boardIdListFile);
-            while (boardScanner.hasNextLong()){
-                long id =boardScanner.nextLong();
-                Board myBoard =server.getBoardById(id);
-                if(myBoard == null){
-                    try {
-                        String newIds = Files.readString(boardIdListFile.toPath())
-                                .replace(id + " ", "");
-                        Writer writer = new FileWriter(boardIdListFile, false);
-                        writer.write(newIds);
-                        writer.close();
-                    }
-                    catch (IOException e){
-                        System.out.println(e);
-                    }
-                }
-                boards.add(myBoard);
-            }
-            Collections.reverse(boards); //the most recent boards at start of list
+
+        for(long l: joinedBoardIds){
+            Board board = server.getBoardById(l);
+            if(board == null)
+                joinedBoardIds.remove(l);
+            else
+                boards.add(board);
         }
-        //necessary for scanner construction, but iff file isn't found boards should be empty
-        //since it means this client hasn't joined any boards yet, so we can ignore the exception
-        catch (FileNotFoundException ignored){}
+        Collections.reverse(boards);
         for(Board b : boards) {
             BoardContainer boardContainer = new BoardContainer(b, server, mainCtrl, taskListCtrl);
             boardContainer.setParent(boardTilePane);
