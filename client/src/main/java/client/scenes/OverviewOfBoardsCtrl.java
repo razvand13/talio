@@ -8,17 +8,12 @@ import commons.Board;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.TilePane;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class OverviewOfBoardsCtrl {
@@ -28,6 +23,7 @@ public class OverviewOfBoardsCtrl {
     private final AdminSceneCtrl adminSceneCtrl;
 
     private List<Board> boards;
+    public List<Long> joinedBoardIds;
     @FXML
     private TextField idTextField;
     @FXML
@@ -46,7 +42,7 @@ public class OverviewOfBoardsCtrl {
     private TilePane boardTilePane;
 
     /**
-     * Constructorfor OverviewOfBoardsCtrl
+     * Constructor for OverviewOfBoardsCtrl
      *
      * @param server server
      * @param mainCtrl mainCtrl
@@ -62,6 +58,7 @@ public class OverviewOfBoardsCtrl {
         this.taskListCtrl = taskListCtrl;
         this.adminSceneCtrl = adminSceneCtrl;
         this.boards = new ArrayList<>();
+        this.joinedBoardIds = new ArrayList<>();
     }
 
     /**
@@ -70,6 +67,9 @@ public class OverviewOfBoardsCtrl {
      */
     public void newBoard() {
         String title = boardTitle.getText();
+        if(title==null || title.equals("")){
+            title = "New Board";
+        }
         Board board = new Board(title);
 
         server.send("/app/boards", board);
@@ -77,7 +77,8 @@ public class OverviewOfBoardsCtrl {
 
         taskListCtrl.setTaskListCtrlBoard(board);
         mainCtrl.showTaskListView();
-        writeId(board.id);
+        //writeId(board.id);
+        joinedBoardIds.add(board.id);
         boardTitle.clear();
 
     }
@@ -86,7 +87,7 @@ public class OverviewOfBoardsCtrl {
     /**
      * Method for setting up the controller for the join board by id
      */
-    public void joinButtonSetUp(){
+    public void join(){
         String idString = idTextField.getText();
         try {
             long id = Long.parseLong(idString);
@@ -97,7 +98,8 @@ public class OverviewOfBoardsCtrl {
                         taskListCtrl.setTaskListCtrlBoard(b);
                         System.out.println("join board");
                         mainCtrl.showTaskListView();
-                        writeId(id);
+                        //writeId(id);
+                        joinedBoardIds.add(id);
                         idTextField.clear();
                         break;
                     }
@@ -110,40 +112,9 @@ public class OverviewOfBoardsCtrl {
     }
 
     /**
-     * method for writing joined board's id to a file
-     * @param id the id of the board
-     */
-    public void writeId(long id) {
-        // can't have : in a filename so replace that with _
-        String currentConnection = server.getAddress().replace(":","_");
-        File boardIdListFile = new File("TalioJoinedBoardsOn"+currentConnection+".txt");
-        //check if board was joined before
-        try{
-            Scanner fileScanner = new Scanner( boardIdListFile);
-            while (fileScanner.hasNextLong()){
-                if(fileScanner.nextLong()== id) return;
-            }
-        }catch (FileNotFoundException ignored){}
-
-        try {
-            Writer writer = new FileWriter(boardIdListFile, true);
-            writer.write(id+" ");
-            writer.close();
-        }
-        catch (IOException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("error writing to file");
-            alert.setHeaderText("unable to save board id");
-            alert.setContentText("We're currently unable to save this id to your pc:"+
-                    "\n"+e);
-            alert.show();
-        }
-    }
-
-    /**
      * Method for setting up the admin button
      */
-    public void adminButtonSetup(){
+    public void admin(){
         System.out.println("print boards");
         //mainCtrl.showAdminOverview();
         mainCtrl.showAdminKey();
@@ -152,7 +123,7 @@ public class OverviewOfBoardsCtrl {
     /**
      * Method for going back to the serverConnect
      */
-    public void serverSelectSetUp(){
+    public void serverSelect(){
         mainCtrl.showServerConnect();
     }
 
@@ -167,10 +138,13 @@ public class OverviewOfBoardsCtrl {
      * First time setup method
      */
     public void firstTimeSetUp(){
-        refreshBoards();
         server.setSession();
+        refreshBoards();
         server.registerForMessages("/topic/boards", Board.class, b -> {
             boards.add(b);
+            Platform.runLater(this::refreshBoards);
+        });
+        server.registerForMessages("/topic/edit-board", Board.class, b -> {
             Platform.runLater(this::refreshBoards);
         });
         server.registerForMessages("/topic/remove-board", Board.class, b -> {
@@ -205,37 +179,48 @@ public class OverviewOfBoardsCtrl {
      * Method for making the boardContainers appear
      */
     public void makeBoards(){
-  
-        String currentConnection = server.getAddress().replace(":","_");
-        try {
-            File boardIdListFile = new File("TalioJoinedBoardsOn"+currentConnection+".txt");
-            Scanner boardScanner = new Scanner(boardIdListFile);
-            while (boardScanner.hasNextLong()){
-                long id =boardScanner.nextLong();
-                Board myBoard =server.getBoardById(id);
-                if(myBoard == null){
-                    try {
-                        String newIds = Files.readString(boardIdListFile.toPath())
-                                .replace(id + " ", "");
-                        Writer writer = new FileWriter(boardIdListFile, false);
-                        writer.write(newIds);
-                        writer.close();
-                    }
-                    catch (IOException e){
-                        System.out.println(e);
-                    }
-                }
-                boards.add(myBoard);
-            }
-            Collections.reverse(boards); //the most recent boards at start of list
+
+        for(long l: joinedBoardIds){
+            Board board = server.getBoardById(l);
+            if(board == null)
+                joinedBoardIds.remove(l);
+            else
+                boards.add(board);
         }
-        //necessary for scanner construction, but iff file isn't found boards should be empty
-        //since it means this client hasn't joined any boards yet, so we can ignore the exception
-        catch (FileNotFoundException ignored){}
+        Collections.reverse(boards);
         for(Board b : boards) {
             BoardContainer boardContainer = new BoardContainer(b, server, mainCtrl, taskListCtrl);
             boardContainer.setParent(boardTilePane);
             boardTilePane.getChildren().add(boardContainer);
         }
     }
+
+    /** Getter for server
+     * @return the server
+     */
+    public OurServerUtils getServer() {
+        return server;
+    }
+
+    /** Getter for mainCtrl
+     * @return the mainCtrl
+     */
+    public MainTaskListCtrl getMainCtrl() {
+        return mainCtrl;
+    }
+
+    /** Getter for taskListCtrl
+     * @return the taskListCtrl
+     */
+    public TaskListCtrl getTaskListCtrl() {
+        return taskListCtrl;
+    }
+
+    /** Getter for adminSceneCtrl
+     * @return the adminSceneCtrl
+     */
+    public AdminSceneCtrl getAdminSceneCtrl() {
+        return adminSceneCtrl;
+    }
+
 }
