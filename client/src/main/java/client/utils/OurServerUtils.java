@@ -12,6 +12,7 @@ import java.util.function.Consumer;
 import commons.Board;
 import commons.Card;
 import commons.ListOfCards;
+import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientConfig;
 
@@ -68,6 +69,7 @@ public class OurServerUtils {
         }
         throw new IllegalStateException();
     }
+
 
     /**
      * Generic websocket update method
@@ -189,14 +191,21 @@ public class OurServerUtils {
     /**
      * Gets a board from the database by specifying its id
      * @param id id of board
-     * @return the board with the id
+     * @return the board with the id or null if the board wasn't found
      */
     public Board getBoardById(long id){
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/boards/"+id) //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .get(new GenericType<Board>() {});
+        try {
+            return ClientBuilder.newClient(new ClientConfig()) //
+                    .target(SERVER).path("api/boards/" + id) //
+                    .request(APPLICATION_JSON) //
+                    .accept(APPLICATION_JSON) //
+                    .get(new GenericType<Board>() {
+                    });
+        }
+        //board not in db
+        catch (BadRequestException e){
+            return null;
+        }
     }
     /**
      * Gets a list from the database by specifying its id
@@ -216,12 +225,12 @@ public class OurServerUtils {
      * @param id id of board
      * @return the list
      */
-    public ListOfCards getListByBoardId(long id){
+    public List<ListOfCards> getListByBoardId(long id){
         return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/lists/"+id) //
+                .target(SERVER).path("api/lists/board/"+ id) //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .get(new GenericType<ListOfCards>() {});
+                .get(new GenericType<List<ListOfCards>>() {});
     }
 
     /**

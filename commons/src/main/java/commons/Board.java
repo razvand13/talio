@@ -68,31 +68,10 @@ public class Board implements Serializable {
 
     /**
      * Getter for id of Board
-     * @return id
+     * Needed for admin scene initialize()
+     * @return long id
      */
     public Long getId() {
-        //is this method needed? the id attribute is public
         return id;
-    }
-
-    /** Setter for the id
-     * @param id of type long
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /** Getter for the title
-     * @return the title of type String
-     */
-    public String getTitle() {
-        return title;
-    }
-
-    /** Setter for the title
-     * @param title of type String
-     */
-    public void setTitle(String title) {
-        this.title = title;
     }
 }

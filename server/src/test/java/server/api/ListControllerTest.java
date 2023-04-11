@@ -15,12 +15,14 @@ import static org.springframework.http.HttpStatus.OK;
 
 public class ListControllerTest {
     TestListRepository listRepo;
+    TestBoardRepository boardRepo;
     ListController controller;
 
     @BeforeEach
     public void setup() {
         listRepo = new TestListRepository();
-        controller = new ListController(listRepo);
+        boardRepo = new TestBoardRepository();
+        controller = new ListController(listRepo, boardRepo);
     }
 
     @Test

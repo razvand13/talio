@@ -25,6 +25,9 @@ public class MainTaskListCtrl {
     private OverviewOfBoardsCtrl overviewOfBoardsCtrl;
     private Scene overviewOfBoards;
 
+    private AdminKeyCtrl adminKeyCtrl;
+    private Scene adminKey;
+
     private Board board;
 
 
@@ -36,12 +39,14 @@ public class MainTaskListCtrl {
      * @param taskList      for setting up task list scene
      * @param serverConnect server connect scene
      * @param  overviewOfBoards overviewOfBoards scene
-     * @param adminOverview
+     * @param adminOverview admin overview scene
+     * @param adminKey admin key scene
      */
     public void initialize(Stage primaryStage, Pair<TaskListCtrl, Parent> taskList,
                            Pair<ServerConnectCtrl, Parent> serverConnect,
                            Pair<AdminSceneCtrl, Parent> adminOverview,
-                           Pair<OverviewOfBoardsCtrl, Parent> overviewOfBoards) {
+                           Pair<OverviewOfBoardsCtrl, Parent> overviewOfBoards,
+                           Pair<AdminKeyCtrl, Parent> adminKey) {
         this.primaryStage = primaryStage;
 
         this.taskListCtrl = taskList.getKey();
@@ -56,6 +61,8 @@ public class MainTaskListCtrl {
         this.overviewOfBoardsCtrl = overviewOfBoards.getKey();
         this.overviewOfBoards = new Scene(overviewOfBoards.getValue());
 
+        this.adminKeyCtrl = adminKey.getKey();
+        this.adminKey = new Scene(adminKey.getValue());
 
         showServerConnect();
         primaryStage.show();
@@ -80,7 +87,7 @@ public class MainTaskListCtrl {
     }
 
     /**
-     * Method for displaying AdminScene.fxml
+     * connection to admin overview
      */
     public void showAdminOverview() {
         adminSceneCtrl.showBoards();
@@ -105,6 +112,21 @@ public class MainTaskListCtrl {
         overviewOfBoardsCtrl.firstTimeSetUp();
         primaryStage.setTitle("Overview of boards");
         primaryStage.setScene(overviewOfBoards);
+    }
+
+    /**
+     * refresh for board overview
+     */
+    public void updateOverviewOfBoards(){
+        overviewOfBoardsCtrl.refreshBoards();
+    }
+
+    /**
+     * Show admin key scene
+     */
+    public void showAdminKey(){
+        primaryStage.setTitle("Admin key");
+        primaryStage.setScene(adminKey);
     }
 
 }

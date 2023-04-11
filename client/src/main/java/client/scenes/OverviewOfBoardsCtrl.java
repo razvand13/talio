@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.TilePane;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -54,7 +55,8 @@ public class OverviewOfBoardsCtrl {
      */
     @Inject
     public OverviewOfBoardsCtrl(OurServerUtils server, MainTaskListCtrl mainCtrl,
-                                TaskListCtrl taskListCtrl, AdminSceneCtrl adminSceneCtrl) {
+                                TaskListCtrl taskListCtrl,
+                                AdminSceneCtrl adminSceneCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
         this.taskListCtrl = taskListCtrl;
@@ -69,12 +71,11 @@ public class OverviewOfBoardsCtrl {
     public void newBoard() {
         String title = boardTitle.getText();
         Board board = new Board(title);
-        System.out.println("make new board " + board);
+
         server.send("/app/boards", board);
         board = server.getMostRecentBoard();
 
         taskListCtrl.setTaskListCtrlBoard(board);
-        System.out.println("join board");
         mainCtrl.showTaskListView();
         writeId(board.id);
         boardTitle.clear();
@@ -134,7 +135,7 @@ public class OverviewOfBoardsCtrl {
             alert.setTitle("error writing to file");
             alert.setHeaderText("unable to save board id");
             alert.setContentText("We're currently unable to save this id to your pc:"+
-                            "\n"+e);
+                    "\n"+e);
             alert.show();
         }
     }
@@ -144,7 +145,8 @@ public class OverviewOfBoardsCtrl {
      */
     public void admin(){
         System.out.println("print boards");
-        mainCtrl.showAdminOverview();
+        //mainCtrl.showAdminOverview();
+        mainCtrl.showAdminKey();
     }
 
     /**
@@ -153,6 +155,14 @@ public class OverviewOfBoardsCtrl {
     public void serverSelect(){
         mainCtrl.showServerConnect();
     }
+
+    /**
+     * Prompts the user with inputting the admin key
+     */
+    public void promptAdminKey(){
+        mainCtrl.showAdminKey();
+    }
+
     /**
      * First time setup method
      */
@@ -164,6 +174,9 @@ public class OverviewOfBoardsCtrl {
             Platform.runLater(this::refreshBoards);
         });
         server.registerForMessages("/topic/edit-board", Board.class, b -> {
+            Platform.runLater(this::refreshBoards);
+        });
+        server.registerForMessages("/topic/remove-board", Board.class, b -> {
             Platform.runLater(this::refreshBoards);
         });
     }
@@ -198,11 +211,24 @@ public class OverviewOfBoardsCtrl {
   
         String currentConnection = server.getAddress().replace(":","_");
         try {
-            Scanner boardScanner = new Scanner(
-                    new File("TalioJoinedBoardsOn"+currentConnection+".txt"));
+            File boardIdListFile = new File("TalioJoinedBoardsOn"+currentConnection+".txt");
+            Scanner boardScanner = new Scanner(boardIdListFile);
             while (boardScanner.hasNextLong()){
                 long id =boardScanner.nextLong();
-                boards.add(server.getBoardById(id));
+                Board myBoard =server.getBoardById(id);
+                if(myBoard == null){
+                    try {
+                        String newIds = Files.readString(boardIdListFile.toPath())
+                                .replace(id + " ", "");
+                        Writer writer = new FileWriter(boardIdListFile, false);
+                        writer.write(newIds);
+                        writer.close();
+                    }
+                    catch (IOException e){
+                        System.out.println(e);
+                    }
+                }
+                boards.add(myBoard);
             }
             Collections.reverse(boards); //the most recent boards at start of list
         }
