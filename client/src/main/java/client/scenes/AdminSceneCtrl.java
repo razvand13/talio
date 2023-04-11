@@ -1,6 +1,6 @@
 package client.scenes;
 
-import client.utils.OurServerUtils;
+import client.utils.NewServerUtils;;
 import com.google.inject.Inject;
 import commons.Board;
 import commons.Card;
@@ -20,7 +20,7 @@ import java.util.Scanner;
 
 public class AdminSceneCtrl implements Initializable {
 
-    private final OurServerUtils server;
+    private final NewServerUtils server;
     private final MainTaskListCtrl mainCtrl;
 
     @FXML
@@ -44,7 +44,7 @@ public class AdminSceneCtrl implements Initializable {
      * @param mainCtrl MainTaskListCtrl
      */
     @Inject
-    public AdminSceneCtrl(OurServerUtils server, MainTaskListCtrl mainCtrl) {
+    public AdminSceneCtrl(NewServerUtils server, MainTaskListCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }

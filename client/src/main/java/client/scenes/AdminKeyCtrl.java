@@ -1,6 +1,6 @@
 package client.scenes;
 
-import client.utils.OurServerUtils;
+import client.utils.NewServerUtils;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 
 public class AdminKeyCtrl {
 
-    private final OurServerUtils server;
+    private final NewServerUtils server;
     private final MainTaskListCtrl mainCtrl;
     @FXML
     private Label inputKeyLabel;
@@ -29,7 +29,7 @@ public class AdminKeyCtrl {
      * @param mainCtrl mainCtrl
      */
     @Inject
-    public AdminKeyCtrl(OurServerUtils server, MainTaskListCtrl mainCtrl) {
+    public AdminKeyCtrl(NewServerUtils server, MainTaskListCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }

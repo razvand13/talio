@@ -33,7 +33,7 @@ public class ServerConnectCtrl {
         String addressInput = address.getText();
         if(addressInput.equals("")) addressInput = "localhost";
 
-        client.utils.OurServerUtils.setSERVER("http://"+ addressInput+ ":" +portInput+"/");
+        client.utils.NewServerUtils.setSERVER("http://"+ addressInput+ ":" +portInput+"/");
 //        client.utils.OurServerUtils.setPort(portInput);
         mainCtrl.showOverviewOfBoards();
     }

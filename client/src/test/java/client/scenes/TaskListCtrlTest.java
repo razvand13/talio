@@ -1,13 +1,13 @@
 package client.scenes;
 
-import client.utils.OurServerUtils;
+import client.utils.NewServerUtils;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TaskListCtrlTest {
 
-    private static OurServerUtils server= new OurServerUtils();
+    private static NewServerUtils server= new NewServerUtils();
     private static MainTaskListCtrl mainCtrl = new MainTaskListCtrl();
 
     @Test
