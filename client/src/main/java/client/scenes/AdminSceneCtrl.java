@@ -123,6 +123,7 @@ public class AdminSceneCtrl implements Initializable {
     /**
      * method to delete all the cards from a list, then delete the list
      * without using button event
+     *
      * @param list to be deleted
      */
     public void deleteList(ListOfCards list) {
@@ -143,6 +144,20 @@ public class AdminSceneCtrl implements Initializable {
         var listOfBoards = server.getBoards();
         boards = FXCollections.observableList(listOfBoards);
         table.setItems(boards);
+    }
+
+    /** getter for server
+     * @return server
+     */
+    public OurServerUtils getServer() {
+        return server;
+    }
+
+    /** getter for mainCtrl
+     * @return mainCtrl
+     */
+    public MainTaskListCtrl getMainCtrl() {
+        return mainCtrl;
     }
 
 }

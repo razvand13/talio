@@ -22,7 +22,7 @@ public class MainTaskListCtrl {
     private AdminSceneCtrl adminSceneCtrl;
     private Scene adminOverview;
 
-    private OverviewOfBoardsCtrl overviewOfBoardsCtrl;
+    public OverviewOfBoardsCtrl overviewOfBoardsCtrl;
     private Scene overviewOfBoards;
 
     private AdminKeyCtrl adminKeyCtrl;
@@ -114,6 +114,26 @@ public class MainTaskListCtrl {
         primaryStage.setScene(overviewOfBoards);
     }
 
+    /** setters for primary stage
+     * @param primaryStage the primary stage for this application, onto which
+     */
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
+    /** setter for taskListCtrl
+     * @param taskListCtrl the taskListCtrl to set
+     */
+    public void setTaskListCtrl(TaskListCtrl taskListCtrl) {
+        this.taskListCtrl = taskListCtrl;
+    }
+
+    /** setter for taskList
+     * @param taskList the taskList to set
+     */
+    public void setTaskList(Scene taskList) {
+        this.taskList = taskList;
+    }
     /**
      * refresh for board overview
      */

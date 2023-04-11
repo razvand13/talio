@@ -101,6 +101,18 @@ public class BoardController {
     }
 
     /**
+     * Edit board in database
+     * @param board Board with changed values
+     * @return edited Board
+     */
+    @MessageMapping("/edit-board")
+    @SendTo("/topic/edit-board")
+    public Board editCard(Board board){
+        board = repo.save(board);
+        return board;
+    }
+
+    /**
      *
      * @param id id
      */
