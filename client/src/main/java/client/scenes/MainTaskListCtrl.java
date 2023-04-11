@@ -39,8 +39,8 @@ public class MainTaskListCtrl {
      * @param taskList      for setting up task list scene
      * @param serverConnect server connect scene
      * @param  overviewOfBoards overviewOfBoards scene
-     * @param adminOverview
-     * @param adminKey
+     * @param adminOverview admin overview scene
+     * @param adminKey admin key scene
      */
     public void initialize(Stage primaryStage, Pair<TaskListCtrl, Parent> taskList,
                            Pair<ServerConnectCtrl, Parent> serverConnect,
@@ -113,6 +113,10 @@ public class MainTaskListCtrl {
         primaryStage.setTitle("Overview of boards");
         primaryStage.setScene(overviewOfBoards);
     }
+
+    /**
+     * refresh for board overview
+     */
     public void updateOverviewOfBoards(){
         overviewOfBoardsCtrl.refreshBoards();
     }

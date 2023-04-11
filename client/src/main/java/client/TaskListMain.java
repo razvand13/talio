@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import client.scenes.*;
-import client.scenes.*;
 import client.scenes.MainTaskListCtrl;
 import client.scenes.ServerConnectCtrl;
 import client.scenes.TaskListCtrl;
@@ -55,7 +54,8 @@ public class TaskListMain extends Application {
 
 
 
-        mainTaskCtrl.initialize(primaryStage, taskList, setup, adminOverview, overviewOfBoards, adminKey);
+        mainTaskCtrl.initialize(primaryStage, taskList, setup, adminOverview,
+                overviewOfBoards, adminKey);
 
         // stop long polling thread as well when app closes
         primaryStage.setOnCloseRequest(e -> taskList.getKey().stop());
