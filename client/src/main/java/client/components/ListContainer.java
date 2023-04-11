@@ -361,7 +361,7 @@ public class ListContainer extends VBox {
      * These handlers only work with Strings as the content of lists
      * @param list list to apply handlers to
      */
-    public void setDragAndDrop(ListView<String> list) {
+    private void setDragAndDrop(ListView<String> list) {
         // Functionality
         list.setOnDragDetected(event -> dragDetected(list, event));
         list.setOnDragOver(event -> dragOver(list, event));
@@ -380,7 +380,7 @@ public class ListContainer extends VBox {
      * @param list  source list
      * @param event clicking on a list item
      */
-    public void dragDetected(ListView<String> list, MouseEvent event) {
+    private void dragDetected(ListView<String> list, MouseEvent event) {
         String selectedItem = list.getSelectionModel().getSelectedItem();
 
         Dragboard db = list.startDragAndDrop(TransferMode.MOVE);
@@ -415,7 +415,7 @@ public class ListContainer extends VBox {
      * @param list  target list
      * @param event dragging data over another list
      */
-    public void dragOver(ListView<String> list, DragEvent event) {
+    private void dragOver(ListView<String> list, DragEvent event) {
 
         // Only execute if there is data that is being dragged
         if (event.getDragboard().hasString()) {
