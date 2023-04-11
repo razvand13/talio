@@ -69,6 +69,7 @@ public class BoardContainer extends VBox {
         boardIDText.setText("ID: " + String.valueOf(board.id));
 
         setOpenBoard();
+        setRemoveBoard();
     }
 
     /**
