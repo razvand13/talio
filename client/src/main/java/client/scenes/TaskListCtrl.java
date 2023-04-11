@@ -307,7 +307,7 @@ public class TaskListCtrl implements Initializable {
     /** getter for the server
      * @return the server
      */
-    public OurServerUtils getServer() {
+    public NewServerUtils getServer() {
         return server;
     }
 

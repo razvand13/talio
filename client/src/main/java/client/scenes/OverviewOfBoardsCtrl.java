@@ -198,7 +198,7 @@ public class OverviewOfBoardsCtrl {
     /** Getter for server
      * @return the server
      */
-    public OurServerUtils getServer() {
+    public NewServerUtils getServer() {
         return server;
     }
 

@@ -149,7 +149,7 @@ public class AdminSceneCtrl implements Initializable {
     /** getter for server
      * @return server
      */
-    public OurServerUtils getServer() {
+    public NewServerUtils getServer() {
         return server;
     }
 

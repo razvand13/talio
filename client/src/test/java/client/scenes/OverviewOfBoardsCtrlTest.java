@@ -1,7 +1,7 @@
 package client.scenes;
 
 import client.utils.HelperFXinit;
-import client.utils.OurServerUtils;
+import client.utils.NewServerUtils;
 
 import commons.Board;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ class OverviewOfBoardsCtrlTest  {
 
     @Test
     public void testConstructor(){
-        OurServerUtils serverUtils = new OurServerUtils();
+        NewServerUtils serverUtils = new NewServerUtils();
         MainTaskListCtrl mainCtrl = new MainTaskListCtrl();
         TaskListCtrl taskListCtrl = new TaskListCtrl(serverUtils, mainCtrl);
         AdminSceneCtrl adminSceneCtrl = new AdminSceneCtrl(serverUtils, mainCtrl);

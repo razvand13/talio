@@ -643,7 +643,7 @@ public class ListContainer extends VBox {
     /**vcvcx
      * @return server
      */
-    public OurServerUtils getServer() {
+    public NewServerUtils getServer() {
         return server; //get the server
     }
 
