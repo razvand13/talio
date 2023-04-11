@@ -103,6 +103,9 @@ public class Card implements Serializable {
         this.title = title;
     }
 
+    /** getId method for Card
+     * @return the id
+     */
     public String getTitle() {
         return title;
     }
