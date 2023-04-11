@@ -27,8 +27,5 @@
             <Font size="13.0" />
          </font>
       </Button>
-      <VBox fx:id="vBox" AnchorPane.topAnchor="-30" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="-40" style="-fx-padding: 20; -fx-alignment: CENTER;" layoutX="40" layoutY="0">
-         <LogoImage/>
-      </VBox>
    </children>
 </AnchorPane>
