@@ -25,7 +25,7 @@
                <LogoImage fitHeight="60" fitWidth="80"/>
             </VBox>
             <Pane disable="true" prefHeight="80.0" prefWidth="306.0" />
-            <Button fx:id="serverSelectButton" mnemonicParsing="false" onAction="#serverSelect" prefHeight="41.0" prefWidth="92.0" style="-fx-background-color: #F9C848;" text="Server select">
+            <Button fx:id="serverSelectButton" mnemonicParsing="false" onAction="#serverSelect" prefHeight="41.0" prefWidth="92.0" style="-fx-background-color: #F9C848;" text="Server">
                <font>
                   <Font size="13.0" />
                </font></Button>
