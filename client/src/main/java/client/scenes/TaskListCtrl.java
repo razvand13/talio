@@ -256,9 +256,8 @@ public class TaskListCtrl implements Initializable {
 
     /**
      * Setter for board
-     * @param b
+     * @param b board
      */
-
     public void setTaskListCtrlBoard(Board b) {
         this.board = b;
     }
@@ -303,19 +302,11 @@ public class TaskListCtrl implements Initializable {
     public void saveEditBoardTitle(){
         String edit = editBoardTitleField.getText();
         if(edit != null && !edit.equals("") && !edit.equals(board.title)){
-            Board b = server.getBoardById(board.id);
             board.title = edit;
-//            boardNameText.setText("Board: " + edit);
             editBoardTitleField.setText(edit);
             server.send("/app/edit-board", board);
-//            board = b; // refresh
-//            Platform.runLater(() -> {
-//                boardNameText.setText("Board: " + edit); // THIS IS ONLY VISUAL !!!
-//            });
         }
         editBoardTitleBtn.setVisible(false);
         editBoardTitleField.setVisible(false);
-//        Platform.runLater(this::refreshBoard);
-
     }
 }
