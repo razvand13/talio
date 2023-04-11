@@ -34,10 +34,11 @@ public class NewServerUtils {
     public static void setSERVER(String address){
         SERVER =address;
     }
+
+    private StompSession session;
     /**
      * setup for stomp session port, occurs after server is set up
      */
-    private StompSession session;
     public void setSession(){
         System.out.println("session is set up");
         session = connect("ws"+ SERVER.substring(4) + "/websocket");
