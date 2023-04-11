@@ -48,14 +48,15 @@ public class OverviewOfBoardsCtrl {
     /**
      * Constructorfor OverviewOfBoardsCtrl
      *
-     * @param server
-     * @param mainCtrl
-     * @param taskListCtrl
-     * @param adminSceneCtrl
+     * @param server server
+     * @param mainCtrl mainCtrl
+     * @param taskListCtrl taskListCtrl
+     * @param adminSceneCtrl adminSceneCtrl
      */
     @Inject
     public OverviewOfBoardsCtrl(OurServerUtils server, MainTaskListCtrl mainCtrl,
-                                TaskListCtrl taskListCtrl, AdminSceneCtrl adminSceneCtrl) {
+                                TaskListCtrl taskListCtrl,
+                                AdminSceneCtrl adminSceneCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
         this.taskListCtrl = taskListCtrl;
