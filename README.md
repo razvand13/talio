@@ -1,12 +1,6 @@
-# Starting template
-
-This README will need to contain a description of your project, how to run it, how to set up the development environment, and who worked on it.
-This information can be added throughout the course, except for the names of the group members.
-Add your own name (do not add the names for others!) to the section below.
-
 ## Description of project
 
-This project is the result of the 10-week course Object-Oriented Programming Project (OOPP), part of TU Delft's Computer Science and Enginerring BSc.
+This project is the result of the 10-week course Object-Oriented Programming Project (CSE1105), part of TU Delft's Computer Science and Enginerring BSc.
 The name of the app is Talio, a task manager web application. See the [backlog](docs/Backlog-Final.pdf) for more information on the targets of the development process and the application's intended use.
 Please note that the backlog has not been finished throughout the course. The team has completed the Basic Requirements and most of the MultiBoard requirement.
 
